@@ -2,7 +2,9 @@
 
 import datetime
 import pytz
-from process import calculate_positions, interpret_positions
+from data import zodiac_traits
+from process import calculate_positions, generate_structured_interpretation, get_zodiac_sign, get_house
+
 
 def generate_natal_chart(birth_date, hh, mm, latitude, longitude):
     # Convert birth time to UTC
@@ -22,10 +24,32 @@ def generate_natal_chart(birth_date, hh, mm, latitude, longitude):
     # Calculate planetary positions including Ascendant and Midheaven
     positions = calculate_positions(year, month, day, hour, minute, latitude, longitude)
 
+    # Determine the Sun sign
+    sun_sign = get_zodiac_sign(positions['Sun'])
+
     # Interpret the positions
-    interpretations = interpret_positions(positions)
+    interpretations = {}
+    ascendant_sign = get_zodiac_sign(positions['Ascendant'])
+    midheaven_sign = get_zodiac_sign(positions['Midheaven'])
+
+    # Add Ascendant and Midheaven traits separately
+    ascendant_trait = f"Your Ascendant in {ascendant_sign} gives you traits such as {', '.join(zodiac_traits.get(ascendant_sign, [])).lower()} that influence your outward behavior and first impressions."
+    midheaven_trait = f"Your Midheaven in {midheaven_sign} suggests that you seek to achieve {', '.join(zodiac_traits.get(midheaven_sign, [])).lower()} traits in your career and public life."
+
+    # Store Ascendant and Midheaven interpretations
+    interpretations['Ascendant'] = ascendant_trait
+    interpretations['Midheaven'] = midheaven_trait
+
+    # Process the other planets
+    for planet, position in positions.items():
+        if planet not in ['Ascendant', 'Midheaven']:
+            sign = get_zodiac_sign(position)
+            house = get_house(position, positions['Ascendant'])
+            planet_interpretation = generate_structured_interpretation(planet, sign, house)
+            interpretations.update(planet_interpretation)
 
     return positions, interpretations
+
 
 if __name__ == "__main__":
     # Example usage
@@ -41,6 +65,15 @@ if __name__ == "__main__":
     for planet, position in positions.items():
         print(f"{planet}: {position:.2f}°")
 
-    print("\nInterpretations:")
-    for planet, interpretation in interpretations.items():
-        print(f"{planet}: {interpretation}")
+    print("\nAscendant and Midheaven Traits:")
+    print(f"Ascendant: {interpretations['Ascendant']}")
+    print(f"Midheaven: {interpretations['Midheaven']}")
+
+    print("\nDetailed Interpretations:")
+    for key, value in interpretations.items():
+        if key not in ['Ascendant', 'Midheaven']:
+            planet_traits_str = ', '.join(value[0])
+            zodiac_traits_str = ', '.join(value[1])
+            house_traits_str = ', '.join(value[2])
+            print(
+                f"{key}: Planet Traits: {planet_traits_str}, Zodiac Traits: {zodiac_traits_str}, House Traits: {house_traits_str}")
