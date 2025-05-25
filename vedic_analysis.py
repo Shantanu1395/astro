@@ -530,6 +530,152 @@ class VedicAnalyzer:
                 "category": "Spirituality & Detachment"
             })
 
+        # ADDITIONAL WEALTH YOGAS
+
+        # Chandra Mangal Yoga (Moon and Mars together)
+        if moon_pos and mars_pos and self._normalize_sign_name(moon_pos.sign) == self._normalize_sign_name(mars_pos.sign):
+            yogas.append({
+                "name": "Chandra Mangal Yoga",
+                "description": "Moon and Mars together - Creates wealth through real estate, property, and land dealings. Brings material prosperity and business acumen.",
+                "strength": "Strong",
+                "category": "Wealth & Property"
+            })
+
+        # Guru Mangal Yoga (Jupiter and Mars together)
+        if jupiter_pos and mars_pos and self._normalize_sign_name(jupiter_pos.sign) == self._normalize_sign_name(mars_pos.sign):
+            yogas.append({
+                "name": "Guru Mangal Yoga",
+                "description": "Jupiter and Mars together - Brings wealth through righteous means, leadership positions, and spiritual pursuits. Creates ethical leaders.",
+                "strength": "Strong",
+                "category": "Wealth & Leadership"
+            })
+
+        # Dhan Yoga (2nd and 11th house connections)
+        second_house_planets = [p for p in chart.planets if p.house == 2]
+        eleventh_house_planets = [p for p in chart.planets if p.house == 11]
+
+        if second_house_planets and eleventh_house_planets:
+            yogas.append({
+                "name": "Dhan Yoga",
+                "description": "Planets in 2nd and 11th houses - Creates multiple income sources and wealth accumulation. Brings financial stability and prosperity.",
+                "strength": "Moderate",
+                "category": "Income & Gains"
+            })
+
+        # CAREER & PROFESSIONAL YOGAS
+
+        # Amala Yoga (10th house benefic influence)
+        tenth_house_planets = [p for p in chart.planets if p.house == 10]
+        benefic_in_tenth = any(p.name in ["Jupiter", "Venus", "Mercury"] for p in tenth_house_planets)
+
+        if benefic_in_tenth:
+            yogas.append({
+                "name": "Amala Yoga",
+                "description": "Benefic planets in 10th house - Brings fame, reputation, and professional success. Creates respected personalities in their field.",
+                "strength": "Strong",
+                "category": "Career & Fame"
+            })
+
+        # Kahala Yoga (Professional success through Jupiter)
+        if jupiter_pos and jupiter_pos.house in [1, 4, 7, 10] and venus_pos and venus_pos.house in [1, 4, 7, 10]:
+            yogas.append({
+                "name": "Kahala Yoga",
+                "description": "Jupiter and Venus in kendras - Brings professional success, wealth, and social recognition. Creates influential personalities.",
+                "strength": "Strong",
+                "category": "Professional Success"
+            })
+
+        # Chamara Yoga (Fame and recognition)
+        if jupiter_pos and jupiter_pos.house == 1:
+            yogas.append({
+                "name": "Chamara Yoga",
+                "description": "Jupiter in 1st house - Brings fame, recognition, and leadership qualities. Creates personalities who are looked up to by others.",
+                "strength": "Moderate",
+                "category": "Fame & Recognition"
+            })
+
+        # VIPARITA RAJA YOGAS (Transformation through challenges)
+
+        # Viparita Raja Yoga (Lords of 6th, 8th, 12th in each other's houses)
+        sixth_house_planets = [p for p in chart.planets if p.house == 6]
+        eighth_house_planets = [p for p in chart.planets if p.house == 8]
+        twelfth_house_planets = [p for p in chart.planets if p.house == 12]
+
+        dusthana_planets = sixth_house_planets + eighth_house_planets + twelfth_house_planets
+        if len(dusthana_planets) >= 2:
+            yogas.append({
+                "name": "Viparita Raja Yoga",
+                "description": "Planets in 6th, 8th, 12th houses - Brings success through overcoming obstacles and challenges. Creates resilient personalities who triumph over difficulties.",
+                "strength": "Strong",
+                "category": "Transformation & Victory"
+            })
+
+        # RELATIONSHIP & MARRIAGE YOGAS
+
+        # Kalatra Yoga (7th house analysis)
+        seventh_house_planets = [p for p in chart.planets if p.house == 7]
+        if venus_pos and venus_pos.house == 7:
+            yogas.append({
+                "name": "Kalatra Yoga",
+                "description": "Venus in 7th house - Brings harmonious marriage and partnerships. Creates loving relationships and marital happiness.",
+                "strength": "Strong",
+                "category": "Marriage & Partnership"
+            })
+
+        # Venus-Mars combination for passion in relationships
+        if venus_pos and mars_pos:
+            house_diff = abs(venus_pos.house - mars_pos.house)
+            if house_diff in [0, 6]:  # Same house or opposite houses
+                yogas.append({
+                    "name": "Venus-Mars Yoga",
+                    "description": "Venus and Mars in significant relationship - Creates passionate and dynamic relationships. Brings intensity in love and partnerships.",
+                    "strength": "Moderate",
+                    "category": "Love & Passion"
+                })
+
+        # LONGEVITY & HEALTH YOGAS
+
+        # Ayush Yoga (Longevity combinations)
+        first_house_planets = [p for p in chart.planets if p.house == 1]
+        benefics_in_first = any(p.name in ["Jupiter", "Venus", "Mercury"] for p in first_house_planets)
+
+        if benefics_in_first:
+            yogas.append({
+                "name": "Ayush Yoga",
+                "description": "Benefic planets in 1st house - Promotes good health, vitality, and longevity. Creates strong constitution and life force.",
+                "strength": "Moderate",
+                "category": "Health & Longevity"
+            })
+
+        # Yoga Karaka combinations (Functional benefics)
+        if saturn_pos and saturn_pos.house in [1, 4, 7, 10]:
+            yogas.append({
+                "name": "Yoga Karaka",
+                "description": "Saturn in kendra - Acts as yoga karaka bringing discipline, structure, and long-term success. Creates persistent achievers.",
+                "strength": "Strong",
+                "category": "Discipline & Achievement"
+            })
+
+        # ADDITIONAL SPIRITUAL YOGAS
+
+        # Moksha Yoga (Liberation combinations)
+        if jupiter_pos and jupiter_pos.house in [9, 12] and ketu_pos and ketu_pos.house in [9, 12]:
+            yogas.append({
+                "name": "Moksha Yoga",
+                "description": "Jupiter and Ketu in 9th or 12th houses - Brings spiritual liberation and higher wisdom. Creates souls focused on moksha.",
+                "strength": "Strong",
+                "category": "Liberation & Enlightenment"
+            })
+
+        # Tapasvi Yoga (Austerity and spiritual discipline)
+        if saturn_pos and saturn_pos.house in [8, 12]:
+            yogas.append({
+                "name": "Tapasvi Yoga",
+                "description": "Saturn in 8th or 12th house - Creates disciplined spiritual practitioners. Brings success through austerity and renunciation.",
+                "strength": "Moderate",
+                "category": "Spiritual Discipline"
+            })
+
         # CHALLENGING YOGAS
 
         # COMPREHENSIVE PLANETARY ISOLATION ANALYSIS

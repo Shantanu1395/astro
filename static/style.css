@@ -754,6 +754,13 @@ footer {
     text-transform: uppercase;
 }
 
+/* Yoga Strength Badge Colors */
+.strength-strong { background: #d4edda; color: #155724; }
+.strength-moderate { background: #fff3cd; color: #856404; }
+.strength-challenging { background: #f8d7da; color: #721c24; }
+.strength-significant { background: #cce5ff; color: #004085; }
+.strength-variable { background: #e2e3e5; color: #495057; }
+
 .yoga-category-badge {
     padding: 4px 10px;
     border-radius: 15px;
