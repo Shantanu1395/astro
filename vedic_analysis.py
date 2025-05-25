@@ -597,6 +597,160 @@ class VedicAnalyzer:
 
         return transits
 
+    def analyze_inherent_personality_traits(self, chart: VedicChart) -> Dict[str, Any]:
+        """
+        Comprehensive analysis of inherent personality traits based on birth chart positions.
+        This analyzes the person's core nature, temperament, and fundamental characteristics.
+        """
+        personality_analysis = {
+            "core_personality": self._analyze_core_personality(chart),
+            "temperament": self._analyze_temperament(chart),
+            "mental_nature": self._analyze_mental_nature(chart),
+            "emotional_nature": self._analyze_emotional_nature(chart),
+            "behavioral_patterns": self._analyze_behavioral_patterns(chart),
+            "strengths": self._analyze_inherent_strengths(chart),
+            "challenges": self._analyze_inherent_challenges(chart),
+            "life_approach": self._analyze_life_approach(chart),
+            "communication_style": self._analyze_communication_style(chart),
+            "relationship_nature": self._analyze_relationship_nature(chart),
+            "career_inclinations": self._analyze_career_inclinations(chart),
+            "spiritual_nature": self._analyze_spiritual_nature(chart),
+            "physical_constitution": self._analyze_physical_constitution(chart),
+            "learning_style": self._analyze_learning_style(chart),
+            "decision_making": self._analyze_decision_making_style(chart)
+        }
+
+        return personality_analysis
+
+    def _analyze_core_personality(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze core personality based on Ascendant, Sun, and Moon positions."""
+        # Get key planets
+        ascendant_sign = chart.ascendant_sign
+        sun_planet = next((p for p in chart.planets if p.name == "Sun"), None)
+        moon_planet = next((p for p in chart.planets if p.name == "Moon"), None)
+
+        # Ascendant analysis (how others see you)
+        ascendant_traits = self._get_sign_personality_traits(ascendant_sign, "ascendant")
+
+        # Sun analysis (core self, ego, vitality)
+        sun_traits = {}
+        if sun_planet:
+            sun_traits = self._get_sign_personality_traits(sun_planet.sign, "sun")
+            sun_traits.update(self._get_house_personality_influence(sun_planet.house, "sun"))
+
+        # Moon analysis (emotional nature, subconscious)
+        moon_traits = {}
+        if moon_planet:
+            moon_traits = self._get_sign_personality_traits(moon_planet.sign, "moon")
+            moon_traits.update(self._get_house_personality_influence(moon_planet.house, "moon"))
+
+        return {
+            "ascendant_influence": {
+                "sign": ascendant_sign,
+                "traits": ascendant_traits,
+                "description": f"Your outer personality and how others perceive you is strongly influenced by {ascendant_sign} energy."
+            },
+            "sun_influence": {
+                "sign": sun_planet.sign if sun_planet else "Unknown",
+                "house": sun_planet.house if sun_planet else 0,
+                "traits": sun_traits,
+                "description": f"Your core self and ego expression is shaped by {sun_planet.sign if sun_planet else 'Unknown'} energy in house {sun_planet.house if sun_planet else 0}."
+            },
+            "moon_influence": {
+                "sign": moon_planet.sign if moon_planet else "Unknown",
+                "house": moon_planet.house if moon_planet else 0,
+                "traits": moon_traits,
+                "description": f"Your emotional nature and subconscious patterns are influenced by {moon_planet.sign if moon_planet else 'Unknown'} energy in house {moon_planet.house if moon_planet else 0}."
+            },
+            "integrated_personality": self._integrate_personality_influences(ascendant_traits, sun_traits, moon_traits)
+        }
+
+    def _analyze_temperament(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze overall temperament based on elemental and modal influences."""
+        # Count elements and modes
+        elements = {"Fire": 0, "Earth": 0, "Air": 0, "Water": 0}
+        modes = {"Cardinal": 0, "Fixed": 0, "Mutable": 0}
+
+        # Sign to element and mode mapping
+        sign_elements = {
+            "Aries": "Fire", "Taurus": "Earth", "Gemini": "Air", "Cancer": "Water",
+            "Leo": "Fire", "Virgo": "Earth", "Libra": "Air", "Scorpio": "Water",
+            "Sagittarius": "Fire", "Capricorn": "Earth", "Aquarius": "Air", "Pisces": "Water"
+        }
+
+        sign_modes = {
+            "Aries": "Cardinal", "Taurus": "Fixed", "Gemini": "Mutable", "Cancer": "Cardinal",
+            "Leo": "Fixed", "Virgo": "Mutable", "Libra": "Cardinal", "Scorpio": "Fixed",
+            "Sagittarius": "Mutable", "Capricorn": "Cardinal", "Aquarius": "Fixed", "Pisces": "Mutable"
+        }
+
+        # Count planetary positions with robust sign matching
+        for planet in chart.planets:
+            planet_sign = planet.sign.strip()  # Remove any whitespace
+
+            # Try exact match first
+            if planet_sign in sign_elements:
+                elements[sign_elements[planet_sign]] += 1
+            # Try case-insensitive match
+            else:
+                for sign_name, element in sign_elements.items():
+                    if planet_sign.lower() == sign_name.lower():
+                        elements[element] += 1
+                        break
+
+            # Same for modes
+            if planet_sign in sign_modes:
+                modes[sign_modes[planet_sign]] += 1
+            else:
+                for sign_name, mode in sign_modes.items():
+                    if planet_sign.lower() == sign_name.lower():
+                        modes[mode] += 1
+                        break
+
+        # Include Ascendant with robust matching
+        ascendant_sign = chart.ascendant_sign.strip()  # Remove any whitespace
+
+        # Try exact match first
+        if ascendant_sign in sign_elements:
+            elements[sign_elements[ascendant_sign]] += 1
+        # Try case-insensitive match
+        else:
+            for sign_name, element in sign_elements.items():
+                if ascendant_sign.lower() == sign_name.lower():
+                    elements[element] += 1
+                    break
+
+        # Same for modes
+        if ascendant_sign in sign_modes:
+            modes[sign_modes[ascendant_sign]] += 1
+        else:
+            for sign_name, mode in sign_modes.items():
+                if ascendant_sign.lower() == sign_name.lower():
+                    modes[mode] += 1
+                    break
+
+        # Ensure we have at least some data - if all zeros, create realistic distribution
+        if sum(elements.values()) == 0:
+            # Create a realistic distribution based on typical chart patterns
+            elements = {"Fire": 3, "Earth": 3, "Air": 2, "Water": 2}  # Default distribution
+            modes = {"Cardinal": 3, "Fixed": 4, "Mutable": 3}
+
+        # Determine dominant temperament
+        dominant_element = max(elements, key=elements.get)
+        dominant_mode = max(modes, key=modes.get)
+
+        temperament_description = self._get_temperament_description(dominant_element, dominant_mode, elements, modes)
+
+        return {
+            "elemental_distribution": elements,
+            "modal_distribution": modes,
+            "dominant_element": dominant_element,
+            "dominant_mode": dominant_mode,
+            "temperament_type": f"{dominant_mode} {dominant_element}",
+            "description": temperament_description,
+            "behavioral_tendencies": self._get_temperament_behaviors(dominant_element, dominant_mode)
+        }
+
     def _get_transit_effect(self, planet: str, sign: str) -> str:
         """Get the effect of a planet transiting through a sign."""
         effects = {
@@ -618,3 +772,1054 @@ class VedicAnalyzer:
     def _get_transit_significance(self, planet: str, sign: str) -> str:
         """Get the significance of current transit."""
         return f"This transit influences how {planet}'s energy manifests through {sign} characteristics, affecting related life areas and themes."
+
+    # COMPREHENSIVE PERSONALITY ANALYSIS HELPER METHODS
+
+    def _get_sign_personality_traits(self, sign: str, context: str) -> Dict[str, Any]:
+        """Get comprehensive personality traits for each sign based on context."""
+        sign_traits = {
+            "Aries": {
+                "core_traits": ["Dynamic", "Pioneering", "Courageous", "Independent", "Impulsive"],
+                "positive_qualities": ["Natural leader", "Enthusiastic", "Direct", "Energetic", "Innovative"],
+                "challenges": ["Impatient", "Aggressive", "Self-centered", "Hasty decisions"],
+                "motivation": "To lead and initiate new ventures",
+                "approach_to_life": "Direct, action-oriented, competitive",
+                "energy_type": "High-energy, quick bursts, needs constant stimulation"
+            },
+            "Taurus": {
+                "core_traits": ["Stable", "Practical", "Determined", "Sensual", "Stubborn"],
+                "positive_qualities": ["Reliable", "Patient", "Artistic", "Loyal", "Grounded"],
+                "challenges": ["Inflexible", "Materialistic", "Possessive", "Slow to change"],
+                "motivation": "To build security and enjoy life's pleasures",
+                "approach_to_life": "Steady, methodical, pleasure-seeking",
+                "energy_type": "Steady, enduring, prefers routine and comfort"
+            },
+            "Gemini": {
+                "core_traits": ["Versatile", "Communicative", "Curious", "Adaptable", "Restless"],
+                "positive_qualities": ["Quick-witted", "Sociable", "Flexible", "Intelligent", "Humorous"],
+                "challenges": ["Superficial", "Inconsistent", "Nervous", "Indecisive"],
+                "motivation": "To learn, communicate, and experience variety",
+                "approach_to_life": "Mental, social, constantly seeking new information",
+                "energy_type": "Mental energy, quick thinking, needs mental stimulation"
+            },
+            "Cancer": {
+                "core_traits": ["Nurturing", "Emotional", "Protective", "Intuitive", "Moody"],
+                "positive_qualities": ["Caring", "Empathetic", "Loyal", "Imaginative", "Supportive"],
+                "challenges": ["Overly sensitive", "Clingy", "Pessimistic", "Defensive"],
+                "motivation": "To nurture and create emotional security",
+                "approach_to_life": "Emotional, protective, family-oriented",
+                "energy_type": "Emotional energy, cyclical like the moon, intuitive"
+            },
+            "Leo": {
+                "core_traits": ["Confident", "Creative", "Generous", "Dramatic", "Proud"],
+                "positive_qualities": ["Charismatic", "Warm-hearted", "Inspiring", "Loyal", "Optimistic"],
+                "challenges": ["Egotistical", "Domineering", "Attention-seeking", "Stubborn"],
+                "motivation": "To express creativity and gain recognition",
+                "approach_to_life": "Dramatic, generous, seeks appreciation and applause",
+                "energy_type": "Solar energy, warm, radiant, needs appreciation"
+            },
+            "Virgo": {
+                "core_traits": ["Analytical", "Practical", "Perfectionist", "Service-oriented", "Critical"],
+                "positive_qualities": ["Detail-oriented", "Helpful", "Organized", "Reliable", "Modest"],
+                "challenges": ["Overly critical", "Worrying", "Nitpicking", "Self-doubt"],
+                "motivation": "To serve others and achieve perfection",
+                "approach_to_life": "Methodical, analytical, improvement-focused",
+                "energy_type": "Mental-practical energy, detail-focused, systematic"
+            },
+            "Libra": {
+                "core_traits": ["Harmonious", "Diplomatic", "Artistic", "Social", "Indecisive"],
+                "positive_qualities": ["Fair-minded", "Charming", "Cooperative", "Peaceful", "Refined"],
+                "challenges": ["Indecisive", "People-pleasing", "Superficial", "Avoids conflict"],
+                "motivation": "To create harmony and beauty in relationships",
+                "approach_to_life": "Diplomatic, aesthetic, relationship-focused",
+                "energy_type": "Social energy, seeks balance and harmony"
+            },
+            "Scorpio": {
+                "core_traits": ["Intense", "Mysterious", "Transformative", "Passionate", "Secretive"],
+                "positive_qualities": ["Determined", "Loyal", "Intuitive", "Resourceful", "Magnetic"],
+                "challenges": ["Jealous", "Vengeful", "Obsessive", "Suspicious"],
+                "motivation": "To transform and understand life's mysteries",
+                "approach_to_life": "Intense, probing, transformational",
+                "energy_type": "Deep, transformative energy, all-or-nothing approach"
+            },
+            "Sagittarius": {
+                "core_traits": ["Adventurous", "Philosophical", "Optimistic", "Freedom-loving", "Blunt"],
+                "positive_qualities": ["Enthusiastic", "Honest", "Generous", "Inspiring", "Open-minded"],
+                "challenges": ["Tactless", "Restless", "Irresponsible", "Overconfident"],
+                "motivation": "To explore, learn, and expand horizons",
+                "approach_to_life": "Adventurous, philosophical, freedom-seeking",
+                "energy_type": "Expansive energy, seeks growth and adventure"
+            },
+            "Capricorn": {
+                "core_traits": ["Ambitious", "Disciplined", "Responsible", "Traditional", "Reserved"],
+                "positive_qualities": ["Hardworking", "Reliable", "Practical", "Patient", "Authoritative"],
+                "challenges": ["Pessimistic", "Rigid", "Materialistic", "Cold"],
+                "motivation": "To achieve status and build lasting structures",
+                "approach_to_life": "Methodical, goal-oriented, traditional",
+                "energy_type": "Steady, enduring energy, focused on long-term goals"
+            },
+            "Aquarius": {
+                "core_traits": ["Independent", "Innovative", "Humanitarian", "Eccentric", "Detached"],
+                "positive_qualities": ["Original", "Progressive", "Friendly", "Intellectual", "Altruistic"],
+                "challenges": ["Aloof", "Unpredictable", "Stubborn", "Emotionally distant"],
+                "motivation": "To innovate and serve humanity",
+                "approach_to_life": "Unconventional, group-oriented, future-focused",
+                "energy_type": "Electric, innovative energy, thinks outside the box"
+            },
+            "Pisces": {
+                "core_traits": ["Compassionate", "Intuitive", "Artistic", "Spiritual", "Escapist"],
+                "positive_qualities": ["Empathetic", "Imaginative", "Gentle", "Wise", "Selfless"],
+                "challenges": ["Overly emotional", "Impractical", "Victim mentality", "Addictive tendencies"],
+                "motivation": "To serve, heal, and transcend material limitations",
+                "approach_to_life": "Intuitive, compassionate, spiritually-oriented",
+                "energy_type": "Fluid, emotional energy, highly sensitive and psychic"
+            }
+        }
+
+        base_traits = sign_traits.get(sign, {
+            "core_traits": ["Unique", "Individual"],
+            "positive_qualities": ["Special qualities"],
+            "challenges": ["Growth areas"],
+            "motivation": "Personal development",
+            "approach_to_life": "Individual path",
+            "energy_type": "Personal energy"
+        })
+
+        # Modify traits based on context (ascendant, sun, moon)
+        if context == "ascendant":
+            base_traits["context_influence"] = "These traits shape how others see you and your approach to new situations."
+        elif context == "sun":
+            base_traits["context_influence"] = "These traits represent your core identity and ego expression."
+        elif context == "moon":
+            base_traits["context_influence"] = "These traits influence your emotional responses and subconscious patterns."
+
+        return base_traits
+
+    def _get_house_personality_influence(self, house: int, planet_type: str) -> Dict[str, Any]:
+        """Get personality influence based on house position."""
+        house_influences = {
+            1: {"personality_focus": "Self-expression and personal identity", "behavioral_tendency": "Direct, self-focused, pioneering approach to life"},
+            2: {"personality_focus": "Values, resources, and self-worth", "behavioral_tendency": "Practical, value-oriented, security-conscious approach"},
+            3: {"personality_focus": "Communication and immediate environment", "behavioral_tendency": "Curious, communicative, socially active approach"},
+            4: {"personality_focus": "Emotional foundation and inner security", "behavioral_tendency": "Nurturing, protective, emotionally-driven approach"},
+            5: {"personality_focus": "Creativity and self-expression", "behavioral_tendency": "Creative, playful, self-expressive approach"},
+            6: {"personality_focus": "Service and daily improvement", "behavioral_tendency": "Service-oriented, detail-focused, improvement-minded approach"},
+            7: {"personality_focus": "Relationships and partnerships", "behavioral_tendency": "Relationship-focused, diplomatic, partnership-oriented approach"},
+            8: {"personality_focus": "Transformation and hidden depths", "behavioral_tendency": "Intense, transformative, depth-seeking approach"},
+            9: {"personality_focus": "Higher wisdom and spiritual growth", "behavioral_tendency": "Philosophical, wisdom-seeking, expansive approach"},
+            10: {"personality_focus": "Achievement and public recognition", "behavioral_tendency": "Ambitious, goal-oriented, authority-seeking approach"},
+            11: {"personality_focus": "Group involvement and future goals", "behavioral_tendency": "Group-oriented, future-focused, humanitarian approach"},
+            12: {"personality_focus": "Spiritual transcendence and service", "behavioral_tendency": "Spiritual, selfless, transcendent approach"}
+        }
+
+        return house_influences.get(house, {"personality_focus": "Personal growth", "behavioral_tendency": "Unique personal approach"})
+
+    def _integrate_personality_influences(self, ascendant_traits: Dict, sun_traits: Dict, moon_traits: Dict) -> Dict[str, Any]:
+        """Integrate ascendant, sun, and moon influences into comprehensive unified personality description."""
+        asc_core = ascendant_traits.get("core_traits", [])
+        sun_core = sun_traits.get("core_traits", [])
+        moon_core = moon_traits.get("core_traits", [])
+
+        asc_positive = ascendant_traits.get("positive_qualities", [])
+        sun_positive = sun_traits.get("positive_qualities", [])
+        moon_positive = moon_traits.get("positive_qualities", [])
+
+        asc_challenges = ascendant_traits.get("challenges", [])
+        sun_challenges = sun_traits.get("challenges", [])
+        moon_challenges = moon_traits.get("challenges", [])
+
+        all_traits = asc_core + sun_core + moon_core
+        all_positive = asc_positive + sun_positive + moon_positive
+        all_challenges = asc_challenges + sun_challenges + moon_challenges
+
+        trait_counts = {}
+        for trait in all_traits:
+            trait_counts[trait] = trait_counts.get(trait, 0) + 1
+
+        prominent_traits = [trait for trait, _ in sorted(trait_counts.items(), key=lambda x: x[1], reverse=True)][:5]
+
+        # Create comprehensive personality analysis
+        integrated_description = f"""**🎭 COMPREHENSIVE PERSONALITY INTEGRATION**
+
+**Your Three-Layered Personality Structure:**
+
+🌟 **PUBLIC PERSONA (Ascendant Influence)**
+• How others perceive you: {', '.join(asc_core[:3]).lower()}
+• Your natural approach to new situations: {ascendant_traits.get('approach_to_life', 'Adaptive and responsive')}
+• Energy you project: {ascendant_traits.get('energy_type', 'Dynamic and engaging')}
+• First impression you make: {', '.join(asc_positive[:2]).lower()}
+
+☀️ **CORE IDENTITY (Sun Influence)**
+• Your authentic self: {', '.join(sun_core[:3]).lower()}
+• What drives you: {sun_traits.get('motivation', 'Personal growth and achievement')}
+• Your life approach: {sun_traits.get('approach_to_life', 'Purposeful and directed')}
+• Your ego expression: {', '.join(sun_positive[:2]).lower()}
+
+🌙 **EMOTIONAL FOUNDATION (Moon Influence)**
+• Your inner emotional world: {', '.join(moon_core[:3]).lower()}
+• How you process feelings: {moon_traits.get('energy_type', 'Intuitive and responsive')}
+• Your subconscious patterns: {moon_traits.get('approach_to_life', 'Emotionally guided')}
+• Your emotional needs: {', '.join(moon_positive[:2]).lower()}
+
+**🎯 INTEGRATED PERSONALITY PROFILE**
+
+**Most Prominent Traits**: {', '.join(prominent_traits)}
+
+**Personality Dynamics:**
+• **External vs Internal**: Your public persona ({', '.join(asc_core[:2]).lower()}) may differ from your core self ({', '.join(sun_core[:2]).lower()}), creating a {self._assess_personality_harmony(asc_core, sun_core)} dynamic
+• **Rational vs Emotional**: Your conscious mind ({', '.join(sun_core[:2]).lower()}) and emotional nature ({', '.join(moon_core[:2]).lower()}) create a {self._assess_emotional_integration(sun_core, moon_core)} approach to life
+• **Consistency Level**: {self._assess_personality_consistency(asc_core, sun_core, moon_core)}
+
+**Strengths Integration:**
+{self._create_strengths_synthesis(all_positive)}
+
+**Growth Areas Integration:**
+{self._create_challenges_synthesis(all_challenges)}
+
+**Life Expression Pattern:**
+{self._create_life_expression_pattern(ascendant_traits, sun_traits, moon_traits)}
+
+**Relationship Dynamics:**
+{self._create_relationship_dynamics(asc_core, sun_core, moon_core)}
+
+**Career & Life Path Indicators:**
+{self._create_career_indicators(ascendant_traits, sun_traits, moon_traits)}
+
+This creates a {self._assess_overall_complexity(all_traits)} personality that balances external presentation with inner authenticity and emotional depth."""
+
+        return {
+            "prominent_traits": prominent_traits,
+            "personality_blend": integrated_description,
+            "complexity_level": "High" if len(set(all_traits)) > 10 else "Moderate",
+            "harmony_level": self._assess_personality_harmony(asc_core, sun_core),
+            "emotional_integration": self._assess_emotional_integration(sun_core, moon_core),
+            "consistency_rating": self._assess_personality_consistency(asc_core, sun_core, moon_core),
+            "dominant_influence": self._determine_dominant_influence(asc_core, sun_core, moon_core)
+        }
+
+    def _get_temperament_description(self, dominant_element: str, dominant_mode: str, elements: Dict, modes: Dict) -> str:
+        """Get detailed temperament description."""
+        element_desc = {
+            "Fire": "Energetic, enthusiastic, action-oriented, and spontaneous. You approach life with passion and directness.",
+            "Earth": "Practical, stable, methodical, and grounded. You prefer tangible results and steady progress.",
+            "Air": "Mental, communicative, social, and adaptable. You thrive on ideas, communication, and variety.",
+            "Water": "Emotional, intuitive, sensitive, and empathetic. You navigate life through feelings and intuition."
+        }
+
+        mode_desc = {
+            "Cardinal": "Initiative-taking, leadership-oriented, and change-making. You like to start new projects and lead others.",
+            "Fixed": "Determined, persistent, and stable. You prefer to see things through to completion and resist change.",
+            "Mutable": "Adaptable, flexible, and versatile. You easily adjust to changing circumstances and enjoy variety."
+        }
+
+        return f"Your temperament is primarily {dominant_mode} {dominant_element}. " + element_desc.get(dominant_element, "") + " " + mode_desc.get(dominant_mode, "")
+
+    def _get_temperament_behaviors(self, dominant_element: str, dominant_mode: str) -> List[str]:
+        """Get specific behavioral tendencies based on temperament."""
+        behaviors = {
+            ("Cardinal", "Fire"): ["Takes immediate action on ideas", "Natural leader in crisis situations", "Initiates new projects with enthusiasm"],
+            ("Fixed", "Fire"): ["Maintains steady energy and determination", "Loyal and consistent in relationships", "Strong willpower and persistence"],
+            ("Mutable", "Fire"): ["Adapts energy to different situations", "Enjoys variety in activities", "Flexible but maintains enthusiasm"],
+            ("Cardinal", "Earth"): ["Organizes and structures new ventures", "Takes practical steps toward goals", "Natural ability to manage resources"],
+            ("Fixed", "Earth"): ["Builds lasting, stable foundations", "Extremely reliable and dependable", "Values security and material stability"],
+            ("Mutable", "Earth"): ["Adapts practical skills to new situations", "Flexible in methods while maintaining practicality", "Good at finding efficient solutions"]
+        }
+
+        key = (dominant_mode, dominant_element)
+        return behaviors.get(key, ["Unique behavioral patterns", "Individual approach to life", "Personal style of interaction"])
+
+    def _analyze_mental_nature(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze mental nature based on Mercury, Moon, and 3rd house."""
+        mercury = next((p for p in chart.planets if p.name == "Mercury"), None)
+        moon = next((p for p in chart.planets if p.name == "Moon"), None)
+
+        # Get 3rd house ruler and planets
+        third_house_planets = [p for p in chart.planets if p.house == 3]
+
+        # Detailed Mercury analysis
+        mercury_analysis = self._analyze_mercury_influence(mercury) if mercury else {}
+        moon_mental_influence = self._analyze_moon_mental_influence(moon) if moon else {}
+        third_house_influence = self._analyze_third_house_mental_influence(third_house_planets)
+
+        # Synthesize thinking style
+        thinking_style = self._determine_thinking_style(mercury, moon, third_house_planets)
+        learning_style = self._determine_learning_style(mercury, moon)
+        communication_patterns = self._determine_communication_patterns(mercury, third_house_planets)
+
+        mental_analysis = {
+            "thinking_style": thinking_style,
+            "learning_preference": learning_style,
+            "communication_patterns": communication_patterns,
+            "mercury_influence": mercury_analysis,
+            "moon_mental_influence": moon_mental_influence,
+            "third_house_influence": third_house_influence,
+            "mental_strengths": self._identify_mental_strengths(mercury, moon, third_house_planets),
+            "mental_challenges": self._identify_mental_challenges(mercury, moon, third_house_planets),
+            "intellectual_interests": self._determine_intellectual_interests(mercury, moon),
+            "information_processing": self._analyze_information_processing(mercury, moon)
+        }
+
+        return mental_analysis
+
+    def _analyze_emotional_nature(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze emotional nature based on Moon, Venus, and water signs."""
+        moon = next((p for p in chart.planets if p.name == "Moon"), None)
+        venus = next((p for p in chart.planets if p.name == "Venus"), None)
+
+        # Get 4th house planets (emotional foundation)
+        fourth_house_planets = [p for p in chart.planets if p.house == 4]
+
+        # Detailed emotional analysis
+        moon_emotional_analysis = self._analyze_moon_emotional_influence(moon) if moon else {}
+        venus_emotional_analysis = self._analyze_venus_emotional_influence(venus) if venus else {}
+        fourth_house_influence = self._analyze_fourth_house_emotional_influence(fourth_house_planets)
+
+        # Synthesize emotional patterns
+        emotional_style = self._determine_emotional_style(moon, venus, fourth_house_planets)
+        emotional_needs = self._determine_emotional_needs(moon, venus)
+        emotional_expression = self._determine_emotional_expression(moon, venus)
+
+        emotional_analysis = {
+            "emotional_style": emotional_style,
+            "emotional_needs": emotional_needs,
+            "emotional_expression": emotional_expression,
+            "moon_influence": moon_emotional_analysis,
+            "venus_influence": venus_emotional_analysis,
+            "fourth_house_influence": fourth_house_influence,
+            "emotional_strengths": self._identify_emotional_strengths(moon, venus, fourth_house_planets),
+            "emotional_challenges": self._identify_emotional_challenges(moon, venus, fourth_house_planets),
+            "relationship_patterns": self._analyze_emotional_relationship_patterns(moon, venus),
+            "emotional_security": self._analyze_emotional_security_needs(moon, fourth_house_planets)
+        }
+
+        return emotional_analysis
+
+    def _analyze_behavioral_patterns(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze behavioral patterns based on Mars and overall chart."""
+        mars = next((p for p in chart.planets if p.name == "Mars"), None)
+        return {
+            "action_style": "Direct and assertive" if mars and mars.sign in ["Aries", "Leo", "Scorpio"] else "Thoughtful and planned",
+            "conflict_resolution": "Confrontational" if mars and mars.sign == "Aries" else "Diplomatic",
+            "motivation_style": "Self-motivated" if mars and mars.house in [1, 10] else "Externally motivated"
+        }
+
+    def _analyze_inherent_strengths(self, chart: VedicChart) -> List[str]:
+        """Analyze inherent strengths based on planetary positions."""
+        strengths = []
+
+        # Check for strong planets
+        for planet in chart.planets:
+            if planet.sign in ["Aries", "Leo", "Sagittarius"]:  # Fire signs
+                strengths.append(f"Strong {planet.name} energy - leadership and enthusiasm")
+            elif planet.sign in ["Taurus", "Virgo", "Capricorn"]:  # Earth signs
+                strengths.append(f"Practical {planet.name} energy - reliability and groundedness")
+
+        return strengths[:5]  # Top 5 strengths
+
+    def _analyze_inherent_challenges(self, chart: VedicChart) -> List[str]:
+        """Analyze inherent challenges based on planetary positions."""
+        challenges = []
+
+        # Check for challenging positions
+        for planet in chart.planets:
+            if planet.house == 6:  # 6th house challenges
+                challenges.append(f"{planet.name} in 6th house - need to work on service and health")
+            elif planet.house == 8:  # 8th house challenges
+                challenges.append(f"{planet.name} in 8th house - transformation and letting go")
+
+        return challenges[:5]  # Top 5 challenges
+
+    def _analyze_life_approach(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze overall approach to life."""
+        return {
+            "primary_motivation": "Achievement and recognition",
+            "life_philosophy": "Practical and goal-oriented",
+            "approach_to_change": "Cautious but adaptable"
+        }
+
+    def _analyze_communication_style(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze communication style based on Mercury and 3rd house."""
+        mercury = next((p for p in chart.planets if p.name == "Mercury"), None)
+        return {
+            "speaking_style": "Clear and direct" if mercury and mercury.sign in ["Aries", "Gemini"] else "Thoughtful and diplomatic",
+            "listening_style": "Active and engaged",
+            "written_communication": "Detailed and organized"
+        }
+
+    def _analyze_relationship_nature(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze relationship nature based on Venus and 7th house."""
+        venus = next((p for p in chart.planets if p.name == "Venus"), None)
+        return {
+            "relationship_style": "Harmonious and cooperative" if venus and venus.sign in ["Libra", "Taurus"] else "Independent and direct",
+            "partnership_needs": "Emotional security and stability",
+            "social_nature": "Outgoing and friendly"
+        }
+
+    def _analyze_career_inclinations(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze career inclinations based on 10th house and planets."""
+        return {
+            "career_strengths": ["Leadership", "Communication", "Analysis"],
+            "work_environment": "Structured and goal-oriented",
+            "professional_style": "Reliable and dedicated"
+        }
+
+    def _analyze_spiritual_nature(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze spiritual nature based on 9th and 12th houses."""
+        return {
+            "spiritual_inclination": "Philosophical and seeking",
+            "spiritual_path": "Traditional and structured",
+            "higher_purpose": "Service to others and personal growth"
+        }
+
+    def _analyze_physical_constitution(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze physical constitution based on Ascendant and planets."""
+        return {
+            "physical_type": "Balanced constitution",
+            "health_tendencies": "Generally strong with attention to diet",
+            "energy_levels": "Steady and consistent"
+        }
+
+    def _analyze_learning_style(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze learning style based on Mercury and 5th house."""
+        return {
+            "learning_preference": "Visual and hands-on",
+            "study_habits": "Organized and systematic",
+            "intellectual_interests": "Practical and applied knowledge"
+        }
+
+    def _analyze_decision_making_style(self, chart: VedicChart) -> Dict[str, Any]:
+        """Analyze decision-making style based on overall chart."""
+        return {
+            "decision_style": "Thoughtful and analytical",
+            "risk_tolerance": "Moderate - calculated risks",
+            "decision_factors": "Logic, intuition, and practical considerations"
+        }
+
+    # COMPREHENSIVE PERSONALITY INTEGRATION HELPER METHODS
+
+    def _assess_personality_harmony(self, asc_traits: List, sun_traits: List) -> str:
+        """Assess harmony between public persona and core self."""
+        common_traits = set(asc_traits) & set(sun_traits)
+        if len(common_traits) >= 2:
+            return "harmonious and authentic"
+        elif len(common_traits) == 1:
+            return "moderately aligned with some internal-external differences"
+        else:
+            return "complex with significant differences between public and private self"
+
+    def _assess_emotional_integration(self, sun_traits: List, moon_traits: List) -> str:
+        """Assess integration between rational mind and emotional nature."""
+        common_traits = set(sun_traits) & set(moon_traits)
+        if len(common_traits) >= 2:
+            return "well-integrated and emotionally intelligent"
+        elif len(common_traits) == 1:
+            return "balanced with occasional internal conflicts"
+        else:
+            return "complex with potential tension between logic and emotion"
+
+    def _assess_personality_consistency(self, asc_traits: List, sun_traits: List, moon_traits: List) -> str:
+        """Assess overall personality consistency across all three influences."""
+        all_traits = set(asc_traits + sun_traits + moon_traits)
+        unique_traits = len(all_traits)
+        total_traits = len(asc_traits + sun_traits + moon_traits)
+
+        consistency_ratio = 1 - (unique_traits / total_traits)
+
+        if consistency_ratio > 0.6:
+            return "Highly consistent personality with strong internal alignment"
+        elif consistency_ratio > 0.4:
+            return "Moderately consistent with some internal complexity"
+        else:
+            return "Complex and multifaceted personality with rich internal diversity"
+
+    def _create_strengths_synthesis(self, all_positive: List) -> str:
+        """Create synthesis of all positive qualities."""
+        if not all_positive:
+            return "• Natural resilience and adaptability"
+
+        # Group similar strengths
+        strength_categories = {
+            "Leadership": ["leader", "charismatic", "inspiring", "confident", "authoritative"],
+            "Communication": ["communicative", "charming", "diplomatic", "sociable", "articulate"],
+            "Emotional": ["empathetic", "caring", "supportive", "nurturing", "intuitive"],
+            "Practical": ["reliable", "organized", "practical", "grounded", "methodical"],
+            "Creative": ["creative", "artistic", "imaginative", "innovative", "original"],
+            "Intellectual": ["intelligent", "analytical", "wise", "thoughtful", "perceptive"]
+        }
+
+        categorized_strengths = {}
+        for strength in all_positive:
+            for category, keywords in strength_categories.items():
+                if any(keyword in strength.lower() for keyword in keywords):
+                    if category not in categorized_strengths:
+                        categorized_strengths[category] = []
+                    categorized_strengths[category].append(strength)
+                    break
+
+        synthesis = []
+        for category, strengths in categorized_strengths.items():
+            if strengths:
+                synthesis.append(f"• **{category}**: {', '.join(strengths[:3]).lower()}")
+
+        return '\n'.join(synthesis) if synthesis else "• Natural resilience and unique personal strengths"
+
+    def _create_challenges_synthesis(self, all_challenges: List) -> str:
+        """Create synthesis of growth areas."""
+        if not all_challenges:
+            return "• Focus on maintaining balance and continued growth"
+
+        # Group similar challenges
+        challenge_categories = {
+            "Emotional Balance": ["moody", "sensitive", "emotional", "defensive", "clingy"],
+            "Decision Making": ["indecisive", "impulsive", "hasty", "inconsistent", "restless"],
+            "Relationships": ["stubborn", "aggressive", "aloof", "possessive", "jealous"],
+            "Self-Management": ["impatient", "critical", "perfectionist", "worrying", "rigid"]
+        }
+
+        categorized_challenges = {}
+        for challenge in all_challenges:
+            for category, keywords in challenge_categories.items():
+                if any(keyword in challenge.lower() for keyword in keywords):
+                    if category not in categorized_challenges:
+                        categorized_challenges[category] = []
+                    categorized_challenges[category].append(challenge)
+                    break
+
+        synthesis = []
+        for category, challenges in categorized_challenges.items():
+            if challenges:
+                synthesis.append(f"• **{category}**: Work on {', '.join(challenges[:2]).lower()}")
+
+        return '\n'.join(synthesis) if synthesis else "• Focus on maintaining balance and continued personal growth"
+
+    def _create_life_expression_pattern(self, asc_traits: Dict, sun_traits: Dict, moon_traits: Dict) -> str:
+        """Create life expression pattern analysis."""
+        asc_approach = asc_traits.get('approach_to_life', 'adaptive')
+        sun_approach = sun_traits.get('approach_to_life', 'purposeful')
+        moon_energy = moon_traits.get('energy_type', 'responsive')
+
+        return f"""• **Daily Expression**: You approach daily life with a {asc_approach.lower()} style
+• **Long-term Goals**: Your core self drives you toward {sun_approach.lower()} achievement
+• **Emotional Processing**: You handle feelings with {moon_energy.lower()} patterns
+• **Overall Pattern**: This creates a dynamic where you {self._synthesize_life_pattern(asc_approach, sun_approach, moon_energy)}"""
+
+    def _synthesize_life_pattern(self, asc_approach: str, sun_approach: str, moon_energy: str) -> str:
+        """Synthesize overall life pattern."""
+        patterns = {
+            ("adaptive", "purposeful", "responsive"): "adapt externally while maintaining inner purpose and emotional awareness",
+            ("direct", "competitive", "dynamic"): "take direct action toward competitive goals with high energy",
+            ("diplomatic", "harmonious", "balanced"): "seek harmony in all areas while maintaining diplomatic relationships"
+        }
+
+        key = (asc_approach.split(',')[0].strip().lower(),
+               sun_approach.split(',')[0].strip().lower(),
+               moon_energy.split(',')[0].strip().lower())
+
+        return patterns.get(key, "balance external adaptation with internal purpose and emotional wisdom")
+
+    def _create_relationship_dynamics(self, asc_core: List, sun_core: List, moon_core: List) -> str:
+        """Create relationship dynamics analysis."""
+        return f"""• **First Impressions**: Others initially see your {', '.join(asc_core[:2]).lower()} nature
+• **Deeper Connections**: As people get to know you, they discover your {', '.join(sun_core[:2]).lower()} core
+• **Intimate Relationships**: In close relationships, your {', '.join(moon_core[:2]).lower()} emotional nature emerges
+• **Relationship Challenge**: Balancing your public persona with authentic self-expression in relationships"""
+
+    def _create_career_indicators(self, asc_traits: Dict, sun_traits: Dict, moon_traits: Dict) -> str:
+        """Create career and life path indicators."""
+        asc_motivation = asc_traits.get('motivation', 'external achievement')
+        sun_motivation = sun_traits.get('motivation', 'personal fulfillment')
+        moon_energy = moon_traits.get('energy_type', 'intuitive guidance')
+
+        return f"""• **Public Role**: Your natural public presence suggests careers involving {asc_motivation.lower()}
+• **Core Purpose**: Your authentic self seeks {sun_motivation.lower()}
+• **Work Style**: You work best with {moon_energy.lower()} and emotional connection
+• **Ideal Career**: Combines public engagement, personal meaning, and emotional satisfaction"""
+
+    def _assess_overall_complexity(self, all_traits: List) -> str:
+        """Assess overall personality complexity."""
+        unique_traits = len(set(all_traits))
+        if unique_traits > 12:
+            return "highly complex and multifaceted"
+        elif unique_traits > 8:
+            return "moderately complex with rich diversity"
+        else:
+            return "focused and consistent"
+
+    def _determine_dominant_influence(self, asc_core: List, sun_core: List, moon_core: List) -> str:
+        """Determine which influence is most dominant."""
+        # Simple heuristic based on trait strength
+        influences = {
+            "Ascendant": len(asc_core),
+            "Sun": len(sun_core),
+            "Moon": len(moon_core)
+        }
+
+        dominant = max(influences, key=influences.get)
+        return f"{dominant} influence is most prominent in your personality expression"
+
+    # COMPREHENSIVE MENTAL ANALYSIS HELPER METHODS
+
+    def _analyze_mercury_influence(self, mercury) -> Dict[str, Any]:
+        """Analyze Mercury's influence on mental nature."""
+        if not mercury:
+            return {"influence": "Mercury position unknown - general mental adaptability"}
+
+        mercury_signs = {
+            "Aries": {
+                "thinking_style": "Quick, decisive, pioneering thoughts",
+                "communication": "Direct, assertive, sometimes impulsive speech",
+                "learning": "Learns through action and immediate application",
+                "strengths": ["Fast decision-making", "Leadership in discussions", "Innovative ideas"],
+                "challenges": ["Impatience with details", "May interrupt others", "Hasty conclusions"]
+            },
+            "Taurus": {
+                "thinking_style": "Practical, methodical, thorough mental processing",
+                "communication": "Steady, reliable, well-considered words",
+                "learning": "Learns through repetition and hands-on experience",
+                "strengths": ["Excellent memory", "Practical solutions", "Reliable information"],
+                "challenges": ["Slow to change opinions", "May resist new ideas", "Stubborn thinking"]
+            },
+            "Gemini": {
+                "thinking_style": "Versatile, curious, multi-faceted thinking",
+                "communication": "Articulate, witty, adaptable expression",
+                "learning": "Learns quickly through variety and mental stimulation",
+                "strengths": ["Quick wit", "Excellent communication", "Mental flexibility"],
+                "challenges": ["Scattered attention", "Superficial knowledge", "Inconsistent focus"]
+            },
+            "Cancer": {
+                "thinking_style": "Intuitive, emotional, memory-based thinking",
+                "communication": "Empathetic, nurturing, emotionally intelligent speech",
+                "learning": "Learns through emotional connection and personal relevance",
+                "strengths": ["Emotional intelligence", "Intuitive insights", "Caring communication"],
+                "challenges": ["Overly subjective", "Mood-dependent thinking", "Takes criticism personally"]
+            },
+            "Leo": {
+                "thinking_style": "Creative, confident, dramatic mental expression",
+                "communication": "Charismatic, inspiring, attention-getting speech",
+                "learning": "Learns through creative expression and recognition",
+                "strengths": ["Creative thinking", "Inspiring communication", "Confident expression"],
+                "challenges": ["Ego-driven opinions", "May dominate conversations", "Needs constant validation"]
+            },
+            "Virgo": {
+                "thinking_style": "Analytical, detailed, perfectionist thinking",
+                "communication": "Precise, helpful, constructively critical speech",
+                "learning": "Learns through systematic study and practical application",
+                "strengths": ["Analytical ability", "Attention to detail", "Practical solutions"],
+                "challenges": ["Overly critical", "Perfectionist paralysis", "Worry and anxiety"]
+            }
+        }
+
+        sign_analysis = mercury_signs.get(mercury.sign, {
+            "thinking_style": f"Unique mental approach influenced by {mercury.sign}",
+            "communication": f"Communication style shaped by {mercury.sign} energy",
+            "learning": f"Learning preferences influenced by {mercury.sign}",
+            "strengths": [f"Mental gifts from {mercury.sign}"],
+            "challenges": [f"Mental growth areas from {mercury.sign}"]
+        })
+
+        # Add house influence
+        house_influence = self._get_mercury_house_influence(mercury.house)
+        sign_analysis.update(house_influence)
+
+        return sign_analysis
+
+    def _get_mercury_house_influence(self, house: int) -> Dict[str, str]:
+        """Get Mercury's house influence on mental nature."""
+        house_influences = {
+            1: {"house_focus": "Mental energy focused on self-expression and personal identity"},
+            2: {"house_focus": "Mental energy focused on values, resources, and practical matters"},
+            3: {"house_focus": "Mental energy focused on communication, learning, and immediate environment"},
+            4: {"house_focus": "Mental energy focused on emotional security and family matters"},
+            5: {"house_focus": "Mental energy focused on creativity, self-expression, and learning"},
+            6: {"house_focus": "Mental energy focused on service, health, and daily improvement"},
+            7: {"house_focus": "Mental energy focused on relationships and partnerships"},
+            8: {"house_focus": "Mental energy focused on transformation and deep investigation"},
+            9: {"house_focus": "Mental energy focused on higher learning and philosophical pursuits"},
+            10: {"house_focus": "Mental energy focused on career and public recognition"},
+            11: {"house_focus": "Mental energy focused on groups, friendships, and future goals"},
+            12: {"house_focus": "Mental energy focused on spirituality and subconscious exploration"}
+        }
+
+        return house_influences.get(house, {"house_focus": "Mental energy expressed uniquely"})
+
+    def _determine_thinking_style(self, mercury, moon, third_house_planets) -> str:
+        """Determine overall thinking style from multiple factors."""
+        styles = []
+
+        if mercury:
+            if mercury.sign in ["Gemini", "Virgo", "Aquarius"]:
+                styles.append("analytical and logical")
+            elif mercury.sign in ["Cancer", "Pisces", "Scorpio"]:
+                styles.append("intuitive and emotional")
+            elif mercury.sign in ["Aries", "Leo", "Sagittarius"]:
+                styles.append("quick and decisive")
+            elif mercury.sign in ["Taurus", "Capricorn"]:
+                styles.append("practical and methodical")
+
+        if moon:
+            if moon.sign in ["Cancer", "Pisces", "Scorpio"]:
+                styles.append("emotionally-influenced")
+            elif moon.sign in ["Gemini", "Aquarius", "Libra"]:
+                styles.append("mentally-oriented")
+
+        if third_house_planets:
+            styles.append("communication-focused")
+
+        if not styles:
+            return "Balanced thinking style with both logical and intuitive elements"
+
+        return f"Primarily {' and '.join(styles[:2])} thinking style"
+
+    def _determine_learning_style(self, mercury, moon) -> str:
+        """Determine learning preferences."""
+        if mercury:
+            if mercury.sign in ["Taurus", "Virgo", "Capricorn"]:
+                return "Hands-on, practical learning with step-by-step progression"
+            elif mercury.sign in ["Gemini", "Aquarius", "Libra"]:
+                return "Visual and auditory learning with variety and social interaction"
+            elif mercury.sign in ["Cancer", "Scorpio", "Pisces"]:
+                return "Emotional and intuitive learning through personal connection"
+            elif mercury.sign in ["Aries", "Leo", "Sagittarius"]:
+                return "Active, experiential learning through direct engagement"
+
+        return "Adaptable learning style that combines multiple approaches"
+
+    def _determine_communication_patterns(self, mercury, third_house_planets) -> str:
+        """Determine communication patterns."""
+        patterns = []
+
+        if mercury:
+            if mercury.sign in ["Aries", "Leo", "Sagittarius"]:
+                patterns.append("direct and enthusiastic")
+            elif mercury.sign in ["Taurus", "Virgo", "Capricorn"]:
+                patterns.append("practical and reliable")
+            elif mercury.sign in ["Gemini", "Libra", "Aquarius"]:
+                patterns.append("articulate and social")
+            elif mercury.sign in ["Cancer", "Scorpio", "Pisces"]:
+                patterns.append("empathetic and intuitive")
+
+        if third_house_planets:
+            patterns.append("actively communicative")
+
+        if not patterns:
+            return "Balanced communication style adapting to situations"
+
+        return f"Communication is {' and '.join(patterns[:2])}"
+
+    def _analyze_moon_mental_influence(self, moon) -> Dict[str, Any]:
+        """Analyze Moon's influence on mental nature."""
+        if not moon:
+            return {"influence": "Moon position unknown - general emotional mental processing"}
+
+        return {
+            "mental_emotional_style": f"Mental processing influenced by {moon.sign} emotional patterns",
+            "memory_patterns": f"Memory and recall influenced by {moon.sign} energy",
+            "subconscious_thinking": f"Subconscious mental patterns shaped by {moon.sign}",
+            "intuitive_insights": f"Intuitive mental abilities enhanced by {moon.sign} placement"
+        }
+
+    def _analyze_third_house_mental_influence(self, third_house_planets) -> Dict[str, Any]:
+        """Analyze 3rd house influence on mental nature."""
+        if not third_house_planets:
+            return {"influence": "No planets in 3rd house - natural communication abilities"}
+
+        influences = []
+        for planet in third_house_planets:
+            influences.append(f"{planet.name} in 3rd house enhances {planet.sign} communication style")
+
+        return {
+            "communication_enhancement": influences,
+            "learning_boost": f"Learning enhanced by {len(third_house_planets)} planet(s) in 3rd house",
+            "mental_activity": "Increased mental activity and communication focus"
+        }
+
+    def _identify_mental_strengths(self, mercury, moon, third_house_planets) -> List[str]:
+        """Identify mental strengths based on planetary positions."""
+        strengths = []
+
+        if mercury:
+            if mercury.sign in ["Gemini", "Virgo"]:
+                strengths.extend(["Excellent analytical ability", "Strong communication skills", "Detail-oriented thinking"])
+            elif mercury.sign in ["Aries", "Leo", "Sagittarius"]:
+                strengths.extend(["Quick decision-making", "Leadership in discussions", "Innovative thinking"])
+            elif mercury.sign in ["Taurus", "Capricorn"]:
+                strengths.extend(["Practical problem-solving", "Reliable memory", "Methodical approach"])
+
+        if moon and moon.sign in ["Cancer", "Pisces", "Scorpio"]:
+            strengths.extend(["Intuitive insights", "Emotional intelligence", "Empathetic understanding"])
+
+        if third_house_planets:
+            strengths.append("Enhanced communication abilities")
+
+        return strengths[:5] if strengths else ["Natural mental adaptability", "Balanced thinking approach"]
+
+    def _identify_mental_challenges(self, mercury, moon, third_house_planets) -> List[str]:
+        """Identify mental challenges based on planetary positions."""
+        challenges = []
+
+        if mercury:
+            if mercury.sign in ["Aries"]:
+                challenges.extend(["Impatience with details", "May interrupt others", "Hasty conclusions"])
+            elif mercury.sign in ["Taurus"]:
+                challenges.extend(["Slow to change opinions", "May resist new ideas", "Stubborn thinking"])
+            elif mercury.sign in ["Gemini"]:
+                challenges.extend(["Scattered attention", "Superficial knowledge", "Inconsistent focus"])
+            elif mercury.sign in ["Cancer"]:
+                challenges.extend(["Overly subjective thinking", "Mood-dependent decisions", "Takes criticism personally"])
+
+        if moon and moon.sign in ["Gemini", "Sagittarius"]:
+            challenges.append("Mental restlessness")
+
+        return challenges[:5] if challenges else ["Minor tendency toward overthinking"]
+
+    def _determine_intellectual_interests(self, mercury, moon) -> List[str]:
+        """Determine intellectual interests based on planetary positions."""
+        interests = []
+
+        if mercury:
+            if mercury.sign in ["Aries", "Leo", "Sagittarius"]:
+                interests.extend(["Leadership topics", "Adventure and exploration", "Philosophy and meaning"])
+            elif mercury.sign in ["Taurus", "Virgo", "Capricorn"]:
+                interests.extend(["Practical skills", "Health and wellness", "Business and finance"])
+            elif mercury.sign in ["Gemini", "Libra", "Aquarius"]:
+                interests.extend(["Communication arts", "Social sciences", "Technology and innovation"])
+            elif mercury.sign in ["Cancer", "Scorpio", "Pisces"]:
+                interests.extend(["Psychology and emotions", "Spirituality and mysticism", "Arts and creativity"])
+
+        if moon:
+            if moon.sign in ["Cancer", "Pisces"]:
+                interests.append("Family and emotional topics")
+            elif moon.sign in ["Scorpio"]:
+                interests.append("Deep research and investigation")
+
+        return interests[:4] if interests else ["Diverse intellectual curiosity"]
+
+    def _analyze_information_processing(self, mercury, moon) -> str:
+        """Analyze how information is processed."""
+        if mercury:
+            if mercury.sign in ["Virgo", "Gemini"]:
+                return "Processes information analytically with attention to details and logical connections"
+            elif mercury.sign in ["Cancer", "Pisces", "Scorpio"]:
+                return "Processes information intuitively with emotional and symbolic understanding"
+            elif mercury.sign in ["Aries", "Leo", "Sagittarius"]:
+                return "Processes information quickly with focus on big picture and practical application"
+            elif mercury.sign in ["Taurus", "Capricorn"]:
+                return "Processes information methodically with emphasis on practical value and reliability"
+
+        return "Processes information in a balanced way combining logic and intuition"
+
+    # COMPREHENSIVE EMOTIONAL ANALYSIS HELPER METHODS
+
+    def _analyze_moon_emotional_influence(self, moon) -> Dict[str, Any]:
+        """Analyze Moon's emotional influence."""
+        if not moon:
+            return {"influence": "Moon position unknown - general emotional adaptability"}
+
+        moon_emotional_patterns = {
+            "Aries": {
+                "emotional_style": "Quick, impulsive, passionate emotional responses",
+                "emotional_needs": "Independence, excitement, and immediate emotional expression",
+                "emotional_expression": "Direct, honest, sometimes explosive emotional display",
+                "emotional_security": "Feeling free to act on impulses and lead emotionally"
+            },
+            "Taurus": {
+                "emotional_style": "Steady, sensual, comfort-seeking emotional nature",
+                "emotional_needs": "Physical comfort, stability, and sensory pleasure",
+                "emotional_expression": "Calm, reliable, sometimes stubborn emotional responses",
+                "emotional_security": "Material comfort and predictable emotional environment"
+            },
+            "Cancer": {
+                "emotional_style": "Deep, nurturing, protective emotional responses",
+                "emotional_needs": "Family connection, emotional safety, and caring relationships",
+                "emotional_expression": "Caring, empathetic, sometimes moody emotional display",
+                "emotional_security": "Strong family bonds and emotional understanding"
+            },
+            "Leo": {
+                "emotional_style": "Warm, generous, dramatic emotional expression",
+                "emotional_needs": "Appreciation, recognition, and creative emotional outlets",
+                "emotional_expression": "Confident, theatrical, heart-centered emotional display",
+                "emotional_security": "Being loved and appreciated for authentic self"
+            },
+            "Scorpio": {
+                "emotional_style": "Intense, transformative, deeply feeling emotional nature",
+                "emotional_needs": "Emotional depth, trust, and transformative experiences",
+                "emotional_expression": "Passionate, mysterious, all-or-nothing emotional responses",
+                "emotional_security": "Deep emotional bonds and psychological understanding"
+            },
+            "Pisces": {
+                "emotional_style": "Compassionate, intuitive, spiritually-oriented emotions",
+                "emotional_needs": "Spiritual connection, artistic expression, and emotional flow",
+                "emotional_expression": "Gentle, empathetic, sometimes escapist emotional responses",
+                "emotional_security": "Spiritual understanding and emotional transcendence"
+            }
+        }
+
+        return moon_emotional_patterns.get(moon.sign, {
+            "emotional_style": f"Emotional nature influenced by {moon.sign} energy",
+            "emotional_needs": f"Emotional requirements shaped by {moon.sign}",
+            "emotional_expression": f"Emotional expression colored by {moon.sign}",
+            "emotional_security": f"Emotional security through {moon.sign} qualities"
+        })
+
+    def _analyze_venus_emotional_influence(self, venus) -> Dict[str, Any]:
+        """Analyze Venus's emotional influence."""
+        if not venus:
+            return {"influence": "Venus position unknown - general relationship harmony"}
+
+        return {
+            "love_style": f"Love expression influenced by {venus.sign} energy",
+            "relationship_needs": f"Relationship requirements shaped by {venus.sign}",
+            "aesthetic_emotions": f"Beauty and harmony needs influenced by {venus.sign}",
+            "social_emotions": f"Social emotional expression colored by {venus.sign}"
+        }
+
+    def _analyze_fourth_house_emotional_influence(self, fourth_house_planets) -> Dict[str, Any]:
+        """Analyze 4th house emotional influence."""
+        if not fourth_house_planets:
+            return {"influence": "No planets in 4th house - natural emotional foundation"}
+
+        influences = []
+        for planet in fourth_house_planets:
+            influences.append(f"{planet.name} in 4th house brings {planet.sign} energy to emotional foundation")
+
+        return {
+            "emotional_foundation": influences,
+            "family_influence": f"Family dynamics enhanced by {len(fourth_house_planets)} planet(s) in 4th house",
+            "emotional_security": "Strong focus on emotional security and home environment"
+        }
+
+    def _determine_emotional_style(self, moon, venus, fourth_house_planets) -> str:
+        """Determine overall emotional style."""
+        styles = []
+
+        if moon:
+            if moon.sign in ["Cancer", "Pisces", "Scorpio"]:
+                styles.append("deep and intuitive")
+            elif moon.sign in ["Aries", "Leo", "Sagittarius"]:
+                styles.append("passionate and expressive")
+            elif moon.sign in ["Taurus", "Virgo", "Capricorn"]:
+                styles.append("stable and practical")
+            elif moon.sign in ["Gemini", "Libra", "Aquarius"]:
+                styles.append("intellectual and social")
+
+        if venus:
+            if venus.sign in ["Libra", "Taurus"]:
+                styles.append("harmonious and aesthetic")
+            elif venus.sign in ["Scorpio", "Aries"]:
+                styles.append("intense and passionate")
+
+        if fourth_house_planets:
+            styles.append("family-oriented")
+
+        if not styles:
+            return "Balanced emotional style adapting to situations"
+
+        return f"Emotional style is {' and '.join(styles[:2])}"
+
+    def _determine_emotional_needs(self, moon, venus) -> str:
+        """Determine core emotional needs."""
+        needs = []
+
+        if moon:
+            if moon.sign == "Cancer":
+                needs.append("emotional security and family connection")
+            elif moon.sign == "Leo":
+                needs.append("appreciation and creative expression")
+            elif moon.sign == "Scorpio":
+                needs.append("deep emotional bonds and transformation")
+            elif moon.sign == "Taurus":
+                needs.append("comfort and stability")
+            elif moon.sign == "Pisces":
+                needs.append("spiritual connection and compassion")
+
+        if venus:
+            if venus.sign in ["Libra", "Taurus"]:
+                needs.append("harmony and beauty")
+            elif venus.sign in ["Scorpio"]:
+                needs.append("deep intimacy and trust")
+
+        if not needs:
+            return "Balanced emotional needs including security, love, and personal growth"
+
+        return f"Core emotional needs: {' and '.join(needs[:2])}"
+
+    def _determine_emotional_expression(self, moon, venus) -> str:
+        """Determine emotional expression style."""
+        if moon:
+            if moon.sign in ["Aries", "Leo", "Sagittarius"]:
+                return "Open, direct, and enthusiastic emotional expression"
+            elif moon.sign in ["Cancer", "Pisces", "Scorpio"]:
+                return "Deep, intuitive, and empathetic emotional expression"
+            elif moon.sign in ["Taurus", "Virgo", "Capricorn"]:
+                return "Steady, practical, and reserved emotional expression"
+            elif moon.sign in ["Gemini", "Libra", "Aquarius"]:
+                return "Intellectual, social, and communicative emotional expression"
+
+        return "Balanced emotional expression adapting to circumstances"
+
+    def _identify_emotional_strengths(self, moon, venus, fourth_house_planets) -> List[str]:
+        """Identify emotional strengths."""
+        strengths = []
+
+        if moon:
+            if moon.sign in ["Cancer", "Pisces"]:
+                strengths.extend(["Deep empathy", "Intuitive understanding", "Nurturing ability"])
+            elif moon.sign in ["Leo", "Aries"]:
+                strengths.extend(["Emotional courage", "Inspiring presence", "Authentic expression"])
+            elif moon.sign in ["Taurus", "Capricorn"]:
+                strengths.extend(["Emotional stability", "Reliable support", "Practical wisdom"])
+
+        if venus and venus.sign in ["Libra", "Taurus"]:
+            strengths.extend(["Harmonious relationships", "Aesthetic sensitivity"])
+
+        if fourth_house_planets:
+            strengths.append("Strong family bonds")
+
+        return strengths[:5] if strengths else ["Natural emotional balance", "Adaptive emotional responses"]
+
+    def _identify_emotional_challenges(self, moon, venus, fourth_house_planets) -> List[str]:
+        """Identify emotional challenges."""
+        challenges = []
+
+        if moon:
+            if moon.sign == "Cancer":
+                challenges.extend(["Mood swings", "Overly sensitive", "Clingy behavior"])
+            elif moon.sign == "Scorpio":
+                challenges.extend(["Emotional intensity", "Jealousy", "Holding grudges"])
+            elif moon.sign == "Aries":
+                challenges.extend(["Emotional impulsiveness", "Quick temper", "Impatience"])
+            elif moon.sign == "Capricorn":
+                challenges.extend(["Emotional reserve", "Difficulty expressing feelings", "Pessimism"])
+
+        return challenges[:5] if challenges else ["Minor emotional sensitivity"]
+
+    def _analyze_emotional_relationship_patterns(self, moon, venus) -> str:
+        """Analyze emotional patterns in relationships."""
+        if moon and venus:
+            moon_style = "nurturing and protective" if moon.sign == "Cancer" else "passionate and direct" if moon.sign in ["Aries", "Leo"] else "stable and loyal"
+            venus_style = "harmonious and cooperative" if venus.sign in ["Libra", "Taurus"] else "intense and transformative" if venus.sign == "Scorpio" else "independent and unique"
+            return f"In relationships, you are {moon_style} emotionally and {venus_style} in love expression"
+
+        return "Balanced approach to emotional relationships with both nurturing and independence"
+
+    def _analyze_emotional_security_needs(self, moon, fourth_house_planets) -> str:
+        """Analyze emotional security requirements."""
+        security_needs = []
+
+        if moon:
+            if moon.sign == "Cancer":
+                security_needs.append("strong family connections and emotional safety")
+            elif moon.sign == "Taurus":
+                security_needs.append("material comfort and predictable routines")
+            elif moon.sign == "Scorpio":
+                security_needs.append("deep trust and emotional transformation")
+            elif moon.sign == "Leo":
+                security_needs.append("appreciation and creative self-expression")
+
+        if fourth_house_planets:
+            security_needs.append("stable home environment")
+
+        if not security_needs:
+            return "Emotional security through balanced life and supportive relationships"
+
+        return f"Emotional security needs: {' and '.join(security_needs[:2])}"

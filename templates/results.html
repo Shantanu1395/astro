@@ -270,6 +270,144 @@
             </section>
             {% endif %}
 
+            <!-- COMPREHENSIVE PERSONALITY ANALYSIS -->
+            {% if personality_analysis %}
+            <section class="personality-analysis-section">
+                <h3>🧠 Your Inherent Personality Traits</h3>
+                <p class="section-description">Based on your birth chart positions - your fundamental nature and characteristics</p>
+
+                <!-- Core Personality -->
+                {% if personality_analysis.core_personality %}
+                <div class="core-personality">
+                    <h4>🌟 Core Personality Structure</h4>
+
+                    <!-- Ascendant Influence -->
+                    <div class="personality-influence-card ascendant-influence">
+                        <h5>🎭 Public Persona (Ascendant in {{ personality_analysis.core_personality.ascendant_influence.sign }})</h5>
+                        <p class="influence-description">{{ personality_analysis.core_personality.ascendant_influence.description }}</p>
+                        <div class="traits-grid">
+                            <div class="trait-category">
+                                <h6>Core Traits:</h6>
+                                <ul>
+                                    {% for trait in personality_analysis.core_personality.ascendant_influence.traits.core_traits %}
+                                    <li>{{ trait }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="trait-category">
+                                <h6>Positive Qualities:</h6>
+                                <ul>
+                                    {% for quality in personality_analysis.core_personality.ascendant_influence.traits.positive_qualities %}
+                                    <li>{{ quality }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="context-influence">{{ personality_analysis.core_personality.ascendant_influence.traits.context_influence }}</p>
+                    </div>
+
+                    <!-- Sun Influence -->
+                    <div class="personality-influence-card sun-influence">
+                        <h5>☀️ Core Self (Sun in {{ personality_analysis.core_personality.sun_influence.sign }}, House {{ personality_analysis.core_personality.sun_influence.house }})</h5>
+                        <p class="influence-description">{{ personality_analysis.core_personality.sun_influence.description }}</p>
+                        <div class="traits-grid">
+                            <div class="trait-category">
+                                <h6>Core Traits:</h6>
+                                <ul>
+                                    {% for trait in personality_analysis.core_personality.sun_influence.traits.core_traits %}
+                                    <li>{{ trait }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="trait-category">
+                                <h6>Motivation:</h6>
+                                <p>{{ personality_analysis.core_personality.sun_influence.traits.motivation }}</p>
+                            </div>
+                        </div>
+                        <p class="context-influence">{{ personality_analysis.core_personality.sun_influence.traits.context_influence }}</p>
+                    </div>
+
+                    <!-- Moon Influence -->
+                    <div class="personality-influence-card moon-influence">
+                        <h5>🌙 Emotional Nature (Moon in {{ personality_analysis.core_personality.moon_influence.sign }}, House {{ personality_analysis.core_personality.moon_influence.house }})</h5>
+                        <p class="influence-description">{{ personality_analysis.core_personality.moon_influence.description }}</p>
+                        <div class="traits-grid">
+                            <div class="trait-category">
+                                <h6>Core Traits:</h6>
+                                <ul>
+                                    {% for trait in personality_analysis.core_personality.moon_influence.traits.core_traits %}
+                                    <li>{{ trait }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="trait-category">
+                                <h6>Energy Type:</h6>
+                                <p>{{ personality_analysis.core_personality.moon_influence.traits.energy_type }}</p>
+                            </div>
+                        </div>
+                        <p class="context-influence">{{ personality_analysis.core_personality.moon_influence.traits.context_influence }}</p>
+                    </div>
+
+                    <!-- Integrated Personality -->
+                    <div class="integrated-personality">
+                        <h5>🎯 Integrated Personality Profile</h5>
+                        <div class="personality-blend formatted-personality">
+                            {{ personality_analysis.core_personality.integrated_personality.personality_blend |
+                               replace('**', '<strong>') |
+                               replace('**', '</strong>') |
+                               replace('• ', '<li>') |
+                               replace('\n\n', '</p><p>') |
+                               replace('\n', '<br>') |
+                               safe }}
+                        </div>
+                        <div class="personality-stats">
+                            <span class="complexity-badge">Complexity: {{ personality_analysis.core_personality.integrated_personality.complexity_level }}</span>
+                            <span class="harmony-badge">Harmony: {{ personality_analysis.core_personality.integrated_personality.harmony_level }}</span>
+                            <span class="integration-badge">Integration: {{ personality_analysis.core_personality.integrated_personality.emotional_integration }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Temperament Analysis -->
+                {% if personality_analysis.temperament %}
+                <div class="temperament-analysis">
+                    <h4>🔥 Temperament & Energy Type</h4>
+                    <div class="temperament-card">
+                        <h5>{{ personality_analysis.temperament.temperament_type }} Temperament</h5>
+                        <p class="temperament-description">{{ personality_analysis.temperament.description }}</p>
+
+                        <div class="temperament-details">
+                            <div class="elemental-distribution">
+                                <h6>Elemental Distribution:</h6>
+                                <div class="element-bars">
+                                    {% for element, count in personality_analysis.temperament.elemental_distribution.items() %}
+                                    <div class="element-bar">
+                                        <span class="element-name">{{ element }}:</span>
+                                        <div class="bar-container">
+                                            <div class="bar-fill element-{{ element.lower() }}" style="width: {{ (count / 10 * 100) }}%"></div>
+                                        </div>
+                                        <span class="element-count">{{ count }}</span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="behavioral-tendencies">
+                                <h6>Behavioral Tendencies:</h6>
+                                <ul>
+                                    {% for behavior in personality_analysis.temperament.behavioral_tendencies %}
+                                    <li>{{ behavior }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </section>
+            {% endif %}
+
             <!-- Prediction -->
             <section class="prediction-section">
                 <h3>🔮 Your Vedic Prediction</h3>

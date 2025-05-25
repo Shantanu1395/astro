@@ -83,6 +83,9 @@ async def predict(
         # Get comprehensive planetary relationships
         planetary_relationships = analyzer.analyze_planetary_relationships(vedic_chart)
 
+        # Get comprehensive personality analysis
+        personality_analysis = analyzer.analyze_inherent_personality_traits(vedic_chart)
+
         # Generate prediction with enhanced analysis
         prediction = prediction_engine.generate_vedic_prediction(birth_data, vedic_chart, current_dasha, location_data)
 
@@ -102,6 +105,7 @@ async def predict(
             "divisional_charts": divisional_charts,
             "dasha_analysis": dasha_analysis,
             "planetary_relationships": planetary_relationships,
+            "personality_analysis": personality_analysis,
             "current_influences": current_influences
         })
 
