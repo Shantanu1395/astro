@@ -95,7 +95,7 @@ class CurrentInfluenceAnalyzer:
         }
 
     def analyze_current_influences(self, birth_data: BirthData, chart: VedicChart, location_data: LocationData) -> Dict[str, Any]:
-        """Analyze current day/month influences on the person."""
+        """Analyze current day/month influences on the person - COMPREHENSIVE TRANSIT ANALYSIS."""
         current_date = datetime.now()
         julian_day = julian_day_from_datetime(current_date)
         ayanamsa = calculate_ayanamsa(julian_day)
@@ -103,8 +103,21 @@ class CurrentInfluenceAnalyzer:
         # Get current planetary positions
         current_positions = self._get_current_planetary_positions(julian_day, ayanamsa)
 
-        # Analyze how current positions affect the person's chart
+        # COMPREHENSIVE TRANSIT ANALYSIS - Enhanced
+        # 1. Analyze how current positions affect the person's chart
         personal_effects = self._analyze_personal_effects(current_positions, chart)
+
+        # 2. Analyze current planets transiting through birth houses
+        house_transits = self._analyze_house_transits(current_positions, chart, location_data)
+
+        # 3. Analyze current planetary aspects to birth planets
+        transit_aspects = self._analyze_transit_aspects(current_positions, chart)
+
+        # 4. Analyze degree-based conjunctions (more precise)
+        precise_conjunctions = self._analyze_precise_conjunctions(current_positions, chart)
+
+        # 5. Analyze current vs birth planetary relationships
+        planetary_comparisons = self._analyze_planetary_comparisons(current_positions, chart)
 
         # Get current lunar phase and its effects
         lunar_phase = self._get_current_lunar_phase(julian_day)
@@ -122,9 +135,14 @@ class CurrentInfluenceAnalyzer:
             "lunar_phase": lunar_phase,
             "month_theme": month_theme,
             "personal_effects": personal_effects,
+            "house_transits": house_transits,
+            "transit_aspects": transit_aspects,
+            "precise_conjunctions": precise_conjunctions,
+            "planetary_comparisons": planetary_comparisons,
             "daily_changes": daily_changes,
             "monthly_changes": monthly_changes,
-            "recommendations": self._get_current_recommendations(current_positions, chart)
+            "recommendations": self._get_current_recommendations(current_positions, chart),
+            "comprehensive_summary": self._generate_comprehensive_summary(current_positions, chart, personal_effects, house_transits, transit_aspects)
         }
 
     def _get_current_planetary_positions(self, julian_day: float, ayanamsa: float) -> Dict[str, Dict[str, Any]]:
@@ -785,6 +803,128 @@ class CurrentInfluenceAnalyzer:
 
         return changes[:3]  # Top 3 daily changes
 
+    def _analyze_house_transits(self, current_positions: Dict[str, Dict[str, Any]], chart: VedicChart, location_data: LocationData) -> List[Dict[str, Any]]:
+        """Analyze current planets transiting through birth chart houses."""
+        house_transits = []
+
+        # Calculate which houses current planets are transiting through
+        for planet_name, current_data in current_positions.items():
+            current_longitude = current_data.get("longitude", 0)
+
+            # Calculate which birth chart house this current planet is transiting
+            # This requires calculating house cusps for birth time
+            transit_house = self._calculate_transit_house(current_longitude, chart)
+
+            # Find what this house represents in the birth chart
+            house_significance = self._get_detailed_house_significance(transit_house)
+
+            # Get the impact of this planet transiting this house
+            transit_impact = self._get_transit_house_impact(planet_name, transit_house)
+
+            house_transits.append({
+                "planet": planet_name,
+                "current_sign": current_data.get("sign", ""),
+                "transiting_house": transit_house,
+                "house_significance": house_significance,
+                "impact": transit_impact,
+                "duration": self._get_transit_duration(planet_name),
+                "advice": self._get_house_transit_advice(planet_name, transit_house)
+            })
+
+        return house_transits
+
+    def _analyze_transit_aspects(self, current_positions: Dict[str, Dict[str, Any]], chart: VedicChart) -> List[Dict[str, Any]]:
+        """Analyze current planetary aspects to birth planets."""
+        transit_aspects = []
+
+        for current_planet, current_data in current_positions.items():
+            current_longitude = current_data.get("longitude", 0)
+
+            for birth_planet in chart.planets:
+                # Calculate angular difference
+                angular_diff = abs(current_longitude - birth_planet.longitude)
+                if angular_diff > 180:
+                    angular_diff = 360 - angular_diff
+
+                # Check for major aspects (within orb)
+                aspect_type = self._get_aspect_type(angular_diff)
+
+                if aspect_type:
+                    aspect_strength = self._calculate_aspect_strength(angular_diff, aspect_type)
+                    aspect_meaning = self._get_transit_aspect_meaning(current_planet, birth_planet.name, aspect_type)
+
+                    transit_aspects.append({
+                        "transiting_planet": current_planet,
+                        "natal_planet": birth_planet.name,
+                        "aspect_type": aspect_type,
+                        "angular_difference": round(angular_diff, 1),
+                        "strength": aspect_strength,
+                        "meaning": aspect_meaning,
+                        "effect_duration": self._get_aspect_duration(current_planet, aspect_type),
+                        "personal_impact": self._get_personal_aspect_impact(current_planet, birth_planet.name, aspect_type)
+                    })
+
+        return transit_aspects[:8]  # Top 8 most significant aspects
+
+    def _analyze_precise_conjunctions(self, current_positions: Dict[str, Dict[str, Any]], chart: VedicChart) -> List[Dict[str, Any]]:
+        """Analyze precise degree-based conjunctions."""
+        precise_conjunctions = []
+
+        for current_planet, current_data in current_positions.items():
+            current_longitude = current_data.get("longitude", 0)
+
+            for birth_planet in chart.planets:
+                # Calculate exact degree difference
+                degree_diff = abs(current_longitude - birth_planet.longitude)
+                if degree_diff > 180:
+                    degree_diff = 360 - degree_diff
+
+                # Check for close conjunction (within 5 degrees)
+                if degree_diff <= 5:
+                    conjunction_strength = self._calculate_conjunction_strength(degree_diff)
+                    conjunction_meaning = self._get_precise_conjunction_meaning(current_planet, birth_planet.name, degree_diff)
+
+                    precise_conjunctions.append({
+                        "transiting_planet": current_planet,
+                        "natal_planet": birth_planet.name,
+                        "degree_difference": round(degree_diff, 2),
+                        "strength": conjunction_strength,
+                        "meaning": conjunction_meaning,
+                        "timing": self._get_conjunction_timing(current_planet, degree_diff),
+                        "personal_significance": self._get_conjunction_significance(current_planet, birth_planet.name, degree_diff)
+                    })
+
+        return precise_conjunctions
+
+    def _analyze_planetary_comparisons(self, current_positions: Dict[str, Dict[str, Any]], chart: VedicChart) -> List[Dict[str, Any]]:
+        """Compare current planetary positions with birth positions."""
+        comparisons = []
+
+        for birth_planet in chart.planets:
+            if birth_planet.name in current_positions:
+                current_data = current_positions[birth_planet.name]
+                current_sign = current_data.get("sign", "")
+                birth_sign = birth_planet.sign
+
+                # Compare signs
+                sign_comparison = self._compare_planetary_signs(birth_planet.name, birth_sign, current_sign)
+
+                # Calculate how far the planet has moved
+                current_longitude = current_data.get("longitude", 0)
+                movement = self._calculate_planetary_movement(birth_planet.longitude, current_longitude)
+
+                comparisons.append({
+                    "planet": birth_planet.name,
+                    "birth_sign": birth_sign,
+                    "current_sign": current_sign,
+                    "sign_comparison": sign_comparison,
+                    "movement": movement,
+                    "significance": self._get_movement_significance(birth_planet.name, movement),
+                    "current_themes": current_data.get("themes", {})
+                })
+
+        return comparisons
+
     def _calculate_monthly_changes(self, month_theme: Dict[str, Any], chart: VedicChart) -> List[str]:
         """Calculate monthly changes and trends."""
         changes = []
@@ -831,3 +971,317 @@ class CurrentInfluenceAnalyzer:
                     break
 
         return recommendations[:3]
+
+    # COMPREHENSIVE TRANSIT ANALYSIS HELPER METHODS
+
+    def _calculate_transit_house(self, longitude: float, chart: VedicChart) -> int:
+        """Calculate which birth chart house a current planet is transiting."""
+        # Simplified calculation - in full implementation would use birth time house cusps
+        # For now, use equal house system based on ascendant
+        ascendant_longitude = chart.ascendant
+
+        # Calculate house based on 30-degree equal houses
+        house_position = ((longitude - ascendant_longitude) % 360) / 30
+        return int(house_position) + 1
+
+    def _get_detailed_house_significance(self, house: int) -> str:
+        """Get detailed significance of each house."""
+        house_meanings = {
+            1: "Self, personality, physical body, overall vitality, first impressions, new beginnings",
+            2: "Wealth, family, speech, values, material possessions, food, early childhood",
+            3: "Communication, siblings, courage, short journeys, skills, hobbies, neighbors",
+            4: "Home, mother, emotional security, property, education, inner peace, roots",
+            5: "Children, creativity, romance, intelligence, speculation, entertainment, self-expression",
+            6: "Health, service, daily work, enemies, obstacles, pets, routine, healing",
+            7: "Marriage, partnerships, business relationships, open enemies, legal matters, cooperation",
+            8: "Transformation, occult, inheritance, longevity, research, hidden matters, crisis",
+            9: "Higher learning, spirituality, dharma, long journeys, teachers, philosophy, fortune",
+            10: "Career, reputation, authority, public image, father, government, achievements",
+            11: "Gains, friends, hopes, aspirations, elder siblings, income, social networks",
+            12: "Spirituality, losses, foreign lands, isolation, charity, subconscious, liberation"
+        }
+        return house_meanings.get(house, "Life experiences and growth")
+
+    def _get_transit_house_impact(self, planet: str, house: int) -> str:
+        """Get impact of planet transiting through specific house."""
+        impacts = {
+            ("Sun", 1): "Increased confidence and leadership abilities. You're in the spotlight and others notice your authority.",
+            ("Sun", 2): "Focus on building wealth and expressing your values. Good time for financial planning and family matters.",
+            ("Sun", 3): "Enhanced communication skills and courage. Excellent for writing, speaking, and connecting with siblings.",
+            ("Sun", 4): "Attention on home and family. You may take leadership in domestic matters or real estate.",
+            ("Sun", 5): "Creative self-expression is highlighted. Romance, children, and artistic pursuits are favored.",
+            ("Sun", 6): "Focus on health and daily routines. Good time to overcome obstacles and improve work habits.",
+            ("Sun", 7): "Partnerships and relationships are in focus. You attract strong, authoritative partners.",
+            ("Sun", 8): "Deep transformation and research. Interest in occult, psychology, or other people's resources.",
+            ("Sun", 9): "Spiritual growth and higher learning. Excellent for teaching, travel, and philosophical pursuits.",
+            ("Sun", 10): "Career advancement and public recognition. Your reputation and authority are enhanced.",
+            ("Sun", 11): "Achievement of goals and gains through influential friends. Social status improves.",
+            ("Sun", 12): "Spiritual practices and behind-the-scenes work. Interest in foreign cultures or charitable activities.",
+
+            ("Moon", 1): "Emotions are highly visible. You appear more nurturing and intuitive to others.",
+            ("Moon", 2): "Strong emotional connection to money and family. Focus on emotional security through material means.",
+            ("Moon", 3): "Emotional communication and intuitive connections with siblings. Feelings guide your words.",
+            ("Moon", 4): "Deep emotional connection to home and family. Nurturing domestic environment is important.",
+            ("Moon", 5): "Emotional creativity and romantic feelings. Strong connection to children and artistic expression.",
+            ("Moon", 6): "Emotions affect health and daily routines. Need for emotional balance in work environment.",
+            ("Moon", 7): "Emotional needs in relationships are highlighted. Seeking emotional security through partnerships.",
+            ("Moon", 8): "Deep emotional transformation. Psychic sensitivity and interest in hidden emotional patterns.",
+            ("Moon", 9): "Emotional connection to spirituality and higher wisdom. Intuitive understanding of philosophy.",
+            ("Moon", 10): "Public image tied to emotional nature. Career may involve nurturing or caring for others.",
+            ("Moon", 11): "Emotional fulfillment through friendships and group activities. Gains through female connections.",
+            ("Moon", 12): "Emotional healing through spiritual practices. Need for solitude and inner reflection.",
+
+            ("Mercury", 1): "Enhanced communication skills and mental agility. You appear more intelligent and articulate.",
+            ("Mercury", 2): "Focus on financial planning and family communication. Good for business and value-based discussions.",
+            ("Mercury", 3): "Excellent communication and learning opportunities. Strong mental connection with siblings.",
+            ("Mercury", 4): "Intellectual approach to home and family matters. Good for studying at home or family education.",
+            ("Mercury", 5): "Creative communication and intellectual romance. Good for teaching children or creative writing.",
+            ("Mercury", 6): "Analytical approach to health and work. Good for detailed work and health research.",
+            ("Mercury", 7): "Communication in relationships is highlighted. Good for negotiations and partnership discussions.",
+            ("Mercury", 8): "Research and investigation abilities are enhanced. Interest in psychology or occult studies.",
+            ("Mercury", 9): "Higher learning and philosophical communication. Excellent for teaching, writing, or publishing.",
+            ("Mercury", 10): "Professional communication and intellectual reputation. Career advancement through mental abilities.",
+            ("Mercury", 11): "Communication with friends and networking. Gains through intellectual connections and ideas.",
+            ("Mercury", 12): "Interest in foreign languages or spiritual texts. Communication about hidden or mystical topics."
+        }
+
+        key = (planet, house)
+        return impacts.get(key, f"{planet} energy is influencing this important life area, bringing its natural qualities to bear on these themes.")
+
+    def _get_aspect_type(self, angular_diff: float) -> str:
+        """Determine aspect type based on angular difference."""
+        # Major aspects with orbs
+        if 0 <= angular_diff <= 8:
+            return "Conjunction"
+        elif 52 <= angular_diff <= 68:
+            return "Sextile"
+        elif 82 <= angular_diff <= 98:
+            return "Square"
+        elif 112 <= angular_diff <= 128:
+            return "Trine"
+        elif 172 <= angular_diff <= 188:
+            return "Opposition"
+        else:
+            return None
+
+    def _calculate_aspect_strength(self, angular_diff: float, aspect_type: str) -> str:
+        """Calculate strength of aspect based on exactness."""
+        exact_angles = {
+            "Conjunction": 0,
+            "Sextile": 60,
+            "Square": 90,
+            "Trine": 120,
+            "Opposition": 180
+        }
+
+        exact_angle = exact_angles.get(aspect_type, 0)
+        deviation = abs(angular_diff - exact_angle)
+
+        if deviation <= 2:
+            return "Very Strong"
+        elif deviation <= 4:
+            return "Strong"
+        elif deviation <= 6:
+            return "Moderate"
+        else:
+            return "Weak"
+
+    def _get_transit_duration(self, planet: str) -> str:
+        """Get typical transit duration for each planet."""
+        durations = {
+            "Sun": "About 1 month",
+            "Moon": "About 2.5 days",
+            "Mercury": "About 2-3 weeks",
+            "Venus": "About 3-4 weeks",
+            "Mars": "About 1.5-2 months",
+            "Jupiter": "About 1 year",
+            "Saturn": "About 2.5 years",
+            "Rahu": "About 1.5 years"
+        }
+        return durations.get(planet, "Variable duration")
+
+    def _get_house_transit_advice(self, planet: str, house: int) -> str:
+        """Get specific advice for planet transiting house."""
+        advice_map = {
+            ("Sun", 1): "Focus on personal development and leadership. Present yourself confidently.",
+            ("Sun", 2): "Good time for financial planning and building wealth. Express your values clearly.",
+            ("Sun", 3): "Enhance communication skills. Connect with siblings and neighbors.",
+            ("Sun", 4): "Focus on home improvements and family relationships. Strengthen your roots.",
+            ("Sun", 5): "Express creativity and enjoy romance. Good time for artistic pursuits.",
+            ("Sun", 6): "Improve health routines and work habits. Overcome obstacles with determination.",
+            ("Sun", 7): "Focus on partnerships and relationships. Be a strong, supportive partner.",
+            ("Sun", 8): "Research deeply and transform yourself. Good for psychology or occult studies.",
+            ("Sun", 9): "Pursue higher education and spiritual growth. Travel and expand your horizons.",
+            ("Sun", 10): "Focus on career advancement and building reputation. Take leadership roles.",
+            ("Sun", 11): "Network with influential people and work toward your goals. Join groups.",
+            ("Sun", 12): "Engage in spiritual practices and charitable work. Spend time in solitude.",
+
+            ("Moon", 1): "Pay attention to your emotional needs and public image. Be nurturing to others.",
+            ("Moon", 2): "Focus on emotional security through family and finances. Trust your instincts about money.",
+            ("Moon", 3): "Communicate your feelings openly. Strengthen emotional bonds with siblings.",
+            ("Moon", 4): "Create a nurturing home environment. Spend quality time with family.",
+            ("Moon", 5): "Express emotions creatively. Good time for romance and connecting with children.",
+            ("Moon", 6): "Balance emotions with daily routines. Pay attention to how feelings affect health.",
+            ("Moon", 7): "Focus on emotional needs in relationships. Seek partners who provide security.",
+            ("Moon", 8): "Explore deep emotions and psychological patterns. Trust your psychic intuition.",
+            ("Moon", 9): "Follow your spiritual and philosophical feelings. Trust emotional wisdom.",
+            ("Moon", 10): "Let your nurturing nature guide your career. Public may see you as caring.",
+            ("Moon", 11): "Seek emotional fulfillment through friendships. Join groups that feel like family.",
+            ("Moon", 12): "Practice emotional healing through meditation and spiritual practices."
+        }
+
+        key = (planet, house)
+        return advice_map.get(key, f"Use {planet}'s energy wisely in this life area. Focus on positive expression of its qualities.")
+
+    def _get_transit_aspect_meaning(self, transiting_planet: str, natal_planet: str, aspect_type: str) -> str:
+        """Get meaning of transit aspect."""
+        aspect_meanings = {
+            "Conjunction": f"Current {transiting_planet} energy is directly activating your natal {natal_planet}. This is a powerful time for {natal_planet} themes in your life.",
+            "Sextile": f"Current {transiting_planet} energy is harmoniously supporting your natal {natal_planet}. Opportunities for positive {natal_planet} expression.",
+            "Square": f"Current {transiting_planet} energy is challenging your natal {natal_planet}. Time to work through {natal_planet} issues and grow stronger.",
+            "Trine": f"Current {transiting_planet} energy is flowing beautifully with your natal {natal_planet}. Natural, easy expression of {natal_planet} qualities.",
+            "Opposition": f"Current {transiting_planet} energy is opposing your natal {natal_planet}. Time to find balance and integration between these energies."
+        }
+        return aspect_meanings.get(aspect_type, f"Current {transiting_planet} is interacting with your natal {natal_planet} in significant ways.")
+
+    def _calculate_conjunction_strength(self, degree_diff: float) -> str:
+        """Calculate conjunction strength based on degree difference."""
+        if degree_diff <= 1:
+            return "Exact"
+        elif degree_diff <= 2:
+            return "Very Close"
+        elif degree_diff <= 3:
+            return "Close"
+        elif degree_diff <= 5:
+            return "Moderate"
+        else:
+            return "Wide"
+
+    def _get_precise_conjunction_meaning(self, transiting_planet: str, natal_planet: str, degree_diff: float) -> str:
+        """Get meaning of precise conjunction."""
+        if degree_diff <= 1:
+            return f"EXACT conjunction! Current {transiting_planet} is precisely aligned with your natal {natal_planet}. This is a major activation of {natal_planet} themes."
+        elif degree_diff <= 2:
+            return f"Very close conjunction. Current {transiting_planet} is powerfully activating your natal {natal_planet}. Strong influence on {natal_planet} areas."
+        else:
+            return f"Close conjunction. Current {transiting_planet} is significantly influencing your natal {natal_planet}. Important time for {natal_planet} themes."
+
+    def _compare_planetary_signs(self, planet: str, birth_sign: str, current_sign: str) -> str:
+        """Compare birth and current signs for a planet."""
+        if birth_sign == current_sign:
+            return f"Your {planet} is currently in the same sign as at birth ({current_sign}). This reinforces your natural {planet} qualities."
+        else:
+            return f"Your {planet} has moved from {birth_sign} to {current_sign}. You're experiencing different {planet} themes than your birth pattern."
+
+    def _calculate_planetary_movement(self, birth_longitude: float, current_longitude: float) -> Dict[str, Any]:
+        """Calculate how far a planet has moved since birth."""
+        movement = (current_longitude - birth_longitude) % 360
+        if movement > 180:
+            movement = movement - 360
+
+        return {
+            "degrees": round(movement, 1),
+            "direction": "forward" if movement >= 0 else "backward",
+            "description": f"Moved {abs(round(movement, 1))} degrees {'forward' if movement >= 0 else 'backward'} since birth"
+        }
+
+    def _get_movement_significance(self, planet: str, movement: Dict[str, Any]) -> str:
+        """Get significance of planetary movement."""
+        degrees = abs(movement["degrees"])
+        direction = movement["direction"]
+
+        if degrees < 30:
+            return f"Your {planet} is still in a similar position to birth, maintaining core {planet} themes."
+        elif degrees < 90:
+            return f"Your {planet} has moved significantly, bringing new {planet} experiences while maintaining some birth themes."
+        elif degrees < 180:
+            return f"Your {planet} has moved substantially, creating major shifts in {planet} expression from your birth pattern."
+        else:
+            return f"Your {planet} has moved to the opposite side of the zodiac, creating completely different {planet} themes than at birth."
+
+    def _generate_comprehensive_summary(self, current_positions: Dict, chart: VedicChart, personal_effects: List, house_transits: List, transit_aspects: List) -> str:
+        """Generate comprehensive summary of current influences."""
+        summary_parts = []
+
+        # Current planetary emphasis
+        current_signs = [data.get("sign", "") for data in current_positions.values()]
+        sign_counts = {}
+        for sign in current_signs:
+            sign_counts[sign] = sign_counts.get(sign, 0) + 1
+
+        most_emphasized_sign = max(sign_counts, key=sign_counts.get) if sign_counts else "Unknown"
+
+        summary_parts.append(f"Currently, there's strong planetary emphasis in {most_emphasized_sign}, highlighting themes of {self.sign_monthly_themes.get(most_emphasized_sign, 'growth and development')}.")
+
+        # Major transits
+        if house_transits:
+            major_transits = [t for t in house_transits if t["planet"] in ["Jupiter", "Saturn", "Rahu"]]
+            if major_transits:
+                transit_descriptions = [f"{t['planet']} in your {t['transiting_house']} house" for t in major_transits[:2]]
+                summary_parts.append(f"Major long-term influences: {', '.join(transit_descriptions)}.")
+
+        # Strongest aspects
+        if transit_aspects:
+            strong_aspects = [a for a in transit_aspects if a["strength"] in ["Very Strong", "Strong"]][:2]
+            if strong_aspects:
+                aspect_descriptions = [f"{a['transiting_planet']} {a['aspect_type'].lower()} your natal {a['natal_planet']}" for a in strong_aspects]
+                summary_parts.append(f"Key current aspects: {', '.join(aspect_descriptions)}.")
+
+        # Personal activation
+        if personal_effects:
+            summary_parts.append(f"Your {personal_effects[0]['type'].lower()} is particularly active, affecting your {self._get_simple_house_description(personal_effects[0]['house_affected'])}.")
+
+        return " ".join(summary_parts)
+
+    # Additional helper methods for comprehensive analysis
+
+    def _get_aspect_duration(self, planet: str, aspect_type: str) -> str:
+        """Get duration of aspect influence."""
+        base_durations = {
+            "Sun": 3, "Moon": 1, "Mercury": 2, "Venus": 3,
+            "Mars": 7, "Jupiter": 30, "Saturn": 90, "Rahu": 60
+        }
+
+        base_days = base_durations.get(planet, 7)
+
+        # Conjunctions and oppositions last longer
+        if aspect_type in ["Conjunction", "Opposition"]:
+            base_days *= 1.5
+
+        if base_days < 7:
+            return f"{int(base_days)} days"
+        elif base_days < 30:
+            return f"{int(base_days/7)} weeks"
+        else:
+            return f"{int(base_days/30)} months"
+
+    def _get_personal_aspect_impact(self, transiting_planet: str, natal_planet: str, aspect_type: str) -> str:
+        """Get personal impact of transit aspect."""
+        impact_templates = {
+            "Conjunction": "You're experiencing a powerful activation of your {natal} nature through current {transiting} energy. This is a time of new beginnings in {natal} areas.",
+            "Sextile": "Current {transiting} energy is creating opportunities for positive expression of your {natal} qualities. Take advantage of this supportive influence.",
+            "Square": "Current {transiting} energy is challenging your {natal} nature, pushing you to grow and overcome limitations in {natal} areas.",
+            "Trine": "Current {transiting} energy is flowing harmoniously with your {natal} qualities, making it easy to express {natal} themes naturally.",
+            "Opposition": "Current {transiting} energy is creating tension with your {natal} nature, requiring you to find balance and integration."
+        }
+
+        template = impact_templates.get(aspect_type, "Current {transiting} energy is significantly affecting your {natal} nature.")
+        return template.format(transiting=transiting_planet, natal=natal_planet)
+
+    def _get_conjunction_timing(self, planet: str, degree_diff: float) -> str:
+        """Get timing information for conjunction."""
+        if degree_diff <= 1:
+            return "Peak influence now - exact conjunction"
+        elif degree_diff <= 2:
+            return "Very strong influence - within 2 degrees"
+        else:
+            return "Building or separating influence"
+
+    def _get_conjunction_significance(self, transiting_planet: str, natal_planet: str, degree_diff: float) -> str:
+        """Get significance of precise conjunction."""
+        if degree_diff <= 1:
+            return f"This is a major life event! The exact conjunction of current {transiting_planet} with your natal {natal_planet} marks a significant new beginning in {natal_planet} areas of your life."
+        elif degree_diff <= 2:
+            return f"This is a very significant time for your {natal_planet} nature. Current {transiting_planet} is powerfully activating {natal_planet} themes in your life."
+        else:
+            return f"Current {transiting_planet} is significantly influencing your {natal_planet} nature, bringing important developments in {natal_planet} areas."

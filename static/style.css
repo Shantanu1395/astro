@@ -253,14 +253,56 @@ header p {
 .prediction-section {
     margin-bottom: 30px;
     padding: 25px;
-    background: #f8f9fa;
-    border-radius: 10px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    border-left: 5px solid #667eea;
 }
 
 .prediction-text {
     font-size: 1.1rem;
     line-height: 1.8;
     color: #444;
+}
+
+.formatted-text {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.formatted-text p {
+    margin-bottom: 20px;
+    text-align: justify;
+}
+
+.formatted-text p:last-child {
+    margin-bottom: 0;
+}
+
+/* Highlight styling for emojis in predictions */
+.highlight-star {
+    color: #ffd700;
+    font-size: 1.2em;
+    text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+.highlight-target {
+    color: #e74c3c;
+    font-size: 1.2em;
+    text-shadow: 0 0 5px rgba(231, 76, 60, 0.5);
+}
+
+.highlight-bulb {
+    color: #f39c12;
+    font-size: 1.2em;
+    text-shadow: 0 0 5px rgba(243, 156, 18, 0.5);
+}
+
+.highlight-warning {
+    color: #e67e22;
+    font-size: 1.2em;
+    text-shadow: 0 0 5px rgba(230, 126, 34, 0.5);
 }
 
 /* Themes */
@@ -525,6 +567,322 @@ footer {
     font-size: 14px;
 }
 
+/* Enhanced Planetary Analysis Styles */
+.planet-card.enhanced {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 1px solid #dee2e6;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.planet-card.enhanced:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.planet-position {
+    background: white;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border-left: 4px solid #667eea;
+}
+
+.planet-strength {
+    background: #f1f3f4;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.strength-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.strength-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.strength-excellent { background: #d4edda; color: #155724; }
+.strength-good { background: #cce5ff; color: #004085; }
+.strength-average { background: #fff3cd; color: #856404; }
+.strength-weak { background: #f8d7da; color: #721c24; }
+.strength-very-weak { background: #f5c6cb; color: #721c24; }
+
+.strength-score {
+    font-weight: bold;
+    color: #495057;
+    background: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 14px;
+}
+
+.strength-factors {
+    margin-bottom: 15px;
+}
+
+.factor-item {
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    border-left: 3px solid #28a745;
+}
+
+.strength-interpretation {
+    background: #e3f2fd;
+    padding: 12px;
+    border-radius: 6px;
+    border-left: 4px solid #2196f3;
+}
+
+/* Planetary Aspects Styles */
+.aspects-section {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);
+    border-radius: 15px;
+}
+
+.aspects-explanation {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #28a745;
+}
+
+.aspects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.aspect-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-top: 4px solid #28a745;
+    transition: transform 0.3s ease;
+}
+
+.aspect-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.aspect-details {
+    margin: 15px 0;
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 6px;
+}
+
+.aspect-strength-very-strong { color: #155724; font-weight: bold; }
+.aspect-strength-strong { color: #0c5460; font-weight: bold; }
+.aspect-strength-moderate { color: #856404; font-weight: bold; }
+.aspect-strength-intense { color: #721c24; font-weight: bold; }
+
+.aspect-effect-positive { color: #155724; font-weight: bold; }
+.aspect-effect-challenging { color: #721c24; font-weight: bold; }
+.aspect-effect-neutral { color: #495057; font-weight: bold; }
+
+.aspect-interpretation {
+    background: #e9ecef;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 15px;
+    font-style: italic;
+}
+
+/* Yogas Section Styles */
+.yogas-section {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+    border-radius: 15px;
+}
+
+.yogas-explanation {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #ff9800;
+}
+
+.yogas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.yoga-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-top: 4px solid #ff9800;
+    transition: transform 0.3s ease;
+}
+
+.yoga-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.yoga-details {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+}
+
+.yoga-strength-badge {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.yoga-category-badge {
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 12px;
+    background: #e3f2fd;
+    color: #1565c0;
+    font-weight: 500;
+}
+
+.yoga-description {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+/* Divisional Charts Styles */
+.divisional-charts-section {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+    border-radius: 15px;
+}
+
+.divisional-explanation {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border-left: 4px solid #9c27b0;
+}
+
+.divisional-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.divisional-chart-card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-top: 4px solid #9c27b0;
+}
+
+.chart-significance {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 6px;
+    margin: 15px 0;
+    font-style: italic;
+}
+
+.chart-analysis {
+    margin: 20px 0;
+}
+
+.divisional-planets {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.divisional-planet-item {
+    background: #e9ecef;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.chart-summary {
+    background: #e3f2fd;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    border-left: 4px solid #2196f3;
+}
+
+/* Enhanced Dasha Analysis Styles */
+.enhanced-dasha-section {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, #e8eaf6 0%, #c5cae9 100%);
+    border-radius: 15px;
+}
+
+.dasha-comprehensive {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.dasha-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.dasha-nature, .dasha-themes, .dasha-guidance, .dasha-cautions {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #3f51b5;
+}
+
+.dasha-cautions {
+    border-left-color: #f44336;
+    background: #fff3e0;
+}
+
+.dasha-nature h5, .dasha-themes h5, .dasha-guidance h5, .dasha-cautions h5 {
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.dasha-themes ul {
+    margin-left: 20px;
+}
+
+.dasha-themes li {
+    margin-bottom: 8px;
+    color: #495057;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
     .container {
@@ -550,5 +908,445 @@ footer {
 
     .btn {
         width: 200px;
+    }
+
+    .aspects-grid, .yogas-grid, .divisional-tabs {
+        grid-template-columns: 1fr;
+    }
+
+    .dasha-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .strength-summary {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+    }
+
+    .yoga-details {
+        flex-direction: column;
+    }
+}
+
+/* Comprehensive Current Influences Styling */
+.comprehensive-influences-section {
+    margin-bottom: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 15px;
+    border-left: 5px solid #28a745;
+}
+
+.influences-summary {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.summary-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #495057;
+    margin: 0;
+}
+
+/* Transit Grid Layouts */
+.transit-grid, .aspects-grid, .conjunctions-grid, .comparisons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 15px;
+}
+
+/* Transit Cards */
+.transit-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid #007bff;
+}
+
+.transit-card h5 {
+    color: #007bff;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.house-significance {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.transit-impact {
+    color: #495057;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.transit-advice {
+    color: #28a745;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+/* Aspect Cards */
+.comprehensive-influences-section .aspect-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid #ffc107;
+}
+
+.comprehensive-influences-section .aspect-card.aspect-very-strong {
+    border-left-color: #dc3545;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+}
+
+.comprehensive-influences-section .aspect-card.aspect-strong {
+    border-left-color: #fd7e14;
+    background: linear-gradient(135deg, #fff8f0 0%, #ffffff 100%);
+}
+
+.comprehensive-influences-section .aspect-card.aspect-moderate {
+    border-left-color: #ffc107;
+    background: linear-gradient(135deg, #fffbf0 0%, #ffffff 100%);
+}
+
+.comprehensive-influences-section .aspect-card.aspect-weak {
+    border-left-color: #6c757d;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+}
+
+.aspect-strength {
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 8px;
+}
+
+.aspect-meaning {
+    color: #6c757d;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.personal-impact {
+    color: #495057;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+/* Conjunction Cards */
+.conjunction-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid #e83e8c;
+}
+
+.conjunction-card.conjunction-exact {
+    border-left-color: #dc3545;
+    background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+}
+
+.conjunction-card.conjunction-very-close {
+    border-left-color: #fd7e14;
+    background: linear-gradient(135deg, #fff8f0 0%, #ffffff 100%);
+}
+
+.conjunction-card.conjunction-close {
+    border-left-color: #ffc107;
+    background: linear-gradient(135deg, #fffbf0 0%, #ffffff 100%);
+}
+
+.conjunction-strength {
+    font-weight: bold;
+    color: #e83e8c;
+    margin-bottom: 8px;
+}
+
+.conjunction-meaning {
+    color: #6c757d;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.conjunction-significance {
+    color: #495057;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+/* Comparison Cards */
+.comparison-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid #6f42c1;
+}
+
+.birth-current {
+    font-weight: bold;
+    color: #6f42c1;
+    margin-bottom: 8px;
+}
+
+.sign-comparison {
+    color: #495057;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.movement {
+    color: #6c757d;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.significance {
+    color: #495057;
+    margin-bottom: 10px;
+}
+
+/* Badges */
+.duration-badge, .timing-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    background: #e9ecef;
+    color: #495057;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.timing-badge {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+/* Section Headers */
+.house-transits h4, .transit-aspects h4, .precise-conjunctions h4, .planetary-comparisons h4 {
+    color: #495057;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+/* Responsive Design for Transit Analysis */
+@media (max-width: 768px) {
+    .comprehensive-influences-section .transit-grid,
+    .comprehensive-influences-section .aspects-grid,
+    .comprehensive-influences-section .conjunctions-grid,
+    .comprehensive-influences-section .comparisons-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .comprehensive-influences-section {
+        padding: 15px;
+    }
+
+    .transit-card, .conjunction-card, .comparison-card {
+        padding: 15px;
+    }
+
+    .comprehensive-influences-section .aspect-card {
+        padding: 15px;
+    }
+}
+
+/* Enhanced Dasha Analysis Styling */
+.dasha-positive {
+    background: linear-gradient(135deg, #d4edda 0%, #ffffff 100%);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #28a745;
+    margin-bottom: 15px;
+}
+
+.dasha-negative {
+    background: linear-gradient(135deg, #f8d7da 0%, #ffffff 100%);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #dc3545;
+    margin-bottom: 15px;
+}
+
+.dasha-house, .dasha-sign, .dasha-significance {
+    background: linear-gradient(135deg, #e2e3e5 0%, #ffffff 100%);
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #6c757d;
+    margin-bottom: 15px;
+}
+
+/* Current Positions Styling */
+.current-positions {
+    margin-bottom: 25px;
+}
+
+.positions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.position-card {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    border-left: 4px solid #17a2b8;
+}
+
+.position-card h5 {
+    color: #17a2b8;
+    margin-bottom: 8px;
+}
+
+.current-sign {
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 5px;
+}
+
+.current-nakshatra {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.current-themes {
+    color: #28a745;
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* Enhanced Changes Section */
+.enhanced-changes-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.enhanced-daily-changes, .enhanced-monthly-changes {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.enhanced-daily-changes {
+    border-left: 4px solid #ffc107;
+}
+
+.enhanced-monthly-changes {
+    border-left: 4px solid #6f42c1;
+}
+
+.enhanced-daily-changes h4 {
+    color: #ffc107;
+    margin-bottom: 15px;
+}
+
+.enhanced-monthly-changes h4 {
+    color: #6f42c1;
+    margin-bottom: 15px;
+}
+
+/* Enhanced Personal Effects */
+.enhanced-personal-effects {
+    margin-bottom: 25px;
+}
+
+.enhanced-effect-item {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid #e83e8c;
+    margin-bottom: 15px;
+}
+
+.enhanced-effect-item h5 {
+    color: #e83e8c;
+    margin-bottom: 10px;
+}
+
+.effect-description {
+    color: #495057;
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+.effect-impact {
+    color: #28a745;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.effect-feeling {
+    color: #6f42c1;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+.effect-house {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+/* Enhanced Recommendations */
+.enhanced-current-recommendations {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffffff 100%);
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 4px solid #ffc107;
+}
+
+.enhanced-current-recommendations h4 {
+    color: #856404;
+    margin-bottom: 15px;
+}
+
+.enhanced-recommendations-list {
+    list-style: none;
+    padding: 0;
+}
+
+.enhanced-recommendations-list li {
+    background: white;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    border-left: 3px solid #ffc107;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.enhanced-recommendations-list li:before {
+    content: "💡 ";
+    margin-right: 8px;
+}
+
+/* Responsive Design for Enhanced Elements */
+@media (max-width: 768px) {
+    .enhanced-changes-section {
+        grid-template-columns: 1fr;
+    }
+
+    .positions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .enhanced-effect-item, .position-card {
+        padding: 15px;
     }
 }

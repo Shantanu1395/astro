@@ -59,15 +59,50 @@ async def predict(
         # Calculate current dasha
         current_dasha = vedic_calc.calculate_current_dasha(birth_data, vedic_chart)
 
+        # Calculate comprehensive planetary strengths for all planets
+        planetary_strengths = {}
+        for planet in vedic_chart.planets:
+            planetary_strengths[planet.name] = vedic_calc.calculate_planetary_strength(planet.name, planet)
+
+        # Calculate all planetary aspects
+        planetary_aspects = vedic_calc.calculate_planetary_aspects(vedic_chart)
+
+        # Calculate key divisional charts
+        divisional_charts = {}
+        key_divisions = ["D2", "D3", "D9", "D10", "D12"]  # Most important charts
+        for division in key_divisions:
+            divisional_charts[division] = vedic_calc.calculate_divisional_chart(vedic_chart, division)
+
+        # Get comprehensive analysis from vedic_analysis.py
+        from vedic_analysis import VedicAnalyzer
+        analyzer = VedicAnalyzer()
+
+        # Get detailed dasha analysis
+        dasha_analysis = analyzer.analyze_dasha_significance(current_dasha, vedic_chart)
+
+        # Get comprehensive planetary relationships
+        planetary_relationships = analyzer.analyze_planetary_relationships(vedic_chart)
+
         # Generate prediction with enhanced analysis
         prediction = prediction_engine.generate_vedic_prediction(birth_data, vedic_chart, current_dasha, location_data)
+
+        # COMPREHENSIVE CURRENT INFLUENCES ANALYSIS
+        from current_influences import CurrentInfluenceAnalyzer
+        current_analyzer = CurrentInfluenceAnalyzer()
+        current_influences = current_analyzer.analyze_current_influences(birth_data, vedic_chart, location_data)
 
         return templates.TemplateResponse("results.html", {
             "request": request,
             "birth_data": birth_data,
             "location_data": location_data,
             "chart": vedic_chart,
-            "prediction": prediction
+            "prediction": prediction,
+            "planetary_strengths": planetary_strengths,
+            "planetary_aspects": planetary_aspects,
+            "divisional_charts": divisional_charts,
+            "dasha_analysis": dasha_analysis,
+            "planetary_relationships": planetary_relationships,
+            "current_influences": current_influences
         })
 
     except ValueError as e:

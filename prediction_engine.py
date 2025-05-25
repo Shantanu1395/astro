@@ -340,34 +340,28 @@ class VedicPredictionEngine:
         PLANETARY RELATIONSHIPS:
         {self._format_planetary_relationships(chart_summary['planetary_relationships'])}
 
-        Please provide a detailed analysis covering:
+        Please provide a detailed analysis with proper formatting using the following structure:
 
-        1. CURRENT DASHA SIGNIFICANCE:
-        - What does the current {chart_summary['current_dasha']['planet']} dasha mean for this person?
-        - How is this period influencing their life themes and experiences?
-        - What opportunities and challenges does this period bring?
+        🌟 CURRENT DASHA SIGNIFICANCE:
+        What does the current {chart_summary['current_dasha']['planet']} dasha mean for this person? How is this period influencing their life themes and experiences? What opportunities and challenges does this period bring?
 
-        2. PLANETARY RELATIONSHIPS & THEIR IMPACT:
-        - How do the planetary positions and relationships affect the person?
-        - What are the key yogas and their significance?
-        - How do conjunctions and aspects influence life areas?
+        🎯 PLANETARY RELATIONSHIPS & THEIR IMPACT:
+        How do the planetary positions and relationships affect the person? What are the key yogas and their significance? How do conjunctions and aspects influence life areas?
 
-        3. SPECIFIC GUIDANCE FOR CURRENT PERIOD:
-        - What should they focus on during this dasha?
-        - What actions will bring the best results?
-        - What practices or remedies would be beneficial?
+        💡 SPECIFIC GUIDANCE FOR CURRENT PERIOD:
+        What should they focus on during this dasha? What actions will bring the best results? What practices or remedies would be beneficial?
 
-        4. CAUTIONS AND AREAS TO WATCH:
-        - What challenges or obstacles should they be aware of?
-        - What areas of life need extra attention?
-        - What should they avoid during this period?
+        ⚠️ CAUTIONS AND AREAS TO WATCH:
+        What challenges or obstacles should they be aware of? What areas of life need extra attention? What should they avoid during this period?
 
-        5. TIMING AND OPPORTUNITIES:
-        - When are the most favorable periods within this dasha?
-        - What types of activities are best suited for different times?
-        - How can they make the most of upcoming opportunities?
+        🔮 TIMING AND OPPORTUNITIES:
+        When are the most favorable periods within this dasha? What types of activities are best suited for different times? How can they make the most of upcoming opportunities?
 
-        Make the analysis practical, specific, and actionable while maintaining authenticity to Vedic principles.
+        FORMATTING REQUIREMENTS:
+        - Use the emoji headers exactly as shown above
+        - Separate each section with a blank line
+        - Write in clear, readable paragraphs
+        - Make the analysis practical, specific, and actionable while maintaining authenticity to Vedic principles
         """
 
         return prompt
