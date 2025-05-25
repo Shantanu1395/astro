@@ -723,7 +723,20 @@
                             <p class="current-nakshatra">Nakshatra: {{ position_data.nakshatra }}</p>
                             {% endif %}
                             {% if position_data.themes %}
-                            <p class="current-themes">Current Themes: {{ position_data.themes.primary_theme }}</p>
+                            <div class="current-themes">
+                                {% if position_data.themes.daily_theme %}
+                                <p><strong>Daily Theme:</strong> {{ position_data.themes.daily_theme }}</p>
+                                {% endif %}
+                                {% if position_data.themes.monthly_theme %}
+                                <p><strong>Monthly Theme:</strong> {{ position_data.themes.monthly_theme }}</p>
+                                {% endif %}
+                                {% if position_data.themes.effects %}
+                                <p><strong>Effects:</strong> {{ position_data.themes.effects }}</p>
+                                {% endif %}
+                                {% if position_data.themes.feelings %}
+                                <p><strong>What You Might Feel:</strong> {{ position_data.themes.feelings }}</p>
+                                {% endif %}
+                            </div>
                             {% endif %}
                         </div>
                         {% endfor %}
