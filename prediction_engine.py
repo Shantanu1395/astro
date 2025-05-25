@@ -1,4 +1,4 @@
-import openai
+from openai import OpenAI
 from typing import List, Dict, Any, Tuple
 from datetime import date, datetime, timedelta
 import json
@@ -12,8 +12,9 @@ from date_calculator import AstrologicalDateCalculator
 class VedicPredictionEngine:
     def __init__(self):
         if config.OPENAI_API_KEY:
-            openai.api_key = config.OPENAI_API_KEY
+            self.openai_client = OpenAI(api_key=config.OPENAI_API_KEY)
         else:
+            self.openai_client = None
             print("Warning: OpenAI API key not found. Predictions will use fallback text.")
 
         # Initialize analysis modules
@@ -99,13 +100,13 @@ class VedicPredictionEngine:
         """
         Generate prediction text using OpenAI LLM.
         """
-        if not config.OPENAI_API_KEY:
+        if not self.openai_client:
             return self._generate_fallback_prediction(chart_summary)
 
         try:
             prompt = self._create_prediction_prompt(birth_data, chart_summary)
 
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {
@@ -260,13 +261,13 @@ class VedicPredictionEngine:
     def _generate_enhanced_llm_prediction(self, birth_data: BirthData, chart_summary: Dict[str, Any],
                                         dasha_analysis: Dict[str, Any]) -> str:
         """Generate enhanced prediction with detailed analysis."""
-        if not config.OPENAI_API_KEY:
+        if not self.openai_client:
             return self._generate_enhanced_fallback_prediction(chart_summary, dasha_analysis)
 
         try:
             prompt = self._create_enhanced_prediction_prompt(birth_data, chart_summary, dasha_analysis)
 
-            response = openai.ChatCompletion.create(
+            response = self.openai_client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[
                     {
