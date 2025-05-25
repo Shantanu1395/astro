@@ -67,11 +67,22 @@ async def predict(
         # Calculate all planetary aspects
         planetary_aspects = vedic_calc.calculate_planetary_aspects(vedic_chart)
 
-        # Calculate key divisional charts
+        # Calculate comprehensive divisional charts - ALL MAJOR VARGAS
         divisional_charts = {}
-        key_divisions = ["D2", "D3", "D9", "D10", "D12"]  # Most important charts
-        for division in key_divisions:
+        # Primary charts (most important)
+        primary_divisions = ["D2", "D3", "D9", "D10", "D12"]
+        # Secondary charts (additional insights)
+        secondary_divisions = ["D4", "D7", "D16", "D20", "D24", "D30", "D60"]
+
+        # Calculate all divisional charts
+        all_divisions = primary_divisions + secondary_divisions
+        for division in all_divisions:
             divisional_charts[division] = vedic_calc.calculate_divisional_chart(vedic_chart, division)
+
+        # Get comprehensive divisional analysis
+        from divisional_analyzer import DivisionalAnalyzer
+        divisional_analyzer = DivisionalAnalyzer()
+        comprehensive_divisional_analysis = divisional_analyzer.analyze_comprehensive_divisional_charts(vedic_chart, divisional_charts)
 
         # Get comprehensive analysis from vedic_analysis.py
         from vedic_analysis import VedicAnalyzer
@@ -103,6 +114,7 @@ async def predict(
             "planetary_strengths": planetary_strengths,
             "planetary_aspects": planetary_aspects,
             "divisional_charts": divisional_charts,
+            "comprehensive_divisional_analysis": comprehensive_divisional_analysis,
             "dasha_analysis": dasha_analysis,
             "planetary_relationships": planetary_relationships,
             "personality_analysis": personality_analysis,

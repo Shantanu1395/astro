@@ -171,26 +171,117 @@
             </section>
             {% endif %}
 
-            <!-- Divisional Charts Analysis -->
-            {% if divisional_charts %}
+            <!-- Comprehensive Divisional Charts Analysis -->
+            {% if comprehensive_divisional_analysis %}
             <section class="divisional-charts-section">
-                <h3>📊 Divisional Charts (Vargas) Analysis</h3>
+                <h3>📊 Comprehensive Divisional Charts (Vargas) Analysis</h3>
                 <div class="divisional-explanation">
-                    <p><strong>Understanding Divisional Charts:</strong> Divisional charts provide deeper insights into specific life areas. Each chart reveals detailed information about different aspects of your life journey.</p>
+                    <p><strong>Understanding Divisional Charts:</strong> Divisional charts provide precise insights into specific life areas. Each varga reveals exactly how planetary positions affect different aspects of your life with detailed predictions and guidance.</p>
                 </div>
 
-                <div class="divisional-tabs">
-                    {% for division, chart_data in divisional_charts.items() %}
-                    <div class="divisional-chart-card">
-                        <h5>{{ chart_data.name }} ({{ division }})</h5>
-                        <p class="chart-significance"><strong>Significance:</strong> {{ chart_data.significance }}</p>
-
-
-
-                        <div class="chart-summary">
-                            <h6>Analysis:</h6>
-                            <p>{{ chart_data.analysis }}</p>
+                <div class="comprehensive-divisional-tabs">
+                    {% for division, analysis in comprehensive_divisional_analysis.items() %}
+                    <div class="comprehensive-divisional-card">
+                        <div class="divisional-header">
+                            <h4>{{ analysis.name }} ({{ division }})</h4>
+                            <span class="strength-badge divisional-strength-{{ analysis.overall_strength.lower().replace(' ', '-') }}">
+                                {{ analysis.overall_strength }}
+                            </span>
                         </div>
+
+                        <div class="divisional-significance">
+                            <h5>🎯 Primary Focus: {{ analysis.primary_significance }}</h5>
+                            <div class="detailed-areas">
+                                <h6>Specific Life Areas Covered:</h6>
+                                <ul>
+                                    {% for area in analysis.detailed_areas %}
+                                    <li>{{ area }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Planetary Analysis -->
+                        {% if analysis.planetary_analysis %}
+                        <div class="planetary-divisional-analysis">
+                            <h5>🪐 Planetary Positions & Effects</h5>
+                            <div class="planetary-grid">
+                                {% for planet_analysis in analysis.planetary_analysis %}
+                                <div class="planet-divisional-card">
+                                    <h6>{{ planet_analysis.planet }}</h6>
+                                    <p class="planet-position"><strong>Position:</strong> {{ planet_analysis.position }}</p>
+                                    <p class="strength-assessment">
+                                        <strong>Strength:</strong>
+                                        <span class="strength-indicator strength-{{ planet_analysis.strength_assessment.lower().replace(' ', '-') }}">
+                                            {{ planet_analysis.strength_assessment }}
+                                        </span>
+                                    </p>
+
+                                    {% if planet_analysis.specific_effects %}
+                                    <div class="specific-effects">
+                                        <strong>Specific Effects:</strong>
+                                        <p>{{ planet_analysis.specific_effects }}</p>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if planet_analysis.life_impact %}
+                                    <div class="life-impact">
+                                        <strong>Life Impact:</strong>
+                                        <p>{{ planet_analysis.life_impact }}</p>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if planet_analysis.recommendations %}
+                                    <div class="planet-recommendations">
+                                        <strong>Recommendations:</strong>
+                                        <ul>
+                                            {% for rec in planet_analysis.recommendations %}
+                                            <li>{{ rec }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Key Insights -->
+                        {% if analysis.key_insights %}
+                        <div class="divisional-insights">
+                            <h5>💡 Key Insights</h5>
+                            <ul>
+                                {% for insight in analysis.key_insights %}
+                                <li>{{ insight }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <!-- Practical Guidance -->
+                        {% if analysis.practical_guidance %}
+                        <div class="practical-guidance">
+                            <h5>🎯 Practical Guidance</h5>
+                            <ul>
+                                {% for guidance in analysis.practical_guidance %}
+                                <li>{{ guidance }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <!-- Specific Predictions -->
+                        {% if analysis.specific_predictions %}
+                        <div class="specific-predictions">
+                            <h5>🔮 Specific Predictions</h5>
+                            <ul>
+                                {% for prediction in analysis.specific_predictions %}
+                                <li>{{ prediction }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
                     </div>
                     {% endfor %}
                 </div>

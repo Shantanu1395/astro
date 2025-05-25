@@ -777,7 +777,7 @@ footer {
     margin-top: 15px;
 }
 
-/* Divisional Charts Styles */
+/* Comprehensive Divisional Charts Styles */
 .divisional-charts-section {
     margin-bottom: 30px;
     padding: 25px;
@@ -793,6 +793,268 @@ footer {
     border-left: 4px solid #9c27b0;
 }
 
+.comprehensive-divisional-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 25px;
+}
+
+.comprehensive-divisional-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-left: 5px solid #9c27b0;
+    transition: transform 0.3s ease;
+}
+
+.comprehensive-divisional-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+}
+
+.divisional-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.divisional-header h4 {
+    color: #9c27b0;
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.divisional-strength-very-strong { background: #d4edda; color: #155724; }
+.divisional-strength-strong { background: #cce5ff; color: #004085; }
+.divisional-strength-moderate { background: #fff3cd; color: #856404; }
+.divisional-strength-needs-attention { background: #f8d7da; color: #721c24; }
+
+.divisional-significance {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #6f42c1;
+}
+
+.divisional-significance h5 {
+    color: #6f42c1;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.detailed-areas {
+    margin-top: 15px;
+}
+
+.detailed-areas h6 {
+    color: #495057;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.detailed-areas ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.detailed-areas li {
+    background: white;
+    padding: 8px 15px;
+    margin-bottom: 5px;
+    border-radius: 6px;
+    border-left: 3px solid #6f42c1;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.planetary-divisional-analysis {
+    margin-bottom: 25px;
+}
+
+.planetary-divisional-analysis h5 {
+    color: #495057;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e9ecef;
+}
+
+.planetary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px;
+}
+
+.planet-divisional-card {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    border-top: 3px solid #667eea;
+    transition: transform 0.2s ease;
+}
+
+.planet-divisional-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.planet-divisional-card h6 {
+    color: #667eea;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.planet-position {
+    color: #495057;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.strength-assessment {
+    margin-bottom: 12px;
+}
+
+.strength-indicator {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.strength-very-strong-in { background: #d4edda; color: #155724; }
+.strength-excellent-in { background: #d1ecf1; color: #0c5460; }
+.strength-good-in { background: #cce5ff; color: #004085; }
+.strength-moderate-in { background: #fff3cd; color: #856404; }
+.strength-challenging-in { background: #f8d7da; color: #721c24; }
+.strength-weak-in { background: #f5c6cb; color: #721c24; }
+
+.specific-effects, .life-impact {
+    margin-bottom: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 6px;
+    border-left: 3px solid #28a745;
+}
+
+.specific-effects strong, .life-impact strong {
+    color: #28a745;
+    font-size: 0.9rem;
+}
+
+.specific-effects p, .life-impact p {
+    margin: 5px 0 0 0;
+    color: #495057;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.planet-recommendations {
+    margin-top: 10px;
+    padding: 10px;
+    background: #fff3cd;
+    border-radius: 6px;
+    border-left: 3px solid #ffc107;
+}
+
+.planet-recommendations strong {
+    color: #856404;
+    font-size: 0.9rem;
+}
+
+.planet-recommendations ul {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0 0;
+}
+
+.planet-recommendations li {
+    color: #495057;
+    font-size: 0.85rem;
+    padding: 3px 0;
+    line-height: 1.3;
+}
+
+.planet-recommendations li:before {
+    content: "💡 ";
+    margin-right: 5px;
+}
+
+.divisional-insights, .practical-guidance, .specific-predictions {
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.divisional-insights {
+    background: #e3f2fd;
+    border-left: 4px solid #2196f3;
+}
+
+.practical-guidance {
+    background: #e8f5e8;
+    border-left: 4px solid #4caf50;
+}
+
+.specific-predictions {
+    background: #fff3e0;
+    border-left: 4px solid #ff9800;
+}
+
+.divisional-insights h5 {
+    color: #1976d2;
+    margin-bottom: 12px;
+}
+
+.practical-guidance h5 {
+    color: #388e3c;
+    margin-bottom: 12px;
+}
+
+.specific-predictions h5 {
+    color: #f57c00;
+    margin-bottom: 12px;
+}
+
+.divisional-insights ul, .practical-guidance ul, .specific-predictions ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.divisional-insights li, .practical-guidance li, .specific-predictions li {
+    padding: 8px 0;
+    color: #495057;
+    line-height: 1.5;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.divisional-insights li:last-child, .practical-guidance li:last-child, .specific-predictions li:last-child {
+    border-bottom: none;
+}
+
+.divisional-insights li:before {
+    content: "💡 ";
+    margin-right: 8px;
+}
+
+.practical-guidance li:before {
+    content: "🎯 ";
+    margin-right: 8px;
+}
+
+.specific-predictions li:before {
+    content: "🔮 ";
+    margin-right: 8px;
+}
+
+/* Old Divisional Charts Styles (for backward compatibility) */
 .divisional-tabs {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -917,8 +1179,26 @@ footer {
         width: 200px;
     }
 
-    .aspects-grid, .yogas-grid, .divisional-tabs {
+    .aspects-grid, .yogas-grid, .divisional-tabs, .comprehensive-divisional-tabs {
         grid-template-columns: 1fr;
+    }
+
+    .planetary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .comprehensive-divisional-card {
+        padding: 20px;
+    }
+
+    .divisional-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .planet-divisional-card {
+        padding: 12px;
     }
 
     .dasha-details-grid {
