@@ -472,7 +472,7 @@ class VedicAnalyzer:
         saturn_pos = planet_positions.get("Saturn")
 
         # Ruchaka Yoga (Mars in own sign in kendra)
-        if mars_pos and mars_pos.sign in ["Aries", "Scorpio"] and mars_pos.house in [1, 4, 7, 10]:
+        if mars_pos and self._normalize_sign_name(mars_pos.sign) in ["Aries", "Scorpio"] and mars_pos.house in [1, 4, 7, 10]:
             yogas.append({
                 "name": "Ruchaka Yoga",
                 "description": "Mars in own sign in kendra - Creates brave, commanding personalities with military or athletic abilities. Brings courage and leadership.",
@@ -481,7 +481,7 @@ class VedicAnalyzer:
             })
 
         # Shasha Yoga (Saturn in own sign in kendra)
-        if saturn_pos and saturn_pos.sign in ["Capricorn", "Aquarius"] and saturn_pos.house in [1, 4, 7, 10]:
+        if saturn_pos and self._normalize_sign_name(saturn_pos.sign) in ["Capricorn", "Aquarius"] and saturn_pos.house in [1, 4, 7, 10]:
             yogas.append({
                 "name": "Shasha Yoga",
                 "description": "Saturn in own sign in kendra - Creates disciplined, hardworking personalities with administrative abilities. Brings long-term success through patience.",
@@ -490,7 +490,7 @@ class VedicAnalyzer:
             })
 
         # Hamsa Yoga (Jupiter in own sign in kendra)
-        if jupiter_pos and jupiter_pos.sign in ["Sagittarius", "Pisces"] and jupiter_pos.house in [1, 4, 7, 10]:
+        if jupiter_pos and self._normalize_sign_name(jupiter_pos.sign) in ["Sagittarius", "Pisces"] and jupiter_pos.house in [1, 4, 7, 10]:
             yogas.append({
                 "name": "Hamsa Yoga",
                 "description": "Jupiter in own sign in kendra - Creates wise, spiritual personalities with teaching abilities. Brings knowledge, wealth, and respect.",
@@ -499,7 +499,7 @@ class VedicAnalyzer:
             })
 
         # Malavya Yoga (Venus in own sign in kendra)
-        if venus_pos and venus_pos.sign in ["Taurus", "Libra"] and venus_pos.house in [1, 4, 7, 10]:
+        if venus_pos and self._normalize_sign_name(venus_pos.sign) in ["Taurus", "Libra"] and venus_pos.house in [1, 4, 7, 10]:
             yogas.append({
                 "name": "Malavya Yoga",
                 "description": "Venus in own sign in kendra - Creates artistic, beautiful personalities with luxury and comfort. Brings wealth through arts and relationships.",
@@ -508,7 +508,7 @@ class VedicAnalyzer:
             })
 
         # Bhadra Yoga (Mercury in own sign in kendra)
-        if mercury_pos and mercury_pos.sign in ["Gemini", "Virgo"] and mercury_pos.house in [1, 4, 7, 10]:
+        if mercury_pos and self._normalize_sign_name(mercury_pos.sign) in ["Gemini", "Virgo"] and mercury_pos.house in [1, 4, 7, 10]:
             yogas.append({
                 "name": "Bhadra Yoga",
                 "description": "Mercury in own sign in kendra - Creates intelligent, communicative personalities with business acumen. Brings success through intellect and communication.",
@@ -532,18 +532,12 @@ class VedicAnalyzer:
 
         # CHALLENGING YOGAS
 
-        # Kemadruma Yoga (Moon isolated without benefic planets on either side)
-        if moon_pos:
-            # Simplified check - would need to check adjacent houses for complete accuracy
-            yogas.append({
-                "name": "Planetary Isolation Check",
-                "description": "Moon's isolation status affects emotional support and mental stability. Requires analysis of surrounding planetary influences.",
-                "strength": "Variable",
-                "category": "Mental & Emotional"
-            })
+        # COMPREHENSIVE PLANETARY ISOLATION ANALYSIS
+        isolation_analysis = self._analyze_comprehensive_planetary_isolation(chart)
+        yogas.extend(isolation_analysis)
 
         # Grahan Yoga (Sun or Moon with Rahu/Ketu)
-        if sun_pos and rahu_pos and sun_pos.sign == rahu_pos.sign:
+        if sun_pos and rahu_pos and self._normalize_sign_name(sun_pos.sign) == self._normalize_sign_name(rahu_pos.sign):
             yogas.append({
                 "name": "Solar Eclipse Yoga",
                 "description": "Sun with Rahu - Creates ambitious personalities with unconventional approaches to authority. May bring sudden changes in status.",
@@ -551,7 +545,7 @@ class VedicAnalyzer:
                 "category": "Karmic & Transformative"
             })
 
-        if moon_pos and rahu_pos and moon_pos.sign == rahu_pos.sign:
+        if moon_pos and rahu_pos and self._normalize_sign_name(moon_pos.sign) == self._normalize_sign_name(rahu_pos.sign):
             yogas.append({
                 "name": "Lunar Eclipse Yoga",
                 "description": "Moon with Rahu - Creates emotionally intense personalities with unusual mental patterns. May bring psychological complexity.",
@@ -684,50 +678,26 @@ class VedicAnalyzer:
             "Sagittarius": "Mutable", "Capricorn": "Cardinal", "Aquarius": "Fixed", "Pisces": "Mutable"
         }
 
-        # Count planetary positions with robust sign matching
+        # Count planetary positions with normalized sign names
         for planet in chart.planets:
-            planet_sign = planet.sign.strip()  # Remove any whitespace
+            # Normalize sign name to handle both Sanskrit and English
+            normalized_sign = self._normalize_sign_name(planet.sign)
 
-            # Try exact match first
-            if planet_sign in sign_elements:
-                elements[sign_elements[planet_sign]] += 1
-            # Try case-insensitive match
-            else:
-                for sign_name, element in sign_elements.items():
-                    if planet_sign.lower() == sign_name.lower():
-                        elements[element] += 1
-                        break
+            # Add to elements and modes
+            if normalized_sign in sign_elements:
+                elements[sign_elements[normalized_sign]] += 1
 
-            # Same for modes
-            if planet_sign in sign_modes:
-                modes[sign_modes[planet_sign]] += 1
-            else:
-                for sign_name, mode in sign_modes.items():
-                    if planet_sign.lower() == sign_name.lower():
-                        modes[mode] += 1
-                        break
+            if normalized_sign in sign_modes:
+                modes[sign_modes[normalized_sign]] += 1
 
-        # Include Ascendant with robust matching
-        ascendant_sign = chart.ascendant_sign.strip()  # Remove any whitespace
+        # Include Ascendant with normalized sign name
+        normalized_ascendant = self._normalize_sign_name(chart.ascendant_sign)
 
-        # Try exact match first
-        if ascendant_sign in sign_elements:
-            elements[sign_elements[ascendant_sign]] += 1
-        # Try case-insensitive match
-        else:
-            for sign_name, element in sign_elements.items():
-                if ascendant_sign.lower() == sign_name.lower():
-                    elements[element] += 1
-                    break
+        if normalized_ascendant in sign_elements:
+            elements[sign_elements[normalized_ascendant]] += 1
 
-        # Same for modes
-        if ascendant_sign in sign_modes:
-            modes[sign_modes[ascendant_sign]] += 1
-        else:
-            for sign_name, mode in sign_modes.items():
-                if ascendant_sign.lower() == sign_name.lower():
-                    modes[mode] += 1
-                    break
+        if normalized_ascendant in sign_modes:
+            modes[sign_modes[normalized_ascendant]] += 1
 
         # Ensure we have at least some data - if all zeros, create realistic distribution
         if sum(elements.values()) == 0:
@@ -777,6 +747,9 @@ class VedicAnalyzer:
 
     def _get_sign_personality_traits(self, sign: str, context: str) -> Dict[str, Any]:
         """Get comprehensive personality traits for each sign based on context."""
+        # Normalize sign name to handle Sanskrit names
+        normalized_sign = self._normalize_sign_name(sign)
+
         sign_traits = {
             "Aries": {
                 "core_traits": ["Dynamic", "Pioneering", "Courageous", "Independent", "Impulsive"],
@@ -876,7 +849,7 @@ class VedicAnalyzer:
             }
         }
 
-        base_traits = sign_traits.get(sign, {
+        base_traits = sign_traits.get(normalized_sign, {
             "core_traits": ["Unique", "Individual"],
             "positive_qualities": ["Special qualities"],
             "challenges": ["Growth areas"],
@@ -1109,9 +1082,10 @@ This creates a {self._assess_overall_complexity(all_traits)} personality that ba
 
         # Check for strong planets
         for planet in chart.planets:
-            if planet.sign in ["Aries", "Leo", "Sagittarius"]:  # Fire signs
+            normalized_sign = self._normalize_sign_name(planet.sign)
+            if normalized_sign in ["Aries", "Leo", "Sagittarius"]:  # Fire signs
                 strengths.append(f"Strong {planet.name} energy - leadership and enthusiasm")
-            elif planet.sign in ["Taurus", "Virgo", "Capricorn"]:  # Earth signs
+            elif normalized_sign in ["Taurus", "Virgo", "Capricorn"]:  # Earth signs
                 strengths.append(f"Practical {planet.name} energy - reliability and groundedness")
 
         return strengths[:5]  # Top 5 strengths
@@ -1409,12 +1383,15 @@ This creates a {self._assess_overall_complexity(all_traits)} personality that ba
             }
         }
 
-        sign_analysis = mercury_signs.get(mercury.sign, {
-            "thinking_style": f"Unique mental approach influenced by {mercury.sign}",
-            "communication": f"Communication style shaped by {mercury.sign} energy",
-            "learning": f"Learning preferences influenced by {mercury.sign}",
-            "strengths": [f"Mental gifts from {mercury.sign}"],
-            "challenges": [f"Mental growth areas from {mercury.sign}"]
+        # Normalize Mercury sign name
+        normalized_mercury_sign = self._normalize_sign_name(mercury.sign)
+
+        sign_analysis = mercury_signs.get(normalized_mercury_sign, {
+            "thinking_style": f"Unique mental approach influenced by {normalized_mercury_sign}",
+            "communication": f"Communication style shaped by {normalized_mercury_sign} energy",
+            "learning": f"Learning preferences influenced by {normalized_mercury_sign}",
+            "strengths": [f"Mental gifts from {normalized_mercury_sign}"],
+            "challenges": [f"Mental growth areas from {normalized_mercury_sign}"]
         })
 
         # Add house influence
@@ -1447,19 +1424,21 @@ This creates a {self._assess_overall_complexity(all_traits)} personality that ba
         styles = []
 
         if mercury:
-            if mercury.sign in ["Gemini", "Virgo", "Aquarius"]:
+            normalized_mercury_sign = self._normalize_sign_name(mercury.sign)
+            if normalized_mercury_sign in ["Gemini", "Virgo", "Aquarius"]:
                 styles.append("analytical and logical")
-            elif mercury.sign in ["Cancer", "Pisces", "Scorpio"]:
+            elif normalized_mercury_sign in ["Cancer", "Pisces", "Scorpio"]:
                 styles.append("intuitive and emotional")
-            elif mercury.sign in ["Aries", "Leo", "Sagittarius"]:
+            elif normalized_mercury_sign in ["Aries", "Leo", "Sagittarius"]:
                 styles.append("quick and decisive")
-            elif mercury.sign in ["Taurus", "Capricorn"]:
+            elif normalized_mercury_sign in ["Taurus", "Capricorn"]:
                 styles.append("practical and methodical")
 
         if moon:
-            if moon.sign in ["Cancer", "Pisces", "Scorpio"]:
+            normalized_moon_sign = self._normalize_sign_name(moon.sign)
+            if normalized_moon_sign in ["Cancer", "Pisces", "Scorpio"]:
                 styles.append("emotionally-influenced")
-            elif moon.sign in ["Gemini", "Aquarius", "Libra"]:
+            elif normalized_moon_sign in ["Gemini", "Aquarius", "Libra"]:
                 styles.append("mentally-oriented")
 
         if third_house_planets:
@@ -1654,11 +1633,14 @@ This creates a {self._assess_overall_complexity(all_traits)} personality that ba
             }
         }
 
-        return moon_emotional_patterns.get(moon.sign, {
-            "emotional_style": f"Emotional nature influenced by {moon.sign} energy",
-            "emotional_needs": f"Emotional requirements shaped by {moon.sign}",
-            "emotional_expression": f"Emotional expression colored by {moon.sign}",
-            "emotional_security": f"Emotional security through {moon.sign} qualities"
+        # Normalize Moon sign name
+        normalized_moon_sign = self._normalize_sign_name(moon.sign)
+
+        return moon_emotional_patterns.get(normalized_moon_sign, {
+            "emotional_style": f"Emotional nature influenced by {normalized_moon_sign} energy",
+            "emotional_needs": f"Emotional requirements shaped by {normalized_moon_sign}",
+            "emotional_expression": f"Emotional expression colored by {normalized_moon_sign}",
+            "emotional_security": f"Emotional security through {normalized_moon_sign} qualities"
         })
 
     def _analyze_venus_emotional_influence(self, venus) -> Dict[str, Any]:
@@ -1823,3 +1805,541 @@ This creates a {self._assess_overall_complexity(all_traits)} personality that ba
             return "Emotional security through balanced life and supportive relationships"
 
         return f"Emotional security needs: {' and '.join(security_needs[:2])}"
+
+    # SIGN NAME MAPPING SYSTEM
+
+    def _normalize_sign_name(self, sign_name: str) -> str:
+        """Convert any sign name (Sanskrit/English) to standard English name."""
+        # Sanskrit to English mapping
+        sanskrit_to_english = {
+            "Mesha": "Aries",
+            "Vrishabha": "Taurus",
+            "Mithuna": "Gemini",
+            "Karka": "Cancer",
+            "Simha": "Leo",
+            "Kanya": "Virgo",
+            "Tula": "Libra",
+            "Vrishchika": "Scorpio",
+            "Dhanu": "Sagittarius",
+            "Makara": "Capricorn",
+            "Kumbha": "Aquarius",
+            "Meena": "Pisces"
+        }
+
+        # Clean the input
+        clean_sign = sign_name.strip()
+
+        # Try direct English match first
+        english_signs = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+                        "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]
+
+        if clean_sign in english_signs:
+            return clean_sign
+
+        # Try Sanskrit to English conversion
+        if clean_sign in sanskrit_to_english:
+            return sanskrit_to_english[clean_sign]
+
+        # Try case-insensitive match for English
+        for eng_sign in english_signs:
+            if clean_sign.lower() == eng_sign.lower():
+                return eng_sign
+
+        # Try case-insensitive match for Sanskrit
+        for sans_sign, eng_sign in sanskrit_to_english.items():
+            if clean_sign.lower() == sans_sign.lower():
+                return eng_sign
+
+        # If no match found, return original (this shouldn't happen with valid data)
+        print(f"Warning: Unknown sign name '{sign_name}', returning as-is")
+        return clean_sign
+
+    # COMPREHENSIVE PLANETARY ISOLATION ANALYSIS
+
+    def _analyze_comprehensive_planetary_isolation(self, chart: VedicChart) -> List[Dict[str, str]]:
+        """
+        Comprehensive analysis of planetary isolation in the chart.
+        Examines all planets for isolation patterns and their effects on yogas.
+        """
+        isolation_yogas = []
+
+        # Get planet positions organized by house and sign
+        planets_by_house = self._organize_planets_by_house(chart)
+        planets_by_sign = self._organize_planets_by_sign(chart)
+
+        # Analyze each planet for isolation
+        for planet in chart.planets:
+            isolation_analysis = self._analyze_planet_isolation(planet, chart, planets_by_house, planets_by_sign)
+            if isolation_analysis:
+                isolation_yogas.append(isolation_analysis)
+
+        # Analyze specific isolation yogas
+        kemadruma_analysis = self._analyze_kemadruma_yoga(chart, planets_by_house)
+        if kemadruma_analysis:
+            isolation_yogas.append(kemadruma_analysis)
+
+        # Analyze planetary support systems
+        support_analysis = self._analyze_planetary_support_systems(chart, planets_by_house, planets_by_sign)
+        isolation_yogas.extend(support_analysis)
+
+        # Analyze isolation effects on major yogas
+        yoga_isolation_effects = self._analyze_yoga_isolation_effects(chart, planets_by_house, planets_by_sign)
+        isolation_yogas.extend(yoga_isolation_effects)
+
+        return isolation_yogas
+
+    def _organize_planets_by_house(self, chart: VedicChart) -> Dict[int, List]:
+        """Organize planets by house for isolation analysis."""
+        planets_by_house = {}
+        for i in range(1, 13):
+            planets_by_house[i] = []
+
+        for planet in chart.planets:
+            planets_by_house[planet.house].append(planet)
+
+        return planets_by_house
+
+    def _organize_planets_by_sign(self, chart: VedicChart) -> Dict[str, List]:
+        """Organize planets by sign for isolation analysis."""
+        planets_by_sign = {}
+        signs = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+                "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"]
+
+        for sign in signs:
+            planets_by_sign[sign] = []
+
+        for planet in chart.planets:
+            normalized_sign = self._normalize_sign_name(planet.sign)
+            if normalized_sign in planets_by_sign:
+                planets_by_sign[normalized_sign].append(planet)
+
+        return planets_by_sign
+
+    def _analyze_planet_isolation(self, planet, chart: VedicChart, planets_by_house: Dict, planets_by_sign: Dict) -> Dict[str, str]:
+        """Analyze isolation status of a specific planet."""
+        isolation_factors = []
+        isolation_level = "None"
+
+        # Check house isolation (no planets in adjacent houses)
+        current_house = planet.house
+        prev_house = 12 if current_house == 1 else current_house - 1
+        next_house = 1 if current_house == 12 else current_house + 1
+
+        house_isolation = (len(planets_by_house[prev_house]) == 0 and
+                          len(planets_by_house[next_house]) == 0)
+
+        # Check sign isolation (alone in sign)
+        normalized_planet_sign = self._normalize_sign_name(planet.sign)
+        sign_isolation = len(planets_by_sign[normalized_planet_sign]) == 1
+
+        # Check aspect isolation (no major aspects from benefics)
+        aspect_isolation = self._check_aspect_isolation(planet, chart)
+
+        # Check conjunction isolation (no close conjunctions)
+        conjunction_isolation = self._check_conjunction_isolation(planet, chart)
+
+        # Determine isolation level and effects
+        if house_isolation and sign_isolation:
+            isolation_level = "Severe"
+            isolation_factors.append("isolated in both house and sign")
+        elif house_isolation or sign_isolation:
+            isolation_level = "Moderate"
+            if house_isolation:
+                isolation_factors.append("isolated in house (no adjacent planets)")
+            if sign_isolation:
+                isolation_factors.append("alone in sign")
+
+        if aspect_isolation:
+            isolation_factors.append("lacks benefic aspects")
+            if isolation_level == "None":
+                isolation_level = "Mild"
+
+        if conjunction_isolation:
+            isolation_factors.append("no close planetary companions")
+            if isolation_level == "None":
+                isolation_level = "Mild"
+
+        # Return analysis if planet has significant isolation
+        if isolation_level != "None":
+            effects = self._get_planet_isolation_effects(planet.name, isolation_level, isolation_factors)
+
+            return {
+                "name": f"{planet.name} Isolation Analysis",
+                "description": f"{planet.name} in {planet.sign} (House {planet.house}) shows {isolation_level.lower()} isolation: {', '.join(isolation_factors)}. {effects}",
+                "strength": "Challenging" if isolation_level == "Severe" else "Moderate",
+                "category": "Planetary Isolation"
+            }
+
+        return None
+
+    def _check_aspect_isolation(self, planet, chart: VedicChart) -> bool:
+        """Check if planet lacks benefic aspects."""
+        benefic_planets = ["Jupiter", "Venus", "Mercury", "Moon"]
+
+        for other_planet in chart.planets:
+            if (other_planet.name in benefic_planets and
+                other_planet.name != planet.name):
+
+                # Check for major aspects (conjunction, trine, sextile)
+                angle_diff = abs(planet.longitude - other_planet.longitude)
+                if angle_diff > 180:
+                    angle_diff = 360 - angle_diff
+
+                # Major benefic aspects (within 8 degrees orb)
+                if (angle_diff <= 8 or  # Conjunction
+                    abs(angle_diff - 60) <= 8 or  # Sextile
+                    abs(angle_diff - 120) <= 8):  # Trine
+                    return False
+
+        return True
+
+    def _check_conjunction_isolation(self, planet, chart: VedicChart) -> bool:
+        """Check if planet has no close conjunctions."""
+        for other_planet in chart.planets:
+            if other_planet.name != planet.name:
+                angle_diff = abs(planet.longitude - other_planet.longitude)
+                if angle_diff > 180:
+                    angle_diff = 360 - angle_diff
+
+                # Close conjunction (within 10 degrees)
+                if angle_diff <= 10:
+                    return False
+
+        return True
+
+    def _get_planet_isolation_effects(self, planet_name: str, isolation_level: str, factors: List[str]) -> str:
+        """Get specific effects of planetary isolation."""
+        planet_effects = {
+            "Sun": {
+                "Severe": "May struggle with self-confidence and leadership recognition. Needs to develop independent authority.",
+                "Moderate": "May feel unsupported in leadership roles. Benefits from building strong personal identity.",
+                "Mild": "Occasional feelings of being unrecognized. Generally maintains good self-esteem."
+            },
+            "Moon": {
+                "Severe": "Emotional isolation and difficulty finding emotional support. May experience mood instability.",
+                "Moderate": "Periodic emotional loneliness. Needs to cultivate supportive relationships.",
+                "Mild": "Occasional emotional distance. Generally maintains emotional balance."
+            },
+            "Mercury": {
+                "Severe": "Communication challenges and intellectual isolation. May struggle to express ideas effectively.",
+                "Moderate": "Periodic communication difficulties. Benefits from developing diverse intellectual connections.",
+                "Mild": "Occasional misunderstandings. Generally communicates well."
+            },
+            "Venus": {
+                "Severe": "Relationship challenges and difficulty finding love/harmony. May experience social isolation.",
+                "Moderate": "Periodic relationship difficulties. Needs to cultivate social connections.",
+                "Mild": "Occasional social awkwardness. Generally maintains good relationships."
+            },
+            "Mars": {
+                "Severe": "Difficulty channeling energy effectively. May struggle with motivation and action.",
+                "Moderate": "Periodic energy blocks. Benefits from structured physical activities.",
+                "Mild": "Occasional energy fluctuations. Generally maintains good drive."
+            },
+            "Jupiter": {
+                "Severe": "Lack of wisdom guidance and spiritual support. May struggle with higher learning.",
+                "Moderate": "Periodic lack of guidance. Benefits from seeking mentors and teachers.",
+                "Mild": "Occasional wisdom gaps. Generally maintains good judgment."
+            },
+            "Saturn": {
+                "Severe": "Extreme self-reliance burden. May experience harsh life lessons without support.",
+                "Moderate": "Heavy responsibility load. Benefits from structured support systems.",
+                "Mild": "Occasional isolation in responsibilities. Generally handles duties well."
+            }
+        }
+
+        return planet_effects.get(planet_name, {}).get(isolation_level,
+            f"Isolation affects {planet_name}'s natural expression and requires conscious effort to overcome.")
+
+    def _analyze_kemadruma_yoga(self, chart: VedicChart, planets_by_house: Dict) -> Dict[str, str]:
+        """Analyze specific Kemadruma Yoga (Moon isolation)."""
+        moon = next((p for p in chart.planets if p.name == "Moon"), None)
+        if not moon:
+            return None
+
+        moon_house = moon.house
+        prev_house = 12 if moon_house == 1 else moon_house - 1
+        next_house = 1 if moon_house == 12 else moon_house + 1
+
+        # Check if Moon is isolated (no planets in adjacent houses)
+        moon_isolated = (len(planets_by_house[prev_house]) == 0 and
+                        len(planets_by_house[next_house]) == 0)
+
+        if moon_isolated:
+            # Check for cancellation factors
+            cancellation_factors = []
+
+            # Kendra planets cancel Kemadruma
+            kendra_houses = [1, 4, 7, 10]
+            for house in kendra_houses:
+                if len(planets_by_house[house]) > 0:
+                    planets_in_kendra = [p.name for p in planets_by_house[house]]
+                    cancellation_factors.append(f"planets in {house}th house ({', '.join(planets_in_kendra)})")
+
+            # Strong aspects to Moon cancel Kemadruma
+            strong_aspects = self._check_strong_aspects_to_moon(moon, chart)
+            if strong_aspects:
+                cancellation_factors.extend(strong_aspects)
+
+            if cancellation_factors:
+                return {
+                    "name": "Kemadruma Yoga (Cancelled)",
+                    "description": f"Moon in {moon.sign} (House {moon_house}) is isolated from adjacent houses, forming Kemadruma Yoga. However, this is cancelled by: {', '.join(cancellation_factors)}. This provides emotional resilience and self-reliance while maintaining support systems.",
+                    "strength": "Moderate",
+                    "category": "Emotional Support"
+                }
+            else:
+                return {
+                    "name": "Kemadruma Yoga (Active)",
+                    "description": f"Moon in {moon.sign} (House {moon_house}) is isolated from adjacent houses, forming active Kemadruma Yoga. This creates emotional self-reliance but may lead to feelings of isolation and lack of emotional support. Requires conscious effort to build supportive relationships.",
+                    "strength": "Challenging",
+                    "category": "Emotional Isolation"
+                }
+
+        return None
+
+    def _check_strong_aspects_to_moon(self, moon, chart: VedicChart) -> List[str]:
+        """Check for strong aspects to Moon that cancel Kemadruma."""
+        strong_aspects = []
+        benefic_planets = ["Jupiter", "Venus"]
+
+        for planet in chart.planets:
+            if planet.name in benefic_planets:
+                angle_diff = abs(moon.longitude - planet.longitude)
+                if angle_diff > 180:
+                    angle_diff = 360 - angle_diff
+
+                # Strong aspects (within 5 degrees orb)
+                if angle_diff <= 5:  # Conjunction
+                    strong_aspects.append(f"{planet.name} conjunction")
+                elif abs(angle_diff - 120) <= 5:  # Trine
+                    strong_aspects.append(f"{planet.name} trine aspect")
+                elif abs(angle_diff - 60) <= 5:  # Sextile
+                    strong_aspects.append(f"{planet.name} sextile aspect")
+
+        return strong_aspects
+
+    def _analyze_planetary_support_systems(self, chart: VedicChart, planets_by_house: Dict, planets_by_sign: Dict) -> List[Dict[str, str]]:
+        """Analyze planetary support systems and mutual support."""
+        support_analyses = []
+
+        # Analyze mutual reception (planets in each other's signs)
+        mutual_receptions = self._find_mutual_receptions(chart)
+        for reception in mutual_receptions:
+            support_analyses.append({
+                "name": "Mutual Reception Support",
+                "description": f"{reception['planet1']} in {reception['sign1']} and {reception['planet2']} in {reception['sign2']} create mutual reception. This provides strong mutual support and enhances both planets' positive effects.",
+                "strength": "Strong",
+                "category": "Planetary Support"
+            })
+
+        # Analyze planetary clusters (3+ planets together)
+        clusters = self._find_planetary_clusters(planets_by_sign)
+        for cluster in clusters:
+            if len(cluster['planets']) >= 3:
+                support_analyses.append({
+                    "name": "Planetary Cluster Support",
+                    "description": f"Strong planetary cluster in {cluster['sign']}: {', '.join([p.name for p in cluster['planets']])}. This creates intense focus and mutual support in {cluster['sign']} themes, though may create imbalance in other areas.",
+                    "strength": "Strong",
+                    "category": "Planetary Concentration"
+                })
+
+        # Analyze benefic protection patterns
+        benefic_protection = self._analyze_benefic_protection(chart, planets_by_house)
+        if benefic_protection:
+            support_analyses.append(benefic_protection)
+
+        return support_analyses
+
+    def _find_mutual_receptions(self, chart: VedicChart) -> List[Dict[str, str]]:
+        """Find mutual reception patterns between planets."""
+        mutual_receptions = []
+
+        # Traditional rulerships
+        rulerships = {
+            "Sun": ["Leo"],
+            "Moon": ["Cancer"],
+            "Mercury": ["Gemini", "Virgo"],
+            "Venus": ["Taurus", "Libra"],
+            "Mars": ["Aries", "Scorpio"],
+            "Jupiter": ["Sagittarius", "Pisces"],
+            "Saturn": ["Capricorn", "Aquarius"]
+        }
+
+        for planet1 in chart.planets:
+            for planet2 in chart.planets:
+                if planet1.name != planet2.name:
+                    # Check if planet1 is in planet2's sign and vice versa
+                    planet1_rules = rulerships.get(planet1.name, [])
+                    planet2_rules = rulerships.get(planet2.name, [])
+
+                    # Normalize sign names for comparison
+                    normalized_planet1_sign = self._normalize_sign_name(planet1.sign)
+                    normalized_planet2_sign = self._normalize_sign_name(planet2.sign)
+
+                    if (normalized_planet2_sign in planet1_rules and normalized_planet1_sign in planet2_rules):
+                        # Avoid duplicates
+                        reception_exists = any(
+                            (r['planet1'] == planet2.name and r['planet2'] == planet1.name)
+                            for r in mutual_receptions
+                        )
+
+                        if not reception_exists:
+                            mutual_receptions.append({
+                                'planet1': planet1.name,
+                                'planet2': planet2.name,
+                                'sign1': normalized_planet1_sign,
+                                'sign2': normalized_planet2_sign
+                            })
+
+        return mutual_receptions
+
+    def _find_planetary_clusters(self, planets_by_sign: Dict) -> List[Dict[str, Any]]:
+        """Find significant planetary clusters."""
+        clusters = []
+
+        for sign, planets in planets_by_sign.items():
+            if len(planets) >= 2:  # 2 or more planets
+                clusters.append({
+                    'sign': sign,
+                    'planets': planets,
+                    'count': len(planets)
+                })
+
+        return clusters
+
+    def _analyze_benefic_protection(self, chart: VedicChart, planets_by_house: Dict) -> Dict[str, str]:
+        """Analyze benefic protection patterns."""
+        jupiter = next((p for p in chart.planets if p.name == "Jupiter"), None)
+        venus = next((p for p in chart.planets if p.name == "Venus"), None)
+
+        if not jupiter and not venus:
+            return None
+
+        protection_factors = []
+
+        # Jupiter in kendra provides protection
+        if jupiter and jupiter.house in [1, 4, 7, 10]:
+            protection_factors.append(f"Jupiter in {jupiter.house}th house (kendra)")
+
+        # Venus in kendra provides harmony
+        if venus and venus.house in [1, 4, 7, 10]:
+            protection_factors.append(f"Venus in {venus.house}th house (kendra)")
+
+        # Benefics in trikona provide spiritual protection
+        if jupiter and jupiter.house in [1, 5, 9]:
+            protection_factors.append(f"Jupiter in {jupiter.house}th house (trikona)")
+
+        if protection_factors:
+            return {
+                "name": "Benefic Protection Pattern",
+                "description": f"Strong benefic protection through: {', '.join(protection_factors)}. This provides natural protection from difficulties and enhances positive outcomes in life.",
+                "strength": "Strong",
+                "category": "Divine Protection"
+            }
+
+        return None
+
+    def _analyze_yoga_isolation_effects(self, chart: VedicChart, planets_by_house: Dict, planets_by_sign: Dict) -> List[Dict[str, str]]:
+        """Analyze how planetary isolation affects major yogas."""
+        yoga_effects = []
+
+        # Check isolation effects on Gaja Kesari Yoga
+        jupiter = next((p for p in chart.planets if p.name == "Jupiter"), None)
+        moon = next((p for p in chart.planets if p.name == "Moon"), None)
+
+        if jupiter and moon:
+            # Check if either planet is isolated
+            jupiter_isolated = self._is_planet_isolated(jupiter, planets_by_house, planets_by_sign)
+            moon_isolated = self._is_planet_isolated(moon, planets_by_house, planets_by_sign)
+
+            if jupiter_isolated or moon_isolated:
+                isolated_planets = []
+                if jupiter_isolated:
+                    isolated_planets.append("Jupiter")
+                if moon_isolated:
+                    isolated_planets.append("Moon")
+
+                yoga_effects.append({
+                    "name": "Gaja Kesari Yoga Isolation Effect",
+                    "description": f"Gaja Kesari Yoga is affected by isolation of {', '.join(isolated_planets)}. This may reduce the yoga's beneficial effects on wisdom, prosperity, and reputation. The isolated planet(s) need additional support through spiritual practices or conscious effort.",
+                    "strength": "Moderate",
+                    "category": "Yoga Modification"
+                })
+
+        # Check isolation effects on Panch Mahapurusha Yogas
+        mars = next((p for p in chart.planets if p.name == "Mars"), None)
+        mercury = next((p for p in chart.planets if p.name == "Mercury"), None)
+        venus = next((p for p in chart.planets if p.name == "Venus"), None)
+        saturn = next((p for p in chart.planets if p.name == "Saturn"), None)
+
+        mahapurusha_planets = [
+            (mars, "Mars", "Ruchaka Yoga"),
+            (mercury, "Mercury", "Bhadra Yoga"),
+            (jupiter, "Jupiter", "Hamsa Yoga"),
+            (venus, "Venus", "Malavya Yoga"),
+            (saturn, "Saturn", "Sasha Yoga")
+        ]
+
+        for planet, name, yoga_name in mahapurusha_planets:
+            if planet and planet.house in [1, 4, 7, 10]:  # Kendra placement
+                if self._is_planet_isolated(planet, planets_by_house, planets_by_sign):
+                    yoga_effects.append({
+                        "name": f"{yoga_name} Isolation Effect",
+                        "description": f"{name} forms {yoga_name} but is isolated, which may create a self-reliant but potentially lonely expression of {name}'s qualities. The person may achieve success through individual effort but may lack collaborative support.",
+                        "strength": "Moderate",
+                        "category": "Yoga Modification"
+                    })
+
+        # Check isolation effects on Raja Yoga combinations
+        raja_yoga_houses = [1, 4, 5, 7, 9, 10]  # Kendra and Trikona
+        isolated_raja_planets = []
+
+        for planet in chart.planets:
+            if planet.house in raja_yoga_houses:
+                if self._is_planet_isolated(planet, planets_by_house, planets_by_sign):
+                    isolated_raja_planets.append(planet.name)
+
+        if len(isolated_raja_planets) >= 2:
+            yoga_effects.append({
+                "name": "Raja Yoga Isolation Pattern",
+                "description": f"Multiple planets ({', '.join(isolated_raja_planets)}) in raja yoga positions are isolated. This creates potential for independent leadership and authority but may result in isolation at the top. Success may come through individual merit rather than collaborative effort.",
+                "strength": "Significant",
+                "category": "Leadership Isolation"
+            })
+
+        # Check for overall isolation patterns affecting spiritual yogas
+        spiritual_houses = [5, 8, 9, 12]
+        isolated_spiritual_planets = []
+
+        for planet in chart.planets:
+            if planet.house in spiritual_houses:
+                if self._is_planet_isolated(planet, planets_by_house, planets_by_sign):
+                    isolated_spiritual_planets.append(planet.name)
+
+        if len(isolated_spiritual_planets) >= 2:
+            yoga_effects.append({
+                "name": "Spiritual Isolation Pattern",
+                "description": f"Multiple planets ({', '.join(isolated_spiritual_planets)}) in spiritual houses are isolated. This indicates a solitary spiritual path with deep inner development but may lack external spiritual community support. Meditation and self-study are favored over group spiritual activities.",
+                "strength": "Moderate",
+                "category": "Spiritual Development"
+            })
+
+        return yoga_effects
+
+    def _is_planet_isolated(self, planet, planets_by_house: Dict, planets_by_sign: Dict) -> bool:
+        """Check if a planet is significantly isolated."""
+        # House isolation check
+        current_house = planet.house
+        prev_house = 12 if current_house == 1 else current_house - 1
+        next_house = 1 if current_house == 12 else current_house + 1
+
+        house_isolation = (len(planets_by_house[prev_house]) == 0 and
+                          len(planets_by_house[next_house]) == 0)
+
+        # Sign isolation check
+        normalized_planet_sign = self._normalize_sign_name(planet.sign)
+        sign_isolation = len(planets_by_sign[normalized_planet_sign]) == 1
+
+        # Consider planet isolated if it has both house and sign isolation
+        # or severe house isolation with no close conjunctions
+        return house_isolation and (sign_isolation or len(planets_by_sign[normalized_planet_sign]) <= 2)
