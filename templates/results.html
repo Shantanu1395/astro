@@ -135,6 +135,75 @@
                 </div>
             </section>
 
+            <!-- Current Day/Month Influences -->
+            {% if prediction.current_influences %}
+            <section class="current-influences-section">
+                <h3>📅 Current Day/Month Influences - {{ prediction.current_influences.current_date }}</h3>
+
+                <div class="influences-grid">
+                    <!-- Lunar Phase -->
+                    <div class="influence-card lunar-phase">
+                        <h4>🌙 Current Lunar Phase</h4>
+                        <p><strong>{{ prediction.current_influences.lunar_phase.phase }}</strong></p>
+                        <p>{{ prediction.current_influences.lunar_phase.effects }}</p>
+                        <small><em>{{ prediction.current_influences.lunar_phase.emotional_impact }}</em></small>
+                    </div>
+
+                    <!-- Month Theme -->
+                    <div class="influence-card month-theme">
+                        <h4>🗓️ This Month's Theme</h4>
+                        <p><strong>{{ prediction.current_influences.month_theme.month_name }}</strong></p>
+                        <p>{{ prediction.current_influences.month_theme.primary_theme }}</p>
+                        <small>Sun in {{ prediction.current_influences.month_theme.sun_sign }}</small>
+                    </div>
+                </div>
+
+                <!-- Daily Changes -->
+                <div class="daily-changes">
+                    <h4>🌅 What You Might Feel Today</h4>
+                    <ul>
+                        {% for change in prediction.current_influences.daily_changes %}
+                        <li>{{ change }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Monthly Changes -->
+                <div class="monthly-changes">
+                    <h4>📈 Monthly Trends & Changes</h4>
+                    <ul>
+                        {% for change in prediction.current_influences.monthly_changes %}
+                        <li>{{ change }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Personal Effects -->
+                {% if prediction.current_influences.personal_effects %}
+                <div class="personal-effects">
+                    <h4>🎯 How Current Planets Affect You Personally</h4>
+                    {% for effect in prediction.current_influences.personal_effects %}
+                    <div class="effect-item">
+                        <strong>{{ effect.type }}:</strong> {{ effect.description }}
+                        <br><small>Impact: {{ effect.impact }}</small>
+                        <br><small>Feeling: {{ effect.feeling }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Current Recommendations -->
+                <div class="current-recommendations">
+                    <h4>💡 Today's Recommendations</h4>
+                    <ul>
+                        {% for rec in prediction.current_influences.recommendations %}
+                        <li>{{ rec }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+            {% endif %}
+
             <!-- Current Transits -->
             <section class="transits-section">
                 <h3>🌍 Current Planetary Influences & Their Impact</h3>

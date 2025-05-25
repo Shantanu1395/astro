@@ -15,7 +15,7 @@ class BirthData(BaseModel):
     birth_time: time = Field(..., description="Birth time")
     birth_location: str = Field(..., min_length=1, description="Birth location (city, country)")
     timezone: Optional[str] = Field(None, description="Timezone (auto-detected if not provided)")
-    
+
     @validator('birth_date')
     def validate_birth_date(cls, v):
         if v > date.today():
@@ -57,6 +57,15 @@ class DashaPeriod(BaseModel):
     level: str  # "mahadasha", "antardasha", "pratyantardasha"
     remaining_years: float
 
+class CurrentInfluences(BaseModel):
+    current_date: str
+    lunar_phase: Dict[str, Any]
+    month_theme: Dict[str, Any]
+    daily_changes: List[str]
+    monthly_changes: List[str]
+    personal_effects: List[Dict[str, Any]]
+    recommendations: List[str]
+
 class VedicPrediction(BaseModel):
     current_dasha: DashaPeriod
     upcoming_dasha: DashaPeriod
@@ -65,6 +74,7 @@ class VedicPrediction(BaseModel):
     key_themes: List[str]
     favorable_periods: List[str]
     challenging_periods: List[str]
+    current_influences: Optional[CurrentInfluences] = None
 
 class PredictionRequest(BaseModel):
     birth_data: BirthData

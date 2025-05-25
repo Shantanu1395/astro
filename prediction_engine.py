@@ -4,22 +4,28 @@ from datetime import date, datetime, timedelta
 import json
 import swisseph as swe
 
-from models import VedicChart, DashaPeriod, VedicPrediction, BirthData, LocationData
+from models import VedicChart, DashaPeriod, VedicPrediction, BirthData, LocationData, CurrentInfluences
 from config import config
 from vedic_analysis import VedicAnalyzer
 from date_calculator import AstrologicalDateCalculator
+from current_influences import CurrentInfluenceAnalyzer
 
 class VedicPredictionEngine:
     def __init__(self):
-        if config.OPENAI_API_KEY:
-            self.openai_client = OpenAI(api_key=config.OPENAI_API_KEY)
-        else:
+        try:
+            if config.OPENAI_API_KEY and config.OPENAI_API_KEY.strip():
+                self.openai_client = OpenAI(api_key=config.OPENAI_API_KEY)
+            else:
+                self.openai_client = None
+                print("Warning: OpenAI API key not found. Predictions will use fallback text.")
+        except Exception as e:
             self.openai_client = None
-            print("Warning: OpenAI API key not found. Predictions will use fallback text.")
+            print(f"Warning: Could not initialize OpenAI client: {e}. Using fallback predictions.")
 
         # Initialize analysis modules
         self.analyzer = VedicAnalyzer()
         self.date_calculator = AstrologicalDateCalculator()
+        self.current_influence_analyzer = CurrentInfluenceAnalyzer()
 
     def generate_vedic_prediction(self, birth_data: BirthData, chart: VedicChart, current_dasha: DashaPeriod, location_data: LocationData = None) -> VedicPrediction:
         """
@@ -36,6 +42,11 @@ class VedicPredictionEngine:
             current_transits = self.analyzer.get_current_transits(birth_data, location_data)
         else:
             current_transits = self._get_current_transits()
+
+        # Get current day/month influences and personal effects
+        current_influences = None
+        if location_data:
+            current_influences = self.current_influence_analyzer.analyze_current_influences(birth_data, chart, location_data)
 
         # Calculate specific favorable and challenging periods with dates
         favorable_periods = self.date_calculator.calculate_favorable_periods(current_dasha, birth_data)
@@ -60,6 +71,19 @@ class VedicPredictionEngine:
         formatted_challenging = self._format_periods_for_display(challenging_periods)
         formatted_transits = self._format_transits_for_display(current_transits)
 
+        # Format current influences for display
+        formatted_current_influences = None
+        if current_influences:
+            formatted_current_influences = CurrentInfluences(
+                current_date=current_influences["current_date"],
+                lunar_phase=current_influences["lunar_phase"],
+                month_theme=current_influences["month_theme"],
+                daily_changes=current_influences["daily_changes"],
+                monthly_changes=current_influences["monthly_changes"],
+                personal_effects=current_influences["personal_effects"],
+                recommendations=current_influences["recommendations"]
+            )
+
         return VedicPrediction(
             current_dasha=current_dasha,
             upcoming_dasha=upcoming_dasha,
@@ -67,7 +91,8 @@ class VedicPredictionEngine:
             prediction_text=prediction_text,
             key_themes=key_themes,
             favorable_periods=formatted_favorable,
-            challenging_periods=formatted_challenging
+            challenging_periods=formatted_challenging,
+            current_influences=formatted_current_influences
         )
 
     def _prepare_chart_summary(self, chart: VedicChart, current_dasha: DashaPeriod) -> Dict[str, Any]:
