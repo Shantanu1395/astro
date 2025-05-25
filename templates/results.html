@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedic Prediction Results - {{ birth_data.name }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌟 Vedic Astrology Report</h1>
+            <h2>{{ birth_data.name }}</h2>
+            <p>Born on {{ birth_data.birth_date }} at {{ birth_data.birth_time }} in {{ birth_data.birth_location }}</p>
+        </header>
+
+        <main class="results-main">
+            <!-- Chart Summary -->
+            <section class="chart-summary">
+                <h3>📊 Chart Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <strong>Ascendant (Lagna):</strong> {{ chart.ascendant_sign }}
+                    </div>
+                    <div class="summary-item">
+                        <strong>Moon Sign (Rashi):</strong> {{ chart.moon_sign }}
+                    </div>
+                    <div class="summary-item">
+                        <strong>Sun Sign:</strong> {{ chart.sun_sign }}
+                    </div>
+                    <div class="summary-item">
+                        <strong>Birth Nakshatra:</strong> {{ chart.birth_nakshatra }} (Pada {{ chart.birth_nakshatra_pada }})
+                    </div>
+                </div>
+            </section>
+
+            <!-- Current Dasha -->
+            <section class="dasha-section">
+                <h3>🕐 Current Dasha Period - Detailed Analysis</h3>
+                <div class="dasha-info">
+                    <div class="dasha-planet">
+                        <h4>{{ prediction.current_dasha.planet }} Mahadasha</h4>
+                        <p><strong>Remaining:</strong> {{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years</p>
+                        <p><strong>Period:</strong> {{ prediction.current_dasha.start_date }} to {{ prediction.current_dasha.end_date }}</p>
+                    </div>
+
+                    <div class="dasha-explanation">
+                        <h5>🌟 What This Period Means:</h5>
+                        <p>The {{ prediction.current_dasha.planet }} Mahadasha is a significant life phase that influences your experiences, opportunities, and challenges. This planetary period shapes your destiny according to Vedic astrology principles.</p>
+
+                        <h5>🎯 Key Themes & Focus Areas:</h5>
+                        <p>During this {{ prediction.current_dasha.planet }} period, your life will be influenced by themes related to this planet's natural characteristics and the houses it rules in your chart.</p>
+
+                        <h5>⏰ Timing Significance:</h5>
+                        <p>With {{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years remaining, you are in a crucial phase of this planetary cycle. The effects will vary through different sub-periods (antardashas) within this main period.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Planetary Positions -->
+            <section class="planets-section">
+                <h3>🪐 Planetary Positions & Their Significance</h3>
+                <div class="planets-explanation">
+                    <p><strong>Understanding Planetary Positions:</strong> Each planet's position in a sign and house reveals specific life themes and influences. The relationships between planets create unique combinations (yogas) that shape your destiny.</p>
+                </div>
+                <div class="planets-grid">
+                    {% for planet in chart.planets %}
+                    <div class="planet-card">
+                        <h4>{{ planet.name }}</h4>
+                        <p><strong>Sign:</strong> {{ planet.sign }}</p>
+                        <p><strong>House:</strong> {{ planet.house }}</p>
+                        {% if planet.nakshatra %}
+                        <p><strong>Nakshatra:</strong> {{ planet.nakshatra }}</p>
+                        {% endif %}
+                        <div class="planet-meaning">
+                            <small>House {{ planet.house }} governs:
+                            {% if planet.house == 1 %}Self, personality, health{% endif %}
+                            {% if planet.house == 2 %}Wealth, family, speech{% endif %}
+                            {% if planet.house == 3 %}Courage, siblings, communication{% endif %}
+                            {% if planet.house == 4 %}Home, mother, education{% endif %}
+                            {% if planet.house == 5 %}Children, creativity, intelligence{% endif %}
+                            {% if planet.house == 6 %}Health, service, enemies{% endif %}
+                            {% if planet.house == 7 %}Marriage, partnerships{% endif %}
+                            {% if planet.house == 8 %}Transformation, occult{% endif %}
+                            {% if planet.house == 9 %}Dharma, higher learning{% endif %}
+                            {% if planet.house == 10 %}Career, reputation{% endif %}
+                            {% if planet.house == 11 %}Gains, friends, aspirations{% endif %}
+                            {% if planet.house == 12 %}Spirituality, losses, foreign lands{% endif %}
+                            </small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Prediction -->
+            <section class="prediction-section">
+                <h3>🔮 Your Vedic Prediction</h3>
+                <div class="prediction-content">
+                    <div class="prediction-text">
+                        {{ prediction.prediction_text | replace('\n', '<br>') | safe }}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Themes -->
+            <section class="themes-section">
+                <h3>🎯 Key Life Themes</h3>
+                <div class="themes-list">
+                    {% for theme in prediction.key_themes %}
+                    <span class="theme-tag">{{ theme }}</span>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Favorable & Challenging Periods -->
+            <section class="periods-section">
+                <div class="periods-grid">
+                    <div class="favorable-periods">
+                        <h4>✅ Favorable Periods</h4>
+                        <ul>
+                            {% for period in prediction.favorable_periods %}
+                            <li>{{ period }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="challenging-periods">
+                        <h4>⚠️ Periods Requiring Caution</h4>
+                        <ul>
+                            {% for period in prediction.challenging_periods %}
+                            <li>{{ period }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Current Transits -->
+            <section class="transits-section">
+                <h3>🌍 Current Planetary Influences & Their Impact</h3>
+                <div class="transits-explanation">
+                    <p><strong>Understanding Current Transits:</strong> These are the current positions of planets in the sky and how they interact with your birth chart. Transits create temporary influences that can trigger events and opportunities in your life.</p>
+
+                    <h5>🔄 How Transits Work:</h5>
+                    <ul>
+                        <li><strong>Jupiter Transits:</strong> Bring expansion, wisdom, and opportunities (stay ~1 year per sign)</li>
+                        <li><strong>Saturn Transits:</strong> Bring discipline, challenges, and karmic lessons (~2.5 years per sign)</li>
+                        <li><strong>Rahu/Ketu Transits:</strong> Bring transformation and karmic experiences (~1.5 years per sign)</li>
+                    </ul>
+                </div>
+                <div class="transits-list">
+                    {% for transit in prediction.current_transits %}
+                    <div class="transit-item">{{ transit }}</div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Actions -->
+            <section class="actions-section">
+                <div class="action-buttons">
+                    <a href="/" class="btn btn-primary">New Reading</a>
+                    <button onclick="window.print()" class="btn btn-secondary">Print Report</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>This reading is based on Vedic astrological principles and AI interpretation.</p>
+            <p>For detailed consultation, please consult with a qualified Vedic astrologer.</p>
+        </footer>
+    </div>
+
+    <style>
+        @media print {
+            .action-buttons { display: none; }
+            body { font-size: 12px; }
+        }
+    </style>
+</body>
+</html>

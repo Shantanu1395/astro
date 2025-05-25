@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedic Astrology Prediction System</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌟 Vedic Astrology Prediction System</h1>
+            <p>Discover your cosmic blueprint through ancient Vedic wisdom</p>
+        </header>
+
+        <main>
+            <div class="form-container">
+                <h2>Enter Your Birth Details</h2>
+                <form action="/predict" method="post" class="birth-form">
+                    <div class="form-group">
+                        <label for="name">Full Name:</label>
+                        <input type="text" id="name" name="name" required 
+                               placeholder="Enter your full name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birth_date">Birth Date:</label>
+                        <input type="date" id="birth_date" name="birth_date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birth_time">Birth Time:</label>
+                        <input type="time" id="birth_time" name="birth_time" required>
+                        <small>Enter as accurately as possible for precise calculations</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birth_location">Birth Location:</label>
+                        <input type="text" id="birth_location" name="birth_location" required 
+                               placeholder="City, Country (e.g., Mumbai, India)">
+                        <small>Enter city and country for accurate coordinates</small>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        Generate Vedic Prediction ✨
+                    </button>
+                </form>
+            </div>
+
+            <div class="info-section">
+                <h3>About Vedic Astrology</h3>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h4>🌙 Dasha System</h4>
+                        <p>Planetary periods that influence different phases of your life</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>⭐ Nakshatras</h4>
+                        <p>27 lunar mansions that reveal your deeper nature and destiny</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>🏠 Houses</h4>
+                        <p>12 life areas showing where planetary energies manifest</p>
+                    </div>
+                    <div class="info-card">
+                        <h4>🔮 Predictions</h4>
+                        <p>AI-powered insights based on ancient Vedic principles</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by Swiss Ephemeris and AI • For entertainment and guidance purposes</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set max date to today
+        document.getElementById('birth_date').max = new Date().toISOString().split('T')[0];
+        
+        // Form validation
+        document.querySelector('.birth-form').addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value.trim();
+            const location = document.getElementById('birth_location').value.trim();
+            
+            if (name.length < 2) {
+                alert('Please enter a valid name');
+                e.preventDefault();
+                return;
+            }
+            
+            if (location.length < 3) {
+                alert('Please enter a valid location');
+                e.preventDefault();
+                return;
+            }
+        });
+    </script>
+</body>
+</html>
