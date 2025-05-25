@@ -191,6 +191,136 @@ class DivisionalAnalyzer:
                     11: "Gains through creativity, large creative network, fulfilled creative desires",
                     12: "Spiritual creativity, foreign creative connections, creative sacrifices"
                 }
+            },
+            "D16": {
+                "name": "Shodasamsa Chart",
+                "primary_significance": "Vehicles, Comforts, Happiness, Luxuries",
+                "detailed_areas": [
+                    "Vehicles and transportation comforts",
+                    "Material happiness and luxuries",
+                    "Comfort level in life",
+                    "Enjoyment and pleasure",
+                    "Material satisfaction",
+                    "Lifestyle and living standards"
+                ],
+                "house_effects": {
+                    1: "Personal comfort, self-acquired luxuries, natural happiness",
+                    2: "Family comforts, inherited luxuries, traditional happiness",
+                    3: "Comfort through siblings, communication-based happiness",
+                    4: "Domestic comfort, maternal luxuries, home-based happiness",
+                    5: "Creative comforts, entertainment luxuries, speculative happiness",
+                    6: "Service-based comfort, health-related luxuries, competitive happiness",
+                    7: "Partnership comfort, spouse-related luxuries, diplomatic happiness",
+                    8: "Hidden comforts, transformative luxuries, occult happiness",
+                    9: "Spiritual comfort, foreign luxuries, dharmic happiness",
+                    10: "Career comfort, authoritative luxuries, public happiness",
+                    11: "Gains through comfort, large luxury network, fulfilled happiness",
+                    12: "Foreign comfort, spiritual luxuries, sacrificial happiness"
+                }
+            },
+            "D20": {
+                "name": "Vimsamsa Chart",
+                "primary_significance": "Spiritual Practices, Religious Inclinations, Devotion",
+                "detailed_areas": [
+                    "Spiritual practices and meditation",
+                    "Religious inclinations and devotion",
+                    "Worship and ritual practices",
+                    "Spiritual growth and development",
+                    "Connection with divine",
+                    "Religious studies and philosophy"
+                ],
+                "house_effects": {
+                    1: "Natural spirituality, self-initiated practices, spiritual leadership",
+                    2: "Family spirituality, traditional practices, inherited devotion",
+                    3: "Spiritual communication, religious siblings, devotional expression",
+                    4: "Domestic spirituality, maternal devotion, home-based practices",
+                    5: "Creative spirituality, intelligent devotion, speculative practices",
+                    6: "Service-oriented spirituality, healing practices, competitive devotion",
+                    7: "Partnership spirituality, spouse-related practices, diplomatic devotion",
+                    8: "Transformative spirituality, occult practices, hidden devotion",
+                    9: "Higher spirituality, guru connection, dharmic practices",
+                    10: "Public spirituality, authoritative practices, career-based devotion",
+                    11: "Gains through spirituality, large spiritual network, fulfilled devotion",
+                    12: "Foreign spirituality, renunciation practices, sacrificial devotion"
+                }
+            },
+            "D24": {
+                "name": "Chaturvimsamsa Chart",
+                "primary_significance": "Learning, Education, Knowledge, Wisdom",
+                "detailed_areas": [
+                    "Educational achievements and learning",
+                    "Knowledge acquisition and wisdom",
+                    "Academic success and scholarship",
+                    "Teaching and mentoring abilities",
+                    "Intellectual development",
+                    "Research and study capabilities"
+                ],
+                "house_effects": {
+                    1: "Natural learning ability, self-education, intellectual leadership",
+                    2: "Family education, traditional knowledge, inherited wisdom",
+                    3: "Communication-based learning, sibling education, expressive knowledge",
+                    4: "Domestic education, maternal learning, home-based knowledge",
+                    5: "Creative learning, intelligent education, speculative knowledge",
+                    6: "Service-based learning, practical education, competitive knowledge",
+                    7: "Partnership learning, spouse education, diplomatic knowledge",
+                    8: "Transformative learning, occult education, hidden knowledge",
+                    9: "Higher learning, guru education, dharmic knowledge",
+                    10: "Public learning, authoritative education, career-based knowledge",
+                    11: "Gains through learning, large educational network, fulfilled knowledge",
+                    12: "Foreign learning, spiritual education, sacrificial knowledge"
+                }
+            },
+            "D30": {
+                "name": "Trimsamsa Chart",
+                "primary_significance": "Misfortunes, Diseases, Enemies, Obstacles",
+                "detailed_areas": [
+                    "Health challenges and diseases",
+                    "Enemies and opposition",
+                    "Obstacles and difficulties",
+                    "Misfortunes and setbacks",
+                    "Legal troubles and conflicts",
+                    "Hidden dangers and threats"
+                ],
+                "house_effects": {
+                    1: "Personal health issues, self-created obstacles, individual challenges",
+                    2: "Family health problems, financial obstacles, traditional challenges",
+                    3: "Communication obstacles, sibling conflicts, expressive challenges",
+                    4: "Domestic health issues, maternal obstacles, home-based challenges",
+                    5: "Creative obstacles, speculative challenges, entertainment problems",
+                    6: "Service health issues, competitive obstacles, work-related challenges",
+                    7: "Partnership obstacles, spouse conflicts, diplomatic challenges",
+                    8: "Hidden health issues, transformative obstacles, occult challenges",
+                    9: "Spiritual obstacles, foreign challenges, dharmic difficulties",
+                    10: "Career obstacles, public health issues, authoritative challenges",
+                    11: "Network obstacles, gain-related challenges, social difficulties",
+                    12: "Foreign health issues, spiritual obstacles, sacrificial challenges"
+                }
+            },
+            "D60": {
+                "name": "Shashtyamsa Chart",
+                "primary_significance": "Past Life Karma, Overall Destiny, Karmic Patterns",
+                "detailed_areas": [
+                    "Past life karma and influences",
+                    "Overall destiny and life purpose",
+                    "Karmic patterns and lessons",
+                    "Soul evolution and growth",
+                    "Inherited karmic debts",
+                    "Spiritual destiny and path"
+                ],
+                "house_effects": {
+                    1: "Personal karma, self-created destiny, individual soul purpose",
+                    2: "Family karma, inherited destiny, traditional soul patterns",
+                    3: "Communication karma, sibling destiny, expressive soul purpose",
+                    4: "Domestic karma, maternal destiny, home-based soul patterns",
+                    5: "Creative karma, speculative destiny, entertainment soul purpose",
+                    6: "Service karma, competitive destiny, work-related soul patterns",
+                    7: "Partnership karma, spouse destiny, diplomatic soul purpose",
+                    8: "Hidden karma, transformative destiny, occult soul patterns",
+                    9: "Spiritual karma, foreign destiny, dharmic soul purpose",
+                    10: "Career karma, public destiny, authoritative soul patterns",
+                    11: "Network karma, gain-related destiny, social soul purpose",
+                    12: "Foreign karma, spiritual destiny, sacrificial soul patterns"
+                }
             }
         }
 
@@ -202,49 +332,126 @@ class DivisionalAnalyzer:
                 "D3": "Courageous communication, leadership among siblings, authoritative speech",
                 "D9": "Authoritative spouse, government connections through marriage, spiritual leadership",
                 "D10": "Government career, leadership positions, political success, public recognition",
-                "D12": "Authoritative father, government family background, family leadership"
+                "D12": "Authoritative father, government family background, family leadership",
+                "D4": "Government property, authoritative assets, leadership in real estate",
+                "D7": "Authoritative children, leadership creativity, government artistic expression",
+                "D16": "Authoritative comforts, government luxury, leadership happiness",
+                "D20": "Authoritative spirituality, government practices, leadership devotion",
+                "D24": "Government education, authoritative learning, leadership knowledge",
+                "D30": "Government health issues, authoritative enemies, leadership obstacles",
+                "D60": "Authoritative karma, government destiny, leadership soul patterns"
             },
             "Moon": {
                 "D2": "Emotional relationship with money, fluctuating income, family wealth",
                 "D3": "Emotional communication, nurturing siblings, intuitive courage",
                 "D9": "Emotionally nurturing spouse, domestic happiness, caring marriage",
                 "D10": "Public-oriented career, emotional connection to work, caring professions",
-                "D12": "Strong bond with mother, emotional family ties, nurturing family"
+                "D12": "Strong bond with mother, emotional family ties, nurturing family",
+                "D4": "Emotional property, nurturing assets, domestic real estate",
+                "D7": "Nurturing children, emotional creativity, caring artistic expression",
+                "D16": "Emotional comforts, nurturing luxury, domestic happiness",
+                "D20": "Emotional spirituality, nurturing practices, caring devotion",
+                "D24": "Emotional learning, nurturing education, caring knowledge",
+                "D30": "Emotional health issues, nurturing enemies, caring obstacles",
+                "D60": "Emotional karma, nurturing destiny, caring soul patterns"
             },
             "Mars": {
                 "D2": "Aggressive earning, real estate wealth, competitive financial approach",
                 "D3": "Courageous nature, competitive siblings, assertive communication",
                 "D9": "Energetic spouse, passionate marriage, protective partner",
                 "D10": "Engineering, military, sports career, competitive professional approach",
-                "D12": "Protective family, military family background, assertive parents"
+                "D12": "Protective family, military family background, assertive parents",
+                "D4": "Aggressive property, competitive assets, military real estate",
+                "D7": "Energetic children, competitive creativity, assertive artistic expression",
+                "D16": "Competitive comforts, aggressive luxury, energetic happiness",
+                "D20": "Aggressive spirituality, competitive practices, energetic devotion",
+                "D24": "Competitive learning, aggressive education, energetic knowledge",
+                "D30": "Aggressive health issues, competitive enemies, energetic obstacles",
+                "D60": "Aggressive karma, competitive destiny, energetic soul patterns"
             },
             "Mercury": {
                 "D2": "Business acumen, intellectual wealth, communication-based income",
                 "D3": "Excellent communication, intelligent siblings, writing abilities",
                 "D9": "Intelligent spouse, communicative marriage, business partnerships",
                 "D10": "Communication-based career, business, writing, intellectual professions",
-                "D12": "Intelligent parents, business family, communicative family environment"
+                "D12": "Intelligent parents, business family, communicative family environment",
+                "D4": "Intelligent property, business assets, communicative real estate",
+                "D7": "Intelligent children, communicative creativity, business artistic expression",
+                "D16": "Intelligent comforts, business luxury, communicative happiness",
+                "D20": "Intelligent spirituality, business practices, communicative devotion",
+                "D24": "Excellent learning, intelligent education, business knowledge",
+                "D30": "Intelligent health issues, business enemies, communicative obstacles",
+                "D60": "Intelligent karma, business destiny, communicative soul patterns"
             },
             "Jupiter": {
                 "D2": "Ethical wealth, teaching income, spiritual approach to money",
                 "D3": "Wise communication, learned siblings, philosophical courage",
                 "D9": "Wise spouse, spiritual marriage, dharmic partnership",
                 "D10": "Teaching, law, spiritual career, advisory positions, ethical professions",
-                "D12": "Learned parents, spiritual family, traditional family values"
+                "D12": "Learned parents, spiritual family, traditional family values",
+                "D4": "Ethical property, spiritual assets, dharmic real estate",
+                "D7": "Wise children, spiritual creativity, dharmic artistic expression",
+                "D16": "Ethical comforts, spiritual luxury, dharmic happiness",
+                "D20": "Deep spirituality, wise practices, dharmic devotion",
+                "D24": "Wise learning, spiritual education, dharmic knowledge",
+                "D30": "Spiritual health issues, wise enemies, dharmic obstacles",
+                "D60": "Wise karma, spiritual destiny, dharmic soul patterns"
             },
             "Venus": {
                 "D2": "Artistic wealth, luxury income, beautiful possessions",
                 "D3": "Artistic communication, harmonious siblings, diplomatic speech",
                 "D9": "Beautiful spouse, harmonious marriage, artistic partnership",
                 "D10": "Artistic career, beauty industry, entertainment, diplomatic professions",
-                "D12": "Artistic family, beautiful family environment, harmonious parents"
+                "D12": "Artistic family, beautiful family environment, harmonious parents",
+                "D4": "Beautiful property, artistic assets, harmonious real estate",
+                "D7": "Beautiful children, artistic creativity, harmonious artistic expression",
+                "D16": "Beautiful comforts, artistic luxury, harmonious happiness",
+                "D20": "Artistic spirituality, beautiful practices, harmonious devotion",
+                "D24": "Artistic learning, beautiful education, harmonious knowledge",
+                "D30": "Artistic health issues, beautiful enemies, harmonious obstacles",
+                "D60": "Artistic karma, beautiful destiny, harmonious soul patterns"
             },
             "Saturn": {
                 "D2": "Slow but steady wealth, hard-earned money, disciplined finances",
                 "D3": "Serious communication, responsible siblings, disciplined courage",
                 "D9": "Mature spouse, serious marriage, long-lasting partnership",
                 "D10": "Hard work career, slow career growth, disciplined professional approach",
-                "D12": "Disciplined family, traditional parents, family responsibilities"
+                "D12": "Disciplined family, traditional parents, family responsibilities",
+                "D4": "Slow property acquisition, disciplined asset management, traditional real estate",
+                "D7": "Delayed children, serious creativity, disciplined artistic expression",
+                "D16": "Simple comforts, disciplined luxury, traditional happiness",
+                "D20": "Disciplined spirituality, traditional practices, serious devotion",
+                "D24": "Slow learning, disciplined education, traditional knowledge",
+                "D30": "Chronic health issues, persistent enemies, long-term obstacles",
+                "D60": "Heavy karma, disciplined destiny, traditional soul patterns"
+            },
+            "Rahu": {
+                "D2": "Unconventional wealth, foreign income, sudden financial gains",
+                "D3": "Unusual communication, foreign siblings, innovative courage",
+                "D9": "Foreign spouse, unconventional marriage, cross-cultural partnership",
+                "D10": "Technology career, foreign profession, unconventional success",
+                "D12": "Foreign family, unconventional parents, mixed heritage",
+                "D4": "Foreign property, unconventional assets, technology-based real estate",
+                "D7": "Unusual children, innovative creativity, foreign artistic expression",
+                "D16": "Foreign comforts, unconventional luxury, modern happiness",
+                "D20": "Foreign spirituality, unconventional practices, innovative devotion",
+                "D24": "Foreign education, unconventional learning, modern knowledge",
+                "D30": "Foreign health issues, hidden enemies, unusual obstacles",
+                "D60": "Foreign karma, unconventional destiny, modern soul patterns"
+            },
+            "Ketu": {
+                "D2": "Spiritual wealth, detached finances, past-life money karma",
+                "D3": "Spiritual communication, detached siblings, intuitive courage",
+                "D9": "Spiritual spouse, detached marriage, karmic partnership",
+                "D10": "Spiritual career, detached profession, past-life skills",
+                "D12": "Spiritual family, detached parents, karmic heritage",
+                "D4": "Spiritual property, detached assets, karmic real estate",
+                "D7": "Spiritual children, detached creativity, karmic artistic expression",
+                "D16": "Spiritual comforts, detached luxury, inner happiness",
+                "D20": "Deep spirituality, mystical practices, transcendent devotion",
+                "D24": "Intuitive learning, spiritual education, mystical knowledge",
+                "D30": "Karmic health issues, spiritual enemies, mystical obstacles",
+                "D60": "Deep karma, spiritual destiny, transcendent soul patterns"
             }
         }
 
@@ -275,11 +482,10 @@ class DivisionalAnalyzer:
             "specific_predictions": []
         }
 
-        # Analyze each planet in the divisional chart
+        # Analyze each planet in the divisional chart INCLUDING RAHU/KETU
         planetary_positions = chart_data.get("planetary_positions", {})
         for planet_name, planet_info in planetary_positions.items():
-            if planet_name in ["Rahu", "Ketu"]:  # Skip nodes for now
-                continue
+            # Include ALL planets including Rahu and Ketu for comprehensive analysis
 
             planet_analysis = self._analyze_planet_in_division(
                 planet_name, planet_info, division, division_info, main_chart
@@ -353,8 +559,7 @@ class DivisionalAnalyzer:
 
         planetary_positions = chart_data.get("planetary_positions", {})
         for planet_name, planet_info in planetary_positions.items():
-            if planet_name in ["Rahu", "Ketu"]:
-                continue
+            # Include ALL planets including Rahu and Ketu for strength calculation
             total_count += 1
             significance = planet_info.get("significance", "")
             if "Very strong" in significance or "Excellent" in significance:
@@ -383,8 +588,7 @@ class DivisionalAnalyzer:
 
         planetary_positions = chart_data.get("planetary_positions", {})
         for planet_name, planet_info in planetary_positions.items():
-            if planet_name in ["Rahu", "Ketu"]:
-                continue
+            # Include ALL planets including Rahu and Ketu for insights
             significance = planet_info.get("significance", "")
             if "Very strong" in significance or "Excellent" in significance:
                 strong_planets.append(planet_name)
@@ -428,6 +632,41 @@ class DivisionalAnalyzer:
                 "Honor and respect your parents and ancestors",
                 "Maintain family traditions and values",
                 "Seek parental blessings for important decisions"
+            ],
+            "D4": [
+                "Invest wisely in real estate and property",
+                "Maintain and protect your fixed assets",
+                "Plan for long-term material security"
+            ],
+            "D7": [
+                "Nurture your creative abilities and talents",
+                "Maintain good relationships with children",
+                "Express creativity in constructive ways"
+            ],
+            "D16": [
+                "Appreciate and maintain your comforts responsibly",
+                "Share your happiness and luxuries with others",
+                "Avoid excessive materialism"
+            ],
+            "D20": [
+                "Develop regular spiritual practices",
+                "Study religious and philosophical texts",
+                "Seek guidance from spiritual teachers"
+            ],
+            "D24": [
+                "Pursue continuous learning and education",
+                "Share your knowledge with others",
+                "Develop both practical and theoretical understanding"
+            ],
+            "D30": [
+                "Maintain good health through preventive care",
+                "Resolve conflicts peacefully",
+                "Practice patience during difficult periods"
+            ],
+            "D60": [
+                "Accept your karmic patterns with wisdom",
+                "Work on spiritual evolution and growth",
+                "Practice selfless service and compassion"
             ]
         }
 
@@ -473,6 +712,48 @@ class DivisionalAnalyzer:
                 "Strong": "Good family relationships, parental support",
                 "Moderate": "Average family dynamics, normal parental relationships",
                 "Needs Attention": "Family challenges, need for ancestral healing"
+            },
+            "D4": {
+                "Very Strong": "Excellent property acquisition, multiple real estate assets",
+                "Strong": "Good property ownership, stable material assets",
+                "Moderate": "Average property situation, requires careful planning",
+                "Needs Attention": "Property challenges, need for asset management"
+            },
+            "D7": {
+                "Very Strong": "Excellent creative abilities, blessed with talented children",
+                "Strong": "Good creativity, supportive children",
+                "Moderate": "Average creative expression, normal children relationships",
+                "Needs Attention": "Creative blocks, challenges with children"
+            },
+            "D16": {
+                "Very Strong": "Excellent comforts and luxuries, high happiness levels",
+                "Strong": "Good material comforts, satisfying lifestyle",
+                "Moderate": "Average comfort levels, requires effort for happiness",
+                "Needs Attention": "Comfort challenges, need for lifestyle improvement"
+            },
+            "D20": {
+                "Very Strong": "Excellent spiritual growth, deep religious connection",
+                "Strong": "Good spiritual practices, meaningful devotion",
+                "Moderate": "Average spiritual development, requires effort",
+                "Needs Attention": "Spiritual challenges, need for religious guidance"
+            },
+            "D24": {
+                "Very Strong": "Excellent learning abilities, high educational achievements",
+                "Strong": "Good knowledge acquisition, successful education",
+                "Moderate": "Average learning capacity, requires effort",
+                "Needs Attention": "Learning challenges, need for educational support"
+            },
+            "D30": {
+                "Very Strong": "Excellent health, minimal obstacles and enemies",
+                "Strong": "Good health management, manageable challenges",
+                "Moderate": "Average health, normal life obstacles",
+                "Needs Attention": "Health challenges, significant obstacles to overcome"
+            },
+            "D60": {
+                "Very Strong": "Excellent karmic patterns, favorable destiny",
+                "Strong": "Good karmic balance, positive life direction",
+                "Moderate": "Average karmic situation, requires spiritual effort",
+                "Needs Attention": "Challenging karma, need for spiritual transformation"
             }
         }
 
