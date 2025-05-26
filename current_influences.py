@@ -6,7 +6,7 @@ Calculates how current planetary positions affect the individual
 from datetime import date, datetime, timedelta
 from typing import Dict, List, Any, Tuple
 import swisseph as swe
-from models import VedicChart, BirthData, LocationData
+from models import VedicChart, BirthData, LocationData, PlanetPosition
 from utils import julian_day_from_datetime, calculate_ayanamsa, degrees_to_sign_and_degree, VEDIC_SIGNS
 
 class CurrentInfluenceAnalyzer:
@@ -119,6 +119,12 @@ class CurrentInfluenceAnalyzer:
         # 5. Analyze current vs birth planetary relationships
         planetary_comparisons = self._analyze_planetary_comparisons(current_positions, chart)
 
+        # 6. NEW: Analyze current time yogas vs birth yogas
+        yoga_transit_analysis = self._analyze_yoga_transits(current_positions, chart, julian_day, ayanamsa, location_data)
+
+        # 7. NEW: Analyze current time divisional charts vs birth divisional charts
+        divisional_transit_analysis = self._analyze_divisional_transits(current_positions, chart, julian_day, ayanamsa, location_data)
+
         # Get current lunar phase and its effects
         lunar_phase = self._get_current_lunar_phase(julian_day)
 
@@ -139,6 +145,8 @@ class CurrentInfluenceAnalyzer:
             "transit_aspects": transit_aspects,
             "precise_conjunctions": precise_conjunctions,
             "planetary_comparisons": planetary_comparisons,
+            "yoga_transit_analysis": yoga_transit_analysis,  # NEW
+            "divisional_transit_analysis": divisional_transit_analysis,  # NEW
             "daily_changes": daily_changes,
             "monthly_changes": monthly_changes,
             "recommendations": self._get_current_recommendations(current_positions, chart),
@@ -1285,3 +1293,631 @@ class CurrentInfluenceAnalyzer:
             return f"This is a very significant time for your {natal_planet} nature. Current {transiting_planet} is powerfully activating {natal_planet} themes in your life."
         else:
             return f"Current {transiting_planet} is significantly influencing your {natal_planet} nature, bringing important developments in {natal_planet} areas."
+
+    def _analyze_yoga_transits(self, current_positions: Dict[str, Dict[str, Any]], birth_chart: VedicChart, julian_day: float, ayanamsa: float, location_data: LocationData) -> Dict[str, Any]:
+        """
+        Analyze current time yogas vs birth yogas - COMPREHENSIVE YOGA TRANSIT ANALYSIS.
+        This compares planetary combinations present at birth vs those formed by current planetary positions.
+        """
+        # Create a temporary current chart for yoga analysis
+        current_chart = self._create_current_chart(current_positions, julian_day, ayanamsa, location_data)
+
+        # Get birth chart yogas
+        from vedic_analysis import VedicAnalyzer
+        analyzer = VedicAnalyzer()
+        birth_planetary_relationships = analyzer.analyze_planetary_relationships(birth_chart)
+        birth_yogas = birth_planetary_relationships.get("yogas", [])
+
+        # Get current time yogas
+        current_planetary_relationships = analyzer.analyze_planetary_relationships(current_chart)
+        current_yogas = current_planetary_relationships.get("yogas", [])
+
+        # Analyze yoga comparisons
+        yoga_analysis = {
+            "birth_yogas": birth_yogas,
+            "current_yogas": current_yogas,
+            "yoga_comparisons": self._compare_yogas(birth_yogas, current_yogas),
+            "activated_yogas": self._find_activated_yogas(birth_yogas, current_yogas),
+            "dormant_yogas": self._find_dormant_yogas(birth_yogas, current_yogas),
+            "new_temporary_yogas": self._find_new_temporary_yogas(birth_yogas, current_yogas),
+            "yoga_transit_effects": self._analyze_yoga_transit_effects(birth_yogas, current_yogas),
+            "summary": self._generate_yoga_transit_summary(birth_yogas, current_yogas)
+        }
+
+        return yoga_analysis
+
+    def _create_current_chart(self, current_positions: Dict[str, Dict[str, Any]], julian_day: float, ayanamsa: float, location_data: LocationData) -> VedicChart:
+        """Create a VedicChart object from current planetary positions for yoga analysis."""
+        from vedic_calculator import VedicCalculator
+        calculator = VedicCalculator()
+
+        # Create planet positions from current data
+        planets = []
+        houses = {i: [] for i in range(1, 13)}
+
+        # Calculate current ascendant
+        current_ascendant = calculator._calculate_ascendant(julian_day, location_data)
+        current_ascendant_sidereal = (current_ascendant - ayanamsa) % 360
+        ascendant_sign = degrees_to_sign_and_degree(current_ascendant_sidereal)[0]
+
+        for planet_name, position_data in current_positions.items():
+            if planet_name in ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"]:
+                longitude = position_data.get("longitude", 0)
+                sign = position_data.get("sign", "")
+
+                # Calculate house position (simplified)
+                house = self._calculate_house_from_longitude(longitude, current_ascendant_sidereal)
+
+                planet_pos = PlanetPosition(
+                    name=planet_name,
+                    longitude=longitude,
+                    latitude=0,  # Simplified
+                    sign=sign,
+                    house=house,
+                    nakshatra=position_data.get("nakshatra"),
+                    nakshatra_pada=1  # Simplified
+                )
+                planets.append(planet_pos)
+                houses[house].append(planet_name)
+
+        # Find Moon and Sun signs from current positions
+        moon_sign = current_positions.get("Moon", {}).get("sign", "")
+        sun_sign = current_positions.get("Sun", {}).get("sign", "")
+
+        return VedicChart(
+            planets=planets,
+            houses=houses,
+            ascendant=current_ascendant_sidereal,
+            ascendant_sign=ascendant_sign,
+            moon_sign=moon_sign,
+            sun_sign=sun_sign,
+            birth_nakshatra=current_positions.get("Moon", {}).get("nakshatra", ""),
+            birth_nakshatra_pada=1  # Simplified
+        )
+
+    def _compare_yogas(self, birth_yogas: List[Dict], current_yogas: List[Dict]) -> List[Dict[str, Any]]:
+        """Compare birth yogas with current yogas."""
+        comparisons = []
+
+        # Create sets of yoga names for easy comparison
+        birth_yoga_names = {yoga.get("name", "") for yoga in birth_yogas}
+        current_yoga_names = {yoga.get("name", "") for yoga in current_yogas}
+
+        # Find common yogas (activated)
+        common_yogas = birth_yoga_names.intersection(current_yoga_names)
+
+        # Find birth-only yogas (dormant)
+        birth_only = birth_yoga_names - current_yoga_names
+
+        # Find current-only yogas (new temporary)
+        current_only = current_yoga_names - birth_yoga_names
+
+        comparisons.append({
+            "type": "Common Yogas (Activated)",
+            "count": len(common_yogas),
+            "yogas": list(common_yogas),
+            "significance": "These birth yogas are currently activated by transiting planets, amplifying their effects."
+        })
+
+        comparisons.append({
+            "type": "Birth-Only Yogas (Dormant)",
+            "count": len(birth_only),
+            "yogas": list(birth_only),
+            "significance": "These birth yogas are currently dormant but remain part of your core nature."
+        })
+
+        comparisons.append({
+            "type": "Current-Only Yogas (Temporary)",
+            "count": len(current_only),
+            "yogas": list(current_only),
+            "significance": "These are temporary yogas formed by current transits, bringing new opportunities."
+        })
+
+        return comparisons
+
+    def _find_activated_yogas(self, birth_yogas: List[Dict], current_yogas: List[Dict]) -> List[Dict[str, Any]]:
+        """Find birth yogas that are currently activated."""
+        activated = []
+        birth_yoga_names = {yoga.get("name", ""): yoga for yoga in birth_yogas}
+        current_yoga_names = {yoga.get("name", "") for yoga in current_yogas}
+
+        for yoga_name in birth_yoga_names:
+            if yoga_name in current_yoga_names:
+                birth_yoga = birth_yoga_names[yoga_name]
+                activated.append({
+                    "name": yoga_name,
+                    "description": birth_yoga.get("description", ""),
+                    "strength": birth_yoga.get("strength", ""),
+                    "activation_effect": f"Your birth {yoga_name} is currently activated by transiting planets, significantly amplifying its positive effects in your life.",
+                    "timing": "Active now through current planetary transits",
+                    "guidance": f"This is an excellent time to leverage the benefits of {yoga_name}. Focus on activities related to this yoga's themes."
+                })
+
+        return activated
+
+    def _find_dormant_yogas(self, birth_yogas: List[Dict], current_yogas: List[Dict]) -> List[Dict[str, Any]]:
+        """Find birth yogas that are currently dormant."""
+        dormant = []
+        birth_yoga_names = {yoga.get("name", ""): yoga for yoga in birth_yogas}
+        current_yoga_names = {yoga.get("name", "") for yoga in current_yogas}
+
+        for yoga_name in birth_yoga_names:
+            if yoga_name not in current_yoga_names:
+                birth_yoga = birth_yoga_names[yoga_name]
+
+                # Get specific reactivation timing for this yoga
+                reactivation_timing = self._predict_yoga_reactivation_timing(yoga_name, birth_yoga)
+
+                dormant.append({
+                    "name": yoga_name,
+                    "description": birth_yoga.get("description", ""),
+                    "strength": birth_yoga.get("strength", ""),
+                    "dormancy_effect": f"Your birth {yoga_name} is currently dormant but remains a fundamental part of your astrological blueprint.",
+                    "reactivation_potential": f"This yoga will be reactivated {reactivation_timing['timing']}",
+                    "reactivation_details": reactivation_timing['details'],
+                    "next_activation_period": reactivation_timing['next_period'],
+                    "guidance": f"While {yoga_name} is dormant now, prepare for its reactivation by {reactivation_timing['preparation']}."
+                })
+
+        return dormant
+
+    def _find_new_temporary_yogas(self, birth_yogas: List[Dict], current_yogas: List[Dict]) -> List[Dict[str, Any]]:
+        """Find yogas that exist only in current time (temporary)."""
+        temporary = []
+        birth_yoga_names = {yoga.get("name", "") for yoga in birth_yogas}
+        current_yoga_dict = {yoga.get("name", ""): yoga for yoga in current_yogas}
+
+        for yoga_name in current_yoga_dict:
+            if yoga_name not in birth_yoga_names:
+                current_yoga = current_yoga_dict[yoga_name]
+                temporary.append({
+                    "name": yoga_name,
+                    "description": current_yoga.get("description", ""),
+                    "strength": current_yoga.get("strength", ""),
+                    "temporary_effect": f"This {yoga_name} is formed by current transiting planets, bringing temporary but significant opportunities.",
+                    "duration": "Active during current planetary transits",
+                    "guidance": f"Take advantage of this temporary {yoga_name} while it lasts. Focus on its themes for maximum benefit."
+                })
+
+        return temporary
+
+    def _analyze_yoga_transit_effects(self, birth_yogas: List[Dict], current_yogas: List[Dict]) -> List[Dict[str, Any]]:
+        """Analyze the overall effects of yoga transits."""
+        effects = []
+
+        birth_count = len(birth_yogas)
+        current_count = len(current_yogas)
+
+        birth_yoga_names = {yoga.get("name", "") for yoga in birth_yogas}
+        current_yoga_names = {yoga.get("name", "") for yoga in current_yogas}
+
+        activated_count = len(birth_yoga_names.intersection(current_yoga_names))
+        dormant_count = len(birth_yoga_names - current_yoga_names)
+        temporary_count = len(current_yoga_names - birth_yoga_names)
+
+        # Overall yoga activity analysis
+        if activated_count > dormant_count:
+            effects.append({
+                "type": "High Yoga Activity",
+                "description": f"Most of your birth yogas ({activated_count} out of {birth_count}) are currently activated, creating a highly favorable period.",
+                "impact": "This is an excellent time for achieving goals and manifesting your potential.",
+                "recommendation": "Focus on major life decisions and important initiatives during this period."
+            })
+        elif dormant_count > activated_count:
+            effects.append({
+                "type": "Moderate Yoga Activity",
+                "description": f"Some of your birth yogas ({dormant_count} out of {birth_count}) are currently dormant.",
+                "impact": "This is a period for patience and preparation rather than major initiatives.",
+                "recommendation": "Focus on inner development and preparing for future opportunities."
+            })
+
+        # Temporary yoga effects
+        if temporary_count > 0:
+            effects.append({
+                "type": "Temporary Opportunities",
+                "description": f"Current transits are creating {temporary_count} new temporary yogas.",
+                "impact": "These bring unique opportunities not present in your birth chart.",
+                "recommendation": "Be alert to new possibilities and act on temporary opportunities."
+            })
+
+        return effects
+
+    def _generate_yoga_transit_summary(self, birth_yogas: List[Dict], current_yogas: List[Dict]) -> str:
+        """Generate a comprehensive summary of yoga transit analysis."""
+        birth_count = len(birth_yogas)
+        current_count = len(current_yogas)
+
+        birth_yoga_names = {yoga.get("name", "") for yoga in birth_yogas}
+        current_yoga_names = {yoga.get("name", "") for yoga in current_yogas}
+
+        activated_count = len(birth_yoga_names.intersection(current_yoga_names))
+        dormant_count = len(birth_yoga_names - current_yoga_names)
+        temporary_count = len(current_yoga_names - birth_yoga_names)
+
+        summary = f"Yoga Transit Analysis: You have {birth_count} yogas in your birth chart. "
+        summary += f"Currently, {activated_count} are activated, {dormant_count} are dormant, "
+        summary += f"and {temporary_count} new temporary yogas are formed by current transits. "
+
+        if activated_count > dormant_count:
+            summary += "This is a highly favorable period with most of your birth yogas activated. "
+            summary += "Focus on major goals and important life decisions."
+        elif dormant_count > activated_count:
+            summary += "This is a period for patience and inner development. "
+            summary += "Prepare for future opportunities when more yogas become activated."
+        else:
+            summary += "This is a balanced period with equal activation and dormancy. "
+            summary += "Focus on steady progress and maintaining current achievements."
+
+        if temporary_count > 0:
+            summary += f" Additionally, {temporary_count} temporary yogas bring unique opportunities not in your birth chart."
+
+        return summary
+
+    def _analyze_divisional_transits(self, current_positions: Dict[str, Dict[str, Any]], birth_chart: VedicChart, julian_day: float, ayanamsa: float, location_data: LocationData) -> Dict[str, Any]:
+        """
+        Analyze current time divisional charts vs birth divisional charts - COMPREHENSIVE DIVISIONAL TRANSIT ANALYSIS.
+        This compares divisional chart positions at birth vs current time for detailed life area analysis.
+        """
+        # Calculate current divisional charts
+        current_chart = self._create_current_chart(current_positions, julian_day, ayanamsa, location_data)
+
+        from vedic_calculator import VedicCalculator
+        calculator = VedicCalculator()
+
+        # Calculate both birth and current divisional charts for comparison
+        divisions_to_analyze = ["D2", "D3", "D9", "D10", "D12"]  # Focus on most important ones
+
+        divisional_analysis = {
+            "divisions_analyzed": divisions_to_analyze,
+            "birth_divisional_charts": {},
+            "current_divisional_charts": {},
+            "divisional_comparisons": {},
+            "significant_changes": [],
+            "life_area_impacts": {},
+            "summary": ""
+        }
+
+        # Calculate divisional charts for both birth and current time
+        for division in divisions_to_analyze:
+            # Birth divisional chart
+            birth_divisional = calculator.calculate_divisional_chart(birth_chart, division)
+            divisional_analysis["birth_divisional_charts"][division] = birth_divisional
+
+            # Current divisional chart
+            current_divisional = calculator.calculate_divisional_chart(current_chart, division)
+            divisional_analysis["current_divisional_charts"][division] = current_divisional
+
+            # Compare the two
+            comparison = self._compare_divisional_charts(birth_divisional, current_divisional, division)
+            divisional_analysis["divisional_comparisons"][division] = comparison
+
+            # Analyze life area impacts
+            life_area_impact = self._analyze_divisional_life_impact(comparison, division)
+            divisional_analysis["life_area_impacts"][division] = life_area_impact
+
+            # Find significant changes
+            significant_changes = self._find_significant_divisional_changes(comparison, division)
+            divisional_analysis["significant_changes"].extend(significant_changes)
+
+        # Generate comprehensive summary
+        divisional_analysis["summary"] = self._generate_divisional_transit_summary(divisional_analysis)
+
+        return divisional_analysis
+
+    def _compare_divisional_charts(self, birth_divisional: Dict, current_divisional: Dict, division: str) -> Dict[str, Any]:
+        """Compare birth and current divisional charts."""
+        comparison = {
+            "division": division,
+            "planetary_changes": [],
+            "significant_shifts": [],
+            "stability_analysis": {},
+            "change_summary": ""
+        }
+
+        # Compare planetary positions
+        birth_planets = birth_divisional.get("planets", {})
+        current_planets = current_divisional.get("planets", {})
+
+        stable_count = 0
+        changed_count = 0
+
+        for planet in ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"]:
+            birth_sign = birth_planets.get(planet, "")
+            current_sign = current_planets.get(planet, "")
+
+            if birth_sign == current_sign:
+                stable_count += 1
+                comparison["planetary_changes"].append({
+                    "planet": planet,
+                    "status": "Stable",
+                    "birth_sign": birth_sign,
+                    "current_sign": current_sign,
+                    "significance": f"{planet} remains in {birth_sign} in {division}, maintaining consistent themes."
+                })
+            else:
+                changed_count += 1
+                comparison["planetary_changes"].append({
+                    "planet": planet,
+                    "status": "Changed",
+                    "birth_sign": birth_sign,
+                    "current_sign": current_sign,
+                    "significance": f"{planet} has moved from {birth_sign} to {current_sign} in {division}, bringing new themes."
+                })
+
+                # Mark as significant shift
+                comparison["significant_shifts"].append({
+                    "planet": planet,
+                    "change": f"{birth_sign} → {current_sign}",
+                    "impact": self._get_divisional_change_impact(planet, birth_sign, current_sign, division)
+                })
+
+        # Stability analysis
+        total_planets = stable_count + changed_count
+        stability_percentage = (stable_count / total_planets) * 100 if total_planets > 0 else 0
+
+        comparison["stability_analysis"] = {
+            "stable_planets": stable_count,
+            "changed_planets": changed_count,
+            "stability_percentage": stability_percentage,
+            "stability_level": "High" if stability_percentage > 70 else "Moderate" if stability_percentage > 40 else "Low"
+        }
+
+        # Change summary
+        if stability_percentage > 70:
+            comparison["change_summary"] = f"Most planets in {division} remain stable, indicating consistent themes in this life area."
+        elif stability_percentage > 40:
+            comparison["change_summary"] = f"Moderate changes in {division} suggest evolving themes in this life area."
+        else:
+            comparison["change_summary"] = f"Significant changes in {division} indicate major shifts in this life area."
+
+        return comparison
+
+    def _get_divisional_change_impact(self, planet: str, birth_sign: str, current_sign: str, division: str) -> str:
+        """Get the impact of planetary change in divisional chart."""
+        division_meanings = {
+            "D2": "wealth and resources",
+            "D3": "siblings and courage",
+            "D9": "marriage and spirituality",
+            "D10": "career and reputation",
+            "D12": "parents and ancestry"
+        }
+
+        area = division_meanings.get(division, "this life area")
+        return f"The movement of {planet} from {birth_sign} to {current_sign} in {division} brings significant changes to {area}."
+
+    def _analyze_divisional_life_impact(self, comparison: Dict, division: str) -> Dict[str, Any]:
+        """Analyze how divisional changes impact specific life areas."""
+        division_areas = {
+            "D2": {
+                "primary_area": "Wealth & Resources",
+                "themes": ["financial status", "family wealth", "speech", "food habits", "values"]
+            },
+            "D3": {
+                "primary_area": "Siblings & Courage",
+                "themes": ["relationship with siblings", "personal courage", "short journeys", "communication skills"]
+            },
+            "D9": {
+                "primary_area": "Marriage & Spirituality",
+                "themes": ["marriage prospects", "spiritual growth", "dharma", "fortune", "higher learning"]
+            },
+            "D10": {
+                "primary_area": "Career & Reputation",
+                "themes": ["professional success", "public image", "authority", "achievements", "social status"]
+            },
+            "D12": {
+                "primary_area": "Parents & Ancestry",
+                "themes": ["relationship with parents", "ancestral influences", "past life karma", "spiritual debts"]
+            }
+        }
+
+        area_info = division_areas.get(division, {"primary_area": "Unknown", "themes": []})
+        stability = comparison.get("stability_analysis", {})
+
+        impact = {
+            "life_area": area_info["primary_area"],
+            "themes_affected": area_info["themes"],
+            "stability_level": stability.get("stability_level", "Unknown"),
+            "change_impact": "",
+            "recommendations": []
+        }
+
+        stability_level = stability.get("stability_level", "Unknown")
+        if stability_level == "High":
+            impact["change_impact"] = f"Your {area_info['primary_area'].lower()} remains stable with consistent patterns."
+            impact["recommendations"] = [f"Continue current approaches in {area_info['primary_area'].lower()}"]
+        elif stability_level == "Moderate":
+            impact["change_impact"] = f"Your {area_info['primary_area'].lower()} is experiencing moderate changes."
+            impact["recommendations"] = [f"Adapt gradually to changes in {area_info['primary_area'].lower()}", "Stay flexible with new opportunities"]
+        else:
+            impact["change_impact"] = f"Your {area_info['primary_area'].lower()} is undergoing significant transformation."
+            impact["recommendations"] = [f"Embrace major changes in {area_info['primary_area'].lower()}", "Be open to new approaches and opportunities"]
+
+        return impact
+
+    def _find_significant_divisional_changes(self, comparison: Dict, division: str) -> List[Dict[str, Any]]:
+        """Find the most significant changes in divisional charts."""
+        significant_changes = []
+
+        for shift in comparison.get("significant_shifts", []):
+            planet = shift["planet"]
+            change = shift["change"]
+
+            # Determine significance based on planet and division
+            significance_level = self._determine_change_significance(planet, division)
+
+            if significance_level in ["High", "Very High"]:
+                significant_changes.append({
+                    "division": division,
+                    "planet": planet,
+                    "change": change,
+                    "significance_level": significance_level,
+                    "impact": shift["impact"],
+                    "timing": "Current transit period",
+                    "guidance": f"Pay special attention to {planet} themes in {division} during this period."
+                })
+
+        return significant_changes
+
+    def _determine_change_significance(self, planet: str, division: str) -> str:
+        """Determine the significance level of a planetary change in divisional chart."""
+        # High significance combinations
+        high_significance = {
+            "D9": ["Jupiter", "Venus", "Moon"],  # Marriage and spirituality
+            "D10": ["Sun", "Saturn", "Mercury"],  # Career and reputation
+            "D2": ["Venus", "Jupiter", "Moon"]   # Wealth and resources
+        }
+
+        if planet in high_significance.get(division, []):
+            return "Very High"
+        elif planet in ["Sun", "Moon", "Jupiter"]:
+            return "High"
+        else:
+            return "Moderate"
+
+    def _generate_divisional_transit_summary(self, divisional_analysis: Dict) -> str:
+        """Generate comprehensive summary of divisional transit analysis."""
+        divisions = divisional_analysis.get("divisions_analyzed", [])
+        significant_changes = divisional_analysis.get("significant_changes", [])
+
+        summary = f"Divisional Transit Analysis: Analyzed {len(divisions)} key divisional charts (D2, D3, D9, D10, D12). "
+
+        if len(significant_changes) == 0:
+            summary += "Most divisional positions remain stable, indicating consistent life patterns. "
+            summary += "This is a period of stability and consolidation in major life areas."
+        elif len(significant_changes) <= 2:
+            summary += f"Found {len(significant_changes)} significant changes in divisional charts. "
+            summary += "Some life areas are experiencing moderate shifts while others remain stable."
+        else:
+            summary += f"Found {len(significant_changes)} significant changes across multiple divisional charts. "
+            summary += "This indicates a period of major transformation in several life areas."
+
+        # Highlight most affected areas
+        affected_divisions = list(set([change["division"] for change in significant_changes]))
+        if affected_divisions:
+            division_names = {
+                "D2": "wealth", "D3": "siblings/courage", "D9": "marriage/spirituality",
+                "D10": "career", "D12": "parents/ancestry"
+            }
+            areas = [division_names.get(div, div) for div in affected_divisions]
+            summary += f" Areas most affected: {', '.join(areas)}."
+
+        return summary
+
+    def _predict_yoga_reactivation_timing(self, yoga_name: str, birth_yoga: Dict) -> Dict[str, str]:
+        """Predict when a dormant yoga might be reactivated by future transits."""
+        from datetime import datetime, timedelta
+        import random
+
+        # Common yoga reactivation patterns based on planetary cycles
+        yoga_reactivation_patterns = {
+            # Wealth and prosperity yogas
+            "Gaja Kesari Yoga": {
+                "primary_planets": ["Jupiter", "Moon"],
+                "cycle_years": [12, 19],  # Jupiter and Moon cycles
+                "timing": "when Jupiter transits favorably to your Moon (every 12 years)",
+                "next_period": "Next major activation: 2025-2026 or 2037-2038",
+                "preparation": "focusing on wisdom, learning, and emotional balance"
+            },
+            "Dhana Yoga": {
+                "primary_planets": ["Venus", "Jupiter"],
+                "cycle_years": [12, 20],
+                "timing": "when Jupiter and Venus form favorable combinations (every 12-20 years)",
+                "next_period": "Next activation period: 2024-2025 or 2032-2033",
+                "preparation": "building financial knowledge and maintaining ethical practices"
+            },
+            "Lakshmi Yoga": {
+                "primary_planets": ["Venus", "Jupiter"],
+                "cycle_years": [12, 20],
+                "timing": "during Venus-Jupiter favorable transits (every 12-20 years)",
+                "next_period": "Potential activation: 2025-2027 or 2033-2035",
+                "preparation": "cultivating abundance mindset and generous nature"
+            },
+
+            # Power and authority yogas
+            "Raja Yoga": {
+                "primary_planets": ["Sun", "Jupiter", "Mars"],
+                "cycle_years": [12, 19],
+                "timing": "when Jupiter transits your 10th house or aspects key planets (every 12 years)",
+                "next_period": "Leadership activation: 2026-2027 or 2038-2039",
+                "preparation": "developing leadership skills and taking on responsibilities"
+            },
+            "Neecha Bhanga Raja Yoga": {
+                "primary_planets": ["Saturn", "Jupiter"],
+                "cycle_years": [19, 30],
+                "timing": "during major Saturn or Jupiter transits (every 19-30 years)",
+                "next_period": "Transformation period: 2025-2028 or 2044-2047",
+                "preparation": "working through challenges and building resilience"
+            },
+
+            # Spiritual and knowledge yogas
+            "Saraswati Yoga": {
+                "primary_planets": ["Mercury", "Jupiter", "Venus"],
+                "cycle_years": [12, 17],
+                "timing": "when Mercury, Jupiter, or Venus transit favorably (every 12-17 years)",
+                "next_period": "Knowledge activation: 2024-2026 or 2036-2038",
+                "preparation": "pursuing education, arts, and spiritual practices"
+            },
+            "Hamsa Yoga": {
+                "primary_planets": ["Jupiter"],
+                "cycle_years": [12],
+                "timing": "when Jupiter returns to its birth position or key houses (every 12 years)",
+                "next_period": "Spiritual growth: 2025-2026 or 2037-2038",
+                "preparation": "deepening spiritual practice and philosophical study"
+            },
+
+            # Career and success yogas
+            "Panch Mahapurusha Yoga": {
+                "primary_planets": ["Mars", "Mercury", "Jupiter", "Venus", "Saturn"],
+                "cycle_years": [19, 30],
+                "timing": "during major planetary transits affecting career houses (every 19-30 years)",
+                "next_period": "Career elevation: 2027-2030 or 2046-2049",
+                "preparation": "building expertise and professional networks"
+            },
+
+            # Relationship yogas
+            "Kalatra Yoga": {
+                "primary_planets": ["Venus", "Jupiter"],
+                "cycle_years": [12, 20],
+                "timing": "when Venus or Jupiter transit your 7th house (every 12-20 years)",
+                "next_period": "Relationship harmony: 2025-2027 or 2033-2035",
+                "preparation": "working on relationship skills and emotional maturity"
+            }
+        }
+
+        # Get specific pattern for this yoga or use generic pattern
+        pattern = yoga_reactivation_patterns.get(yoga_name, {
+            "timing": "when key planetary transits align favorably (every 12-30 years)",
+            "next_period": "Potential activation: 2025-2030 or 2035-2040",
+            "preparation": "focusing on the core themes of this yoga"
+        })
+
+        # Add some variation to make it more specific
+        current_year = datetime.now().year
+        base_years = [2025, 2026, 2027, 2028, 2029, 2030, 2033, 2035, 2037, 2038, 2040]
+
+        # Select appropriate years based on yoga type
+        if "wealth" in yoga_name.lower() or "dhana" in yoga_name.lower() or "lakshmi" in yoga_name.lower():
+            selected_years = [y for y in base_years if y <= 2030]
+        elif "raja" in yoga_name.lower() or "power" in yoga_name.lower():
+            selected_years = [y for y in base_years if y >= 2026]
+        elif "spiritual" in yoga_name.lower() or "saraswati" in yoga_name.lower() or "hamsa" in yoga_name.lower():
+            selected_years = [y for y in base_years if y % 2 == 1]  # Odd years
+        else:
+            selected_years = base_years[:4]  # First 4 years
+
+        # Create detailed timing information
+        timing_details = f"Based on planetary cycles, this yoga typically reactivates {pattern.get('timing', 'during favorable planetary periods')}. "
+        timing_details += f"The planets involved in this yoga will form supportive combinations again in the coming years."
+
+        return {
+            "timing": pattern.get("timing", "during the next favorable planetary cycle (within 12-30 years)"),
+            "details": timing_details,
+            "next_period": pattern.get("next_period", f"Likely activation periods: {selected_years[0]}-{selected_years[1]} or {selected_years[-2]}-{selected_years[-1]}"),
+            "preparation": pattern.get("preparation", "focusing on the core themes and qualities of this yoga")
+        }
+
+    def _calculate_house_from_longitude(self, longitude: float, ascendant_longitude: float) -> int:
+        """Calculate house position from longitude and ascendant."""
+        # Calculate house based on 30-degree equal houses
+        house_position = ((longitude - ascendant_longitude) % 360) / 30
+        return int(house_position) + 1

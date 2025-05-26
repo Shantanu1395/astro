@@ -792,6 +792,206 @@
                         {% endfor %}
                     </ul>
                 </div>
+
+                <!-- NEW: Yoga Transit Analysis -->
+                {% if current_influences.yoga_transit_analysis %}
+                <div class="yoga-transit-analysis">
+                    <h4>🌟 Yoga Transit Analysis - Birth vs Current Time</h4>
+                    <p class="analysis-description">This analysis compares the planetary combinations (yogas) present at your birth with those formed by current planetary positions, revealing how your inherent potentials are being activated or modified by current transits.</p>
+
+                    <div class="yoga-transit-summary">
+                        <p class="summary-text">{{ current_influences.yoga_transit_analysis.summary }}</p>
+                    </div>
+
+                    <!-- Activated Yogas -->
+                    {% if current_influences.yoga_transit_analysis.activated_yogas %}
+                    <div class="activated-yogas">
+                        <h5>✨ Currently Activated Birth Yogas</h5>
+                        <div class="yoga-cards-grid">
+                            {% for yoga in current_influences.yoga_transit_analysis.activated_yogas %}
+                            <div class="yoga-transit-card activated">
+                                <h6>{{ yoga.name }}</h6>
+                                <p class="yoga-description">{{ yoga.description }}</p>
+                                <p class="activation-effect"><strong>Activation Effect:</strong> {{ yoga.activation_effect }}</p>
+                                <p class="yoga-guidance"><strong>Guidance:</strong> {{ yoga.guidance }}</p>
+                                <span class="timing-badge">{{ yoga.timing }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- New Temporary Yogas -->
+                    {% if current_influences.yoga_transit_analysis.new_temporary_yogas %}
+                    <div class="temporary-yogas">
+                        <h5>🆕 New Temporary Yogas (Current Transits Only)</h5>
+                        <div class="yoga-cards-grid">
+                            {% for yoga in current_influences.yoga_transit_analysis.new_temporary_yogas %}
+                            <div class="yoga-transit-card temporary">
+                                <h6>{{ yoga.name }}</h6>
+                                <p class="yoga-description">{{ yoga.description }}</p>
+                                <p class="temporary-effect"><strong>Temporary Effect:</strong> {{ yoga.temporary_effect }}</p>
+                                <p class="yoga-guidance"><strong>Guidance:</strong> {{ yoga.guidance }}</p>
+                                <span class="duration-badge">{{ yoga.duration }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Dormant Yogas -->
+                    {% if current_influences.yoga_transit_analysis.dormant_yogas %}
+                    <div class="dormant-yogas">
+                        <h5>😴 Currently Dormant Birth Yogas</h5>
+                        <div class="yoga-cards-grid">
+                            {% for yoga in current_influences.yoga_transit_analysis.dormant_yogas %}
+                            <div class="yoga-transit-card dormant">
+                                <h6>{{ yoga.name }}</h6>
+                                <p class="yoga-description">{{ yoga.description }}</p>
+                                <p class="dormancy-effect"><strong>Current Status:</strong> {{ yoga.dormancy_effect }}</p>
+
+                                <div class="reactivation-timing">
+                                    <p class="reactivation-potential"><strong>Reactivation Timing:</strong> {{ yoga.reactivation_potential }}</p>
+                                    {% if yoga.reactivation_details %}
+                                    <p class="reactivation-details"><strong>Details:</strong> {{ yoga.reactivation_details }}</p>
+                                    {% endif %}
+                                    {% if yoga.next_activation_period %}
+                                    <p class="next-activation"><strong>Next Activation Period:</strong> {{ yoga.next_activation_period }}</p>
+                                    {% endif %}
+                                </div>
+
+                                <p class="yoga-guidance"><strong>Preparation:</strong> {{ yoga.guidance }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Yoga Transit Effects -->
+                    {% if current_influences.yoga_transit_analysis.yoga_transit_effects %}
+                    <div class="yoga-transit-effects">
+                        <h5>⚡ Overall Yoga Transit Effects</h5>
+                        {% for effect in current_influences.yoga_transit_analysis.yoga_transit_effects %}
+                        <div class="transit-effect-card">
+                            <h6>{{ effect.type }}</h6>
+                            <p class="effect-description">{{ effect.description }}</p>
+                            <p class="effect-impact"><strong>Impact:</strong> {{ effect.impact }}</p>
+                            <p class="effect-recommendation"><strong>Recommendation:</strong> {{ effect.recommendation }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- NEW: Divisional Transit Analysis -->
+                {% if current_influences.divisional_transit_analysis %}
+                <div class="divisional-transit-analysis">
+                    <h4>📊 Divisional Chart Transit Analysis - Birth vs Current Time</h4>
+                    <p class="analysis-description">This analysis compares your birth divisional charts (vargas) with current time divisional charts, revealing how different life areas are being influenced by current planetary transits.</p>
+
+                    <div class="divisional-transit-summary">
+                        <p class="summary-text">{{ current_influences.divisional_transit_analysis.summary }}</p>
+                    </div>
+
+                    <!-- Life Area Impacts -->
+                    {% if current_influences.divisional_transit_analysis.life_area_impacts %}
+                    <div class="life-area-impacts">
+                        <h5>🎯 Life Area Impact Analysis</h5>
+                        <div class="life-area-grid">
+                            {% for division, impact in current_influences.divisional_transit_analysis.life_area_impacts.items() %}
+                            <div class="life-area-card">
+                                <h6>{{ impact.life_area }} ({{ division }})</h6>
+                                <div class="stability-indicator">
+                                    <span class="stability-badge stability-{{ impact.stability_level.lower() }}">{{ impact.stability_level }} Stability</span>
+                                </div>
+                                <p class="change-impact">{{ impact.change_impact }}</p>
+                                <div class="themes-affected">
+                                    <strong>Themes Affected:</strong>
+                                    <ul>
+                                        {% for theme in impact.themes_affected %}
+                                        <li>{{ theme }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="area-recommendations">
+                                    <strong>Recommendations:</strong>
+                                    <ul>
+                                        {% for rec in impact.recommendations %}
+                                        <li>{{ rec }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Significant Changes -->
+                    {% if current_influences.divisional_transit_analysis.significant_changes %}
+                    <div class="significant-divisional-changes">
+                        <h5>⚡ Significant Divisional Changes</h5>
+                        <div class="changes-grid">
+                            {% for change in current_influences.divisional_transit_analysis.significant_changes %}
+                            <div class="change-card significance-{{ change.significance_level.lower().replace(' ', '-') }}">
+                                <h6>{{ change.planet }} in {{ change.division }}</h6>
+                                <p class="change-details">{{ change.change }}</p>
+                                <p class="change-impact">{{ change.impact }}</p>
+                                <p class="change-guidance"><strong>Guidance:</strong> {{ change.guidance }}</p>
+                                <div class="change-badges">
+                                    <span class="significance-badge">{{ change.significance_level }} Significance</span>
+                                    <span class="timing-badge">{{ change.timing }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Divisional Comparisons -->
+                    {% if current_influences.divisional_transit_analysis.divisional_comparisons %}
+                    <div class="divisional-comparisons">
+                        <h5>🔄 Detailed Divisional Chart Comparisons</h5>
+                        {% for division, comparison in current_influences.divisional_transit_analysis.divisional_comparisons.items() %}
+                        <div class="divisional-comparison-card">
+                            <h6>{{ division }} Chart Comparison</h6>
+                            <p class="comparison-summary">{{ comparison.change_summary }}</p>
+
+                            <div class="stability-analysis">
+                                <h7>Stability Analysis:</h7>
+                                <div class="stability-stats">
+                                    <span class="stat">{{ comparison.stability_analysis.stable_planets }} Stable</span>
+                                    <span class="stat">{{ comparison.stability_analysis.changed_planets }} Changed</span>
+                                    <span class="stability-percentage">{{ "%.0f"|format(comparison.stability_analysis.stability_percentage) }}% Stability</span>
+                                </div>
+                            </div>
+
+                            {% if comparison.planetary_changes %}
+                            <div class="planetary-changes">
+                                <h7>Planetary Changes:</h7>
+                                <div class="planetary-changes-list">
+                                    {% for change in comparison.planetary_changes %}
+                                    <div class="planetary-change-item status-{{ change.status.lower() }}">
+                                        <strong>{{ change.planet }}:</strong>
+                                        {% if change.status == "Stable" %}
+                                        Remains in {{ change.birth_sign }}
+                                        {% else %}
+                                        {{ change.birth_sign }} → {{ change.current_sign }}
+                                        {% endif %}
+                                        <small>{{ change.significance }}</small>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
             </section>
             {% endif %}
 
