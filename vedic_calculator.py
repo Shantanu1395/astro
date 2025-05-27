@@ -623,6 +623,78 @@ class VedicCalculator:
 
         return base_interpretation
 
+    def generate_planetary_remedies(self, planet_name: str, planet_position: PlanetPosition, overall_strength: str, strength_factors: List[Dict]) -> Dict[str, Any]:
+        """
+        Generate comprehensive remedial suggestions for weak planets.
+        Based on classical Vedic texts: Brihat Parashara Hora Shastra, Lal Kitab, and Jataka Parijata.
+        """
+        if overall_strength in ["Excellent", "Good"]:
+            return {
+                "remedies_needed": False,
+                "message": f"{planet_name} is strong and doesn't require remedial measures. Continue current positive practices."
+            }
+
+        # Get comprehensive remedies based on planet and its weaknesses
+        remedies = {
+            "remedies_needed": True,
+            "overall_approach": self._get_overall_remedy_approach(planet_name, overall_strength),
+            "gemstone_therapy": self._get_gemstone_remedies(planet_name, planet_position),
+            "mantra_therapy": self._get_mantra_remedies(planet_name),
+            "yantra_therapy": self._get_yantra_remedies(planet_name),
+            "color_therapy": self._get_color_remedies(planet_name),
+            "metal_therapy": self._get_metal_remedies(planet_name),
+            "day_specific_practices": self._get_day_specific_remedies(planet_name),
+            "dietary_recommendations": self._get_dietary_remedies(planet_name),
+            "charitable_activities": self._get_charity_remedies(planet_name),
+            "lifestyle_modifications": self._get_lifestyle_remedies(planet_name, planet_position),
+            "spiritual_practices": self._get_spiritual_remedies(planet_name),
+            "timing_recommendations": self._get_timing_remedies(planet_name),
+            "specific_weaknesses": self._get_specific_weakness_remedies(planet_name, strength_factors),
+            "precautions": self._get_planetary_precautions(planet_name),
+            "expected_timeline": self._get_remedy_timeline(planet_name, overall_strength)
+        }
+
+        return remedies
+
+    def generate_planetary_combination_description(self, planet_name: str, planet_position: PlanetPosition) -> Dict[str, str]:
+        """
+        Generate detailed description of planet in sign and house combination.
+        Based on classical texts: Brihat Parashara Hora Shastra, Jataka Parijata, Saravali.
+        """
+        sign = planet_position.sign
+        house = planet_position.house
+
+        # Get comprehensive combination analysis
+        sign_influence = self._get_planet_in_sign_meaning(planet_name, sign)
+        house_influence = self._get_planet_in_house_meaning(planet_name, house)
+        combined_effect = self._get_combined_planet_sign_house_effect(planet_name, sign, house)
+        life_manifestation = self._get_life_manifestation_description(planet_name, sign, house)
+        timing_activation = self._get_timing_activation_description(planet_name, house)
+
+        return {
+            "title": f"{planet_name} in {sign} in House {house} - Comprehensive Analysis",
+            "sign_influence": {
+                "title": f"Sign Influence ({planet_name} in {sign})",
+                "description": sign_influence
+            },
+            "house_influence": {
+                "title": f"House Influence ({planet_name} in House {house})",
+                "description": house_influence
+            },
+            "combined_effect": {
+                "title": "Combined Effect",
+                "description": combined_effect
+            },
+            "life_manifestation": {
+                "title": "Life Manifestation",
+                "description": life_manifestation
+            },
+            "timing_activation": {
+                "title": "Timing & Activation",
+                "description": timing_activation
+            }
+        }
+
     def calculate_planetary_aspects(self, chart: VedicChart) -> List[Dict[str, Any]]:
         """
         Calculate all planetary aspects - EXHAUSTIVE COVERAGE.
@@ -913,3 +985,481 @@ class VedicCalculator:
             analysis += division_insights[division]
 
         return analysis
+
+    # COMPREHENSIVE REMEDY METHODS
+
+    def _get_overall_remedy_approach(self, planet_name: str, strength: str) -> str:
+        """Get overall approach for planetary remedies."""
+        approaches = {
+            "Sun": "Focus on building confidence, leadership qualities, and spiritual practices. Strengthen your connection with divine authority and paternal figures.",
+            "Moon": "Emphasize emotional healing, nurturing practices, and connection with mother/feminine energy. Work on mental peace and intuitive development.",
+            "Mars": "Channel energy constructively through physical activities, courage-building practices, and righteous action. Avoid conflicts and anger.",
+            "Mercury": "Enhance communication skills, learning abilities, and intellectual pursuits. Focus on clarity of thought and speech.",
+            "Jupiter": "Develop wisdom, spiritual knowledge, and teaching abilities. Connect with gurus and engage in charitable activities.",
+            "Venus": "Cultivate artistic abilities, harmonious relationships, and aesthetic appreciation. Focus on love, beauty, and creativity.",
+            "Saturn": "Practice discipline, patience, and service to others. Accept responsibilities and work on long-term goals with persistence.",
+            "Rahu": "Ground yourself through spiritual practices and avoid excessive materialism. Focus on ethical pursuits and avoid shortcuts.",
+            "Ketu": "Develop spiritual detachment while maintaining worldly responsibilities. Practice meditation and seek inner wisdom."
+        }
+
+        base_approach = approaches.get(planet_name, "Focus on balancing this planetary energy through conscious effort and spiritual practices.")
+
+        if strength == "Very Weak":
+            return f"URGENT: {base_approach} Immediate and consistent remedial measures are essential."
+        elif strength == "Weak":
+            return f"IMPORTANT: {base_approach} Regular remedial practices will significantly help."
+        else:
+            return f"MODERATE: {base_approach} Some remedial support will be beneficial."
+
+    def _get_gemstone_remedies(self, planet_name: str, planet_position: PlanetPosition) -> Dict[str, Any]:
+        """Get gemstone therapy recommendations."""
+        gemstone_data = {
+            "Sun": {
+                "primary": "Ruby (Manik)",
+                "alternatives": ["Red Garnet", "Red Spinel"],
+                "weight": "3-6 carats",
+                "metal": "Gold",
+                "finger": "Ring finger (right hand)",
+                "day_to_wear": "Sunday morning",
+                "mantra_before_wearing": "Om Suryaya Namaha (108 times)",
+                "benefits": "Enhances leadership, confidence, vitality, and authority",
+                "precautions": "Avoid if you have high blood pressure or anger issues"
+            },
+            "Moon": {
+                "primary": "Pearl (Moti)",
+                "alternatives": ["Moonstone", "White Coral"],
+                "weight": "4-7 carats",
+                "metal": "Silver",
+                "finger": "Little finger (right hand)",
+                "day_to_wear": "Monday evening",
+                "mantra_before_wearing": "Om Chandraya Namaha (108 times)",
+                "benefits": "Improves emotional stability, intuition, and mental peace",
+                "precautions": "Replace every 2-3 years as pearls lose energy"
+            },
+            "Mars": {
+                "primary": "Red Coral (Moonga)",
+                "alternatives": ["Carnelian", "Red Jasper"],
+                "weight": "5-8 carats",
+                "metal": "Gold or Copper",
+                "finger": "Ring finger (right hand)",
+                "day_to_wear": "Tuesday morning",
+                "mantra_before_wearing": "Om Mangalaya Namaha (108 times)",
+                "benefits": "Increases courage, energy, and protection from enemies",
+                "precautions": "Avoid if you have excessive anger or aggression"
+            },
+            "Mercury": {
+                "primary": "Emerald (Panna)",
+                "alternatives": ["Green Tourmaline", "Peridot"],
+                "weight": "3-6 carats",
+                "metal": "Gold or Silver",
+                "finger": "Little finger (right hand)",
+                "day_to_wear": "Wednesday morning",
+                "mantra_before_wearing": "Om Budhaya Namaha (108 times)",
+                "benefits": "Enhances communication, intelligence, and business skills",
+                "precautions": "Test for 7 days before permanent wearing"
+            },
+            "Jupiter": {
+                "primary": "Yellow Sapphire (Pukhraj)",
+                "alternatives": ["Citrine", "Yellow Topaz"],
+                "weight": "4-7 carats",
+                "metal": "Gold",
+                "finger": "Index finger (right hand)",
+                "day_to_wear": "Thursday morning",
+                "mantra_before_wearing": "Om Gurave Namaha (108 times)",
+                "benefits": "Brings wisdom, prosperity, and spiritual growth",
+                "precautions": "Ensure high quality as low-grade stones can be harmful"
+            },
+            "Venus": {
+                "primary": "Diamond (Heera)",
+                "alternatives": ["White Sapphire", "Zircon"],
+                "weight": "1-3 carats",
+                "metal": "Platinum or White Gold",
+                "finger": "Middle finger (right hand)",
+                "day_to_wear": "Friday morning",
+                "mantra_before_wearing": "Om Shukraya Namaha (108 times)",
+                "benefits": "Improves relationships, creativity, and material comforts",
+                "precautions": "Very expensive; alternatives work well too"
+            },
+            "Saturn": {
+                "primary": "Blue Sapphire (Neelam)",
+                "alternatives": ["Amethyst", "Lapis Lazuli"],
+                "weight": "4-7 carats",
+                "metal": "Silver or Iron",
+                "finger": "Middle finger (right hand)",
+                "day_to_wear": "Saturday evening",
+                "mantra_before_wearing": "Om Shanaye Namaha (108 times)",
+                "benefits": "Provides discipline, patience, and karmic protection",
+                "precautions": "MUST test for 7 days - can give immediate negative effects if unsuitable"
+            },
+            "Rahu": {
+                "primary": "Hessonite (Gomed)",
+                "alternatives": ["Smoky Quartz", "Garnet"],
+                "weight": "5-8 carats",
+                "metal": "Silver or Panchdhatu",
+                "finger": "Middle finger (right hand)",
+                "day_to_wear": "Saturday evening",
+                "mantra_before_wearing": "Om Rahave Namaha (108 times)",
+                "benefits": "Reduces confusion, provides clarity, and material success",
+                "precautions": "Test carefully as Rahu stones can be unpredictable"
+            },
+            "Ketu": {
+                "primary": "Cat's Eye (Lehsunia)",
+                "alternatives": ["Tiger's Eye", "Chrysoberyl"],
+                "weight": "4-7 carats",
+                "metal": "Silver or Panchdhatu",
+                "finger": "Ring finger (right hand)",
+                "day_to_wear": "Tuesday or Saturday",
+                "mantra_before_wearing": "Om Ketave Namaha (108 times)",
+                "benefits": "Enhances spiritual insight and protects from hidden enemies",
+                "precautions": "Test for 7 days - can cause sudden changes"
+            }
+        }
+
+        return gemstone_data.get(planet_name, {
+            "primary": "Consult an expert",
+            "note": "Specific gemstone recommendations require detailed analysis"
+        })
+
+    def _get_mantra_remedies(self, planet_name: str) -> Dict[str, Any]:
+        """Get mantra therapy recommendations."""
+        mantra_data = {
+            "Sun": {
+                "beej_mantra": "Om Hraam Hreem Hraum Sah Suryaya Namaha",
+                "simple_mantra": "Om Suryaya Namaha",
+                "gayatri_mantra": "Om Bhaskaraya Vidmahe Mahadhyutikaraya Dhimahi Tanno Aditya Prachodayat",
+                "repetitions": "108 times daily or 7000 times in 40 days",
+                "best_time": "Sunrise to 1 hour after sunrise",
+                "direction": "Face East",
+                "benefits": "Increases vitality, confidence, and leadership abilities",
+                "special_days": "Sundays, Solar eclipses, Makar Sankranti"
+            },
+            "Moon": {
+                "beej_mantra": "Om Shraam Shreem Shraum Sah Chandraya Namaha",
+                "simple_mantra": "Om Chandraya Namaha",
+                "gayatri_mantra": "Om Padmadwajaya Vidmahe Hema Roopaya Dhimahi Tanno Soma Prachodayat",
+                "repetitions": "108 times daily or 11000 times in 40 days",
+                "best_time": "Evening after sunset or Monday evenings",
+                "direction": "Face North",
+                "benefits": "Improves emotional stability, intuition, and mental peace",
+                "special_days": "Mondays, Full moon days, Sharad Purnima"
+            },
+            "Mars": {
+                "beej_mantra": "Om Kraam Kreem Kraum Sah Bhaumaya Namaha",
+                "simple_mantra": "Om Mangalaya Namaha",
+                "gayatri_mantra": "Om Angarakaya Vidmahe Bhoomiputraya Dhimahi Tanno Mangal Prachodayat",
+                "repetitions": "108 times daily or 10000 times in 40 days",
+                "best_time": "Tuesday morning or evening",
+                "direction": "Face South",
+                "benefits": "Increases courage, energy, and protection",
+                "special_days": "Tuesdays, Hanuman Jayanti, Kartikeya festivals"
+            },
+            "Mercury": {
+                "beej_mantra": "Om Braam Breem Braum Sah Budhaya Namaha",
+                "simple_mantra": "Om Budhaya Namaha",
+                "gayatri_mantra": "Om Gajadhwajaya Vidmahe Sukha Hastaya Dhimahi Tanno Budh Prachodayat",
+                "repetitions": "108 times daily or 17000 times in 40 days",
+                "best_time": "Wednesday morning or evening",
+                "direction": "Face North",
+                "benefits": "Enhances intelligence, communication, and business skills",
+                "special_days": "Wednesdays, Ganesha Chaturthi, Saraswati Puja"
+            },
+            "Jupiter": {
+                "beej_mantra": "Om Graam Greem Graum Sah Gurave Namaha",
+                "simple_mantra": "Om Gurave Namaha",
+                "gayatri_mantra": "Om Vrishabadhwajaya Vidmahe Kruni Hastaya Dhimahi Tanno Guru Prachodayat",
+                "repetitions": "108 times daily or 16000 times in 40 days",
+                "best_time": "Thursday morning",
+                "direction": "Face Northeast",
+                "benefits": "Brings wisdom, prosperity, and spiritual growth",
+                "special_days": "Thursdays, Guru Purnima, Brihaspati festivals"
+            },
+            "Venus": {
+                "beej_mantra": "Om Draam Dreem Draum Sah Shukraya Namaha",
+                "simple_mantra": "Om Shukraya Namaha",
+                "gayatri_mantra": "Om Aswadhwajaya Vidmahe Dhanur Hastaya Dhimahi Tanno Shukra Prachodayat",
+                "repetitions": "108 times daily or 20000 times in 40 days",
+                "best_time": "Friday morning or evening",
+                "direction": "Face Southeast",
+                "benefits": "Improves relationships, creativity, and material comforts",
+                "special_days": "Fridays, Devi festivals, Lakshmi Puja"
+            },
+            "Saturn": {
+                "beej_mantra": "Om Praam Preem Praum Sah Shanaye Namaha",
+                "simple_mantra": "Om Shanaye Namaha",
+                "gayatri_mantra": "Om Kaakadhwajaya Vidmahe Khadga Hastaya Dhimahi Tanno Mandah Prachodayat",
+                "repetitions": "108 times daily or 19000 times in 40 days",
+                "best_time": "Saturday evening",
+                "direction": "Face West",
+                "benefits": "Provides discipline, patience, and karmic relief",
+                "special_days": "Saturdays, Shani Amavasya, Hanuman Jayanti"
+            },
+            "Rahu": {
+                "beej_mantra": "Om Bhraam Bhreem Bhraum Sah Rahave Namaha",
+                "simple_mantra": "Om Rahave Namaha",
+                "gayatri_mantra": "Om Naagadhwajaya Vidmahe Padma Hastaya Dhimahi Tanno Rahu Prachodayat",
+                "repetitions": "108 times daily or 18000 times in 40 days",
+                "best_time": "Saturday evening or Rahu Kaal",
+                "direction": "Face Southwest",
+                "benefits": "Reduces confusion and provides material success",
+                "special_days": "Saturdays, Solar eclipses, Nag Panchami"
+            },
+            "Ketu": {
+                "beej_mantra": "Om Sraam Sreem Sraum Sah Ketave Namaha",
+                "simple_mantra": "Om Ketave Namaha",
+                "gayatri_mantra": "Om Ashwadhwajaya Vidmahe Soola Hastaya Dhimahi Tanno Ketu Prachodayat",
+                "repetitions": "108 times daily or 7000 times in 40 days",
+                "best_time": "Tuesday evening or Ketu Kaal",
+                "direction": "Face Northwest",
+                "benefits": "Enhances spiritual insight and inner wisdom",
+                "special_days": "Tuesdays, Lunar eclipses, Ganesha festivals"
+            }
+        }
+
+        return mantra_data.get(planet_name, {
+            "simple_mantra": f"Om {planet_name}aya Namaha",
+            "repetitions": "108 times daily",
+            "note": "Consult a qualified astrologer for specific mantras"
+        })
+
+    def _get_yantra_remedies(self, planet_name: str) -> Dict[str, Any]:
+        """Get yantra therapy recommendations."""
+        yantra_data = {
+            "Sun": {"yantra": "Surya Yantra", "material": "Copper or Gold", "size": "3x3 inches", "placement": "East wall, worship room"},
+            "Moon": {"yantra": "Chandra Yantra", "material": "Silver", "size": "3x3 inches", "placement": "North wall, bedroom"},
+            "Mars": {"yantra": "Mangal Yantra", "material": "Copper", "size": "3x3 inches", "placement": "South wall, workout area"},
+            "Mercury": {"yantra": "Budh Yantra", "material": "Bronze", "size": "3x3 inches", "placement": "North wall, study room"},
+            "Jupiter": {"yantra": "Guru Yantra", "material": "Gold or Copper", "size": "3x3 inches", "placement": "Northeast corner"},
+            "Venus": {"yantra": "Shukra Yantra", "material": "Silver", "size": "3x3 inches", "placement": "Southeast corner"},
+            "Saturn": {"yantra": "Shani Yantra", "material": "Iron or Silver", "size": "3x3 inches", "placement": "West wall"},
+            "Rahu": {"yantra": "Rahu Yantra", "material": "Mixed metals", "size": "3x3 inches", "placement": "Southwest corner"},
+            "Ketu": {"yantra": "Ketu Yantra", "material": "Mixed metals", "size": "3x3 inches", "placement": "Northwest corner"}
+        }
+        return yantra_data.get(planet_name, {"yantra": f"{planet_name} Yantra", "note": "Consult expert for specific yantra"})
+
+    def _get_color_remedies(self, planet_name: str) -> Dict[str, Any]:
+        """Get color therapy recommendations."""
+        color_data = {
+            "Sun": {"primary_colors": ["Orange", "Red", "Gold"], "avoid_colors": ["Black", "Dark Blue"], "clothing": "Wear orange/red on Sundays", "home_decor": "Use warm colors in east-facing rooms"},
+            "Moon": {"primary_colors": ["White", "Silver", "Light Blue"], "avoid_colors": ["Dark colors"], "clothing": "Wear white/silver on Mondays", "home_decor": "Use cool colors in north-facing rooms"},
+            "Mars": {"primary_colors": ["Red", "Orange", "Coral"], "avoid_colors": ["Green"], "clothing": "Wear red on Tuesdays", "home_decor": "Use energetic colors in south-facing rooms"},
+            "Mercury": {"primary_colors": ["Green", "Light Blue"], "avoid_colors": ["Red"], "clothing": "Wear green on Wednesdays", "home_decor": "Use fresh colors in study areas"},
+            "Jupiter": {"primary_colors": ["Yellow", "Gold", "Orange"], "avoid_colors": ["Dark colors"], "clothing": "Wear yellow on Thursdays", "home_decor": "Use bright colors in northeast areas"},
+            "Venus": {"primary_colors": ["White", "Pink", "Light Blue"], "avoid_colors": ["Dark colors"], "clothing": "Wear white/pink on Fridays", "home_decor": "Use soft colors in southeast areas"},
+            "Saturn": {"primary_colors": ["Dark Blue", "Black", "Purple"], "avoid_colors": ["Bright colors"], "clothing": "Wear dark blue on Saturdays", "home_decor": "Use deep colors in west-facing rooms"},
+            "Rahu": {"primary_colors": ["Smoky colors", "Grey", "Brown"], "avoid_colors": ["Bright colors"], "clothing": "Wear muted colors", "home_decor": "Use earth tones"},
+            "Ketu": {"primary_colors": ["Brown", "Grey", "Maroon"], "avoid_colors": ["Bright colors"], "clothing": "Wear earth tones", "home_decor": "Use natural colors"}
+        }
+        return color_data.get(planet_name, {"primary_colors": ["Neutral colors"], "note": "Consult expert for specific colors"})
+
+    def _get_metal_remedies(self, planet_name: str) -> Dict[str, Any]:
+        """Get metal therapy recommendations."""
+        metal_data = {
+            "Sun": {"primary_metal": "Gold", "alternatives": ["Copper"], "wearing": "Gold jewelry, especially rings", "home_items": "Copper vessels for water"},
+            "Moon": {"primary_metal": "Silver", "alternatives": ["White metals"], "wearing": "Silver jewelry", "home_items": "Silver vessels for milk/water"},
+            "Mars": {"primary_metal": "Copper", "alternatives": ["Red metals"], "wearing": "Copper bracelet", "home_items": "Copper items in kitchen"},
+            "Mercury": {"primary_metal": "Bronze", "alternatives": ["Mixed metals"], "wearing": "Bronze accessories", "home_items": "Bronze items in study"},
+            "Jupiter": {"primary_metal": "Gold", "alternatives": ["Yellow metals"], "wearing": "Gold jewelry", "home_items": "Brass items in worship area"},
+            "Venus": {"primary_metal": "Silver", "alternatives": ["White metals"], "wearing": "Silver jewelry", "home_items": "Silver decorative items"},
+            "Saturn": {"primary_metal": "Iron", "alternatives": ["Dark metals"], "wearing": "Iron ring (with caution)", "home_items": "Iron items for protection"},
+            "Rahu": {"primary_metal": "Mixed metals", "alternatives": ["Alloys"], "wearing": "Mixed metal jewelry", "home_items": "Avoid pure metals"},
+            "Ketu": {"primary_metal": "Mixed metals", "alternatives": ["Alloys"], "wearing": "Simple metal accessories", "home_items": "Minimal metal items"}
+        }
+        return metal_data.get(planet_name, {"primary_metal": "Consult expert", "note": "Metal therapy requires careful consideration"})
+
+    def _get_day_specific_remedies(self, planet_name: str) -> Dict[str, Any]:
+        """Get day-specific remedy recommendations."""
+        day_data = {
+            "Sun": {"day": "Sunday", "fasting": "Sunrise to sunset", "worship": "Surya temples", "activities": "Leadership activities, helping father figures", "donations": "Wheat, jaggery, copper items"},
+            "Moon": {"day": "Monday", "fasting": "Evening fast", "worship": "Shiva temples", "activities": "Nurturing activities, helping mothers", "donations": "Rice, milk, silver items"},
+            "Mars": {"day": "Tuesday", "fasting": "Morning fast", "worship": "Hanuman temples", "activities": "Physical exercise, courage-building", "donations": "Red lentils, red clothes"},
+            "Mercury": {"day": "Wednesday", "fasting": "Partial fast", "worship": "Ganesha temples", "activities": "Learning, communication", "donations": "Green items, books"},
+            "Jupiter": {"day": "Thursday", "fasting": "Yellow food only", "worship": "Vishnu temples", "activities": "Teaching, spiritual study", "donations": "Yellow items, turmeric"},
+            "Venus": {"day": "Friday", "fasting": "White food only", "worship": "Devi temples", "activities": "Artistic pursuits, relationship harmony", "donations": "White items, sweets"},
+            "Saturn": {"day": "Saturday", "fasting": "Oil-free food", "worship": "Shani temples", "activities": "Service to elderly, discipline", "donations": "Black items, oil, iron"},
+            "Rahu": {"day": "Saturday", "fasting": "Avoid non-veg", "worship": "Durga temples", "activities": "Meditation, avoiding shortcuts", "donations": "Blue/black items"},
+            "Ketu": {"day": "Tuesday", "fasting": "Simple food", "worship": "Ganesha temples", "activities": "Spiritual practices, detachment", "donations": "Brown items, spiritual books"}
+        }
+        return day_data.get(planet_name, {"day": "Consult expert", "note": "Day-specific remedies require proper guidance"})
+
+    def _get_dietary_remedies(self, planet_name: str) -> Dict[str, Any]:
+        """Get dietary recommendations for planetary strengthening."""
+        diet_data = {
+            "Sun": {"beneficial_foods": ["Wheat", "Jaggery", "Orange fruits", "Almonds", "Saffron"], "avoid_foods": ["Cold foods", "Excessive salt"], "timing": "Eat warm foods during sunrise", "special_items": "Offer water to Sun with copper vessel"},
+            "Moon": {"beneficial_foods": ["Rice", "Milk", "White foods", "Coconut", "Cucumber"], "avoid_foods": ["Spicy foods", "Alcohol"], "timing": "Eat cooling foods in evening", "special_items": "Drink milk with cardamom"},
+            "Mars": {"beneficial_foods": ["Red lentils", "Pomegranate", "Red foods", "Garlic", "Ginger"], "avoid_foods": ["Excessive meat", "Alcohol"], "timing": "Eat energizing foods in morning", "special_items": "Drink water from copper vessel"},
+            "Mercury": {"beneficial_foods": ["Green vegetables", "Mint", "Green gram", "Fennel", "Cardamom"], "avoid_foods": ["Heavy foods", "Excessive oil"], "timing": "Light, fresh foods", "special_items": "Chew fennel after meals"},
+            "Jupiter": {"beneficial_foods": ["Yellow foods", "Turmeric", "Banana", "Chickpeas", "Ghee"], "avoid_foods": ["Non-vegetarian", "Alcohol"], "timing": "Sattvic foods only", "special_items": "Add turmeric to milk"},
+            "Venus": {"beneficial_foods": ["White foods", "Sugar", "Dairy", "Sweet fruits", "Rose water"], "avoid_foods": ["Bitter foods", "Excessive spice"], "timing": "Sweet foods in moderation", "special_items": "Rose water in drinks"},
+            "Saturn": {"beneficial_foods": ["Black gram", "Sesame", "Dark foods", "Iron-rich foods"], "avoid_foods": ["Excessive sweets", "Rich foods"], "timing": "Simple, disciplined eating", "special_items": "Sesame oil in cooking"},
+            "Rahu": {"beneficial_foods": ["Radish", "Garlic", "Onion", "Mustard"], "avoid_foods": ["Processed foods", "Shortcuts in cooking"], "timing": "Avoid eating during eclipses", "special_items": "Natural, unprocessed foods"},
+            "Ketu": {"beneficial_foods": ["Simple foods", "Spiritual foods", "Minimal spices"], "avoid_foods": ["Excessive variety", "Rich foods"], "timing": "Eat mindfully", "special_items": "Offer food before eating"}
+        }
+        return diet_data.get(planet_name, {"beneficial_foods": ["Sattvic foods"], "note": "Consult expert for specific dietary guidance"})
+
+    def _get_charity_remedies(self, planet_name: str) -> Dict[str, Any]:
+        """Get charitable activity recommendations."""
+        charity_data = {
+            "Sun": {"primary_charity": "Help government employees, fathers, authority figures", "items_to_donate": ["Wheat", "Jaggery", "Copper items", "Orange clothes"], "timing": "Sundays", "beneficiaries": "Government workers, elderly men"},
+            "Moon": {"primary_charity": "Help mothers, women, children", "items_to_donate": ["Rice", "Milk", "Silver items", "White clothes"], "timing": "Mondays, Full moon", "beneficiaries": "Mothers, children, elderly women"},
+            "Mars": {"primary_charity": "Help soldiers, athletes, young men", "items_to_donate": ["Red lentils", "Red clothes", "Copper items"], "timing": "Tuesdays", "beneficiaries": "Military personnel, athletes, laborers"},
+            "Mercury": {"primary_charity": "Help students, teachers, communicators", "items_to_donate": ["Books", "Green items", "Educational materials"], "timing": "Wednesdays", "beneficiaries": "Students, teachers, writers"},
+            "Jupiter": {"primary_charity": "Help teachers, priests, wise people", "items_to_donate": ["Yellow items", "Turmeric", "Religious books"], "timing": "Thursdays", "beneficiaries": "Teachers, priests, scholars"},
+            "Venus": {"primary_charity": "Help artists, women, young people", "items_to_donate": ["White items", "Sweets", "Artistic materials"], "timing": "Fridays", "beneficiaries": "Artists, young women, couples"},
+            "Saturn": {"primary_charity": "Help elderly, disabled, servants", "items_to_donate": ["Black items", "Oil", "Iron items", "Blankets"], "timing": "Saturdays", "beneficiaries": "Elderly, disabled, poor people"},
+            "Rahu": {"primary_charity": "Help foreigners, outcasts, technology workers", "items_to_donate": ["Blue/black items", "Modern items"], "timing": "Saturdays", "beneficiaries": "Foreigners, social outcasts"},
+            "Ketu": {"primary_charity": "Help spiritual seekers, researchers", "items_to_donate": ["Spiritual books", "Simple items"], "timing": "Tuesdays", "beneficiaries": "Spiritual seekers, researchers"}
+        }
+        return charity_data.get(planet_name, {"primary_charity": "Help those in need", "note": "Charity should be done with pure intentions"})
+
+    def _get_lifestyle_remedies(self, planet_name: str, planet_position: PlanetPosition) -> Dict[str, Any]:
+        """Get lifestyle modification recommendations."""
+        lifestyle_data = {
+            "Sun": {"wake_time": "Before sunrise", "exercise": "Surya Namaskara, outdoor activities", "meditation": "Sun gazing (safely)", "work_style": "Leadership roles, authority positions"},
+            "Moon": {"wake_time": "Early morning", "exercise": "Gentle yoga, swimming", "meditation": "Moon meditation, water meditation", "work_style": "Nurturing roles, public relations"},
+            "Mars": {"wake_time": "Early morning", "exercise": "Vigorous exercise, martial arts", "meditation": "Active meditation, sports", "work_style": "Competitive fields, physical work"},
+            "Mercury": {"wake_time": "Variable", "exercise": "Mental exercises, light physical activity", "meditation": "Mindfulness, study meditation", "work_style": "Communication, learning, business"},
+            "Jupiter": {"wake_time": "Early morning", "exercise": "Moderate exercise, yoga", "meditation": "Spiritual meditation, chanting", "work_style": "Teaching, counseling, spiritual work"},
+            "Venus": {"wake_time": "Comfortable timing", "exercise": "Dance, artistic movement", "meditation": "Beauty meditation, music", "work_style": "Creative fields, relationship work"},
+            "Saturn": {"wake_time": "Very early", "exercise": "Disciplined routine, endurance", "meditation": "Discipline meditation, service", "work_style": "Structured work, long-term projects"},
+            "Rahu": {"wake_time": "Irregular", "exercise": "Modern fitness, technology-aided", "meditation": "Innovative meditation techniques", "work_style": "Technology, foreign connections"},
+            "Ketu": {"wake_time": "Spiritual timing", "exercise": "Minimal, spiritual practices", "meditation": "Deep meditation, detachment", "work_style": "Research, spiritual work"}
+        }
+        return lifestyle_data.get(planet_name, {"note": "Consult expert for specific lifestyle recommendations"})
+
+    def _get_spiritual_remedies(self, planet_name: str) -> Dict[str, Any]:
+        """Get spiritual practice recommendations."""
+        spiritual_data = {
+            "Sun": {"primary_practice": "Surya meditation", "deity": "Lord Surya", "sacred_texts": "Aditya Hridayam", "pilgrimage": "Sun temples"},
+            "Moon": {"primary_practice": "Moon meditation", "deity": "Lord Shiva", "sacred_texts": "Chandra Stotra", "pilgrimage": "Shiva temples"},
+            "Mars": {"primary_practice": "Hanuman worship", "deity": "Lord Hanuman", "sacred_texts": "Hanuman Chalisa", "pilgrimage": "Hanuman temples"},
+            "Mercury": {"primary_practice": "Ganesha worship", "deity": "Lord Ganesha", "sacred_texts": "Ganesha Stotra", "pilgrimage": "Ganesha temples"},
+            "Jupiter": {"primary_practice": "Guru meditation", "deity": "Lord Vishnu", "sacred_texts": "Vishnu Sahasranama", "pilgrimage": "Vishnu temples"},
+            "Venus": {"primary_practice": "Devi worship", "deity": "Goddess Lakshmi", "sacred_texts": "Lakshmi Stotra", "pilgrimage": "Devi temples"},
+            "Saturn": {"primary_practice": "Shani meditation", "deity": "Lord Shani", "sacred_texts": "Shani Stotra", "pilgrimage": "Shani temples"},
+            "Rahu": {"primary_practice": "Durga worship", "deity": "Goddess Durga", "sacred_texts": "Durga Stotra", "pilgrimage": "Durga temples"},
+            "Ketu": {"primary_practice": "Ganesha worship", "deity": "Lord Ganesha", "sacred_texts": "Ganesha Atharvashirsha", "pilgrimage": "Ancient temples"}
+        }
+        return spiritual_data.get(planet_name, {"primary_practice": "General meditation", "note": "Consult spiritual guide"})
+
+    def _get_timing_remedies(self, planet_name: str) -> Dict[str, Any]:
+        """Get timing-based remedy recommendations."""
+        timing_data = {
+            "Sun": {"best_time": "Sunrise to 10 AM", "avoid_time": "Sunset to midnight", "planetary_hours": "Sunday 1st, 8th hour", "auspicious_periods": "Solar festivals"},
+            "Moon": {"best_time": "Evening to midnight", "avoid_time": "Noon to 3 PM", "planetary_hours": "Monday 1st, 8th hour", "auspicious_periods": "Full moon, new moon"},
+            "Mars": {"best_time": "Morning 6-9 AM", "avoid_time": "Evening 6-9 PM", "planetary_hours": "Tuesday 1st, 8th hour", "auspicious_periods": "Mars festivals"},
+            "Mercury": {"best_time": "Morning 9-12 PM", "avoid_time": "No specific restriction", "planetary_hours": "Wednesday 1st, 8th hour", "auspicious_periods": "Mercury festivals"},
+            "Jupiter": {"best_time": "Morning 6-10 AM", "avoid_time": "Evening 6-10 PM", "planetary_hours": "Thursday 1st, 8th hour", "auspicious_periods": "Guru Purnima"},
+            "Venus": {"best_time": "Evening 6-10 PM", "avoid_time": "Morning 6-10 AM", "planetary_hours": "Friday 1st, 8th hour", "auspicious_periods": "Venus festivals"},
+            "Saturn": {"best_time": "Evening after sunset", "avoid_time": "Morning sunrise", "planetary_hours": "Saturday 1st, 8th hour", "auspicious_periods": "Shani festivals"},
+            "Rahu": {"best_time": "Rahu Kaal", "avoid_time": "Auspicious times", "planetary_hours": "Saturday 4th, 5th hour", "auspicious_periods": "Eclipse times"},
+            "Ketu": {"best_time": "Ketu Kaal", "avoid_time": "Auspicious times", "planetary_hours": "Tuesday 4th, 5th hour", "auspicious_periods": "Eclipse times"}
+        }
+        return timing_data.get(planet_name, {"best_time": "Consult expert", "note": "Timing is crucial for remedies"})
+
+    def _get_specific_weakness_remedies(self, planet_name: str, strength_factors: List[Dict]) -> List[str]:
+        """Get remedies for specific weaknesses identified in strength analysis."""
+        specific_remedies = []
+
+        for factor in strength_factors:
+            if factor["score"] < 0:  # Negative factors need specific remedies
+                factor_name = factor["factor"]
+
+                if "debilitation" in factor_name.lower():
+                    specific_remedies.append(f"CRITICAL: {planet_name} is debilitated. Perform daily mantras and wear gemstone after proper consultation.")
+                elif "enemy sign" in factor_name.lower():
+                    specific_remedies.append(f"IMPORTANT: {planet_name} in enemy sign. Strengthen through friendly planet remedies and avoid conflicts.")
+                elif "6th house" in factor_name.lower():
+                    specific_remedies.append(f"Focus on service and health. {planet_name} in 6th house needs service-oriented activities.")
+                elif "8th house" in factor_name.lower():
+                    specific_remedies.append(f"Practice transformation rituals. {planet_name} in 8th house needs spiritual practices for transformation.")
+                elif "12th house" in factor_name.lower():
+                    specific_remedies.append(f"Engage in charitable activities. {planet_name} in 12th house benefits from selfless service.")
+                elif "combustion" in factor_name.lower():
+                    specific_remedies.append(f"URGENT: {planet_name} is combust. Perform specific mantras to reduce Sun's overpowering influence.")
+                elif "retrograde" in factor_name.lower():
+                    specific_remedies.append(f"Practice patience and review. {planet_name} retrograde needs careful, methodical approach.")
+
+        if not specific_remedies:
+            specific_remedies.append(f"Continue general {planet_name} strengthening practices for optimal results.")
+
+        return specific_remedies
+
+    def _get_planetary_precautions(self, planet_name: str) -> List[str]:
+        """Get precautions to observe while doing planetary remedies."""
+        precautions = {
+            "Sun": ["Avoid ego inflation", "Don't become overly authoritative", "Respect father figures", "Avoid anger during remedies"],
+            "Moon": ["Avoid emotional extremes", "Don't become overly dependent", "Respect mother figures", "Maintain emotional balance"],
+            "Mars": ["Control anger and aggression", "Avoid conflicts during remedies", "Channel energy positively", "Respect younger siblings"],
+            "Mercury": ["Avoid gossip and lies", "Don't overthink", "Maintain honesty in communication", "Respect teachers and students"],
+            "Jupiter": ["Avoid pride in knowledge", "Don't become preachy", "Respect gurus and elders", "Maintain humility"],
+            "Venus": ["Avoid excessive indulgence", "Don't become materialistic", "Maintain relationship harmony", "Respect women"],
+            "Saturn": ["Don't become overly pessimistic", "Avoid shortcuts", "Accept responsibilities", "Respect elderly and servants"],
+            "Rahu": ["Avoid shortcuts and unethical means", "Don't become obsessive", "Stay grounded", "Avoid foreign entanglements"],
+            "Ketu": ["Don't become overly detached", "Maintain worldly responsibilities", "Avoid isolation", "Balance spirituality with practicality"]
+        }
+        return precautions.get(planet_name, ["Follow general ethical guidelines", "Consult expert for specific precautions"])
+
+    def _get_remedy_timeline(self, planet_name: str, strength: str) -> Dict[str, str]:
+        """Get expected timeline for remedy effects."""
+        base_timelines = {
+            "Sun": {"immediate": "1-2 weeks", "moderate": "1-3 months", "significant": "6-12 months"},
+            "Moon": {"immediate": "3-7 days", "moderate": "2-4 weeks", "significant": "3-6 months"},
+            "Mars": {"immediate": "1-2 weeks", "moderate": "1-2 months", "significant": "6-9 months"},
+            "Mercury": {"immediate": "1 week", "moderate": "1 month", "significant": "3-6 months"},
+            "Jupiter": {"immediate": "2-4 weeks", "moderate": "3-6 months", "significant": "1-2 years"},
+            "Venus": {"immediate": "1-2 weeks", "moderate": "2-4 months", "significant": "6-12 months"},
+            "Saturn": {"immediate": "1-3 months", "moderate": "6-12 months", "significant": "2-3 years"},
+            "Rahu": {"immediate": "2-4 weeks", "moderate": "3-6 months", "significant": "1.5-3 years"},
+            "Ketu": {"immediate": "1-3 weeks", "moderate": "2-4 months", "significant": "1-2 years"}
+        }
+
+        timeline = base_timelines.get(planet_name, {"immediate": "2-4 weeks", "moderate": "2-6 months", "significant": "1-2 years"})
+
+        if strength == "Very Weak":
+            return {
+                "initial_relief": timeline["immediate"],
+                "noticeable_improvement": timeline["moderate"],
+                "significant_change": timeline["significant"],
+                "note": "Consistency is crucial for weak planets. Results may take longer but will be lasting."
+            }
+        elif strength == "Weak":
+            return {
+                "initial_relief": timeline["immediate"],
+                "noticeable_improvement": f"Half of {timeline['moderate']}",
+                "significant_change": f"Half of {timeline['significant']}",
+                "note": "Regular practice will show steady improvement."
+            }
+        else:
+            return {
+                "initial_relief": f"Half of {timeline['immediate']}",
+                "noticeable_improvement": f"Half of {timeline['moderate']}",
+                "significant_change": f"Half of {timeline['significant']}",
+                "note": "Moderate weakness responds well to consistent remedies."
+            }
+
+    # PLANETARY COMBINATION DESCRIPTION METHODS
+
+    def _get_planet_in_sign_meaning(self, planet_name: str, sign: str) -> str:
+        """Get detailed meaning of planet in specific sign."""
+        from planetary_combination_descriptions import get_planet_in_sign_meaning
+        return get_planet_in_sign_meaning(planet_name, sign)
+
+    def _get_planet_in_house_meaning(self, planet_name: str, house: int) -> str:
+        """Get detailed meaning of planet in specific house."""
+        from planetary_combination_descriptions import get_planet_in_house_meaning
+        return get_planet_in_house_meaning(planet_name, house)
+
+    def _get_combined_planet_sign_house_effect(self, planet_name: str, sign: str, house: int) -> str:
+        """Get combined effect of planet in specific sign and house."""
+        from planetary_combination_descriptions import get_combined_planet_sign_house_effect
+        return get_combined_planet_sign_house_effect(planet_name, sign, house)
+
+    def _get_life_manifestation_description(self, planet_name: str, sign: str, house: int) -> str:
+        """Get description of how this combination manifests in daily life."""
+        from planetary_combination_descriptions import get_life_manifestation_description
+        return get_life_manifestation_description(planet_name, sign, house)
+
+    def _get_timing_activation_description(self, planet_name: str, house: int) -> str:
+        """Get description of when and how this planetary placement gets activated."""
+        from planetary_combination_descriptions import get_timing_activation_description
+        return get_timing_activation_description(planet_name, house)

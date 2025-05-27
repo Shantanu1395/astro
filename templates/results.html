@@ -95,6 +95,157 @@
                         </div>
                         {% endif %}
 
+                        <!-- Enhanced Planetary Combination Description -->
+                        {% if planetary_descriptions[planet.name] %}
+                        <div class="planet-combination-description">
+                            <h5>🔍 Detailed Analysis</h5>
+                            <div class="combination-content">
+                                <h6>{{ planetary_descriptions[planet.name].title }}</h6>
+
+                                <div class="analysis-section">
+                                    <strong>{{ planetary_descriptions[planet.name].sign_influence.title }}:</strong>
+                                    <p>{{ planetary_descriptions[planet.name].sign_influence.description }}</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <strong>{{ planetary_descriptions[planet.name].house_influence.title }}:</strong>
+                                    <p>{{ planetary_descriptions[planet.name].house_influence.description }}</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <strong>{{ planetary_descriptions[planet.name].combined_effect.title }}:</strong>
+                                    <p>{{ planetary_descriptions[planet.name].combined_effect.description }}</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <strong>{{ planetary_descriptions[planet.name].life_manifestation.title }}:</strong>
+                                    <p>{{ planetary_descriptions[planet.name].life_manifestation.description }}</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <strong>{{ planetary_descriptions[planet.name].timing_activation.title }}:</strong>
+                                    <p>{{ planetary_descriptions[planet.name].timing_activation.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Remedial Suggestions -->
+                        {% if planetary_remedies[planet.name] and planetary_remedies[planet.name].remedies_needed %}
+                        <div class="planet-remedies">
+                            <h5>🌟 Remedial Suggestions</h5>
+
+                            <div class="remedy-overview">
+                                <p class="remedy-approach">{{ planetary_remedies[planet.name].overall_approach }}</p>
+                            </div>
+
+                            <div class="remedy-tabs">
+                                <div class="remedy-tab-buttons">
+                                    <button class="remedy-tab-btn active" data-tab="gemstone-{{ planet.name }}">💎 Gemstone</button>
+                                    <button class="remedy-tab-btn" data-tab="mantra-{{ planet.name }}">🕉️ Mantra</button>
+                                    <button class="remedy-tab-btn" data-tab="lifestyle-{{ planet.name }}">🌱 Lifestyle</button>
+                                    <button class="remedy-tab-btn" data-tab="charity-{{ planet.name }}">🤲 Charity</button>
+                                </div>
+
+                                <div class="remedy-tab-content">
+                                    <!-- Gemstone Therapy -->
+                                    <div id="gemstone-{{ planet.name }}" class="remedy-tab-panel active">
+                                        <h6>💎 Gemstone Therapy</h6>
+                                        <div class="gemstone-details">
+                                            <p><strong>Primary Gemstone:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.primary }}</p>
+                                            {% if planetary_remedies[planet.name].gemstone_therapy.alternatives %}
+                                            <p><strong>Alternatives:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.alternatives|join(', ') }}</p>
+                                            {% endif %}
+                                            {% if planetary_remedies[planet.name].gemstone_therapy.weight %}
+                                            <p><strong>Weight:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.weight }}</p>
+                                            <p><strong>Metal:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.metal }}</p>
+                                            <p><strong>Finger:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.finger }}</p>
+                                            <p><strong>Day to Wear:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.day_to_wear }}</p>
+                                            {% endif %}
+                                            {% if planetary_remedies[planet.name].gemstone_therapy.precautions %}
+                                            <p class="remedy-warning"><strong>⚠️ Precautions:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.precautions }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Mantra Therapy -->
+                                    <div id="mantra-{{ planet.name }}" class="remedy-tab-panel">
+                                        <h6>🕉️ Mantra Therapy</h6>
+                                        <div class="mantra-details">
+                                            <p><strong>Simple Mantra:</strong> <span class="mantra-text">{{ planetary_remedies[planet.name].mantra_therapy.simple_mantra }}</span></p>
+                                            {% if planetary_remedies[planet.name].mantra_therapy.beej_mantra %}
+                                            <p><strong>Beej Mantra:</strong> <span class="mantra-text">{{ planetary_remedies[planet.name].mantra_therapy.beej_mantra }}</span></p>
+                                            {% endif %}
+                                            <p><strong>Repetitions:</strong> {{ planetary_remedies[planet.name].mantra_therapy.repetitions }}</p>
+                                            {% if planetary_remedies[planet.name].mantra_therapy.best_time %}
+                                            <p><strong>Best Time:</strong> {{ planetary_remedies[planet.name].mantra_therapy.best_time }}</p>
+                                            <p><strong>Direction:</strong> {{ planetary_remedies[planet.name].mantra_therapy.direction }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Lifestyle Modifications -->
+                                    <div id="lifestyle-{{ planet.name }}" class="remedy-tab-panel">
+                                        <h6>🌱 Lifestyle Modifications</h6>
+                                        <div class="lifestyle-details">
+                                            {% if planetary_remedies[planet.name].lifestyle_modifications.wake_time %}
+                                            <p><strong>Wake Time:</strong> {{ planetary_remedies[planet.name].lifestyle_modifications.wake_time }}</p>
+                                            <p><strong>Exercise:</strong> {{ planetary_remedies[planet.name].lifestyle_modifications.exercise }}</p>
+                                            <p><strong>Meditation:</strong> {{ planetary_remedies[planet.name].lifestyle_modifications.meditation }}</p>
+                                            {% endif %}
+
+                                            {% if planetary_remedies[planet.name].color_therapy %}
+                                            <div class="color-therapy">
+                                                <p><strong>Beneficial Colors:</strong> {{ planetary_remedies[planet.name].color_therapy.primary_colors|join(', ') }}</p>
+                                                <p><strong>Clothing:</strong> {{ planetary_remedies[planet.name].color_therapy.clothing }}</p>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Charitable Activities -->
+                                    <div id="charity-{{ planet.name }}" class="remedy-tab-panel">
+                                        <h6>🤲 Charitable Activities</h6>
+                                        <div class="charity-details">
+                                            <p><strong>Primary Charity:</strong> {{ planetary_remedies[planet.name].charitable_activities.primary_charity }}</p>
+                                            <p><strong>Items to Donate:</strong> {{ planetary_remedies[planet.name].charitable_activities.items_to_donate|join(', ') }}</p>
+                                            <p><strong>Best Timing:</strong> {{ planetary_remedies[planet.name].charitable_activities.timing }}</p>
+                                            <p><strong>Beneficiaries:</strong> {{ planetary_remedies[planet.name].charitable_activities.beneficiaries }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Expected Timeline -->
+                            {% if planetary_remedies[planet.name].expected_timeline %}
+                            <div class="remedy-timeline">
+                                <h6>⏰ Expected Timeline</h6>
+                                <p><strong>Initial Relief:</strong> {{ planetary_remedies[planet.name].expected_timeline.initial_relief }}</p>
+                                <p><strong>Noticeable Improvement:</strong> {{ planetary_remedies[planet.name].expected_timeline.noticeable_improvement }}</p>
+                                <p><strong>Significant Change:</strong> {{ planetary_remedies[planet.name].expected_timeline.significant_change }}</p>
+                                <p class="timeline-note">{{ planetary_remedies[planet.name].expected_timeline.note }}</p>
+                            </div>
+                            {% endif %}
+
+                            <!-- Precautions -->
+                            {% if planetary_remedies[planet.name].precautions %}
+                            <div class="remedy-precautions">
+                                <h6>⚠️ Important Precautions</h6>
+                                <ul>
+                                    {% for precaution in planetary_remedies[planet.name].precautions %}
+                                    <li>{{ precaution }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% elif planetary_remedies[planet.name] and not planetary_remedies[planet.name].remedies_needed %}
+                        <div class="planet-no-remedies">
+                            <h5>✅ Strong Planet</h5>
+                            <p>{{ planetary_remedies[planet.name].message }}</p>
+                        </div>
+                        {% endif %}
+
                         <!-- House Significance -->
                         <div class="planet-meaning">
                             <h6>House {{ planet.house }} Significance:</h6>
@@ -1016,5 +1167,39 @@
             body { font-size: 12px; }
         }
     </style>
+
+    <script>
+        // Remedy tabs functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle remedy tab switching
+            const tabButtons = document.querySelectorAll('.remedy-tab-btn');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    const parentCard = this.closest('.planet-remedies');
+
+                    // Remove active class from all buttons in this card
+                    parentCard.querySelectorAll('.remedy-tab-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Remove active class from all panels in this card
+                    parentCard.querySelectorAll('.remedy-tab-panel').forEach(panel => {
+                        panel.classList.remove('active');
+                    });
+
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    // Show target panel
+                    const targetPanel = document.getElementById(targetTab);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

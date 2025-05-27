@@ -1,0 +1,1716 @@
+{
+  "success": true,
+  "birth_data": {
+    "name": "Shantanu Saini",
+    "birth_date": "1994-03-01",
+    "birth_time": "23:02:00",
+    "birth_location": "Faridabad, India"
+  },
+  "chart_summary": {
+    "ascendant_sign": "Makara",
+    "moon_sign": "Tula",
+    "sun_sign": "Kumbha",
+    "birth_nakshatra": "Swati"
+  },
+  "current_dasha": {
+    "planet": "Jupiter",
+    "remaining_years": 2.7583846680355926,
+    "start_date": "2012-02-29",
+    "end_date": "2028-02-29"
+  },
+  "planetary_analysis": {
+    "strengths": {
+      "Sun": {
+        "planet": "Sun",
+        "overall_strength": "Average",
+        "total_score": 40,
+        "strength_factors": [
+          {
+            "factor": "Unknown Sign Relationship",
+            "score": 10,
+            "description": "Sun in Kumbha - relationship unclear"
+          },
+          {
+            "factor": "Neither Exalted nor Debilitated",
+            "score": 0,
+            "description": "Sun in Kumbha - normal strength from exaltation perspective"
+          },
+          {
+            "factor": "Neutral Directional Position",
+            "score": 0,
+            "description": "Sun in house 1 - neutral directional strength"
+          },
+          {
+            "factor": "Temporal Strength (daytime)",
+            "score": 15,
+            "description": "Sun has good temporal strength during daytime"
+          },
+          {
+            "factor": "Natural Strength (Naisargika Bala)",
+            "score": 15,
+            "description": "Sun has high natural strength"
+          }
+        ],
+        "interpretation": "Sun has moderate strength. Results will be mixed - some positive and some challenging. Conscious effort can improve outcomes. Key strength factors: Temporal Strength (daytime), Natural Strength (Naisargika Bala)."
+      },
+      "Moon": {
+        "planet": "Moon",
+        "overall_strength": "Weak",
+        "total_score": 27,
+        "strength_factors": [
+          {
+            "factor": "Unknown Sign Relationship",
+            "score": 10,
+            "description": "Moon in Tula - relationship unclear"
+          },
+          {
+            "factor": "Neither Exalted nor Debilitated",
+            "score": 0,
+            "description": "Moon in Tula - normal strength from exaltation perspective"
+          },
+          {
+            "factor": "Neutral Directional Position",
+            "score": 0,
+            "description": "Moon in house 8 - neutral directional strength"
+          },
+          {
+            "factor": "Temporal Strength (daytime)",
+            "score": 5,
+            "description": "Moon has moderate temporal strength during daytime"
+          },
+          {
+            "factor": "Natural Strength (Naisargika Bala)",
+            "score": 12,
+            "description": "Moon has good natural strength"
+          }
+        ],
+        "interpretation": "Moon is weak and may struggle to give positive results. Extra care and remedial measures may be needed to strengthen this planet."
+      },
+      "Mercury": {
+        "planet": "Mercury",
+        "overall_strength": "Average",
+        "total_score": 43,
+        "strength_factors": [
+          {
+            "factor": "Unknown Sign Relationship",
+            "score": 10,
+            "description": "Mercury in Makara - relationship unclear"
+          },
+          {
+            "factor": "Neither Exalted nor Debilitated",
+            "score": 0,
+            "description": "Mercury in Makara - normal strength from exaltation perspective"
+          },
+          {
+            "factor": "Directional Strength (Dig Bala)",
+            "score": 15,
+            "description": "Mercury is in its directional strength house 1, providing maximum directional power"
+          },
+          {
+            "factor": "Temporal Strength (daytime)",
+            "score": 10,
+            "description": "Mercury has good temporal strength during daytime"
+          },
+          {
+            "factor": "Natural Strength (Naisargika Bala)",
+            "score": 8,
+            "description": "Mercury has moderate natural strength"
+          }
+        ],
+        "interpretation": "Mercury has moderate strength. Results will be mixed - some positive and some challenging. Conscious effort can improve outcomes. Key strength factors: Directional Strength (Dig Bala)."
+      },
+      "Venus": {
+        "planet": "Venus",
+        "overall_strength": "Weak",
+        "total_score": 25,
+        "strength_factors": [
+          {
+            "factor": "Unknown Sign Relationship",
+            "score": 10,
+            "description": "Venus in Kumbha - relationship unclear"
+          },
+          {
+            "factor": "Neither Exalted nor Debilitated",
+            "score": 0,
+            "description": "Venus in Kumbha - normal strength from exaltation perspective"
+          },
+          {
+            "factor": "Neutral Directional Position",
+            "score": 0,
+            "description": "Venus in house 1 - neutral directional strength"
+          },
+          {
+            "factor": "Temporal Strength (daytime)",
+            "score": 5,
+            "description": "Venus has moderate temporal strength during daytime"
+          },
+          {
+            "factor": "Natural Strength (Naisargika Bala)",
+            "score": 10,
+            "description": "Venus has good natural strength"
+          }
+        ],
+        "interpretation": "Venus is weak and may struggle to give positive results. Extra care and remedial measures may be needed to strengthen this planet."
+      },
+      "Mars": {
+        "planet": "Mars",
+        "overall_strength": "Weak",
+        "total_score": 37,
+        "strength_factors": [
+          {
+            "factor": "Unknown Sign Relationship",
+            "score": 10,
+            "description": "Mars in Kumbha - relationship unclear"
+          },
+          {
+            "factor": "Neither Exalted nor Debilitated",
+            "score": 0,
+            "description": "Mars in Kumbha - normal strength from exaltation perspective"
+          },
+          {
+            "factor": "Neutral Directional Position",
+            "score": 0,
+            "description": "Mars in house 1 - neutral directional strength"
+          },
+          {
+            "factor": "Temporal Strength (daytime)",
+            "score": 15,
+            "description": "Mars has good temporal strength during daytime"
+          },
+          {
+            "factor": "Natural Strength (Naisargika Bala)",
+            "score": 12,
+            "description": "Mars has good natural strength"
+          }
+        ],
+        "interpretation": "Mars is weak and may struggle to give positive results. Extra care and remedial measures may be needed to strengthen this planet. Key strength factors: Temporal Strength (daytime)."
+      },
+      "Jupiter": {
+        "planet": "Jupiter",
+        "overall_strength": "Average",
+        "total_score": 43,
+        "strength_factors": [
+          {
+            "factor": "Unknown Sign Relationship",
+            "score": 10,
+            "description": "Jupiter in Tula - relationship unclear"
+          },
+          {
+            "factor": "Neither Exalted nor Debilitated",
+            "score": 0,
+            "description": "Jupiter in Tula - normal strength from exaltation perspective"
+          },
+          {
+            "factor": "Neutral Directional Position",
+            "score": 0,
+            "description": "Jupiter in house 9 - neutral directional strength"
+          },
+          {
+            "factor": "Temporal Strength (daytime)",
+            "score": 15,
+            "description": "Jupiter has good temporal strength during daytime"
+          },
+          {
+            "factor": "Natural Strength (Naisargika Bala)",
+            "score": 18,
+            "description": "Jupiter has high natural strength"
+          }
+        ],
+        "interpretation": "Jupiter has moderate strength. Results will be mixed - some positive and some challenging. Conscious effort can improve outcomes. Key strength factors: Temporal Strength (daytime), Natural Strength (Naisargika Bala)."
+      },
+      "Saturn": {
+        "planet": "Saturn",
+        "overall_strength": "Very Weak",
+        "total_score": 16,
+        "strength_factors": [
+          {
+            "factor": "Unknown Sign Relationship",
+            "score": 10,
+            "description": "Saturn in Kumbha - relationship unclear"
+          },
+          {
+            "factor": "Neither Exalted nor Debilitated",
+            "score": 0,
+            "description": "Saturn in Kumbha - normal strength from exaltation perspective"
+          },
+          {
+            "factor": "Directional Weakness",
+            "score": -5,
+            "description": "Saturn is opposite to its directional strength, creating directional weakness"
+          },
+          {
+            "factor": "Temporal Strength (daytime)",
+            "score": 5,
+            "description": "Saturn has moderate temporal strength during daytime"
+          },
+          {
+            "factor": "Natural Strength (Naisargika Bala)",
+            "score": 6,
+            "description": "Saturn has moderate natural strength"
+          }
+        ],
+        "interpretation": "Saturn is very weak and may give challenging results. Strong remedial measures and spiritual practices are recommended. Key strength factors: Directional Weakness."
+      },
+      "Rahu": {
+        "planet": "Rahu",
+        "overall_strength": "Weak",
+        "total_score": 23,
+        "strength_factors": [
+          {
+            "factor": "Unknown Sign Relationship",
+            "score": 10,
+            "description": "Rahu in Vrishchika - relationship unclear"
+          },
+          {
+            "factor": "Neither Exalted nor Debilitated",
+            "score": 0,
+            "description": "Rahu in Vrishchika - normal strength from exaltation perspective"
+          },
+          {
+            "factor": "Neutral Directional Position",
+            "score": 0,
+            "description": "Rahu in house 9 - neutral directional strength"
+          },
+          {
+            "factor": "Temporal Strength (daytime)",
+            "score": 5,
+            "description": "Rahu has moderate temporal strength during daytime"
+          },
+          {
+            "factor": "Natural Strength (Naisargika Bala)",
+            "score": 8,
+            "description": "Rahu has moderate natural strength"
+          }
+        ],
+        "interpretation": "Rahu is weak and may struggle to give positive results. Extra care and remedial measures may be needed to strengthen this planet."
+      },
+      "Ketu": {
+        "planet": "Ketu",
+        "overall_strength": "Weak",
+        "total_score": 33,
+        "strength_factors": [
+          {
+            "factor": "Unknown Sign Relationship",
+            "score": 10,
+            "description": "Ketu in Vrishabha - relationship unclear"
+          },
+          {
+            "factor": "Neither Exalted nor Debilitated",
+            "score": 0,
+            "description": "Ketu in Vrishabha - normal strength from exaltation perspective"
+          },
+          {
+            "factor": "Neutral Directional Position",
+            "score": 0,
+            "description": "Ketu in house 3 - neutral directional strength"
+          },
+          {
+            "factor": "Temporal Strength (daytime)",
+            "score": 15,
+            "description": "Ketu has good temporal strength during daytime"
+          },
+          {
+            "factor": "Natural Strength (Naisargika Bala)",
+            "score": 8,
+            "description": "Ketu has moderate natural strength"
+          }
+        ],
+        "interpretation": "Ketu is weak and may struggle to give positive results. Extra care and remedial measures may be needed to strengthen this planet. Key strength factors: Temporal Strength (daytime)."
+      }
+    },
+    "remedies": {
+      "Sun": {
+        "remedies_needed": true,
+        "overall_approach": "MODERATE: Focus on building confidence, leadership qualities, and spiritual practices. Strengthen your connection with divine authority and paternal figures. Some remedial support will be beneficial.",
+        "gemstone_therapy": {
+          "primary": "Ruby (Manik)",
+          "alternatives": [
+            "Red Garnet",
+            "Red Spinel"
+          ],
+          "weight": "3-6 carats",
+          "metal": "Gold",
+          "finger": "Ring finger (right hand)",
+          "day_to_wear": "Sunday morning",
+          "mantra_before_wearing": "Om Suryaya Namaha (108 times)",
+          "benefits": "Enhances leadership, confidence, vitality, and authority",
+          "precautions": "Avoid if you have high blood pressure or anger issues"
+        },
+        "mantra_therapy": {
+          "beej_mantra": "Om Hraam Hreem Hraum Sah Suryaya Namaha",
+          "simple_mantra": "Om Suryaya Namaha",
+          "gayatri_mantra": "Om Bhaskaraya Vidmahe Mahadhyutikaraya Dhimahi Tanno Aditya Prachodayat",
+          "repetitions": "108 times daily or 7000 times in 40 days",
+          "best_time": "Sunrise to 1 hour after sunrise",
+          "direction": "Face East",
+          "benefits": "Increases vitality, confidence, and leadership abilities",
+          "special_days": "Sundays, Solar eclipses, Makar Sankranti"
+        },
+        "yantra_therapy": {
+          "yantra": "Surya Yantra",
+          "material": "Copper or Gold",
+          "size": "3x3 inches",
+          "placement": "East wall, worship room"
+        },
+        "color_therapy": {
+          "primary_colors": [
+            "Orange",
+            "Red",
+            "Gold"
+          ],
+          "avoid_colors": [
+            "Black",
+            "Dark Blue"
+          ],
+          "clothing": "Wear orange/red on Sundays",
+          "home_decor": "Use warm colors in east-facing rooms"
+        },
+        "metal_therapy": {
+          "primary_metal": "Gold",
+          "alternatives": [
+            "Copper"
+          ],
+          "wearing": "Gold jewelry, especially rings",
+          "home_items": "Copper vessels for water"
+        },
+        "day_specific_practices": {
+          "day": "Sunday",
+          "fasting": "Sunrise to sunset",
+          "worship": "Surya temples",
+          "activities": "Leadership activities, helping father figures",
+          "donations": "Wheat, jaggery, copper items"
+        },
+        "dietary_recommendations": {
+          "beneficial_foods": [
+            "Wheat",
+            "Jaggery",
+            "Orange fruits",
+            "Almonds",
+            "Saffron"
+          ],
+          "avoid_foods": [
+            "Cold foods",
+            "Excessive salt"
+          ],
+          "timing": "Eat warm foods during sunrise",
+          "special_items": "Offer water to Sun with copper vessel"
+        },
+        "charitable_activities": {
+          "primary_charity": "Help government employees, fathers, authority figures",
+          "items_to_donate": [
+            "Wheat",
+            "Jaggery",
+            "Copper items",
+            "Orange clothes"
+          ],
+          "timing": "Sundays",
+          "beneficiaries": "Government workers, elderly men"
+        },
+        "lifestyle_modifications": {
+          "wake_time": "Before sunrise",
+          "exercise": "Surya Namaskara, outdoor activities",
+          "meditation": "Sun gazing (safely)",
+          "work_style": "Leadership roles, authority positions"
+        },
+        "spiritual_practices": {
+          "primary_practice": "Surya meditation",
+          "deity": "Lord Surya",
+          "sacred_texts": "Aditya Hridayam",
+          "pilgrimage": "Sun temples"
+        },
+        "timing_recommendations": {
+          "best_time": "Sunrise to 10 AM",
+          "avoid_time": "Sunset to midnight",
+          "planetary_hours": "Sunday 1st, 8th hour",
+          "auspicious_periods": "Solar festivals"
+        },
+        "specific_weaknesses": [
+          "Continue general Sun strengthening practices for optimal results."
+        ],
+        "precautions": [
+          "Avoid ego inflation",
+          "Don't become overly authoritative",
+          "Respect father figures",
+          "Avoid anger during remedies"
+        ],
+        "expected_timeline": {
+          "initial_relief": "Half of 1-2 weeks",
+          "noticeable_improvement": "Half of 1-3 months",
+          "significant_change": "Half of 6-12 months",
+          "note": "Moderate weakness responds well to consistent remedies."
+        }
+      },
+      "Moon": {
+        "remedies_needed": true,
+        "overall_approach": "IMPORTANT: Emphasize emotional healing, nurturing practices, and connection with mother/feminine energy. Work on mental peace and intuitive development. Regular remedial practices will significantly help.",
+        "gemstone_therapy": {
+          "primary": "Pearl (Moti)",
+          "alternatives": [
+            "Moonstone",
+            "White Coral"
+          ],
+          "weight": "4-7 carats",
+          "metal": "Silver",
+          "finger": "Little finger (right hand)",
+          "day_to_wear": "Monday evening",
+          "mantra_before_wearing": "Om Chandraya Namaha (108 times)",
+          "benefits": "Improves emotional stability, intuition, and mental peace",
+          "precautions": "Replace every 2-3 years as pearls lose energy"
+        },
+        "mantra_therapy": {
+          "beej_mantra": "Om Shraam Shreem Shraum Sah Chandraya Namaha",
+          "simple_mantra": "Om Chandraya Namaha",
+          "gayatri_mantra": "Om Padmadwajaya Vidmahe Hema Roopaya Dhimahi Tanno Soma Prachodayat",
+          "repetitions": "108 times daily or 11000 times in 40 days",
+          "best_time": "Evening after sunset or Monday evenings",
+          "direction": "Face North",
+          "benefits": "Improves emotional stability, intuition, and mental peace",
+          "special_days": "Mondays, Full moon days, Sharad Purnima"
+        },
+        "yantra_therapy": {
+          "yantra": "Chandra Yantra",
+          "material": "Silver",
+          "size": "3x3 inches",
+          "placement": "North wall, bedroom"
+        },
+        "color_therapy": {
+          "primary_colors": [
+            "White",
+            "Silver",
+            "Light Blue"
+          ],
+          "avoid_colors": [
+            "Dark colors"
+          ],
+          "clothing": "Wear white/silver on Mondays",
+          "home_decor": "Use cool colors in north-facing rooms"
+        },
+        "metal_therapy": {
+          "primary_metal": "Silver",
+          "alternatives": [
+            "White metals"
+          ],
+          "wearing": "Silver jewelry",
+          "home_items": "Silver vessels for milk/water"
+        },
+        "day_specific_practices": {
+          "day": "Monday",
+          "fasting": "Evening fast",
+          "worship": "Shiva temples",
+          "activities": "Nurturing activities, helping mothers",
+          "donations": "Rice, milk, silver items"
+        },
+        "dietary_recommendations": {
+          "beneficial_foods": [
+            "Rice",
+            "Milk",
+            "White foods",
+            "Coconut",
+            "Cucumber"
+          ],
+          "avoid_foods": [
+            "Spicy foods",
+            "Alcohol"
+          ],
+          "timing": "Eat cooling foods in evening",
+          "special_items": "Drink milk with cardamom"
+        },
+        "charitable_activities": {
+          "primary_charity": "Help mothers, women, children",
+          "items_to_donate": [
+            "Rice",
+            "Milk",
+            "Silver items",
+            "White clothes"
+          ],
+          "timing": "Mondays, Full moon",
+          "beneficiaries": "Mothers, children, elderly women"
+        },
+        "lifestyle_modifications": {
+          "wake_time": "Early morning",
+          "exercise": "Gentle yoga, swimming",
+          "meditation": "Moon meditation, water meditation",
+          "work_style": "Nurturing roles, public relations"
+        },
+        "spiritual_practices": {
+          "primary_practice": "Moon meditation",
+          "deity": "Lord Shiva",
+          "sacred_texts": "Chandra Stotra",
+          "pilgrimage": "Shiva temples"
+        },
+        "timing_recommendations": {
+          "best_time": "Evening to midnight",
+          "avoid_time": "Noon to 3 PM",
+          "planetary_hours": "Monday 1st, 8th hour",
+          "auspicious_periods": "Full moon, new moon"
+        },
+        "specific_weaknesses": [
+          "Continue general Moon strengthening practices for optimal results."
+        ],
+        "precautions": [
+          "Avoid emotional extremes",
+          "Don't become overly dependent",
+          "Respect mother figures",
+          "Maintain emotional balance"
+        ],
+        "expected_timeline": {
+          "initial_relief": "3-7 days",
+          "noticeable_improvement": "Half of 2-4 weeks",
+          "significant_change": "Half of 3-6 months",
+          "note": "Regular practice will show steady improvement."
+        }
+      },
+      "Mercury": {
+        "remedies_needed": true,
+        "overall_approach": "MODERATE: Enhance communication skills, learning abilities, and intellectual pursuits. Focus on clarity of thought and speech. Some remedial support will be beneficial.",
+        "gemstone_therapy": {
+          "primary": "Emerald (Panna)",
+          "alternatives": [
+            "Green Tourmaline",
+            "Peridot"
+          ],
+          "weight": "3-6 carats",
+          "metal": "Gold or Silver",
+          "finger": "Little finger (right hand)",
+          "day_to_wear": "Wednesday morning",
+          "mantra_before_wearing": "Om Budhaya Namaha (108 times)",
+          "benefits": "Enhances communication, intelligence, and business skills",
+          "precautions": "Test for 7 days before permanent wearing"
+        },
+        "mantra_therapy": {
+          "beej_mantra": "Om Braam Breem Braum Sah Budhaya Namaha",
+          "simple_mantra": "Om Budhaya Namaha",
+          "gayatri_mantra": "Om Gajadhwajaya Vidmahe Sukha Hastaya Dhimahi Tanno Budh Prachodayat",
+          "repetitions": "108 times daily or 17000 times in 40 days",
+          "best_time": "Wednesday morning or evening",
+          "direction": "Face North",
+          "benefits": "Enhances intelligence, communication, and business skills",
+          "special_days": "Wednesdays, Ganesha Chaturthi, Saraswati Puja"
+        },
+        "yantra_therapy": {
+          "yantra": "Budh Yantra",
+          "material": "Bronze",
+          "size": "3x3 inches",
+          "placement": "North wall, study room"
+        },
+        "color_therapy": {
+          "primary_colors": [
+            "Green",
+            "Light Blue"
+          ],
+          "avoid_colors": [
+            "Red"
+          ],
+          "clothing": "Wear green on Wednesdays",
+          "home_decor": "Use fresh colors in study areas"
+        },
+        "metal_therapy": {
+          "primary_metal": "Bronze",
+          "alternatives": [
+            "Mixed metals"
+          ],
+          "wearing": "Bronze accessories",
+          "home_items": "Bronze items in study"
+        },
+        "day_specific_practices": {
+          "day": "Wednesday",
+          "fasting": "Partial fast",
+          "worship": "Ganesha temples",
+          "activities": "Learning, communication",
+          "donations": "Green items, books"
+        },
+        "dietary_recommendations": {
+          "beneficial_foods": [
+            "Green vegetables",
+            "Mint",
+            "Green gram",
+            "Fennel",
+            "Cardamom"
+          ],
+          "avoid_foods": [
+            "Heavy foods",
+            "Excessive oil"
+          ],
+          "timing": "Light, fresh foods",
+          "special_items": "Chew fennel after meals"
+        },
+        "charitable_activities": {
+          "primary_charity": "Help students, teachers, communicators",
+          "items_to_donate": [
+            "Books",
+            "Green items",
+            "Educational materials"
+          ],
+          "timing": "Wednesdays",
+          "beneficiaries": "Students, teachers, writers"
+        },
+        "lifestyle_modifications": {
+          "wake_time": "Variable",
+          "exercise": "Mental exercises, light physical activity",
+          "meditation": "Mindfulness, study meditation",
+          "work_style": "Communication, learning, business"
+        },
+        "spiritual_practices": {
+          "primary_practice": "Ganesha worship",
+          "deity": "Lord Ganesha",
+          "sacred_texts": "Ganesha Stotra",
+          "pilgrimage": "Ganesha temples"
+        },
+        "timing_recommendations": {
+          "best_time": "Morning 9-12 PM",
+          "avoid_time": "No specific restriction",
+          "planetary_hours": "Wednesday 1st, 8th hour",
+          "auspicious_periods": "Mercury festivals"
+        },
+        "specific_weaknesses": [
+          "Continue general Mercury strengthening practices for optimal results."
+        ],
+        "precautions": [
+          "Avoid gossip and lies",
+          "Don't overthink",
+          "Maintain honesty in communication",
+          "Respect teachers and students"
+        ],
+        "expected_timeline": {
+          "initial_relief": "Half of 1 week",
+          "noticeable_improvement": "Half of 1 month",
+          "significant_change": "Half of 3-6 months",
+          "note": "Moderate weakness responds well to consistent remedies."
+        }
+      },
+      "Venus": {
+        "remedies_needed": true,
+        "overall_approach": "IMPORTANT: Cultivate artistic abilities, harmonious relationships, and aesthetic appreciation. Focus on love, beauty, and creativity. Regular remedial practices will significantly help.",
+        "gemstone_therapy": {
+          "primary": "Diamond (Heera)",
+          "alternatives": [
+            "White Sapphire",
+            "Zircon"
+          ],
+          "weight": "1-3 carats",
+          "metal": "Platinum or White Gold",
+          "finger": "Middle finger (right hand)",
+          "day_to_wear": "Friday morning",
+          "mantra_before_wearing": "Om Shukraya Namaha (108 times)",
+          "benefits": "Improves relationships, creativity, and material comforts",
+          "precautions": "Very expensive; alternatives work well too"
+        },
+        "mantra_therapy": {
+          "beej_mantra": "Om Draam Dreem Draum Sah Shukraya Namaha",
+          "simple_mantra": "Om Shukraya Namaha",
+          "gayatri_mantra": "Om Aswadhwajaya Vidmahe Dhanur Hastaya Dhimahi Tanno Shukra Prachodayat",
+          "repetitions": "108 times daily or 20000 times in 40 days",
+          "best_time": "Friday morning or evening",
+          "direction": "Face Southeast",
+          "benefits": "Improves relationships, creativity, and material comforts",
+          "special_days": "Fridays, Devi festivals, Lakshmi Puja"
+        },
+        "yantra_therapy": {
+          "yantra": "Shukra Yantra",
+          "material": "Silver",
+          "size": "3x3 inches",
+          "placement": "Southeast corner"
+        },
+        "color_therapy": {
+          "primary_colors": [
+            "White",
+            "Pink",
+            "Light Blue"
+          ],
+          "avoid_colors": [
+            "Dark colors"
+          ],
+          "clothing": "Wear white/pink on Fridays",
+          "home_decor": "Use soft colors in southeast areas"
+        },
+        "metal_therapy": {
+          "primary_metal": "Silver",
+          "alternatives": [
+            "White metals"
+          ],
+          "wearing": "Silver jewelry",
+          "home_items": "Silver decorative items"
+        },
+        "day_specific_practices": {
+          "day": "Friday",
+          "fasting": "White food only",
+          "worship": "Devi temples",
+          "activities": "Artistic pursuits, relationship harmony",
+          "donations": "White items, sweets"
+        },
+        "dietary_recommendations": {
+          "beneficial_foods": [
+            "White foods",
+            "Sugar",
+            "Dairy",
+            "Sweet fruits",
+            "Rose water"
+          ],
+          "avoid_foods": [
+            "Bitter foods",
+            "Excessive spice"
+          ],
+          "timing": "Sweet foods in moderation",
+          "special_items": "Rose water in drinks"
+        },
+        "charitable_activities": {
+          "primary_charity": "Help artists, women, young people",
+          "items_to_donate": [
+            "White items",
+            "Sweets",
+            "Artistic materials"
+          ],
+          "timing": "Fridays",
+          "beneficiaries": "Artists, young women, couples"
+        },
+        "lifestyle_modifications": {
+          "wake_time": "Comfortable timing",
+          "exercise": "Dance, artistic movement",
+          "meditation": "Beauty meditation, music",
+          "work_style": "Creative fields, relationship work"
+        },
+        "spiritual_practices": {
+          "primary_practice": "Devi worship",
+          "deity": "Goddess Lakshmi",
+          "sacred_texts": "Lakshmi Stotra",
+          "pilgrimage": "Devi temples"
+        },
+        "timing_recommendations": {
+          "best_time": "Evening 6-10 PM",
+          "avoid_time": "Morning 6-10 AM",
+          "planetary_hours": "Friday 1st, 8th hour",
+          "auspicious_periods": "Venus festivals"
+        },
+        "specific_weaknesses": [
+          "Continue general Venus strengthening practices for optimal results."
+        ],
+        "precautions": [
+          "Avoid excessive indulgence",
+          "Don't become materialistic",
+          "Maintain relationship harmony",
+          "Respect women"
+        ],
+        "expected_timeline": {
+          "initial_relief": "1-2 weeks",
+          "noticeable_improvement": "Half of 2-4 months",
+          "significant_change": "Half of 6-12 months",
+          "note": "Regular practice will show steady improvement."
+        }
+      },
+      "Mars": {
+        "remedies_needed": true,
+        "overall_approach": "IMPORTANT: Channel energy constructively through physical activities, courage-building practices, and righteous action. Avoid conflicts and anger. Regular remedial practices will significantly help.",
+        "gemstone_therapy": {
+          "primary": "Red Coral (Moonga)",
+          "alternatives": [
+            "Carnelian",
+            "Red Jasper"
+          ],
+          "weight": "5-8 carats",
+          "metal": "Gold or Copper",
+          "finger": "Ring finger (right hand)",
+          "day_to_wear": "Tuesday morning",
+          "mantra_before_wearing": "Om Mangalaya Namaha (108 times)",
+          "benefits": "Increases courage, energy, and protection from enemies",
+          "precautions": "Avoid if you have excessive anger or aggression"
+        },
+        "mantra_therapy": {
+          "beej_mantra": "Om Kraam Kreem Kraum Sah Bhaumaya Namaha",
+          "simple_mantra": "Om Mangalaya Namaha",
+          "gayatri_mantra": "Om Angarakaya Vidmahe Bhoomiputraya Dhimahi Tanno Mangal Prachodayat",
+          "repetitions": "108 times daily or 10000 times in 40 days",
+          "best_time": "Tuesday morning or evening",
+          "direction": "Face South",
+          "benefits": "Increases courage, energy, and protection",
+          "special_days": "Tuesdays, Hanuman Jayanti, Kartikeya festivals"
+        },
+        "yantra_therapy": {
+          "yantra": "Mangal Yantra",
+          "material": "Copper",
+          "size": "3x3 inches",
+          "placement": "South wall, workout area"
+        },
+        "color_therapy": {
+          "primary_colors": [
+            "Red",
+            "Orange",
+            "Coral"
+          ],
+          "avoid_colors": [
+            "Green"
+          ],
+          "clothing": "Wear red on Tuesdays",
+          "home_decor": "Use energetic colors in south-facing rooms"
+        },
+        "metal_therapy": {
+          "primary_metal": "Copper",
+          "alternatives": [
+            "Red metals"
+          ],
+          "wearing": "Copper bracelet",
+          "home_items": "Copper items in kitchen"
+        },
+        "day_specific_practices": {
+          "day": "Tuesday",
+          "fasting": "Morning fast",
+          "worship": "Hanuman temples",
+          "activities": "Physical exercise, courage-building",
+          "donations": "Red lentils, red clothes"
+        },
+        "dietary_recommendations": {
+          "beneficial_foods": [
+            "Red lentils",
+            "Pomegranate",
+            "Red foods",
+            "Garlic",
+            "Ginger"
+          ],
+          "avoid_foods": [
+            "Excessive meat",
+            "Alcohol"
+          ],
+          "timing": "Eat energizing foods in morning",
+          "special_items": "Drink water from copper vessel"
+        },
+        "charitable_activities": {
+          "primary_charity": "Help soldiers, athletes, young men",
+          "items_to_donate": [
+            "Red lentils",
+            "Red clothes",
+            "Copper items"
+          ],
+          "timing": "Tuesdays",
+          "beneficiaries": "Military personnel, athletes, laborers"
+        },
+        "lifestyle_modifications": {
+          "wake_time": "Early morning",
+          "exercise": "Vigorous exercise, martial arts",
+          "meditation": "Active meditation, sports",
+          "work_style": "Competitive fields, physical work"
+        },
+        "spiritual_practices": {
+          "primary_practice": "Hanuman worship",
+          "deity": "Lord Hanuman",
+          "sacred_texts": "Hanuman Chalisa",
+          "pilgrimage": "Hanuman temples"
+        },
+        "timing_recommendations": {
+          "best_time": "Morning 6-9 AM",
+          "avoid_time": "Evening 6-9 PM",
+          "planetary_hours": "Tuesday 1st, 8th hour",
+          "auspicious_periods": "Mars festivals"
+        },
+        "specific_weaknesses": [
+          "Continue general Mars strengthening practices for optimal results."
+        ],
+        "precautions": [
+          "Control anger and aggression",
+          "Avoid conflicts during remedies",
+          "Channel energy positively",
+          "Respect younger siblings"
+        ],
+        "expected_timeline": {
+          "initial_relief": "1-2 weeks",
+          "noticeable_improvement": "Half of 1-2 months",
+          "significant_change": "Half of 6-9 months",
+          "note": "Regular practice will show steady improvement."
+        }
+      },
+      "Jupiter": {
+        "remedies_needed": true,
+        "overall_approach": "MODERATE: Develop wisdom, spiritual knowledge, and teaching abilities. Connect with gurus and engage in charitable activities. Some remedial support will be beneficial.",
+        "gemstone_therapy": {
+          "primary": "Yellow Sapphire (Pukhraj)",
+          "alternatives": [
+            "Citrine",
+            "Yellow Topaz"
+          ],
+          "weight": "4-7 carats",
+          "metal": "Gold",
+          "finger": "Index finger (right hand)",
+          "day_to_wear": "Thursday morning",
+          "mantra_before_wearing": "Om Gurave Namaha (108 times)",
+          "benefits": "Brings wisdom, prosperity, and spiritual growth",
+          "precautions": "Ensure high quality as low-grade stones can be harmful"
+        },
+        "mantra_therapy": {
+          "beej_mantra": "Om Graam Greem Graum Sah Gurave Namaha",
+          "simple_mantra": "Om Gurave Namaha",
+          "gayatri_mantra": "Om Vrishabadhwajaya Vidmahe Kruni Hastaya Dhimahi Tanno Guru Prachodayat",
+          "repetitions": "108 times daily or 16000 times in 40 days",
+          "best_time": "Thursday morning",
+          "direction": "Face Northeast",
+          "benefits": "Brings wisdom, prosperity, and spiritual growth",
+          "special_days": "Thursdays, Guru Purnima, Brihaspati festivals"
+        },
+        "yantra_therapy": {
+          "yantra": "Guru Yantra",
+          "material": "Gold or Copper",
+          "size": "3x3 inches",
+          "placement": "Northeast corner"
+        },
+        "color_therapy": {
+          "primary_colors": [
+            "Yellow",
+            "Gold",
+            "Orange"
+          ],
+          "avoid_colors": [
+            "Dark colors"
+          ],
+          "clothing": "Wear yellow on Thursdays",
+          "home_decor": "Use bright colors in northeast areas"
+        },
+        "metal_therapy": {
+          "primary_metal": "Gold",
+          "alternatives": [
+            "Yellow metals"
+          ],
+          "wearing": "Gold jewelry",
+          "home_items": "Brass items in worship area"
+        },
+        "day_specific_practices": {
+          "day": "Thursday",
+          "fasting": "Yellow food only",
+          "worship": "Vishnu temples",
+          "activities": "Teaching, spiritual study",
+          "donations": "Yellow items, turmeric"
+        },
+        "dietary_recommendations": {
+          "beneficial_foods": [
+            "Yellow foods",
+            "Turmeric",
+            "Banana",
+            "Chickpeas",
+            "Ghee"
+          ],
+          "avoid_foods": [
+            "Non-vegetarian",
+            "Alcohol"
+          ],
+          "timing": "Sattvic foods only",
+          "special_items": "Add turmeric to milk"
+        },
+        "charitable_activities": {
+          "primary_charity": "Help teachers, priests, wise people",
+          "items_to_donate": [
+            "Yellow items",
+            "Turmeric",
+            "Religious books"
+          ],
+          "timing": "Thursdays",
+          "beneficiaries": "Teachers, priests, scholars"
+        },
+        "lifestyle_modifications": {
+          "wake_time": "Early morning",
+          "exercise": "Moderate exercise, yoga",
+          "meditation": "Spiritual meditation, chanting",
+          "work_style": "Teaching, counseling, spiritual work"
+        },
+        "spiritual_practices": {
+          "primary_practice": "Guru meditation",
+          "deity": "Lord Vishnu",
+          "sacred_texts": "Vishnu Sahasranama",
+          "pilgrimage": "Vishnu temples"
+        },
+        "timing_recommendations": {
+          "best_time": "Morning 6-10 AM",
+          "avoid_time": "Evening 6-10 PM",
+          "planetary_hours": "Thursday 1st, 8th hour",
+          "auspicious_periods": "Guru Purnima"
+        },
+        "specific_weaknesses": [
+          "Continue general Jupiter strengthening practices for optimal results."
+        ],
+        "precautions": [
+          "Avoid pride in knowledge",
+          "Don't become preachy",
+          "Respect gurus and elders",
+          "Maintain humility"
+        ],
+        "expected_timeline": {
+          "initial_relief": "Half of 2-4 weeks",
+          "noticeable_improvement": "Half of 3-6 months",
+          "significant_change": "Half of 1-2 years",
+          "note": "Moderate weakness responds well to consistent remedies."
+        }
+      },
+      "Saturn": {
+        "remedies_needed": true,
+        "overall_approach": "URGENT: Practice discipline, patience, and service to others. Accept responsibilities and work on long-term goals with persistence. Immediate and consistent remedial measures are essential.",
+        "gemstone_therapy": {
+          "primary": "Blue Sapphire (Neelam)",
+          "alternatives": [
+            "Amethyst",
+            "Lapis Lazuli"
+          ],
+          "weight": "4-7 carats",
+          "metal": "Silver or Iron",
+          "finger": "Middle finger (right hand)",
+          "day_to_wear": "Saturday evening",
+          "mantra_before_wearing": "Om Shanaye Namaha (108 times)",
+          "benefits": "Provides discipline, patience, and karmic protection",
+          "precautions": "MUST test for 7 days - can give immediate negative effects if unsuitable"
+        },
+        "mantra_therapy": {
+          "beej_mantra": "Om Praam Preem Praum Sah Shanaye Namaha",
+          "simple_mantra": "Om Shanaye Namaha",
+          "gayatri_mantra": "Om Kaakadhwajaya Vidmahe Khadga Hastaya Dhimahi Tanno Mandah Prachodayat",
+          "repetitions": "108 times daily or 19000 times in 40 days",
+          "best_time": "Saturday evening",
+          "direction": "Face West",
+          "benefits": "Provides discipline, patience, and karmic relief",
+          "special_days": "Saturdays, Shani Amavasya, Hanuman Jayanti"
+        },
+        "yantra_therapy": {
+          "yantra": "Shani Yantra",
+          "material": "Iron or Silver",
+          "size": "3x3 inches",
+          "placement": "West wall"
+        },
+        "color_therapy": {
+          "primary_colors": [
+            "Dark Blue",
+            "Black",
+            "Purple"
+          ],
+          "avoid_colors": [
+            "Bright colors"
+          ],
+          "clothing": "Wear dark blue on Saturdays",
+          "home_decor": "Use deep colors in west-facing rooms"
+        },
+        "metal_therapy": {
+          "primary_metal": "Iron",
+          "alternatives": [
+            "Dark metals"
+          ],
+          "wearing": "Iron ring (with caution)",
+          "home_items": "Iron items for protection"
+        },
+        "day_specific_practices": {
+          "day": "Saturday",
+          "fasting": "Oil-free food",
+          "worship": "Shani temples",
+          "activities": "Service to elderly, discipline",
+          "donations": "Black items, oil, iron"
+        },
+        "dietary_recommendations": {
+          "beneficial_foods": [
+            "Black gram",
+            "Sesame",
+            "Dark foods",
+            "Iron-rich foods"
+          ],
+          "avoid_foods": [
+            "Excessive sweets",
+            "Rich foods"
+          ],
+          "timing": "Simple, disciplined eating",
+          "special_items": "Sesame oil in cooking"
+        },
+        "charitable_activities": {
+          "primary_charity": "Help elderly, disabled, servants",
+          "items_to_donate": [
+            "Black items",
+            "Oil",
+            "Iron items",
+            "Blankets"
+          ],
+          "timing": "Saturdays",
+          "beneficiaries": "Elderly, disabled, poor people"
+        },
+        "lifestyle_modifications": {
+          "wake_time": "Very early",
+          "exercise": "Disciplined routine, endurance",
+          "meditation": "Discipline meditation, service",
+          "work_style": "Structured work, long-term projects"
+        },
+        "spiritual_practices": {
+          "primary_practice": "Shani meditation",
+          "deity": "Lord Shani",
+          "sacred_texts": "Shani Stotra",
+          "pilgrimage": "Shani temples"
+        },
+        "timing_recommendations": {
+          "best_time": "Evening after sunset",
+          "avoid_time": "Morning sunrise",
+          "planetary_hours": "Saturday 1st, 8th hour",
+          "auspicious_periods": "Shani festivals"
+        },
+        "specific_weaknesses": [
+          "Continue general Saturn strengthening practices for optimal results."
+        ],
+        "precautions": [
+          "Don't become overly pessimistic",
+          "Avoid shortcuts",
+          "Accept responsibilities",
+          "Respect elderly and servants"
+        ],
+        "expected_timeline": {
+          "initial_relief": "1-3 months",
+          "noticeable_improvement": "6-12 months",
+          "significant_change": "2-3 years",
+          "note": "Consistency is crucial for weak planets. Results may take longer but will be lasting."
+        }
+      },
+      "Rahu": {
+        "remedies_needed": true,
+        "overall_approach": "IMPORTANT: Ground yourself through spiritual practices and avoid excessive materialism. Focus on ethical pursuits and avoid shortcuts. Regular remedial practices will significantly help.",
+        "gemstone_therapy": {
+          "primary": "Hessonite (Gomed)",
+          "alternatives": [
+            "Smoky Quartz",
+            "Garnet"
+          ],
+          "weight": "5-8 carats",
+          "metal": "Silver or Panchdhatu",
+          "finger": "Middle finger (right hand)",
+          "day_to_wear": "Saturday evening",
+          "mantra_before_wearing": "Om Rahave Namaha (108 times)",
+          "benefits": "Reduces confusion, provides clarity, and material success",
+          "precautions": "Test carefully as Rahu stones can be unpredictable"
+        },
+        "mantra_therapy": {
+          "beej_mantra": "Om Bhraam Bhreem Bhraum Sah Rahave Namaha",
+          "simple_mantra": "Om Rahave Namaha",
+          "gayatri_mantra": "Om Naagadhwajaya Vidmahe Padma Hastaya Dhimahi Tanno Rahu Prachodayat",
+          "repetitions": "108 times daily or 18000 times in 40 days",
+          "best_time": "Saturday evening or Rahu Kaal",
+          "direction": "Face Southwest",
+          "benefits": "Reduces confusion and provides material success",
+          "special_days": "Saturdays, Solar eclipses, Nag Panchami"
+        },
+        "yantra_therapy": {
+          "yantra": "Rahu Yantra",
+          "material": "Mixed metals",
+          "size": "3x3 inches",
+          "placement": "Southwest corner"
+        },
+        "color_therapy": {
+          "primary_colors": [
+            "Smoky colors",
+            "Grey",
+            "Brown"
+          ],
+          "avoid_colors": [
+            "Bright colors"
+          ],
+          "clothing": "Wear muted colors",
+          "home_decor": "Use earth tones"
+        },
+        "metal_therapy": {
+          "primary_metal": "Mixed metals",
+          "alternatives": [
+            "Alloys"
+          ],
+          "wearing": "Mixed metal jewelry",
+          "home_items": "Avoid pure metals"
+        },
+        "day_specific_practices": {
+          "day": "Saturday",
+          "fasting": "Avoid non-veg",
+          "worship": "Durga temples",
+          "activities": "Meditation, avoiding shortcuts",
+          "donations": "Blue/black items"
+        },
+        "dietary_recommendations": {
+          "beneficial_foods": [
+            "Radish",
+            "Garlic",
+            "Onion",
+            "Mustard"
+          ],
+          "avoid_foods": [
+            "Processed foods",
+            "Shortcuts in cooking"
+          ],
+          "timing": "Avoid eating during eclipses",
+          "special_items": "Natural, unprocessed foods"
+        },
+        "charitable_activities": {
+          "primary_charity": "Help foreigners, outcasts, technology workers",
+          "items_to_donate": [
+            "Blue/black items",
+            "Modern items"
+          ],
+          "timing": "Saturdays",
+          "beneficiaries": "Foreigners, social outcasts"
+        },
+        "lifestyle_modifications": {
+          "wake_time": "Irregular",
+          "exercise": "Modern fitness, technology-aided",
+          "meditation": "Innovative meditation techniques",
+          "work_style": "Technology, foreign connections"
+        },
+        "spiritual_practices": {
+          "primary_practice": "Durga worship",
+          "deity": "Goddess Durga",
+          "sacred_texts": "Durga Stotra",
+          "pilgrimage": "Durga temples"
+        },
+        "timing_recommendations": {
+          "best_time": "Rahu Kaal",
+          "avoid_time": "Auspicious times",
+          "planetary_hours": "Saturday 4th, 5th hour",
+          "auspicious_periods": "Eclipse times"
+        },
+        "specific_weaknesses": [
+          "Continue general Rahu strengthening practices for optimal results."
+        ],
+        "precautions": [
+          "Avoid shortcuts and unethical means",
+          "Don't become obsessive",
+          "Stay grounded",
+          "Avoid foreign entanglements"
+        ],
+        "expected_timeline": {
+          "initial_relief": "2-4 weeks",
+          "noticeable_improvement": "Half of 3-6 months",
+          "significant_change": "Half of 1.5-3 years",
+          "note": "Regular practice will show steady improvement."
+        }
+      },
+      "Ketu": {
+        "remedies_needed": true,
+        "overall_approach": "IMPORTANT: Develop spiritual detachment while maintaining worldly responsibilities. Practice meditation and seek inner wisdom. Regular remedial practices will significantly help.",
+        "gemstone_therapy": {
+          "primary": "Cat's Eye (Lehsunia)",
+          "alternatives": [
+            "Tiger's Eye",
+            "Chrysoberyl"
+          ],
+          "weight": "4-7 carats",
+          "metal": "Silver or Panchdhatu",
+          "finger": "Ring finger (right hand)",
+          "day_to_wear": "Tuesday or Saturday",
+          "mantra_before_wearing": "Om Ketave Namaha (108 times)",
+          "benefits": "Enhances spiritual insight and protects from hidden enemies",
+          "precautions": "Test for 7 days - can cause sudden changes"
+        },
+        "mantra_therapy": {
+          "beej_mantra": "Om Sraam Sreem Sraum Sah Ketave Namaha",
+          "simple_mantra": "Om Ketave Namaha",
+          "gayatri_mantra": "Om Ashwadhwajaya Vidmahe Soola Hastaya Dhimahi Tanno Ketu Prachodayat",
+          "repetitions": "108 times daily or 7000 times in 40 days",
+          "best_time": "Tuesday evening or Ketu Kaal",
+          "direction": "Face Northwest",
+          "benefits": "Enhances spiritual insight and inner wisdom",
+          "special_days": "Tuesdays, Lunar eclipses, Ganesha festivals"
+        },
+        "yantra_therapy": {
+          "yantra": "Ketu Yantra",
+          "material": "Mixed metals",
+          "size": "3x3 inches",
+          "placement": "Northwest corner"
+        },
+        "color_therapy": {
+          "primary_colors": [
+            "Brown",
+            "Grey",
+            "Maroon"
+          ],
+          "avoid_colors": [
+            "Bright colors"
+          ],
+          "clothing": "Wear earth tones",
+          "home_decor": "Use natural colors"
+        },
+        "metal_therapy": {
+          "primary_metal": "Mixed metals",
+          "alternatives": [
+            "Alloys"
+          ],
+          "wearing": "Simple metal accessories",
+          "home_items": "Minimal metal items"
+        },
+        "day_specific_practices": {
+          "day": "Tuesday",
+          "fasting": "Simple food",
+          "worship": "Ganesha temples",
+          "activities": "Spiritual practices, detachment",
+          "donations": "Brown items, spiritual books"
+        },
+        "dietary_recommendations": {
+          "beneficial_foods": [
+            "Simple foods",
+            "Spiritual foods",
+            "Minimal spices"
+          ],
+          "avoid_foods": [
+            "Excessive variety",
+            "Rich foods"
+          ],
+          "timing": "Eat mindfully",
+          "special_items": "Offer food before eating"
+        },
+        "charitable_activities": {
+          "primary_charity": "Help spiritual seekers, researchers",
+          "items_to_donate": [
+            "Spiritual books",
+            "Simple items"
+          ],
+          "timing": "Tuesdays",
+          "beneficiaries": "Spiritual seekers, researchers"
+        },
+        "lifestyle_modifications": {
+          "wake_time": "Spiritual timing",
+          "exercise": "Minimal, spiritual practices",
+          "meditation": "Deep meditation, detachment",
+          "work_style": "Research, spiritual work"
+        },
+        "spiritual_practices": {
+          "primary_practice": "Ganesha worship",
+          "deity": "Lord Ganesha",
+          "sacred_texts": "Ganesha Atharvashirsha",
+          "pilgrimage": "Ancient temples"
+        },
+        "timing_recommendations": {
+          "best_time": "Ketu Kaal",
+          "avoid_time": "Auspicious times",
+          "planetary_hours": "Tuesday 4th, 5th hour",
+          "auspicious_periods": "Eclipse times"
+        },
+        "specific_weaknesses": [
+          "Continue general Ketu strengthening practices for optimal results."
+        ],
+        "precautions": [
+          "Don't become overly detached",
+          "Maintain worldly responsibilities",
+          "Avoid isolation",
+          "Balance spirituality with practicality"
+        ],
+        "expected_timeline": {
+          "initial_relief": "1-3 weeks",
+          "noticeable_improvement": "Half of 2-4 months",
+          "significant_change": "Half of 1-2 years",
+          "note": "Regular practice will show steady improvement."
+        }
+      }
+    },
+    "descriptions": {
+      "Sun": {
+        "title": "Sun in Kumbha in House 1 - Comprehensive Analysis",
+        "sign_influence": {
+          "title": "Sign Influence (Sun in Kumbha)",
+          "description": "Sun in Kumbha creates a unique blend of sun energy expressed through kumbha characteristics. This combination influences how sun energy manifests in your life through kumbha traits and qualities."
+        },
+        "house_influence": {
+          "title": "House Influence (Sun in House 1)",
+          "description": "Sun in 1st house creates strong personality, leadership qualities, and natural authority. You have confidence, vitality, and ability to influence others. This placement gives success through personal efforts and individual achievements."
+        },
+        "combined_effect": {
+          "title": "Combined Effect",
+          "description": "The combination of Sun in Kumbha in house 1 creates a unique blend where sun's energy is expressed through kumbha characteristics and manifests in the 1th house life area. This creates specific patterns in how sun influences your life through both the sign's qualities and the house's domain."
+        },
+        "life_manifestation": {
+          "title": "Life Manifestation",
+          "description": "In daily life, this combination manifests through sun's influence expressed via kumbha qualities in the 1th house area of life. This creates specific patterns in how you experience and express sun's energy in practical, everyday situations."
+        },
+        "timing_activation": {
+          "title": "Timing & Activation",
+          "description": "This Sun placement becomes most active during Sun dasha periods, Sun's transit through important signs, and when the 1th house is activated by other planetary transits. The effects are strongest during Sun's favorable periods and when you consciously work with sun's energy through appropriate remedies and practices."
+        }
+      },
+      "Moon": {
+        "title": "Moon in Tula in House 8 - Comprehensive Analysis",
+        "sign_influence": {
+          "title": "Sign Influence (Moon in Tula)",
+          "description": "Moon in Libra creates emotionally harmonious, diplomatic nature with need for balance. You have refined emotions, appreciation for beauty, and desire for emotional partnership. This placement gives emotional fulfillment through relationships."
+        },
+        "house_influence": {
+          "title": "House Influence (Moon in House 8)",
+          "description": "Moon in 8th house influences transformation, occult knowledge, shared resources, and longevity. This placement affects your ability to handle crises, research abilities, and spiritual transformation."
+        },
+        "combined_effect": {
+          "title": "Combined Effect",
+          "description": "The combination of Moon in Libra in house 8 creates a unique blend where moon's energy is expressed through libra characteristics and manifests in the 8th house life area. This creates specific patterns in how moon influences your life through both the sign's qualities and the house's domain."
+        },
+        "life_manifestation": {
+          "title": "Life Manifestation",
+          "description": "In daily life, this combination manifests through moon's influence expressed via libra qualities in the 8th house area of life. This creates specific patterns in how you experience and express moon's energy in practical, everyday situations."
+        },
+        "timing_activation": {
+          "title": "Timing & Activation",
+          "description": "This Moon placement becomes most active during Moon dasha periods, Moon's transit through important signs, and when the 8th house is activated by other planetary transits. The effects are strongest during Moon's favorable periods and when you consciously work with moon's energy through appropriate remedies and practices."
+        }
+      },
+      "Mercury": {
+        "title": "Mercury in Makara in House 1 - Comprehensive Analysis",
+        "sign_influence": {
+          "title": "Sign Influence (Mercury in Makara)",
+          "description": "Mercury in Makara creates a unique blend of mercury energy expressed through makara characteristics. This combination influences how mercury energy manifests in your life through makara traits and qualities."
+        },
+        "house_influence": {
+          "title": "House Influence (Mercury in House 1)",
+          "description": "Mercury in 1st house creates intelligent, communicative personality with quick thinking. You have excellent speaking abilities, youthful appearance, and mental agility. This placement gives success through communication and intellectual pursuits."
+        },
+        "combined_effect": {
+          "title": "Combined Effect",
+          "description": "The combination of Mercury in Makara in house 1 creates a unique blend where mercury's energy is expressed through makara characteristics and manifests in the 1th house life area. This creates specific patterns in how mercury influences your life through both the sign's qualities and the house's domain."
+        },
+        "life_manifestation": {
+          "title": "Life Manifestation",
+          "description": "In daily life, this combination manifests through mercury's influence expressed via makara qualities in the 1th house area of life. This creates specific patterns in how you experience and express mercury's energy in practical, everyday situations."
+        },
+        "timing_activation": {
+          "title": "Timing & Activation",
+          "description": "This Mercury placement becomes most active during Mercury dasha periods, Mercury's transit through important signs, and when the 1th house is activated by other planetary transits. The effects are strongest during Mercury's favorable periods and when you consciously work with mercury's energy through appropriate remedies and practices."
+        }
+      },
+      "Venus": {
+        "title": "Venus in Kumbha in House 1 - Comprehensive Analysis",
+        "sign_influence": {
+          "title": "Sign Influence (Venus in Kumbha)",
+          "description": "Venus in Kumbha creates a unique blend of venus energy expressed through kumbha characteristics. This combination influences how venus energy manifests in your life through kumbha traits and qualities."
+        },
+        "house_influence": {
+          "title": "House Influence (Venus in House 1)",
+          "description": "Venus in 1st house creates attractive, artistic personality with harmonious nature. You have natural charm, appreciation for beauty, and diplomatic skills. This placement gives success through arts, relationships, and aesthetic pursuits."
+        },
+        "combined_effect": {
+          "title": "Combined Effect",
+          "description": "The combination of Venus in Kumbha in house 1 creates a unique blend where venus's energy is expressed through kumbha characteristics and manifests in the 1th house life area. This creates specific patterns in how venus influences your life through both the sign's qualities and the house's domain."
+        },
+        "life_manifestation": {
+          "title": "Life Manifestation",
+          "description": "In daily life, this combination manifests through venus's influence expressed via kumbha qualities in the 1th house area of life. This creates specific patterns in how you experience and express venus's energy in practical, everyday situations."
+        },
+        "timing_activation": {
+          "title": "Timing & Activation",
+          "description": "This Venus placement becomes most active during Venus dasha periods, Venus's transit through important signs, and when the 1th house is activated by other planetary transits. The effects are strongest during Venus's favorable periods and when you consciously work with venus's energy through appropriate remedies and practices."
+        }
+      },
+      "Mars": {
+        "title": "Mars in Kumbha in House 1 - Comprehensive Analysis",
+        "sign_influence": {
+          "title": "Sign Influence (Mars in Kumbha)",
+          "description": "Mars in Kumbha creates a unique blend of mars energy expressed through kumbha characteristics. This combination influences how mars energy manifests in your life through kumbha traits and qualities."
+        },
+        "house_influence": {
+          "title": "House Influence (Mars in House 1)",
+          "description": "Mars in 1st house creates energetic, courageous personality with competitive nature. You have physical strength, leadership through action, and pioneering spirit. This placement gives success through personal initiative and physical activities."
+        },
+        "combined_effect": {
+          "title": "Combined Effect",
+          "description": "The combination of Mars in Kumbha in house 1 creates a unique blend where mars's energy is expressed through kumbha characteristics and manifests in the 1th house life area. This creates specific patterns in how mars influences your life through both the sign's qualities and the house's domain."
+        },
+        "life_manifestation": {
+          "title": "Life Manifestation",
+          "description": "In daily life, this combination manifests through mars's influence expressed via kumbha qualities in the 1th house area of life. This creates specific patterns in how you experience and express mars's energy in practical, everyday situations."
+        },
+        "timing_activation": {
+          "title": "Timing & Activation",
+          "description": "This Mars placement becomes most active during Mars dasha periods, Mars's transit through important signs, and when the 1th house is activated by other planetary transits. The effects are strongest during Mars's favorable periods and when you consciously work with mars's energy through appropriate remedies and practices."
+        }
+      },
+      "Jupiter": {
+        "title": "Jupiter in Tula in House 9 - Comprehensive Analysis",
+        "sign_influence": {
+          "title": "Sign Influence (Jupiter in Tula)",
+          "description": "Jupiter in Libra creates a unique blend of jupiter energy expressed through libra characteristics. This combination influences how jupiter energy manifests in your life through libra traits and qualities."
+        },
+        "house_influence": {
+          "title": "House Influence (Jupiter in House 9)",
+          "description": "Jupiter in 9th house influences your higher learning, spirituality, long journeys, and father. This placement affects your philosophical beliefs, relationship with father, and spiritual growth."
+        },
+        "combined_effect": {
+          "title": "Combined Effect",
+          "description": "The combination of Jupiter in Libra in house 9 creates a unique blend where jupiter's energy is expressed through libra characteristics and manifests in the 9th house life area. This creates specific patterns in how jupiter influences your life through both the sign's qualities and the house's domain."
+        },
+        "life_manifestation": {
+          "title": "Life Manifestation",
+          "description": "In daily life, this combination manifests through jupiter's influence expressed via libra qualities in the 9th house area of life. This creates specific patterns in how you experience and express jupiter's energy in practical, everyday situations."
+        },
+        "timing_activation": {
+          "title": "Timing & Activation",
+          "description": "This Jupiter placement becomes most active during Jupiter dasha periods, Jupiter's transit through important signs, and when the 9th house is activated by other planetary transits. The effects are strongest during Jupiter's favorable periods and when you consciously work with jupiter's energy through appropriate remedies and practices."
+        }
+      },
+      "Saturn": {
+        "title": "Saturn in Kumbha in House 1 - Comprehensive Analysis",
+        "sign_influence": {
+          "title": "Sign Influence (Saturn in Kumbha)",
+          "description": "Saturn in Kumbha creates a unique blend of saturn energy expressed through kumbha characteristics. This combination influences how saturn energy manifests in your life through kumbha traits and qualities."
+        },
+        "house_influence": {
+          "title": "House Influence (Saturn in House 1)",
+          "description": "Saturn in 1st house creates disciplined, serious personality with strong sense of responsibility. You have patience, endurance, and ability to work hard. This placement gives success through persistent effort and overcoming obstacles."
+        },
+        "combined_effect": {
+          "title": "Combined Effect",
+          "description": "The combination of Saturn in Kumbha in house 1 creates a unique blend where saturn's energy is expressed through kumbha characteristics and manifests in the 1th house life area. This creates specific patterns in how saturn influences your life through both the sign's qualities and the house's domain."
+        },
+        "life_manifestation": {
+          "title": "Life Manifestation",
+          "description": "In daily life, this combination manifests through saturn's influence expressed via kumbha qualities in the 1th house area of life. This creates specific patterns in how you experience and express saturn's energy in practical, everyday situations."
+        },
+        "timing_activation": {
+          "title": "Timing & Activation",
+          "description": "This Saturn placement becomes most active during Saturn dasha periods, Saturn's transit through important signs, and when the 1th house is activated by other planetary transits. The effects are strongest during Saturn's favorable periods and when you consciously work with saturn's energy through appropriate remedies and practices."
+        }
+      },
+      "Rahu": {
+        "title": "Rahu in Vrishchika in House 9 - Comprehensive Analysis",
+        "sign_influence": {
+          "title": "Sign Influence (Rahu in Vrishchika)",
+          "description": "Rahu in Vrishchika creates a unique blend of rahu energy expressed through vrishchika characteristics. This combination influences how rahu energy manifests in your life through vrishchika traits and qualities."
+        },
+        "house_influence": {
+          "title": "House Influence (Rahu in House 9)",
+          "description": "Rahu in 9th house influences your higher learning, spirituality, long journeys, and father. This placement affects your philosophical beliefs, relationship with father, and spiritual growth."
+        },
+        "combined_effect": {
+          "title": "Combined Effect",
+          "description": "The combination of Rahu in Vrishchika in house 9 creates a unique blend where rahu's energy is expressed through vrishchika characteristics and manifests in the 9th house life area. This creates specific patterns in how rahu influences your life through both the sign's qualities and the house's domain."
+        },
+        "life_manifestation": {
+          "title": "Life Manifestation",
+          "description": "In daily life, this combination manifests through rahu's influence expressed via vrishchika qualities in the 9th house area of life. This creates specific patterns in how you experience and express rahu's energy in practical, everyday situations."
+        },
+        "timing_activation": {
+          "title": "Timing & Activation",
+          "description": "This Rahu placement becomes most active during Rahu dasha periods, Rahu's transit through important signs, and when the 9th house is activated by other planetary transits. The effects are strongest during Rahu's favorable periods and when you consciously work with rahu's energy through appropriate remedies and practices."
+        }
+      },
+      "Ketu": {
+        "title": "Ketu in Vrishabha in House 3 - Comprehensive Analysis",
+        "sign_influence": {
+          "title": "Sign Influence (Ketu in Vrishabha)",
+          "description": "Ketu in Vrishabha creates a unique blend of ketu energy expressed through vrishabha characteristics. This combination influences how ketu energy manifests in your life through vrishabha traits and qualities."
+        },
+        "house_influence": {
+          "title": "House Influence (Ketu in House 3)",
+          "description": "Ketu in 3rd house influences your communication, siblings, courage, and short journeys. This placement affects your writing abilities, relationship with brothers/sisters, and personal initiative."
+        },
+        "combined_effect": {
+          "title": "Combined Effect",
+          "description": "The combination of Ketu in Vrishabha in house 3 creates a unique blend where ketu's energy is expressed through vrishabha characteristics and manifests in the 3th house life area. This creates specific patterns in how ketu influences your life through both the sign's qualities and the house's domain."
+        },
+        "life_manifestation": {
+          "title": "Life Manifestation",
+          "description": "In daily life, this combination manifests through ketu's influence expressed via vrishabha qualities in the 3th house area of life. This creates specific patterns in how you experience and express ketu's energy in practical, everyday situations."
+        },
+        "timing_activation": {
+          "title": "Timing & Activation",
+          "description": "This Ketu placement becomes most active during Ketu dasha periods, Ketu's transit through important signs, and when the 3th house is activated by other planetary transits. The effects are strongest during Ketu's favorable periods and when you consciously work with ketu's energy through appropriate remedies and practices."
+        }
+      }
+    }
+  },
+  "prediction": {
+    "text": "\ud83c\udf1f CURRENT DASHA SIGNIFICANCE:\nThe current Jupiter dasha for Shantanu Saini, a wise and benevolent planet, is influencing his life with themes of wisdom, spirituality, teaching, children, wealth, and dharma. This period is likely to bring opportunities for personal growth, expansion in knowledge, and spiritual development. Shantanu may be inclined towards teaching or guiding others, experiencing a deeper connection with his spiritual beliefs, and potentially receiving blessings in the form of wealth or prosperity. However, challenges related to over-idealism, extravagance, or self-righteousness may also arise during this period, requiring him to balance his spiritual pursuits with practicality.\n\n\ud83c\udfaf PLANETARY RELATIONSHIPS & THEIR IMPACT:\nThe planetary positions and relationships in Shantanu's chart indicate several important yogas that influence his life significantly:\n- Saraswati Yoga suggests exceptional learning, artistic talents, and wisdom, making him a potential scholar or artist.\n- Raja Yoga Potential indicates leadership qualities and potential for high status.\n- Shasha Yoga with Saturn in a kendra signifies discipline, hard work, and long-term success.\n- Venus-Mars Yoga highlights passionate and dynamic relationships, bringing intensity in love and partnerships.\n- Ayush Yoga promotes good health, vitality, and longevity due to benefic planets in the 1st house.\n- Yoga Karaka Saturn in a kendra brings structure, discipline, and persistence in achieving goals.\n\nConjunctions and aspects of planets like Sun, Venus, Mars, Moon, and Jupiter create a complex but powerful influence in various areas of Shantanu's life, emphasizing the need to balance different energies for optimal results.\n\n\ud83d\udca1 SPECIFIC GUIDANCE FOR CURRENT PERIOD:\nDuring this Jupiter dasha, Shantanu should focus on expanding his knowledge, engaging in spiritual practices, and sharing his wisdom with others through teaching or mentoring. Engaging in activities that involve children or working towards a noble cause can bring fulfillment. Practices like meditation, charity, and seeking higher knowledge will be beneficial. Remedies related to Jupiter, such as wearing yellow sapphire or chanting Jupiter mantras, can enhance the positive effects of this period.\n\n\u26a0\ufe0f CAUTIONS AND AREAS TO WATCH:\nShantanu should be cautious of becoming overly idealistic, self-righteous, or extravagant during this period. Balancing spiritual pursuits with practicality is essential to avoid potential pitfalls. He should also watch out for any tendencies towards arrogance or dogmatism in his beliefs. Financial decisions should be approached with caution to prevent overspending or speculative ventures.\n\n\ud83d\udd2e TIMING AND OPPORTUNITIES:\nFavorable periods within this Jupiter dasha may coincide with Jupiter transits or major Jupiter aspects, bringing opportunities for growth, expansion, and blessings. Engaging in educational pursuits, spiritual retreats, or charitable activities during these times can yield positive results. Shantanu should be attentive to the timing of significant events and make the most of Jupiter's beneficial influences by aligning his actions with the cosmic energies.\n\nBy following this guidance, Shantanu can make the most of his current Jupiter dasha, navigate challenges effectively, and harness the supportive planetary energies in his birth chart to lead a fulfilling and purposeful life.",
+    "key_themes": [
+      "Wisdom",
+      "Spirituality",
+      "Teaching",
+      "Children",
+      "Wealth",
+      "Dharma"
+    ],
+    "favorable_periods": [
+      "Jupiter Blessing (Jun 27, 2025 - Jul 27, 2025): Jupiter's favorable aspect brings wisdom and opportunities",
+      "Jupiter-Venus (Jul 12, 2025 - Aug 26, 2025): Venus antardasha brings positive energy within Jupiter mahadasha",
+      "Jupiter-Mercury (Aug 26, 2025 - Oct 10, 2025): Mercury antardasha brings positive energy within Jupiter mahadasha",
+      "Navratri (Sep 15, 2025 - Sep 24, 2025): Excellent for new beginnings",
+      "Jupiter Blessing (Sep 25, 2025 - Oct 25, 2025): Jupiter's blessing period for new ventures and learning"
+    ],
+    "challenging_periods": [
+      "Solar/Lunar Eclipse (May 25, 2025 - May 31, 2025): Eclipse period - time of transformation and caution",
+      "Mercury Retrograde (May 28, 2025 - Jun 18, 2025): Mercury retrograde - communication and technology challenges",
+      "Saturn Challenge (Jul 12, 2025 - Aug 11, 2025): Saturn's challenging aspect - period of tests and delays",
+      "Mercury Retrograde (Sep 25, 2025 - Oct 16, 2025): Mercury retrograde - communication and technology challenges",
+      "Solar/Lunar Eclipse (Nov 21, 2025 - Nov 27, 2025): Eclipse period - time of transformation and caution"
+    ]
+  },
+  "yogas": [
+    {
+      "name": "Saraswati Yoga",
+      "strength": "Strong",
+      "description": "Jupiter, Venus, Mercury well-placed - Brings exceptional learning, artistic talents, and wisdom. Creates scholars and artists."
+    },
+    {
+      "name": "Raja Yoga Potential",
+      "strength": "Variable",
+      "description": "Multiple planets in kendras - Indicates potential for leadership, authority, and high status. Creates natural leaders."
+    },
+    {
+      "name": "Shasha Yoga",
+      "strength": "Strong",
+      "description": "Saturn in own sign in kendra - Creates disciplined, hardworking personalities with administrative abilities. Brings long-term success through patience."
+    },
+    {
+      "name": "Venus-Mars Yoga",
+      "strength": "Moderate",
+      "description": "Venus and Mars in significant relationship - Creates passionate and dynamic relationships. Brings intensity in love and partnerships."
+    },
+    {
+      "name": "Ayush Yoga",
+      "strength": "Moderate",
+      "description": "Benefic planets in 1st house - Promotes good health, vitality, and longevity. Creates strong constitution and life force."
+    },
+    {
+      "name": "Yoga Karaka",
+      "strength": "Strong",
+      "description": "Saturn in kendra - Acts as yoga karaka bringing discipline, structure, and long-term success. Creates persistent achievers."
+    },
+    {
+      "name": "Sun Isolation Analysis",
+      "strength": "Moderate",
+      "description": "Sun in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). May feel unsupported in leadership roles. Benefits from building strong personal identity."
+    },
+    {
+      "name": "Moon Isolation Analysis",
+      "strength": "Moderate",
+      "description": "Moon in Tula (House 8) shows mild isolation: lacks benefic aspects. Occasional emotional distance. Generally maintains emotional balance."
+    },
+    {
+      "name": "Mercury Isolation Analysis",
+      "strength": "Challenging",
+      "description": "Mercury in Makara (House 1) shows severe isolation: isolated in both house and sign, lacks benefic aspects. Communication challenges and intellectual isolation. May struggle to express ideas effectively."
+    },
+    {
+      "name": "Venus Isolation Analysis",
+      "strength": "Moderate",
+      "description": "Venus in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets), no close planetary companions. Periodic relationship difficulties. Needs to cultivate social connections."
+    },
+    {
+      "name": "Mars Isolation Analysis",
+      "strength": "Moderate",
+      "description": "Mars in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). Periodic energy blocks. Benefits from structured physical activities."
+    },
+    {
+      "name": "Saturn Isolation Analysis",
+      "strength": "Moderate",
+      "description": "Saturn in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). Heavy responsibility load. Benefits from structured support systems."
+    },
+    {
+      "name": "Rahu Isolation Analysis",
+      "strength": "Moderate",
+      "description": "Rahu in Vrishchika (House 9) shows moderate isolation: alone in sign, no close planetary companions. Isolation affects Rahu's natural expression and requires conscious effort to overcome."
+    },
+    {
+      "name": "Ketu Isolation Analysis",
+      "strength": "Challenging",
+      "description": "Ketu in Vrishabha (House 3) shows severe isolation: isolated in both house and sign, no close planetary companions. Isolation affects Ketu's natural expression and requires conscious effort to overcome."
+    },
+    {
+      "name": "Planetary Cluster Support",
+      "strength": "Strong",
+      "description": "Strong planetary cluster in Aquarius: Sun, Venus, Mars, Saturn. This creates intense focus and mutual support in Aquarius themes, though may create imbalance in other areas."
+    },
+    {
+      "name": "Benefic Protection Pattern",
+      "strength": "Strong",
+      "description": "Strong benefic protection through: Venus in 1th house (kendra), Jupiter in 9th house (trikona). This provides natural protection from difficulties and enhances positive outcomes in life."
+    },
+    {
+      "name": "Bhadra Yoga Isolation Effect",
+      "strength": "Moderate",
+      "description": "Mercury forms Bhadra Yoga but is isolated, which may create a self-reliant but potentially lonely expression of Mercury's qualities. The person may achieve success through individual effort but may lack collaborative support."
+    }
+  ],
+  "current_influences": {
+    "summary": "Currently, there's strong planetary emphasis in Vrishabha, highlighting themes of Stability, material security, sensual pleasures. Major long-term influences: Jupiter in your 5 house, Saturn in your 3 house. Key current aspects: Sun square your natal Saturn, Moon trine your natal Mercury. Your planetary activation is particularly active, affecting your communication, siblings, and short trips."
+  }
+}
