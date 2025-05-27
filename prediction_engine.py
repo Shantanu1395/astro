@@ -1,8 +1,9 @@
-from openai import OpenAI
+import requests
 from typing import List, Dict, Any, Tuple
 from datetime import date, datetime, timedelta
 import json
 import swisseph as swe
+from enum import Enum
 
 from models import VedicChart, DashaPeriod, VedicPrediction, BirthData, LocationData, CurrentInfluences
 from config import config
@@ -10,22 +11,83 @@ from vedic_analysis import VedicAnalyzer
 from date_calculator import AstrologicalDateCalculator
 from current_influences import CurrentInfluenceAnalyzer
 
+# Import OpenAI only if needed
+try:
+    from openai import OpenAI
+    OPENAI_AVAILABLE = True
+except ImportError:
+    OPENAI_AVAILABLE = False
+    print("Warning: OpenAI library not installed. OpenAI provider will not be available.")
+
+class LLMProvider(Enum):
+    """Supported LLM providers."""
+    OPENAI = "openai"
+    OLLAMA = "ollama"
+    FALLBACK = "fallback"
+
 class VedicPredictionEngine:
-    def __init__(self):
-        try:
-            if config.OPENAI_API_KEY and config.OPENAI_API_KEY.strip():
-                self.openai_client = OpenAI(api_key=config.OPENAI_API_KEY)
-            else:
-                self.openai_client = None
-                print("Warning: OpenAI API key not found. Predictions will use fallback text.")
-        except Exception as e:
-            self.openai_client = None
-            print(f"Warning: Could not initialize OpenAI client: {e}. Using fallback predictions.")
+    def __init__(self, llm_provider: str = None):
+        """
+        Initialize prediction engine with configurable LLM provider.
+
+        Args:
+            llm_provider: Override config LLM provider ("openai", "ollama", "fallback")
+        """
+        # Determine LLM provider
+        self.llm_provider = LLMProvider(llm_provider or config.LLM_PROVIDER)
+
+        # Initialize LLM clients based on provider
+        self.openai_client = None
+        self.ollama_available = False
+
+        if self.llm_provider == LLMProvider.OPENAI:
+            self._init_openai()
+        elif self.llm_provider == LLMProvider.OLLAMA:
+            self._init_ollama()
+        else:
+            print(f"🔄 Using fallback predictions (no LLM)")
 
         # Initialize analysis modules
         self.analyzer = VedicAnalyzer()
         self.date_calculator = AstrologicalDateCalculator()
         self.current_influence_analyzer = CurrentInfluenceAnalyzer()
+
+    def _init_openai(self):
+        """Initialize OpenAI client."""
+        if not OPENAI_AVAILABLE:
+            print("❌ OpenAI library not installed. Falling back to local predictions.")
+            self.llm_provider = LLMProvider.FALLBACK
+            return
+
+        if not config.OPENAI_API_KEY:
+            print("❌ OpenAI API key not found. Falling back to local predictions.")
+            self.llm_provider = LLMProvider.FALLBACK
+            return
+
+        try:
+            self.openai_client = OpenAI(api_key=config.OPENAI_API_KEY)
+            print(f"✅ OpenAI initialized with model: {config.OPENAI_MODEL}")
+        except Exception as e:
+            print(f"❌ OpenAI initialization failed: {e}. Falling back to local predictions.")
+            self.llm_provider = LLMProvider.FALLBACK
+
+    def _init_ollama(self):
+        """Initialize Ollama client."""
+        self.ollama_available = self._check_ollama_availability()
+        if self.ollama_available:
+            print(f"✅ Ollama available at {config.OLLAMA_URL} with model: {config.OLLAMA_MODEL}")
+        else:
+            print("❌ Ollama not available. Falling back to local predictions.")
+            self.llm_provider = LLMProvider.FALLBACK
+
+    def _check_ollama_availability(self) -> bool:
+        """Check if Ollama is running and accessible."""
+        try:
+            response = requests.get("http://localhost:11434/api/tags", timeout=5)
+            return response.status_code == 200
+        except Exception as e:
+            print(f"Ollama not available: {e}")
+            return False
 
     def generate_vedic_prediction(self, birth_data: BirthData, chart: VedicChart, current_dasha: DashaPeriod, location_data: LocationData = None) -> VedicPrediction:
         """
@@ -122,17 +184,25 @@ class VedicPredictionEngine:
         }
 
     def _generate_llm_prediction(self, birth_data: BirthData, chart_summary: Dict[str, Any]) -> str:
-        """
-        Generate prediction text using OpenAI LLM.
-        """
+        """Generate prediction text using configured LLM provider."""
+        if self.llm_provider == LLMProvider.OPENAI:
+            return self._generate_openai_prediction(birth_data, chart_summary)
+        elif self.llm_provider == LLMProvider.OLLAMA:
+            return self._generate_ollama_prediction(birth_data, chart_summary)
+        else:
+            return self._generate_fallback_prediction(chart_summary)
+
+    def _generate_openai_prediction(self, birth_data: BirthData, chart_summary: Dict[str, Any]) -> str:
+        """Generate prediction using OpenAI."""
         if not self.openai_client:
             return self._generate_fallback_prediction(chart_summary)
 
         try:
             prompt = self._create_prediction_prompt(birth_data, chart_summary)
+            print(f"🔮 Generating prediction using OpenAI ({config.OPENAI_MODEL})...")
 
             response = self.openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model=config.OPENAI_MODEL,
                 messages=[
                     {
                         "role": "system",
@@ -143,14 +213,54 @@ class VedicPredictionEngine:
                         "content": prompt
                     }
                 ],
-                max_tokens=config.MAX_TOKENS,
-                temperature=config.TEMPERATURE
+                max_tokens=config.OPENAI_MAX_TOKENS,
+                temperature=config.OPENAI_TEMPERATURE,
+                timeout=config.OPENAI_TIMEOUT
             )
 
-            return response.choices[0].message.content.strip()
+            prediction_text = response.choices[0].message.content.strip()
+            print(f"✅ OpenAI prediction generated successfully ({len(prediction_text)} characters)")
+            return prediction_text
 
         except Exception as e:
-            print(f"Error generating LLM prediction: {e}")
+            print(f"❌ Error generating OpenAI prediction: {e}")
+            return self._generate_fallback_prediction(chart_summary)
+
+    def _generate_ollama_prediction(self, birth_data: BirthData, chart_summary: Dict[str, Any]) -> str:
+        """Generate prediction using Ollama."""
+        if not self.ollama_available:
+            return self._generate_fallback_prediction(chart_summary)
+
+        try:
+            prompt = self._create_prediction_prompt(birth_data, chart_summary)
+            print(f"🔮 Generating prediction using Ollama ({config.OLLAMA_MODEL})...")
+
+            # Add system context to the prompt
+            full_prompt = f"""You are an expert Vedic astrologer with deep knowledge of Jyotish. Provide insightful, practical predictions based on the birth chart data provided. Focus on current life themes, opportunities, and guidance.
+
+{prompt}"""
+
+            response = requests.post(
+                config.OLLAMA_URL,
+                json={
+                    "model": config.OLLAMA_MODEL,
+                    "prompt": full_prompt,
+                    "stream": False
+                },
+                timeout=config.OLLAMA_TIMEOUT
+            )
+
+            if response.status_code == 200:
+                result = response.json()
+                prediction_text = result.get("response", "").strip()
+                print(f"✅ Ollama prediction generated successfully ({len(prediction_text)} characters)")
+                return prediction_text
+            else:
+                print(f"❌ Ollama API error: {response.status_code}")
+                return self._generate_fallback_prediction(chart_summary)
+
+        except Exception as e:
+            print(f"❌ Error generating Ollama prediction: {e}")
             return self._generate_fallback_prediction(chart_summary)
 
     def _create_prediction_prompt(self, birth_data: BirthData, chart_summary: Dict[str, Any]) -> str:
@@ -285,15 +395,26 @@ class VedicPredictionEngine:
 
     def _generate_enhanced_llm_prediction(self, birth_data: BirthData, chart_summary: Dict[str, Any],
                                         dasha_analysis: Dict[str, Any]) -> str:
-        """Generate enhanced prediction with detailed analysis."""
+        """Generate enhanced prediction with detailed analysis using configured LLM provider."""
+        if self.llm_provider == LLMProvider.OPENAI:
+            return self._generate_enhanced_openai_prediction(birth_data, chart_summary, dasha_analysis)
+        elif self.llm_provider == LLMProvider.OLLAMA:
+            return self._generate_enhanced_ollama_prediction(birth_data, chart_summary, dasha_analysis)
+        else:
+            return self._generate_enhanced_fallback_prediction(chart_summary, dasha_analysis)
+
+    def _generate_enhanced_openai_prediction(self, birth_data: BirthData, chart_summary: Dict[str, Any],
+                                           dasha_analysis: Dict[str, Any]) -> str:
+        """Generate enhanced prediction using OpenAI."""
         if not self.openai_client:
             return self._generate_enhanced_fallback_prediction(chart_summary, dasha_analysis)
 
         try:
             prompt = self._create_enhanced_prediction_prompt(birth_data, chart_summary, dasha_analysis)
+            print(f"🔮 Generating enhanced prediction using OpenAI ({config.OPENAI_MODEL})...")
 
             response = self.openai_client.chat.completions.create(
-                model="gpt-3.5-turbo",
+                model=config.OPENAI_MODEL,
                 messages=[
                     {
                         "role": "system",
@@ -304,14 +425,55 @@ class VedicPredictionEngine:
                         "content": prompt
                     }
                 ],
-                max_tokens=config.MAX_TOKENS * 2,  # More tokens for detailed analysis
-                temperature=config.TEMPERATURE
+                max_tokens=config.OPENAI_MAX_TOKENS * 2,  # More tokens for detailed analysis
+                temperature=config.OPENAI_TEMPERATURE,
+                timeout=config.OPENAI_TIMEOUT
             )
 
-            return response.choices[0].message.content.strip()
+            prediction_text = response.choices[0].message.content.strip()
+            print(f"✅ OpenAI enhanced prediction generated successfully ({len(prediction_text)} characters)")
+            return prediction_text
 
         except Exception as e:
-            print(f"Error generating enhanced LLM prediction: {e}")
+            print(f"❌ Error generating enhanced OpenAI prediction: {e}")
+            return self._generate_enhanced_fallback_prediction(chart_summary, dasha_analysis)
+
+    def _generate_enhanced_ollama_prediction(self, birth_data: BirthData, chart_summary: Dict[str, Any],
+                                           dasha_analysis: Dict[str, Any]) -> str:
+        """Generate enhanced prediction using Ollama."""
+        if not self.ollama_available:
+            return self._generate_enhanced_fallback_prediction(chart_summary, dasha_analysis)
+
+        try:
+            prompt = self._create_enhanced_prediction_prompt(birth_data, chart_summary, dasha_analysis)
+            print(f"🔮 Generating enhanced prediction using Ollama ({config.OLLAMA_MODEL})...")
+
+            # Add system context to the prompt
+            full_prompt = f"""You are a master Vedic astrologer with deep knowledge of Jyotish, planetary relationships, and dasha systems. Provide detailed, practical predictions with specific guidance and explanations.
+
+{prompt}"""
+
+            response = requests.post(
+                config.OLLAMA_URL,
+                json={
+                    "model": config.OLLAMA_MODEL,
+                    "prompt": full_prompt,
+                    "stream": False
+                },
+                timeout=config.OLLAMA_TIMEOUT
+            )
+
+            if response.status_code == 200:
+                result = response.json()
+                prediction_text = result.get("response", "").strip()
+                print(f"✅ Ollama enhanced prediction generated successfully ({len(prediction_text)} characters)")
+                return prediction_text
+            else:
+                print(f"❌ Ollama API error: {response.status_code}")
+                return self._generate_enhanced_fallback_prediction(chart_summary, dasha_analysis)
+
+        except Exception as e:
+            print(f"❌ Error generating enhanced Ollama prediction: {e}")
             return self._generate_enhanced_fallback_prediction(chart_summary, dasha_analysis)
 
     def _create_enhanced_prediction_prompt(self, birth_data: BirthData, chart_summary: Dict[str, Any],

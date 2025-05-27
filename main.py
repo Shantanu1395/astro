@@ -19,7 +19,12 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Initialize calculators
 vedic_calc = VedicCalculator()
-prediction_engine = VedicPredictionEngine()
+
+# Initialize prediction engines with different providers
+prediction_engine = VedicPredictionEngine()  # Uses config.LLM_PROVIDER
+openai_engine = VedicPredictionEngine("openai")  # Force OpenAI
+ollama_engine = VedicPredictionEngine("ollama")  # Force Ollama
+fallback_engine = VedicPredictionEngine("fallback")  # Fast mode without LLM
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -500,10 +505,137 @@ async def shantanu_simple():
     """Simple Shantanu endpoint to test."""
     return HTMLResponse(content="<h1>Shantanu's Chart - Simple Test</h1><p>This endpoint is working!</p>")
 
+@app.get("/shantanu-fast", response_class=HTMLResponse)
+async def shantanu_chart_fast():
+    """Fast version of Shantanu's chart without Ollama - for quick loading."""
+    try:
+        # Shantanu's birth data
+        birth_data = BirthData(
+            name="Shantanu Saini",
+            birth_date=date(1994, 3, 1),
+            birth_time=time(23, 2),  # 11:02 PM
+            birth_location="Faridabad, India"
+        )
+
+        # Get location data
+        location_data = get_location_data(birth_data.birth_location)
+        if not location_data:
+            raise Exception("Could not get location data for Faridabad, India")
+
+        # Calculate Vedic chart
+        vedic_chart = vedic_calc.calculate_birth_chart(birth_data, location_data)
+
+        # Calculate current dasha
+        current_dasha = vedic_calc.calculate_current_dasha(birth_data, vedic_chart)
+
+        # Calculate comprehensive planetary strengths and remedies
+        planetary_strengths = {}
+        planetary_remedies = {}
+        planetary_descriptions = {}
+
+        for planet in vedic_chart.planets:
+            strength_analysis = vedic_calc.calculate_planetary_strength(planet.name, planet)
+            planetary_strengths[planet.name] = strength_analysis
+
+            # Generate remedies for weak planets
+            planetary_remedies[planet.name] = vedic_calc.generate_planetary_remedies(
+                planet.name, planet, strength_analysis["overall_strength"], strength_analysis["strength_factors"]
+            )
+
+            # Generate detailed combination descriptions
+            planetary_descriptions[planet.name] = vedic_calc.generate_planetary_combination_description(planet.name, planet)
+
+        # Get comprehensive planetary relationships
+        from vedic_analysis import VedicAnalyzer
+        analyzer = VedicAnalyzer()
+        planetary_relationships = analyzer.analyze_planetary_relationships(vedic_chart)
+
+        # Generate prediction with FAST engine (no LLM)
+        prediction = fallback_engine.generate_vedic_prediction(birth_data, vedic_chart, current_dasha, location_data)
+
+        # Get personality analysis
+        personality_analysis = analyzer.analyze_inherent_personality_traits(vedic_chart)
+
+        # Prepare template data with all required fields
+        template_data = {
+            "request": {},  # Empty request object for template
+            "birth_data": birth_data,
+            "chart": vedic_chart,
+            "prediction": prediction,
+            "planetary_strengths": planetary_strengths,
+            "planetary_remedies": planetary_remedies,
+            "planetary_descriptions": planetary_descriptions,
+            "planetary_relationships": planetary_relationships,
+            "current_influences": {"comprehensive_summary": "Fast mode - current influences analysis skipped"},
+            "personality_analysis": personality_analysis,
+            "location_data": location_data,
+            # Add missing fields that template might expect
+            "planetary_aspects": {},
+            "divisional_charts": {},
+            "comprehensive_divisional_analysis": {},
+            "dasha_analysis": {}
+        }
+
+        # Render the template with all data
+        return templates.TemplateResponse("results.html", template_data)
+
+    except Exception as e:
+        error_html = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Error - Shantanu's Fast Chart</title>
+            <style>
+                body {{ font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }}
+                .error {{ background: #fff; padding: 20px; border-radius: 8px; border-left: 4px solid #e74c3c; }}
+                h1 {{ color: #e74c3c; }}
+                .details {{ background: #f8f9fa; padding: 15px; border-radius: 4px; margin-top: 15px; }}
+            </style>
+        </head>
+        <body>
+            <div class="error">
+                <h1>❌ Error Generating Fast Chart</h1>
+                <p><strong>Failed to generate Shantanu's fast chart.</strong></p>
+                <div class="details">
+                    <strong>Error Details:</strong><br>
+                    {str(e)}
+                </div>
+                <p><a href="/">← Back to Home</a></p>
+            </div>
+        </body>
+        </html>
+        """
+        return HTMLResponse(content=error_html, status_code=500)
+
 @app.get("/health")
 async def health_check():
     """Health check endpoint."""
     return {"status": "healthy", "app": config.APP_NAME}
+
+@app.get("/providers")
+async def list_providers():
+    """List available LLM providers and their status."""
+    return {
+        "current_provider": config.LLM_PROVIDER,
+        "providers": {
+            "openai": {
+                "available": bool(config.OPENAI_API_KEY),
+                "model": config.OPENAI_MODEL,
+                "status": "✅ Ready" if config.OPENAI_API_KEY else "❌ No API key"
+            },
+            "ollama": {
+                "available": ollama_engine.ollama_available,
+                "model": config.OLLAMA_MODEL,
+                "url": config.OLLAMA_URL,
+                "status": "✅ Ready" if ollama_engine.ollama_available else "❌ Not running"
+            },
+            "fallback": {
+                "available": True,
+                "model": "Local templates",
+                "status": "✅ Always available"
+            }
+        }
+    }
 
 if __name__ == "__main__":
     uvicorn.run(
