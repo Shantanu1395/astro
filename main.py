@@ -306,9 +306,7 @@ async def shantanu_chart_html():
         analyzer = VedicAnalyzer()
         planetary_relationships = analyzer.analyze_planetary_relationships(vedic_chart)
 
-        # Generate prediction with enhanced analysis
-        from prediction_engine import VedicPredictionEngine
-        prediction_engine = VedicPredictionEngine()
+        # Generate prediction with enhanced analysis (respecting LLM provider setting)
         prediction = prediction_engine.generate_vedic_prediction(birth_data, vedic_chart, current_dasha, location_data)
 
         # Get current influences analysis (optional - may fail)
@@ -636,6 +634,51 @@ async def list_providers():
             }
         }
     }
+
+# ===== NEW ARCHITECTURE ENDPOINTS =====
+
+@app.get("/api/v2/systems")
+async def get_systems_status():
+    """Get status of all astrological systems."""
+    from system_manager import system_manager
+    return system_manager.get_system_status()
+
+@app.get("/api/v2/pricing")
+async def get_pricing_info():
+    """Get pricing information for all tiers."""
+    from system_manager import system_manager
+    return system_manager.get_pricing_info()
+
+@app.post("/api/v2/predict")
+async def enhanced_prediction(request: dict):
+    """Enhanced prediction endpoint with full architecture support."""
+    try:
+        from models import EnhancedPredictionRequest
+        from system_manager import system_manager
+        from utils import get_location_data
+
+        # Parse enhanced request
+        enhanced_request = EnhancedPredictionRequest(**request)
+
+        # Get location data
+        location_data = get_location_data(enhanced_request.birth_data.birth_location)
+
+        # Generate user ID (in production, this would come from authentication)
+        user_id = f"user_{hash(enhanced_request.birth_data.name)}"
+
+        # Process request through system manager
+        result = system_manager.process_prediction_request(
+            enhanced_request, location_data, user_id
+        )
+
+        return result
+
+    except Exception as e:
+        return {
+            "success": False,
+            "error": "request_error",
+            "message": f"Error processing request: {str(e)}"
+        }
 
 if __name__ == "__main__":
     uvicorn.run(
