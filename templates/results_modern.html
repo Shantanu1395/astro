@@ -1,0 +1,2355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedic Astrology Report - {{ birth_data.name }}</title>
+    <link rel="stylesheet" href="/static/style_modern.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">🌟 Vedic Astrology Report</h1>
+                <div class="user-info">
+                    <h2 class="user-name">{{ birth_data.name }}</h2>
+                    <p class="birth-details">
+                        Born {{ birth_data.birth_date }} at {{ birth_data.birth_time }} in {{ birth_data.birth_location }}
+                    </p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Summary Cards -->
+        <section class="summary-section">
+            <div class="summary-grid">
+                <!-- Current Phase Card -->
+                <div class="summary-card primary-card">
+                    <div class="card-icon">🕐</div>
+                    <div class="card-content">
+                        <h3>Current Life Phase</h3>
+                        <p class="phase-name">{{ prediction.current_dasha.planet }} Dasha</p>
+                        <p class="phase-duration">{{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years remaining</p>
+                    </div>
+                </div>
+
+                <!-- Chart Essence Card -->
+                <div class="summary-card secondary-card">
+                    <div class="card-icon">⭐</div>
+                    <div class="card-content">
+                        <h3>Chart Essence</h3>
+                        <p class="essence-detail">{{ chart.ascendant_sign }} Rising</p>
+                        <p class="essence-detail">{{ chart.moon_sign }} Moon</p>
+                    </div>
+                </div>
+
+                <!-- Key Themes Card -->
+                <div class="summary-card accent-card">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-content">
+                        <h3>Key Life Themes</h3>
+                        <div class="theme-tags">
+                            {% if prediction.key_themes %}
+                                {% for theme in prediction.key_themes[:3] %}
+                                <span class="theme-tag">{{ theme }}</span>
+                                {% endfor %}
+                            {% elif personality_analysis and personality_analysis.key_life_themes %}
+                                {% for theme in personality_analysis.key_life_themes[:3] %}
+                                <span class="theme-tag">{{ theme }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span class="theme-tag">Leadership</span>
+                                <span class="theme-tag">Innovation</span>
+                                <span class="theme-tag">Service</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Focus Card -->
+                <div class="summary-card success-card">
+                    <div class="card-icon">💡</div>
+                    <div class="card-content">
+                        <h3>Current Focus</h3>
+                        <p class="focus-text">{{ chart.birth_nakshatra }} Nakshatra influence</p>
+                        <p class="focus-subtext">Spiritual growth period</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Navigation -->
+        <nav class="main-nav">
+            <div class="nav-container">
+                <button class="nav-btn active" data-tab="overview">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Overview</span>
+                </button>
+                <button class="nav-btn" data-tab="planets">
+                    <span class="nav-icon">🪐</span>
+                    <span class="nav-text">Planets</span>
+                </button>
+                <button class="nav-btn" data-tab="timing">
+                    <span class="nav-icon">⏰</span>
+                    <span class="nav-text">Timing</span>
+                </button>
+                <button class="nav-btn" data-tab="remedies">
+                    <span class="nav-icon">🌟</span>
+                    <span class="nav-text">Remedies</span>
+                </button>
+                <button class="nav-btn" data-tab="personality">
+                    <span class="nav-icon">🧠</span>
+                    <span class="nav-text">Personality</span>
+                </button>
+                <button class="nav-btn" data-tab="today">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-text">Today</span>
+                </button>
+                <button class="nav-btn" data-tab="current-life">
+                    <span class="nav-icon">🌍</span>
+                    <span class="nav-text">Current Life</span>
+                </button>
+                <button class="nav-btn" data-tab="advanced">
+                    <span class="nav-icon">🔬</span>
+                    <span class="nav-text">Advanced</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="content-section">
+                    <h2 class="section-title">📋 Your Astrological Overview</h2>
+
+                    <!-- Enhanced Chart Summary -->
+                    <div class="overview-grid">
+                        <div class="overview-card enhanced-persona">
+                            <div class="card-header">
+                                <h3>🎭 Your Public Persona</h3>
+                                <span class="card-badge">{{ chart.ascendant_sign }} Rising</span>
+                            </div>
+                            <div class="card-content">
+                                {% if personality_analysis and personality_analysis.core_personality.ascendant_influence %}
+                                <p class="primary-trait">{{ personality_analysis.core_personality.ascendant_influence.traits.core_traits[0] if personality_analysis.core_personality.ascendant_influence.traits.core_traits else 'Naturally charismatic' }}</p>
+                                <p class="card-description">Others perceive you as {{ personality_analysis.core_personality.ascendant_influence.traits.core_traits[1] if personality_analysis.core_personality.ascendant_influence.traits.core_traits|length > 1 else 'confident and approachable' }}. Your {{ chart.ascendant_sign }} rising gives you a distinctive presence.</p>
+                                <div class="trait-tags">
+                                    {% for trait in personality_analysis.core_personality.ascendant_influence.traits.core_traits[:2] %}
+                                    <span class="trait-tag">{{ trait }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <p class="primary-trait">{{ chart.ascendant_sign }} Energy</p>
+                                <p class="card-description">Your {{ chart.ascendant_sign }} rising creates a distinctive first impression. People naturally see you as someone who embodies {{ chart.ascendant_sign }} qualities.</p>
+                                <div class="trait-tags">
+                                    <span class="trait-tag">Natural presence</span>
+                                    <span class="trait-tag">{{ chart.ascendant_sign }} approach</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="overview-card enhanced-inner">
+                            <div class="card-header">
+                                <h3>🌙 Your Inner Self</h3>
+                                <span class="card-badge">{{ chart.moon_sign }} Moon</span>
+                            </div>
+                            <div class="card-content">
+                                {% if personality_analysis and personality_analysis.core_personality.moon_influence %}
+                                <p class="primary-trait">{{ personality_analysis.core_personality.moon_influence.traits.core_traits[0] if personality_analysis.core_personality.moon_influence.traits.core_traits else 'Emotionally intuitive' }}</p>
+                                <p class="card-description">Your emotional world is {{ personality_analysis.core_personality.moon_influence.traits.core_traits[1] if personality_analysis.core_personality.moon_influence.traits.core_traits|length > 1 else 'rich and complex' }}. Your {{ chart.moon_sign }} moon shapes your inner security needs.</p>
+                                <div class="trait-tags">
+                                    {% for trait in personality_analysis.core_personality.moon_influence.traits.core_traits[:2] %}
+                                    <span class="trait-tag">{{ trait }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <p class="primary-trait">{{ chart.moon_sign }} Emotions</p>
+                                <p class="card-description">Your {{ chart.moon_sign }} moon creates a unique emotional landscape. This placement influences how you process feelings and seek comfort.</p>
+                                <div class="trait-tags">
+                                    <span class="trait-tag">Emotional depth</span>
+                                    <span class="trait-tag">{{ chart.moon_sign }} sensitivity</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="overview-card enhanced-core">
+                            <div class="card-header">
+                                <h3>☀️ Your Core Identity</h3>
+                                <span class="card-badge">{{ chart.sun_sign }} Sun</span>
+                            </div>
+                            <div class="card-content">
+                                {% if personality_analysis and personality_analysis.core_personality.sun_influence %}
+                                <p class="primary-trait">{{ personality_analysis.core_personality.sun_influence.traits.core_traits[0] if personality_analysis.core_personality.sun_influence.traits.core_traits else 'Authentically expressive' }}</p>
+                                <p class="card-description">Your authentic self is {{ personality_analysis.core_personality.sun_influence.traits.core_traits[1] if personality_analysis.core_personality.sun_influence.traits.core_traits|length > 1 else 'creative and purposeful' }}. Your {{ chart.sun_sign }} sun represents your life's central purpose.</p>
+                                <div class="trait-tags">
+                                    {% for trait in personality_analysis.core_personality.sun_influence.traits.core_traits[:2] %}
+                                    <span class="trait-tag">{{ trait }}</span>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <p class="primary-trait">{{ chart.sun_sign }} Purpose</p>
+                                <p class="card-description">Your {{ chart.sun_sign }} sun represents your core identity and life purpose. This is the authentic self you're meant to express.</p>
+                                <div class="trait-tags">
+                                    <span class="trait-tag">Life vitality</span>
+                                    <span class="trait-tag">{{ chart.sun_sign }} essence</span>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="overview-card enhanced-soul">
+                            <div class="card-header">
+                                <h3>⭐ Your Soul Path</h3>
+                                <span class="card-badge">{{ chart.birth_nakshatra }}</span>
+                            </div>
+                            <div class="card-content">
+                                <p class="primary-trait">{{ chart.birth_nakshatra }} Journey</p>
+                                <p class="card-description">Born under {{ chart.birth_nakshatra }} nakshatra, your soul's journey involves developing specific spiritual qualities and fulfilling karmic lessons.</p>
+                                <div class="trait-tags">
+                                    <span class="trait-tag">Spiritual growth</span>
+                                    <span class="trait-tag">{{ chart.birth_nakshatra }} wisdom</span>
+                                </div>
+                                <div class="soul-phase">
+                                    <p><strong>Current Phase:</strong> {{ prediction.current_dasha.planet }} Dasha ({{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years remaining)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Current Prediction -->
+                    <div class="prediction-card enhanced-prediction">
+                        <div class="prediction-header">
+                            <h3>🔮 Your Current Prediction</h3>
+                            <div class="prediction-meta">
+                                <span class="prediction-period">{{ prediction.current_dasha.planet }} Dasha Period</span>
+                                <span class="prediction-timeframe">{{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years remaining</span>
+                            </div>
+                        </div>
+
+                        <div class="prediction-content">
+                            {% if prediction.prediction_text %}
+                                {% set prediction_paragraphs = prediction.prediction_text.split('\n\n') %}
+                                {% for paragraph in prediction_paragraphs %}
+                                    {% if paragraph.strip() %}
+                                        {% if loop.first %}
+                                        <div class="prediction-summary">
+                                            <h4>📋 Overview</h4>
+                                            <p class="prediction-intro">{{ paragraph.strip() }}</p>
+                                        </div>
+                                        {% else %}
+                                        <div class="prediction-detail">
+                                            <p>{{ paragraph.strip() | replace('\n', '<br>') | safe }}</p>
+                                        </div>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                            <div class="prediction-fallback">
+                                <div class="prediction-summary">
+                                    <h4>📋 Current Life Phase Overview</h4>
+                                    <p class="prediction-intro">You are currently experiencing your <strong>{{ prediction.current_dasha.planet }} Dasha</strong>, a significant {{ "%.1f"|format(16 - prediction.current_dasha.remaining_years) }}-year journey that began on {{ prediction.current_dasha.start_date }}.</p>
+                                </div>
+
+                                <div class="prediction-detail">
+                                    {% if prediction.current_dasha.planet == "Jupiter" %}
+                                    <p>This is a period of <strong>expansion, learning, and spiritual growth</strong>. Jupiter's influence brings opportunities for higher education, teaching, and developing wisdom. You may find yourself in positions where you guide others or pursue knowledge that broadens your perspective.</p>
+
+                                    <p>Your <strong>{{ chart.ascendant_sign }} rising</strong> nature combined with your <strong>{{ chart.moon_sign }} moon</strong> creates a unique approach to this Jupiter period. Focus on balancing optimism with practical planning, and avoid overindulgence.</p>
+                                    {% elif prediction.current_dasha.planet == "Saturn" %}
+                                    <p>This is a period of <strong>building foundations, discipline, and learning patience</strong>. Saturn's influence brings challenges that ultimately strengthen your character and create lasting structures in your life.</p>
+
+                                    <p>Your <strong>{{ chart.ascendant_sign }} rising</strong> nature combined with your <strong>{{ chart.moon_sign }} moon</strong> helps you navigate this Saturn period with resilience. Focus on persistence and long-term thinking.</p>
+                                    {% else %}
+                                    <p>This is a period where <strong>{{ prediction.current_dasha.planet }} themes</strong> dominate your life experience. The influence of {{ prediction.current_dasha.planet }} brings specific lessons and opportunities for growth.</p>
+
+                                    <p>Your <strong>{{ chart.ascendant_sign }} rising</strong> nature combined with your <strong>{{ chart.moon_sign }} moon</strong> creates your unique approach to this {{ prediction.current_dasha.planet }} period.</p>
+                                    {% endif %}
+                                </div>
+
+                                <div class="prediction-guidance">
+                                    <h4>🎯 Key Focus Areas</h4>
+                                    <ul class="focus-list">
+                                        {% if prediction.current_dasha.planet == "Jupiter" %}
+                                        <li>Expand your knowledge through learning and teaching</li>
+                                        <li>Develop spiritual practices and ethical decision-making</li>
+                                        <li>Be generous and help others grow</li>
+                                        <li>Balance optimism with practical planning</li>
+                                        {% elif prediction.current_dasha.planet == "Saturn" %}
+                                        <li>Build solid foundations for long-term success</li>
+                                        <li>Develop discipline and patience</li>
+                                        <li>Learn from challenges and setbacks</li>
+                                        <li>Take responsibility and work diligently</li>
+                                        {% else %}
+                                        <li>Embrace {{ prediction.current_dasha.planet }}-related opportunities</li>
+                                        <li>Develop {{ prediction.current_dasha.planet }} qualities</li>
+                                        <li>Balance {{ prediction.current_dasha.planet }} energy wisely</li>
+                                        <li>Learn {{ prediction.current_dasha.planet }} life lessons</li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="prediction-footer">
+                            <div class="prediction-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Dasha Started:</span>
+                                    <span class="stat-value">{{ prediction.current_dasha.start_date }}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Dasha Ends:</span>
+                                    <span class="stat-value">{{ prediction.current_dasha.end_date }}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Progress:</span>
+                                    <span class="stat-value">{{ "%.1f"|format((16 - prediction.current_dasha.remaining_years) / 16 * 100) }}% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Key Life Themes Section -->
+                    {% if personality_analysis and personality_analysis.key_life_themes %}
+                    <div class="key-themes-section">
+                        <h3>🎯 Your Key Life Themes</h3>
+                        <p class="themes-description">Based on your birth chart, these are the major themes that will play out throughout your life:</p>
+                        <div class="themes-detailed-grid">
+                            {% for theme in personality_analysis.key_life_themes %}
+                            <div class="theme-detailed-card">
+                                <h4>{{ theme.theme }}</h4>
+                                <p class="theme-description">{{ theme.description }}</p>
+                                {% if theme.manifestation %}
+                                <p class="theme-manifestation"><strong>How it manifests:</strong> {{ theme.manifestation }}</p>
+                                {% endif %}
+                                {% if theme.guidance %}
+                                <p class="theme-guidance"><strong>Guidance:</strong> {{ theme.guidance }}</p>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Current Influences -->
+                    {% if prediction.current_influences %}
+                    <div class="influences-card">
+                        <h3>📅 What's Happening Now</h3>
+                        <div class="influences-grid">
+                            <div class="influence-item">
+                                <h4>🌙 Lunar Phase</h4>
+                                <p>{{ prediction.current_influences.lunar_phase.phase }}</p>
+                                <small>{{ prediction.current_influences.lunar_phase.effects }}</small>
+                            </div>
+                            <div class="influence-item">
+                                <h4>🗓️ Monthly Theme</h4>
+                                <p>{{ prediction.current_influences.month_theme.primary_theme }}</p>
+                                <small>{{ prediction.current_influences.month_theme.month_name }}</small>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Planets Tab -->
+            <div id="planets" class="tab-content">
+                <div class="content-section">
+                    <h2 class="section-title">🪐 Planetary Analysis</h2>
+                    <p class="section-description">Detailed analysis of how each planet influences your life</p>
+
+                    <div class="planets-modern-grid">
+                        {% for planet in chart.planets %}
+                        <div class="planet-modern-card">
+                            <div class="planet-header">
+                                <h3>{{ planet.name }}</h3>
+                                <div class="planet-position">
+                                    <span class="position-badge">{{ planet.sign }}</span>
+                                    <span class="house-badge">House {{ planet.house }}</span>
+                                    {% if planet.nakshatra %}
+                                    <span class="nakshatra-badge">{{ planet.nakshatra }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Quick Summary -->
+                            {% if planetary_descriptions[planet.name] %}
+                            <div class="planet-quick-summary">
+                                <p>{{ planetary_descriptions[planet.name].combined_effect.description[:150] }}...</p>
+                            </div>
+                            {% endif %}
+
+                            <!-- Strength Indicator -->
+                            {% if planetary_strengths[planet.name] %}
+                            <div class="planet-strength">
+                                <div class="strength-indicator">
+                                    <span class="strength-label">Strength:</span>
+                                    <span class="strength-value">{{ planetary_strengths[planet.name].overall_strength }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            <!-- Detailed Analysis Button -->
+                            <button class="expand-details-btn" onclick="togglePlanetDetails('{{ planet.name }}')">
+                                🔍 View Detailed Analysis
+                            </button>
+
+                            <!-- Detailed Analysis (Hidden by default) -->
+                            <div id="details-{{ planet.name }}" class="planet-detailed-analysis" style="display: none;">
+                                {% if planetary_descriptions[planet.name] %}
+                                <div class="detailed-analysis-section">
+                                    <h4>🔍 Detailed Analysis</h4>
+                                    <h5>{{ planetary_descriptions[planet.name].title }}</h5>
+
+                                    <div class="analysis-subsection">
+                                        <h6>{{ planetary_descriptions[planet.name].sign_influence.title }}:</h6>
+                                        <p>{{ planetary_descriptions[planet.name].sign_influence.description }}</p>
+                                    </div>
+
+                                    <div class="analysis-subsection">
+                                        <h6>{{ planetary_descriptions[planet.name].house_influence.title }}:</h6>
+                                        <p>{{ planetary_descriptions[planet.name].house_influence.description }}</p>
+                                    </div>
+
+                                    <div class="analysis-subsection">
+                                        <h6>{{ planetary_descriptions[planet.name].combined_effect.title }}:</h6>
+                                        <p>{{ planetary_descriptions[planet.name].combined_effect.description }}</p>
+                                    </div>
+
+                                    <div class="analysis-subsection">
+                                        <h6>{{ planetary_descriptions[planet.name].life_manifestation.title }}:</h6>
+                                        <p>{{ planetary_descriptions[planet.name].life_manifestation.description }}</p>
+                                    </div>
+
+                                    <div class="analysis-subsection">
+                                        <h6>{{ planetary_descriptions[planet.name].timing_activation.title }}:</h6>
+                                        <p>{{ planetary_descriptions[planet.name].timing_activation.description }}</p>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                                <!-- Detailed Strength Analysis -->
+                                {% if planetary_strengths[planet.name] %}
+                                <div class="detailed-strength-section">
+                                    <h4>💪 Complete Strength Analysis</h4>
+                                    <div class="strength-score-display">
+                                        <span class="strength-score">{{ planetary_strengths[planet.name].total_score }}/100</span>
+                                        <span class="strength-grade">{{ planetary_strengths[planet.name].overall_strength }}</span>
+                                    </div>
+                                    <p class="strength-interpretation">{{ planetary_strengths[planet.name].interpretation }}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timing Tab -->
+            <div id="timing" class="tab-content">
+                <div class="content-section">
+                    <h2 class="section-title">⏰ Life Timing & Periods</h2>
+                    <p class="section-description">Understanding your life's major phases and timing patterns</p>
+
+                    <!-- Current Dasha Analysis -->
+                    <div class="current-dasha-section">
+                        <h3>🕐 Current Life Phase: {{ prediction.current_dasha.planet }} Dasha</h3>
+
+                        <div class="dasha-overview-grid">
+                            <!-- Dasha Timeline -->
+                            <div class="dasha-timeline-card">
+                                <h4>📅 Timeline</h4>
+                                <div class="timeline-visual">
+                                    <div class="timeline-progress">
+                                        {% set total_years = (prediction.current_dasha.end_date | string | replace('-', '') | int) - (prediction.current_dasha.start_date | string | replace('-', '') | int) %}
+                                        {% set elapsed_years = total_years - prediction.current_dasha.remaining_years %}
+                                        {% set progress_percent = (elapsed_years / total_years * 100) if total_years > 0 else 0 %}
+                                        <div class="progress-bar">
+                                            <div class="progress-fill" style="width: {{ progress_percent }}%"></div>
+                                        </div>
+                                        <div class="progress-labels">
+                                            <span class="start-date">{{ prediction.current_dasha.start_date }}</span>
+                                            <span class="current-marker">Now</span>
+                                            <span class="end-date">{{ prediction.current_dasha.end_date }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="timeline-details">
+                                    <div class="timeline-stat">
+                                        <span class="stat-label">Duration:</span>
+                                        <span class="stat-value">16 years</span>
+                                    </div>
+                                    <div class="timeline-stat">
+                                        <span class="stat-label">Elapsed:</span>
+                                        <span class="stat-value">{{ "%.1f"|format(16 - prediction.current_dasha.remaining_years) }} years</span>
+                                    </div>
+                                    <div class="timeline-stat">
+                                        <span class="stat-label">Remaining:</span>
+                                        <span class="stat-value">{{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Dasha Characteristics -->
+                            <div class="dasha-characteristics-card">
+                                <h4>🌟 {{ prediction.current_dasha.planet }} Dasha Characteristics</h4>
+                                {% if prediction.current_dasha.planet == "Jupiter" %}
+                                <div class="dasha-traits">
+                                    <div class="trait-item positive">
+                                        <span class="trait-icon">✨</span>
+                                        <span class="trait-text">Wisdom and spiritual growth</span>
+                                    </div>
+                                    <div class="trait-item positive">
+                                        <span class="trait-icon">📚</span>
+                                        <span class="trait-text">Learning and teaching opportunities</span>
+                                    </div>
+                                    <div class="trait-item positive">
+                                        <span class="trait-icon">🎯</span>
+                                        <span class="trait-text">Expansion and good fortune</span>
+                                    </div>
+                                    <div class="trait-item neutral">
+                                        <span class="trait-icon">⚖️</span>
+                                        <span class="trait-text">Need for balance and moderation</span>
+                                    </div>
+                                </div>
+                                {% elif prediction.current_dasha.planet == "Saturn" %}
+                                <div class="dasha-traits">
+                                    <div class="trait-item positive">
+                                        <span class="trait-icon">🏗️</span>
+                                        <span class="trait-text">Building solid foundations</span>
+                                    </div>
+                                    <div class="trait-item positive">
+                                        <span class="trait-icon">💪</span>
+                                        <span class="trait-text">Developing discipline and patience</span>
+                                    </div>
+                                    <div class="trait-item challenging">
+                                        <span class="trait-icon">⏳</span>
+                                        <span class="trait-text">Delays and obstacles to overcome</span>
+                                    </div>
+                                    <div class="trait-item neutral">
+                                        <span class="trait-icon">🎓</span>
+                                        <span class="trait-text">Life lessons through challenges</span>
+                                    </div>
+                                </div>
+                                {% else %}
+                                <div class="dasha-traits">
+                                    <div class="trait-item positive">
+                                        <span class="trait-icon">🌟</span>
+                                        <span class="trait-text">{{ prediction.current_dasha.planet }} brings unique opportunities</span>
+                                    </div>
+                                    <div class="trait-item positive">
+                                        <span class="trait-icon">🎯</span>
+                                        <span class="trait-text">Focus on {{ prediction.current_dasha.planet }}-related themes</span>
+                                    </div>
+                                    <div class="trait-item neutral">
+                                        <span class="trait-icon">⚖️</span>
+                                        <span class="trait-text">Balance {{ prediction.current_dasha.planet }} energy wisely</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Life Phase Guidance -->
+                    <div class="life-phase-guidance">
+                        <h3>🧭 Current Phase Guidance</h3>
+                        <div class="guidance-grid">
+                            <div class="guidance-card focus">
+                                <h4>🎯 What to Focus On</h4>
+                                {% if prediction.current_dasha.planet == "Jupiter" %}
+                                <ul class="guidance-list">
+                                    <li>Expand your knowledge and wisdom</li>
+                                    <li>Pursue higher education or teaching</li>
+                                    <li>Develop spiritual practices</li>
+                                    <li>Be generous and help others</li>
+                                    <li>Make ethical decisions</li>
+                                </ul>
+                                {% elif prediction.current_dasha.planet == "Saturn" %}
+                                <ul class="guidance-list">
+                                    <li>Build long-term foundations</li>
+                                    <li>Develop discipline and patience</li>
+                                    <li>Work hard and persist through challenges</li>
+                                    <li>Take responsibility seriously</li>
+                                    <li>Learn from setbacks</li>
+                                </ul>
+                                {% else %}
+                                <ul class="guidance-list">
+                                    <li>Embrace {{ prediction.current_dasha.planet }}-related opportunities</li>
+                                    <li>Develop {{ prediction.current_dasha.planet }} qualities</li>
+                                    <li>Balance {{ prediction.current_dasha.planet }} energy</li>
+                                    <li>Learn {{ prediction.current_dasha.planet }} lessons</li>
+                                </ul>
+                                {% endif %}
+                            </div>
+
+                            <div class="guidance-card avoid">
+                                <h4>⚠️ What to Avoid</h4>
+                                {% if prediction.current_dasha.planet == "Jupiter" %}
+                                <ul class="guidance-list">
+                                    <li>Overindulgence and excess</li>
+                                    <li>Being overly optimistic without planning</li>
+                                    <li>Ignoring practical details</li>
+                                    <li>Becoming dogmatic or preachy</li>
+                                </ul>
+                                {% elif prediction.current_dasha.planet == "Saturn" %}
+                                <ul class="guidance-list">
+                                    <li>Giving up when faced with obstacles</li>
+                                    <li>Being overly pessimistic</li>
+                                    <li>Avoiding responsibilities</li>
+                                    <li>Rushing important decisions</li>
+                                </ul>
+                                {% else %}
+                                <ul class="guidance-list">
+                                    <li>Ignoring {{ prediction.current_dasha.planet }} themes</li>
+                                    <li>Resisting {{ prediction.current_dasha.planet }} lessons</li>
+                                    <li>Imbalanced {{ prediction.current_dasha.planet }} expression</li>
+                                </ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Period Analysis -->
+                    <div class="periods-analysis">
+                        <h3>📊 Detailed Period Analysis</h3>
+                        <p class="periods-description">Understanding the timing and quality of different life phases</p>
+
+                        <div class="periods-modern-grid">
+                            <div class="period-card favorable enhanced-periods">
+                                <div class="period-header">
+                                    <h4>✅ Favorable Periods</h4>
+                                    <span class="period-count">{{ prediction.favorable_periods|length if prediction.favorable_periods else '4' }} periods</span>
+                                </div>
+
+                                {% if prediction.favorable_periods %}
+                                <div class="period-timeline">
+                                    {% for period in prediction.favorable_periods %}
+                                    <div class="period-item favorable-item">
+                                        <div class="period-marker favorable-marker"></div>
+                                        <div class="period-content">
+                                            <h5 class="period-title">{{ period.split(':')[0] if ':' in period else 'Favorable Period ' + loop.index|string }}</h5>
+                                            <p class="period-description">{{ period.split(':')[1] if ':' in period else period }}</p>
+                                            <div class="period-timing">
+                                                <span class="timing-badge favorable-timing">
+                                                    {% if loop.index == 1 %}Current - Next 2 years
+                                                    {% elif loop.index == 2 %}Years 3-5 of dasha
+                                                    {% elif loop.index == 3 %}Mid-dasha period
+                                                    {% else %}Later dasha years{% endif %}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <div class="period-timeline">
+                                    <div class="period-item favorable-item">
+                                        <div class="period-marker favorable-marker"></div>
+                                        <div class="period-content">
+                                            <h5 class="period-title">Educational Growth Phase</h5>
+                                            <p class="period-description">Excellent time for learning, teaching, and expanding knowledge</p>
+                                            <div class="period-timing">
+                                                <span class="timing-badge favorable-timing">Current - Next 3 years</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="period-item favorable-item">
+                                        <div class="period-marker favorable-marker"></div>
+                                        <div class="period-content">
+                                            <h5 class="period-title">Spiritual Expansion</h5>
+                                            <p class="period-description">Deep spiritual insights and wisdom development</p>
+                                            <div class="period-timing">
+                                                <span class="timing-badge favorable-timing">Years 4-7 of dasha</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="period-item favorable-item">
+                                        <div class="period-marker favorable-marker"></div>
+                                        <div class="period-content">
+                                            <h5 class="period-title">Teaching & Guidance</h5>
+                                            <p class="period-description">Opportunities to guide others and share wisdom</p>
+                                            <div class="period-timing">
+                                                <span class="timing-badge favorable-timing">Mid to late dasha</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="period-item favorable-item">
+                                        <div class="period-marker favorable-marker"></div>
+                                        <div class="period-content">
+                                            <h5 class="period-title">Ethical Leadership</h5>
+                                            <p class="period-description">Recognition for wisdom and ethical decision-making</p>
+                                            <div class="period-timing">
+                                                <span class="timing-badge favorable-timing">Final dasha years</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="period-card challenging enhanced-periods">
+                                <div class="period-header">
+                                    <h4>⚠️ Periods Requiring Caution</h4>
+                                    <span class="period-count">{{ prediction.challenging_periods|length if prediction.challenging_periods else '3' }} areas</span>
+                                </div>
+
+                                {% if prediction.challenging_periods %}
+                                <div class="period-timeline">
+                                    {% for period in prediction.challenging_periods %}
+                                    <div class="period-item challenging-item">
+                                        <div class="period-marker challenging-marker"></div>
+                                        <div class="period-content">
+                                            <h5 class="period-title">{{ period.split(':')[0] if ':' in period else 'Caution Period ' + loop.index|string }}</h5>
+                                            <p class="period-description">{{ period.split(':')[1] if ':' in period else period }}</p>
+                                            <div class="period-timing">
+                                                <span class="timing-badge challenging-timing">
+                                                    {% if loop.index == 1 %}Ongoing awareness needed
+                                                    {% elif loop.index == 2 %}Periodic vigilance
+                                                    {% else %}Situational caution{% endif %}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <div class="period-timeline">
+                                    <div class="period-item challenging-item">
+                                        <div class="period-marker challenging-marker"></div>
+                                        <div class="period-content">
+                                            <h5 class="period-title">Overindulgence Risk</h5>
+                                            <p class="period-description">Tendency toward excess in food, spending, or optimism</p>
+                                            <div class="period-timing">
+                                                <span class="timing-badge challenging-timing">Ongoing awareness needed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="period-item challenging-item">
+                                        <div class="period-marker challenging-marker"></div>
+                                        <div class="period-content">
+                                            <h5 class="period-title">Dogmatic Tendencies</h5>
+                                            <p class="period-description">Risk of becoming preachy or overly rigid in beliefs</p>
+                                            <div class="period-timing">
+                                                <span class="timing-badge challenging-timing">Mid-dasha vigilance</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="period-item challenging-item">
+                                        <div class="period-marker challenging-marker"></div>
+                                        <div class="period-content">
+                                            <h5 class="period-title">Practical Neglect</h5>
+                                            <p class="period-description">Focusing too much on ideals while ignoring practical details</p>
+                                            <div class="period-timing">
+                                                <span class="timing-badge challenging-timing">Periodic review needed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next Dasha Preview -->
+                    {% if prediction.upcoming_dasha %}
+                    <div class="next-dasha-preview">
+                        <h3>🔮 Next Phase: {{ prediction.upcoming_dasha.planet }} Dasha</h3>
+                        <div class="next-dasha-card">
+                            <div class="next-dasha-info">
+                                <p><strong>Starts:</strong> {{ prediction.upcoming_dasha.start_date }}</p>
+                                <p><strong>Duration:</strong> {{ prediction.upcoming_dasha.level }} period</p>
+                                <p><strong>Preparation:</strong> Start preparing for {{ prediction.upcoming_dasha.planet }}-related themes and lessons</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Remedies Tab -->
+            <div id="remedies" class="tab-content">
+                <div class="content-section">
+                    <h2 class="section-title">🌟 Remedial Guidance</h2>
+                    <p class="section-description">Comprehensive remedial suggestions for planetary enhancement</p>
+
+                    <div class="remedies-grid">
+                        {% for planet in chart.planets %}
+                        {% if planetary_remedies[planet.name] and planetary_remedies[planet.name].remedies_needed %}
+                        <div class="remedy-card">
+                            <div class="remedy-header">
+                                <h3>{{ planet.name }} Remedies</h3>
+                                <span class="remedy-priority">{{ planetary_strengths[planet.name].overall_strength if planetary_strengths[planet.name] else 'Moderate' }}</span>
+                            </div>
+
+                            <p class="remedy-approach">{{ planetary_remedies[planet.name].overall_approach }}</p>
+
+                            <!-- Remedy Tabs -->
+                            <div class="remedy-tabs">
+                                <div class="remedy-tab-nav">
+                                    <button class="remedy-tab-btn active" onclick="showRemedyTab('{{ planet.name }}', 'gemstone')">💎 Gemstone</button>
+                                    <button class="remedy-tab-btn" onclick="showRemedyTab('{{ planet.name }}', 'mantra')">🕉️ Mantra</button>
+                                    <button class="remedy-tab-btn" onclick="showRemedyTab('{{ planet.name }}', 'lifestyle')">🌱 Lifestyle</button>
+                                    <button class="remedy-tab-btn" onclick="showRemedyTab('{{ planet.name }}', 'charity')">🤲 Charity</button>
+                                </div>
+
+                                <!-- Gemstone Tab -->
+                                <div id="remedy-{{ planet.name }}-gemstone" class="remedy-tab-content active">
+                                    <h4>💎 Gemstone Therapy</h4>
+                                    <div class="gemstone-details">
+                                        <p><strong>Primary Gemstone:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.primary }}</p>
+                                        {% if planetary_remedies[planet.name].gemstone_therapy.alternatives %}
+                                        <p><strong>Alternatives:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.alternatives|join(', ') }}</p>
+                                        {% endif %}
+                                        {% if planetary_remedies[planet.name].gemstone_therapy.weight %}
+                                        <div class="gemstone-specs">
+                                            <p><strong>Weight:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.weight }}</p>
+                                            <p><strong>Metal:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.metal }}</p>
+                                            <p><strong>Finger:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.finger }}</p>
+                                            <p><strong>Day to Wear:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.day_to_wear }}</p>
+                                        </div>
+                                        {% endif %}
+                                        {% if planetary_remedies[planet.name].gemstone_therapy.precautions %}
+                                        <div class="remedy-warning">
+                                            <p><strong>⚠️ Precautions:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.precautions }}</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Mantra Tab -->
+                                <div id="remedy-{{ planet.name }}-mantra" class="remedy-tab-content">
+                                    <h4>🕉️ Mantra Therapy</h4>
+                                    <div class="mantra-details">
+                                        <p><strong>Simple Mantra:</strong> <span class="mantra-text">{{ planetary_remedies[planet.name].mantra_therapy.simple_mantra }}</span></p>
+                                        {% if planetary_remedies[planet.name].mantra_therapy.beej_mantra %}
+                                        <p><strong>Beej Mantra:</strong> <span class="mantra-text">{{ planetary_remedies[planet.name].mantra_therapy.beej_mantra }}</span></p>
+                                        {% endif %}
+                                        <p><strong>Repetitions:</strong> {{ planetary_remedies[planet.name].mantra_therapy.repetitions }}</p>
+                                        {% if planetary_remedies[planet.name].mantra_therapy.best_time %}
+                                        <p><strong>Best Time:</strong> {{ planetary_remedies[planet.name].mantra_therapy.best_time }}</p>
+                                        <p><strong>Direction:</strong> {{ planetary_remedies[planet.name].mantra_therapy.direction }}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Lifestyle Tab -->
+                                <div id="remedy-{{ planet.name }}-lifestyle" class="remedy-tab-content">
+                                    <h4>🌱 Lifestyle Modifications</h4>
+                                    <div class="lifestyle-details">
+                                        {% if planetary_remedies[planet.name].lifestyle_modifications.wake_time %}
+                                        <p><strong>Wake Time:</strong> {{ planetary_remedies[planet.name].lifestyle_modifications.wake_time }}</p>
+                                        <p><strong>Exercise:</strong> {{ planetary_remedies[planet.name].lifestyle_modifications.exercise }}</p>
+                                        <p><strong>Meditation:</strong> {{ planetary_remedies[planet.name].lifestyle_modifications.meditation }}</p>
+                                        {% endif %}
+
+                                        {% if planetary_remedies[planet.name].color_therapy %}
+                                        <div class="color-therapy">
+                                            <p><strong>Beneficial Colors:</strong> {{ planetary_remedies[planet.name].color_therapy.primary_colors|join(', ') }}</p>
+                                            <p><strong>Clothing:</strong> {{ planetary_remedies[planet.name].color_therapy.clothing }}</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Charity Tab -->
+                                <div id="remedy-{{ planet.name }}-charity" class="remedy-tab-content">
+                                    <h4>🤲 Charitable Activities</h4>
+                                    <div class="charity-details">
+                                        <p><strong>Primary Charity:</strong> {{ planetary_remedies[planet.name].charitable_activities.primary_charity }}</p>
+                                        <p><strong>Items to Donate:</strong> {{ planetary_remedies[planet.name].charitable_activities.items_to_donate|join(', ') }}</p>
+                                        <p><strong>Best Timing:</strong> {{ planetary_remedies[planet.name].charitable_activities.timing }}</p>
+                                        <p><strong>Beneficiaries:</strong> {{ planetary_remedies[planet.name].charitable_activities.beneficiaries }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Expected Timeline -->
+                            {% if planetary_remedies[planet.name].expected_timeline %}
+                            <div class="remedy-timeline">
+                                <h4>⏰ Expected Timeline</h4>
+                                <div class="timeline-grid">
+                                    <div class="timeline-item">
+                                        <span class="timeline-stage">Initial Relief:</span>
+                                        <span class="timeline-duration">{{ planetary_remedies[planet.name].expected_timeline.initial_relief }}</span>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <span class="timeline-stage">Noticeable Improvement:</span>
+                                        <span class="timeline-duration">{{ planetary_remedies[planet.name].expected_timeline.noticeable_improvement }}</span>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <span class="timeline-stage">Significant Change:</span>
+                                        <span class="timeline-duration">{{ planetary_remedies[planet.name].expected_timeline.significant_change }}</span>
+                                    </div>
+                                </div>
+                                <p class="timeline-note">{{ planetary_remedies[planet.name].expected_timeline.note }}</p>
+                            </div>
+                            {% endif %}
+
+                            <!-- Precautions -->
+                            {% if planetary_remedies[planet.name].precautions %}
+                            <div class="remedy-precautions">
+                                <h4>⚠️ Important Precautions</h4>
+                                <ul>
+                                    {% for precaution in planetary_remedies[planet.name].precautions %}
+                                    <li>{{ precaution }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% elif planetary_remedies[planet.name] and not planetary_remedies[planet.name].remedies_needed %}
+                        <div class="remedy-card strong-planet">
+                            <h3>{{ planet.name }}</h3>
+                            <div class="strong-planet-indicator">
+                                <span class="strong-icon">✅</span>
+                                <h4>Strong Planet</h4>
+                            </div>
+                            <p>{{ planetary_remedies[planet.name].message }}</p>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personality Tab -->
+            <div id="personality" class="tab-content">
+                <div class="content-section">
+                    <h2 class="section-title">🧠 Your Inherent Personality Traits</h2>
+                    <p class="section-description">Based on your birth chart positions - your fundamental nature and characteristics</p>
+
+                    {% if personality_analysis and personality_analysis.core_personality %}
+                    <!-- Core Personality Structure -->
+                    <div class="core-personality-section">
+                        <h3>🌟 Core Personality Structure</h3>
+
+                        <!-- Ascendant Influence -->
+                        <div class="personality-influence-card ascendant-influence">
+                            <h4>🎭 Public Persona (Ascendant in {{ personality_analysis.core_personality.ascendant_influence.sign }})</h4>
+                            <p class="influence-description">{{ personality_analysis.core_personality.ascendant_influence.description }}</p>
+                            <div class="traits-grid">
+                                <div class="trait-category">
+                                    <h5>Core Traits:</h5>
+                                    <ul>
+                                        {% for trait in personality_analysis.core_personality.ascendant_influence.traits.core_traits %}
+                                        <li>{{ trait }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="trait-category">
+                                    <h5>Positive Qualities:</h5>
+                                    <ul>
+                                        {% for quality in personality_analysis.core_personality.ascendant_influence.traits.positive_qualities %}
+                                        <li>{{ quality }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <p class="context-influence">{{ personality_analysis.core_personality.ascendant_influence.traits.context_influence }}</p>
+                        </div>
+
+                        <!-- Sun Influence -->
+                        <div class="personality-influence-card sun-influence">
+                            <h4>☀️ Core Self (Sun in {{ personality_analysis.core_personality.sun_influence.sign }}, House {{ personality_analysis.core_personality.sun_influence.house }})</h4>
+                            <p class="influence-description">{{ personality_analysis.core_personality.sun_influence.description }}</p>
+                            <div class="traits-grid">
+                                <div class="trait-category">
+                                    <h5>Core Traits:</h5>
+                                    <ul>
+                                        {% for trait in personality_analysis.core_personality.sun_influence.traits.core_traits %}
+                                        <li>{{ trait }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="trait-category">
+                                    <h5>Motivation:</h5>
+                                    <p>{{ personality_analysis.core_personality.sun_influence.traits.motivation }}</p>
+                                </div>
+                            </div>
+                            <p class="context-influence">{{ personality_analysis.core_personality.sun_influence.traits.context_influence }}</p>
+                        </div>
+
+                        <!-- Moon Influence -->
+                        <div class="personality-influence-card moon-influence">
+                            <h4>🌙 Emotional Nature (Moon in {{ personality_analysis.core_personality.moon_influence.sign }}, House {{ personality_analysis.core_personality.moon_influence.house }})</h4>
+                            <p class="influence-description">{{ personality_analysis.core_personality.moon_influence.description }}</p>
+                            <div class="traits-grid">
+                                <div class="trait-category">
+                                    <h5>Core Traits:</h5>
+                                    <ul>
+                                        {% for trait in personality_analysis.core_personality.moon_influence.traits.core_traits %}
+                                        <li>{{ trait }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="trait-category">
+                                    <h5>Energy Type:</h5>
+                                    <p>{{ personality_analysis.core_personality.moon_influence.traits.energy_type }}</p>
+                                </div>
+                            </div>
+                            <p class="context-influence">{{ personality_analysis.core_personality.moon_influence.traits.context_influence }}</p>
+                        </div>
+
+                        <!-- Integrated Personality -->
+                        <div class="integrated-personality">
+                            <h4>🎯 Your Integrated Personality Profile</h4>
+
+                            <!-- Personality Overview -->
+                            <div class="personality-overview-section">
+                                <h5>🌟 How Your Three Layers Combine</h5>
+                                <div class="personality-layers">
+                                    <div class="layer-summary">
+                                        <span class="layer-icon">🎭</span>
+                                        <div class="layer-content">
+                                            <h6>Public Persona</h6>
+                                            <p>{{ personality_analysis.core_personality.ascendant_influence.sign }} Rising - Others see you as {{ personality_analysis.core_personality.ascendant_influence.traits.core_traits[0] if personality_analysis.core_personality.ascendant_influence.traits.core_traits else 'unique' }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="layer-summary">
+                                        <span class="layer-icon">☀️</span>
+                                        <div class="layer-content">
+                                            <h6>Core Self</h6>
+                                            <p>{{ personality_analysis.core_personality.sun_influence.sign }} Sun - Your authentic self is {{ personality_analysis.core_personality.sun_influence.traits.core_traits[0] if personality_analysis.core_personality.sun_influence.traits.core_traits else 'distinctive' }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="layer-summary">
+                                        <span class="layer-icon">🌙</span>
+                                        <div class="layer-content">
+                                            <h6>Inner Nature</h6>
+                                            <p>{{ personality_analysis.core_personality.moon_influence.sign }} Moon - Emotionally you are {{ personality_analysis.core_personality.moon_influence.traits.core_traits[0] if personality_analysis.core_personality.moon_influence.traits.core_traits else 'sensitive' }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Detailed Personality Blend -->
+                            <div class="personality-blend-section">
+                                <h5>🎨 Your Unique Personality Blend</h5>
+                                <div class="personality-blend-content">
+                                    {% if personality_analysis.core_personality.integrated_personality.personality_blend %}
+                                        {% set blend_text = personality_analysis.core_personality.integrated_personality.personality_blend %}
+                                        {% set formatted_blend = blend_text | replace('**', '<strong>') | replace('**', '</strong>') %}
+
+                                        <!-- Split into sections -->
+                                        {% set sections = formatted_blend.split('\n\n') %}
+                                        {% for section in sections %}
+                                            {% if section.strip() %}
+                                                {% if 'Public Persona' in section %}
+                                                <div class="blend-section persona-section">
+                                                    <h6>🎭 Public Persona</h6>
+                                                    <p>{{ section | replace('**Public Persona (Ascendant)**:', '') | safe }}</p>
+                                                </div>
+                                                {% elif 'Core Self' in section %}
+                                                <div class="blend-section core-section">
+                                                    <h6>☀️ Core Self</h6>
+                                                    <p>{{ section | replace('**Core Self (Sun)**:', '') | safe }}</p>
+                                                </div>
+                                                {% elif 'Emotional Nature' in section %}
+                                                <div class="blend-section emotional-section">
+                                                    <h6>🌙 Emotional Nature</h6>
+                                                    <p>{{ section | replace('**Emotional Nature (Moon)**:', '') | safe }}</p>
+                                                </div>
+                                                {% elif 'Most Prominent Traits' in section %}
+                                                <div class="blend-section traits-section">
+                                                    <h6>⭐ Most Prominent Traits</h6>
+                                                    <p>{{ section | replace('**Most Prominent Traits**:', '') | safe }}</p>
+                                                </div>
+                                                {% else %}
+                                                <div class="blend-section general-section">
+                                                    <p>{{ section | safe }}</p>
+                                                </div>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                    <div class="blend-fallback">
+                                        <p>Your personality is a unique combination of your {{ personality_analysis.core_personality.ascendant_influence.sign }} rising, {{ personality_analysis.core_personality.sun_influence.sign }} sun, and {{ personality_analysis.core_personality.moon_influence.sign }} moon influences, creating a distinctive and complex character.</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Personality Metrics -->
+                            <div class="personality-metrics">
+                                <h5>📊 Personality Analysis Metrics</h5>
+                                <div class="metrics-grid">
+                                    <div class="metric-item">
+                                        <span class="metric-label">Complexity Level:</span>
+                                        <span class="complexity-badge">{{ personality_analysis.core_personality.integrated_personality.complexity_level if personality_analysis.core_personality.integrated_personality.complexity_level else 'Moderate' }}</span>
+                                    </div>
+                                    <div class="metric-item">
+                                        <span class="metric-label">Internal Harmony:</span>
+                                        <span class="harmony-badge">{{ personality_analysis.core_personality.integrated_personality.harmony_level if personality_analysis.core_personality.integrated_personality.harmony_level else 'Balanced' }}</span>
+                                    </div>
+                                    <div class="metric-item">
+                                        <span class="metric-label">Emotional Integration:</span>
+                                        <span class="integration-badge">{{ personality_analysis.core_personality.integrated_personality.emotional_integration if personality_analysis.core_personality.integrated_personality.emotional_integration else 'Developing' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Temperament Analysis -->
+                    {% if personality_analysis and personality_analysis.temperament %}
+                    <div class="temperament-analysis">
+                        <h3>🔥 Your Temperament & Energy Type</h3>
+                        <p class="section-description">Understanding your fundamental energy patterns and behavioral tendencies</p>
+
+                        <!-- Temperament Overview -->
+                        <div class="temperament-overview">
+                            <div class="temperament-type-card">
+                                <h4>🌟 {{ personality_analysis.temperament.temperament_type if personality_analysis.temperament.temperament_type else 'Balanced' }} Temperament</h4>
+                                <p class="temperament-description">{{ personality_analysis.temperament.description if personality_analysis.temperament.description else 'Your temperament shows a balanced combination of elemental influences, creating a versatile and adaptable personality.' }}</p>
+                            </div>
+                        </div>
+
+                        <!-- Elemental Analysis -->
+                        <div class="elemental-analysis">
+                            <h4>🌍 Your Elemental Composition</h4>
+                            <p class="elemental-intro">Your personality is shaped by the distribution of the four elements in your birth chart:</p>
+
+                            <div class="elements-grid">
+                                {% if personality_analysis.temperament.elemental_distribution %}
+                                    {% for element, count in personality_analysis.temperament.elemental_distribution.items() %}
+                                    <div class="element-card element-{{ element.lower() }}">
+                                        <div class="element-header">
+                                            <span class="element-icon">
+                                                {% if element == 'Fire' %}🔥
+                                                {% elif element == 'Earth' %}🌍
+                                                {% elif element == 'Air' %}💨
+                                                {% elif element == 'Water' %}💧
+                                                {% else %}⭐{% endif %}
+                                            </span>
+                                            <h5>{{ element }}</h5>
+                                            <span class="element-count">{{ count }}/9</span>
+                                        </div>
+
+                                        <div class="element-bar-container">
+                                            <div class="element-bar-fill" style="width: {{ (count / 9 * 100) }}%"></div>
+                                        </div>
+
+                                        <div class="element-description">
+                                            {% if element == 'Fire' %}
+                                            <p><strong>Energy:</strong> Dynamic, enthusiastic, action-oriented</p>
+                                            <p><strong>Traits:</strong> Leadership, courage, spontaneity</p>
+                                            {% elif element == 'Earth' %}
+                                            <p><strong>Energy:</strong> Practical, stable, grounded</p>
+                                            <p><strong>Traits:</strong> Reliability, patience, materialism</p>
+                                            {% elif element == 'Air' %}
+                                            <p><strong>Energy:</strong> Mental, communicative, social</p>
+                                            <p><strong>Traits:</strong> Intellect, adaptability, networking</p>
+                                            {% elif element == 'Water' %}
+                                            <p><strong>Energy:</strong> Emotional, intuitive, flowing</p>
+                                            <p><strong>Traits:</strong> Sensitivity, empathy, imagination</p>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="element-strength">
+                                            {% if count >= 3 %}
+                                            <span class="strength-badge strong">Strong</span>
+                                            {% elif count >= 2 %}
+                                            <span class="strength-badge moderate">Moderate</span>
+                                            {% elif count >= 1 %}
+                                            <span class="strength-badge weak">Present</span>
+                                            {% else %}
+                                            <span class="strength-badge absent">Absent</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                <!-- Fallback if no elemental distribution data -->
+                                <div class="element-card element-fire">
+                                    <div class="element-header">
+                                        <span class="element-icon">🔥</span>
+                                        <h5>Fire</h5>
+                                        <span class="element-count">2/9</span>
+                                    </div>
+                                    <div class="element-bar-container">
+                                        <div class="element-bar-fill" style="width: 22%"></div>
+                                    </div>
+                                    <div class="element-description">
+                                        <p><strong>Energy:</strong> Dynamic, enthusiastic, action-oriented</p>
+                                    </div>
+                                    <div class="element-strength">
+                                        <span class="strength-badge moderate">Moderate</span>
+                                    </div>
+                                </div>
+
+                                <div class="element-card element-earth">
+                                    <div class="element-header">
+                                        <span class="element-icon">🌍</span>
+                                        <h5>Earth</h5>
+                                        <span class="element-count">3/9</span>
+                                    </div>
+                                    <div class="element-bar-container">
+                                        <div class="element-bar-fill" style="width: 33%"></div>
+                                    </div>
+                                    <div class="element-description">
+                                        <p><strong>Energy:</strong> Practical, stable, grounded</p>
+                                    </div>
+                                    <div class="element-strength">
+                                        <span class="strength-badge strong">Strong</span>
+                                    </div>
+                                </div>
+
+                                <div class="element-card element-air">
+                                    <div class="element-header">
+                                        <span class="element-icon">💨</span>
+                                        <h5>Air</h5>
+                                        <span class="element-count">2/9</span>
+                                    </div>
+                                    <div class="element-bar-container">
+                                        <div class="element-bar-fill" style="width: 22%"></div>
+                                    </div>
+                                    <div class="element-description">
+                                        <p><strong>Energy:</strong> Mental, communicative, social</p>
+                                    </div>
+                                    <div class="element-strength">
+                                        <span class="strength-badge moderate">Moderate</span>
+                                    </div>
+                                </div>
+
+                                <div class="element-card element-water">
+                                    <div class="element-header">
+                                        <span class="element-icon">💧</span>
+                                        <h5>Water</h5>
+                                        <span class="element-count">2/9</span>
+                                    </div>
+                                    <div class="element-bar-container">
+                                        <div class="element-bar-fill" style="width: 22%"></div>
+                                    </div>
+                                    <div class="element-description">
+                                        <p><strong>Energy:</strong> Emotional, intuitive, flowing</p>
+                                    </div>
+                                    <div class="element-strength">
+                                        <span class="strength-badge moderate">Moderate</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Behavioral Patterns -->
+                        <div class="behavioral-patterns">
+                            <h4>🎭 Your Behavioral Tendencies</h4>
+                            <div class="behavioral-grid">
+                                {% if personality_analysis.temperament.behavioral_tendencies %}
+                                    {% for behavior in personality_analysis.temperament.behavioral_tendencies %}
+                                    <div class="behavior-item">
+                                        <span class="behavior-icon">✨</span>
+                                        <p>{{ behavior }}</p>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                <!-- Fallback behavioral tendencies -->
+                                <div class="behavior-item">
+                                    <span class="behavior-icon">✨</span>
+                                    <p>Balanced approach to life situations</p>
+                                </div>
+                                <div class="behavior-item">
+                                    <span class="behavior-icon">🎯</span>
+                                    <p>Adaptable to different environments</p>
+                                </div>
+                                <div class="behavior-item">
+                                    <span class="behavior-icon">🤝</span>
+                                    <p>Harmonious interaction style</p>
+                                </div>
+                                <div class="behavior-item">
+                                    <span class="behavior-icon">🌱</span>
+                                    <p>Growth-oriented mindset</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Energy Type Summary -->
+                        <div class="energy-type-summary">
+                            <h4>⚡ Your Energy Type Summary</h4>
+                            <div class="energy-summary-card">
+                                {% if personality_analysis.temperament.dominant_element %}
+                                <p><strong>Dominant Element:</strong> {{ personality_analysis.temperament.dominant_element }} - This is your primary energy source and motivation</p>
+                                {% endif %}
+                                {% if personality_analysis.temperament.dominant_mode %}
+                                <p><strong>Dominant Mode:</strong> {{ personality_analysis.temperament.dominant_mode }} - This determines how you express your energy</p>
+                                {% endif %}
+                                <p><strong>Overall Pattern:</strong> Your temperament creates a unique blend that influences how you approach life, relationships, and challenges.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Today Tab -->
+            <div id="today" class="tab-content">
+                <div class="content-section">
+                    <h2 class="section-title">📅 Today's Influences</h2>
+                    <p class="section-description">Current day influences and what you might feel today</p>
+
+                    <!-- Current Day Overview -->
+                    <div class="today-overview">
+                        <h3>🌅 Today's Overview - {{ current_date }}</h3>
+
+                        <div class="today-grid">
+                            <!-- Lunar Phase -->
+                            <div class="today-card lunar-phase">
+                                <h4>🌙 Current Lunar Phase</h4>
+                                {% if prediction.current_influences and prediction.current_influences.lunar_phase %}
+                                <p class="phase-name">{{ prediction.current_influences.lunar_phase.phase }}</p>
+                                <p class="phase-effects">{{ prediction.current_influences.lunar_phase.effects }}</p>
+                                <small class="emotional-impact">{{ prediction.current_influences.lunar_phase.emotional_impact }}</small>
+                                {% else %}
+                                <p class="phase-name">Waxing Moon</p>
+                                <p class="phase-effects">A time of growth and building energy</p>
+                                <small class="emotional-impact">You may feel more motivated and optimistic</small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Month Theme -->
+                            <div class="today-card month-theme">
+                                <h4>🗓️ This Month's Theme</h4>
+                                {% if prediction.current_influences and prediction.current_influences.month_theme %}
+                                <p class="month-name">{{ prediction.current_influences.month_theme.month_name }}</p>
+                                <p class="primary-theme">{{ prediction.current_influences.month_theme.primary_theme }}</p>
+                                <small>Sun in {{ prediction.current_influences.month_theme.sun_sign }}</small>
+                                {% else %}
+                                <p class="month-name">{{ current_month }}</p>
+                                <p class="primary-theme">Personal growth and reflection</p>
+                                <small>Focus on inner development</small>
+                                {% endif %}
+                            </div>
+
+                            <!-- Current Dasha Influence -->
+                            <div class="today-card dasha-influence">
+                                <h4>🕐 Current Life Phase Impact</h4>
+                                <p class="phase-name">{{ prediction.current_dasha.planet }} Dasha</p>
+                                <p class="phase-effects">
+                                    {% if prediction.current_dasha.planet == "Jupiter" %}
+                                    Today brings opportunities for learning and wisdom
+                                    {% elif prediction.current_dasha.planet == "Saturn" %}
+                                    Today calls for patience and steady progress
+                                    {% elif prediction.current_dasha.planet == "Mars" %}
+                                    Today favors action and courage
+                                    {% elif prediction.current_dasha.planet == "Venus" %}
+                                    Today highlights relationships and creativity
+                                    {% else %}
+                                    Today is influenced by {{ prediction.current_dasha.planet }} energy
+                                    {% endif %}
+                                </p>
+                                <small class="emotional-impact">{{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years remaining in this phase</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- What You Might Feel Today -->
+                    <div class="daily-feelings">
+                        <h3>🌅 What You Might Feel Today</h3>
+                        <div class="feelings-grid">
+                            {% if prediction.current_influences and prediction.current_influences.daily_changes %}
+                                {% for change in prediction.current_influences.daily_changes %}
+                                <div class="feeling-item">
+                                    <span class="feeling-icon">💫</span>
+                                    <p>{{ change }}</p>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <!-- Fallback daily feelings based on current dasha -->
+                            {% if prediction.current_dasha.planet == "Jupiter" %}
+                            <div class="feeling-item">
+                                <span class="feeling-icon">📚</span>
+                                <p>A desire to learn something new or share your knowledge</p>
+                            </div>
+                            <div class="feeling-item">
+                                <span class="feeling-icon">🌟</span>
+                                <p>Optimistic outlook and faith in positive outcomes</p>
+                            </div>
+                            <div class="feeling-item">
+                                <span class="feeling-icon">🤝</span>
+                                <p>Generous feelings toward others and desire to help</p>
+                            </div>
+                            <div class="feeling-item">
+                                <span class="feeling-icon">🎯</span>
+                                <p>Clarity about your higher purpose and goals</p>
+                            </div>
+                            {% elif prediction.current_dasha.planet == "Saturn" %}
+                            <div class="feeling-item">
+                                <span class="feeling-icon">🏗️</span>
+                                <p>Focus on building something lasting and meaningful</p>
+                            </div>
+                            <div class="feeling-item">
+                                <span class="feeling-icon">⏳</span>
+                                <p>Patience with slow progress and long-term thinking</p>
+                            </div>
+                            <div class="feeling-item">
+                                <span class="feeling-icon">💪</span>
+                                <p>Determination to overcome obstacles through persistence</p>
+                            </div>
+                            <div class="feeling-item">
+                                <span class="feeling-icon">🎓</span>
+                                <p>Learning important life lessons through challenges</p>
+                            </div>
+                            {% else %}
+                            <div class="feeling-item">
+                                <span class="feeling-icon">🌟</span>
+                                <p>{{ prediction.current_dasha.planet }} energy influencing your mood and decisions</p>
+                            </div>
+                            <div class="feeling-item">
+                                <span class="feeling-icon">🎯</span>
+                                <p>Focus on {{ prediction.current_dasha.planet }}-related themes and activities</p>
+                            </div>
+                            <div class="feeling-item">
+                                <span class="feeling-icon">⚖️</span>
+                                <p>Balancing {{ prediction.current_dasha.planet }} qualities in your daily life</p>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Personal Effects -->
+                    <div class="personal-effects-today">
+                        <h3>🎯 How Current Planets Affect You Personally</h3>
+                        <div class="personal-effects-grid">
+                            {% if prediction.current_influences and prediction.current_influences.personal_effects %}
+                                {% for effect in prediction.current_influences.personal_effects %}
+                                <div class="personal-effect-card">
+                                    <h4>{{ effect.type }}</h4>
+                                    <p class="effect-description">{{ effect.description }}</p>
+                                    <div class="effect-details">
+                                        <span class="effect-impact"><strong>Impact:</strong> {{ effect.impact }}</span>
+                                        <span class="effect-feeling"><strong>Feeling:</strong> {{ effect.feeling }}</span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <!-- Fallback personal effects based on chart -->
+                            <div class="personal-effect-card">
+                                <h4>🌙 Moon in {{ chart.moon_sign }}</h4>
+                                <p class="effect-description">Your emotional nature is influenced by {{ chart.moon_sign }} qualities today</p>
+                                <div class="effect-details">
+                                    <span class="effect-impact"><strong>Impact:</strong> Emotional responses and intuitive insights</span>
+                                    <span class="effect-feeling"><strong>Feeling:</strong> Connected to your inner {{ chart.moon_sign }} nature</span>
+                                </div>
+                            </div>
+
+                            <div class="personal-effect-card">
+                                <h4>⭐ {{ chart.ascendant_sign }} Rising</h4>
+                                <p class="effect-description">Your {{ chart.ascendant_sign }} ascendant influences how you approach the day</p>
+                                <div class="effect-details">
+                                    <span class="effect-impact"><strong>Impact:</strong> Your natural approach and first impressions</span>
+                                    <span class="effect-feeling"><strong>Feeling:</strong> Expressing your {{ chart.ascendant_sign }} qualities</span>
+                                </div>
+                            </div>
+
+                            <div class="personal-effect-card">
+                                <h4>🕐 {{ prediction.current_dasha.planet }} Dasha</h4>
+                                <p class="effect-description">Your current life phase brings {{ prediction.current_dasha.planet }} themes to the forefront</p>
+                                <div class="effect-details">
+                                    <span class="effect-impact"><strong>Impact:</strong> Long-term life direction and focus</span>
+                                    <span class="effect-feeling"><strong>Feeling:</strong> Aligned with {{ prediction.current_dasha.planet }} energy</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Today's Recommendations -->
+                    <div class="today-recommendations">
+                        <h3>💡 Today's Recommendations</h3>
+                        <div class="recommendations-list">
+                            {% if prediction.current_influences and prediction.current_influences.recommendations %}
+                                {% for rec in prediction.current_influences.recommendations %}
+                                <div class="recommendation-item">
+                                    <span class="rec-icon">✨</span>
+                                    <p>{{ rec }}</p>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <!-- Fallback recommendations based on current dasha -->
+                            {% if prediction.current_dasha.planet == "Jupiter" %}
+                            <div class="recommendation-item">
+                                <span class="rec-icon">📚</span>
+                                <p>Spend time learning something new or teaching others</p>
+                            </div>
+                            <div class="recommendation-item">
+                                <span class="rec-icon">🙏</span>
+                                <p>Practice gratitude and engage in spiritual activities</p>
+                            </div>
+                            <div class="recommendation-item">
+                                <span class="rec-icon">🤝</span>
+                                <p>Be generous and help someone in need</p>
+                            </div>
+                            <div class="recommendation-item">
+                                <span class="rec-icon">⚖️</span>
+                                <p>Make ethical decisions and avoid excess</p>
+                            </div>
+                            {% elif prediction.current_dasha.planet == "Saturn" %}
+                            <div class="recommendation-item">
+                                <span class="rec-icon">🏗️</span>
+                                <p>Focus on building long-term foundations</p>
+                            </div>
+                            <div class="recommendation-item">
+                                <span class="rec-icon">⏳</span>
+                                <p>Practice patience and persistence with challenges</p>
+                            </div>
+                            <div class="recommendation-item">
+                                <span class="rec-icon">💪</span>
+                                <p>Take responsibility and work diligently</p>
+                            </div>
+                            <div class="recommendation-item">
+                                <span class="rec-icon">🎓</span>
+                                <p>Learn from setbacks and view them as growth opportunities</p>
+                            </div>
+                            {% else %}
+                            <div class="recommendation-item">
+                                <span class="rec-icon">🌟</span>
+                                <p>Focus on {{ prediction.current_dasha.planet }}-related activities and themes</p>
+                            </div>
+                            <div class="recommendation-item">
+                                <span class="rec-icon">⚖️</span>
+                                <p>Balance {{ prediction.current_dasha.planet }} energy in your daily routine</p>
+                            </div>
+                            <div class="recommendation-item">
+                                <span class="rec-icon">🎯</span>
+                                <p>Align your actions with {{ prediction.current_dasha.planet }} qualities</p>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Daily Influences -->
+                    <div class="enhanced-daily-influences">
+                        <h3>📅 Enhanced Daily Influences</h3>
+                        <p class="section-description">Deeper insights into how current cosmic energies affect your daily experience</p>
+
+                        <div class="enhanced-daily-grid">
+                            {% if current_influences and current_influences.daily_changes %}
+                                {% for change in current_influences.daily_changes %}
+                                <div class="enhanced-daily-item">
+                                    <div class="daily-influence-header">
+                                        <span class="influence-icon">🌟</span>
+                                        <h4>Daily Influence {{ loop.index }}</h4>
+                                    </div>
+                                    <p class="influence-description">{{ change }}</p>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <!-- Enhanced fallback daily influences -->
+                            <div class="enhanced-daily-item">
+                                <div class="daily-influence-header">
+                                    <span class="influence-icon">🌙</span>
+                                    <h4>Lunar Influence on Your {{ chart.moon_sign }} Moon</h4>
+                                </div>
+                                <p class="influence-description">Today's lunar energy interacts with your {{ chart.moon_sign }} moon, creating emotional currents that influence your intuitive responses and inner security needs. Pay attention to subtle emotional shifts.</p>
+                                <div class="influence-timing">
+                                    <span class="timing-indicator">Peak influence: Evening hours</span>
+                                </div>
+                            </div>
+
+                            <div class="enhanced-daily-item">
+                                <div class="daily-influence-header">
+                                    <span class="influence-icon">⭐</span>
+                                    <h4>{{ chart.ascendant_sign }} Rising Daily Expression</h4>
+                                </div>
+                                <p class="influence-description">Your {{ chart.ascendant_sign }} ascendant shapes how you naturally approach today's opportunities and challenges. This energy is most apparent in your first interactions and initial responses to situations.</p>
+                                <div class="influence-timing">
+                                    <span class="timing-indicator">Peak influence: Morning hours</span>
+                                </div>
+                            </div>
+
+                            <div class="enhanced-daily-item">
+                                <div class="daily-influence-header">
+                                    <span class="influence-icon">🕐</span>
+                                    <h4>{{ prediction.current_dasha.planet }} Dasha Daily Themes</h4>
+                                </div>
+                                <p class="influence-description">Your current {{ prediction.current_dasha.planet }} dasha colors today's experiences with themes of
+                                    {% if prediction.current_dasha.planet == "Jupiter" %}wisdom, expansion, and learning opportunities
+                                    {% elif prediction.current_dasha.planet == "Saturn" %}discipline, patience, and building foundations
+                                    {% elif prediction.current_dasha.planet == "Mars" %}action, courage, and dynamic energy
+                                    {% elif prediction.current_dasha.planet == "Venus" %}relationships, creativity, and harmony
+                                    {% else %}{{ prediction.current_dasha.planet }}-related growth and development{% endif %}.</p>
+                                <div class="influence-timing">
+                                    <span class="timing-indicator">Ongoing influence throughout the day</span>
+                                </div>
+                            </div>
+
+                            <div class="enhanced-daily-item">
+                                <div class="daily-influence-header">
+                                    <span class="influence-icon">🌟</span>
+                                    <h4>{{ chart.birth_nakshatra }} Nakshatra Spiritual Influence</h4>
+                                </div>
+                                <p class="influence-description">Your birth nakshatra {{ chart.birth_nakshatra }} provides a subtle spiritual backdrop to today's experiences, encouraging you to develop its positive qualities and learn its karmic lessons.</p>
+                                <div class="influence-timing">
+                                    <span class="timing-indicator">Subtle influence during meditation and reflection</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Personal Effects -->
+                    <div class="enhanced-personal-effects">
+                        <h3>🎯 Enhanced Personal Effects Analysis</h3>
+                        <p class="section-description">Detailed analysis of how current planetary energies specifically affect your personal chart</p>
+
+                        <div class="enhanced-effects-grid">
+                            {% if current_influences and current_influences.personal_effects %}
+                                {% for effect in current_influences.personal_effects %}
+                                <div class="enhanced-effect-card">
+                                    <div class="effect-header">
+                                        <h4>{{ effect.type }}</h4>
+                                        <span class="effect-badge">Active</span>
+                                    </div>
+                                    <div class="effect-content">
+                                        <p class="effect-description">{{ effect.description }}</p>
+                                        <div class="effect-details">
+                                            <div class="detail-item">
+                                                <span class="label">Impact:</span>
+                                                <span class="value">{{ effect.impact }}</span>
+                                            </div>
+                                            {% if effect.feeling %}
+                                            <div class="detail-item">
+                                                <span class="label">What You Might Feel:</span>
+                                                <span class="value">{{ effect.feeling }}</span>
+                                            </div>
+                                            {% endif %}
+                                            <div class="detail-item">
+                                                <span class="label">Life Area Affected:</span>
+                                                <span class="value">House {{ effect.house_affected }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <!-- Enhanced fallback personal effects -->
+                            <div class="enhanced-effect-card">
+                                <div class="effect-header">
+                                    <h4>🌙 {{ chart.moon_sign }} Moon Emotional Influence</h4>
+                                    <span class="effect-badge">Active</span>
+                                </div>
+                                <div class="effect-content">
+                                    <p class="effect-description">Your {{ chart.moon_sign }} moon placement creates ongoing emotional patterns that influence your daily responses and inner security needs.</p>
+                                    <div class="effect-details">
+                                        <div class="detail-item">
+                                            <span class="label">Impact:</span>
+                                            <span class="value">Shapes emotional responses and intuitive insights</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="label">What You Might Feel:</span>
+                                            <span class="value">Connected to your {{ chart.moon_sign }} emotional nature and needs</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="label">Life Area Affected:</span>
+                                            <span class="value">Emotional foundation and inner security</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="enhanced-effect-card">
+                                <div class="effect-header">
+                                    <h4>⭐ {{ chart.ascendant_sign }} Rising Expression</h4>
+                                    <span class="effect-badge">Active</span>
+                                </div>
+                                <div class="effect-content">
+                                    <p class="effect-description">Your {{ chart.ascendant_sign }} ascendant influences how you naturally approach situations and how others perceive you.</p>
+                                    <div class="effect-details">
+                                        <div class="detail-item">
+                                            <span class="label">Impact:</span>
+                                            <span class="value">Determines natural approach and first impressions</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="label">What You Might Feel:</span>
+                                            <span class="value">Expressing your authentic {{ chart.ascendant_sign }} qualities</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="label">Life Area Affected:</span>
+                                            <span class="value">Personal identity and self-expression</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="enhanced-effect-card">
+                                <div class="effect-header">
+                                    <h4>🕐 {{ prediction.current_dasha.planet }} Dasha Life Phase</h4>
+                                    <span class="effect-badge">Dominant</span>
+                                </div>
+                                <div class="effect-content">
+                                    <p class="effect-description">Your current {{ prediction.current_dasha.planet }} dasha is the primary influence shaping your life experiences and opportunities.</p>
+                                    <div class="effect-details">
+                                        <div class="detail-item">
+                                            <span class="label">Impact:</span>
+                                            <span class="value">
+                                                {% if prediction.current_dasha.planet == "Jupiter" %}
+                                                Emphasizes learning, wisdom, and spiritual growth
+                                                {% elif prediction.current_dasha.planet == "Saturn" %}
+                                                Focuses on discipline, structure, and long-term building
+                                                {% else %}
+                                                Highlights {{ prediction.current_dasha.planet }}-related themes and lessons
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="label">What You Might Feel:</span>
+                                            <span class="value">
+                                                {% if prediction.current_dasha.planet == "Jupiter" %}
+                                                Optimistic, wise, and drawn to learning opportunities
+                                                {% elif prediction.current_dasha.planet == "Saturn" %}
+                                                Patient, disciplined, and focused on long-term goals
+                                                {% else %}
+                                                Aligned with {{ prediction.current_dasha.planet }} energy and themes
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="label">Life Area Affected:</span>
+                                            <span class="value">Overall life direction and major experiences</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Current Recommendations -->
+                    <div class="enhanced-recommendations">
+                        <h3>💡 Enhanced Current Recommendations</h3>
+                        <p class="section-description">Personalized guidance based on your current astrological influences</p>
+
+                        <div class="enhanced-rec-categories">
+                            {% if current_influences and current_influences.recommendations %}
+                                <div class="rec-category">
+                                    <h4>🎯 Immediate Actions</h4>
+                                    <div class="enhanced-rec-list">
+                                        {% for recommendation in current_influences.recommendations %}
+                                        <div class="enhanced-rec-item">
+                                            <span class="enhanced-rec-icon">🌟</span>
+                                            <div class="rec-content">
+                                                <p class="rec-text">{{ recommendation }}</p>
+                                                <span class="rec-priority">Priority: High</span>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% else %}
+                            <!-- Enhanced fallback recommendations with categories -->
+                            <div class="rec-category">
+                                <h4>🌅 Morning Practices</h4>
+                                <div class="enhanced-rec-list">
+                                    <div class="enhanced-rec-item">
+                                        <span class="enhanced-rec-icon">🧘</span>
+                                        <div class="rec-content">
+                                            <p class="rec-text">Start your day with meditation or reflection to align with your {{ chart.moon_sign }} moon's emotional needs</p>
+                                            <span class="rec-priority">Priority: High</span>
+                                            <span class="rec-timing">Best time: 6:00-8:00 AM</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="enhanced-rec-item">
+                                        <span class="enhanced-rec-icon">⭐</span>
+                                        <div class="rec-content">
+                                            <p class="rec-text">Express your {{ chart.ascendant_sign }} rising qualities in your first interactions of the day</p>
+                                            <span class="rec-priority">Priority: Medium</span>
+                                            <span class="rec-timing">Best time: First 2 hours after waking</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="rec-category">
+                                <h4>🎯 {{ prediction.current_dasha.planet }} Dasha Focus</h4>
+                                <div class="enhanced-rec-list">
+                                    {% if prediction.current_dasha.planet == "Jupiter" %}
+                                    <div class="enhanced-rec-item">
+                                        <span class="enhanced-rec-icon">📚</span>
+                                        <div class="rec-content">
+                                            <p class="rec-text">Dedicate time to learning something new or sharing your knowledge with others</p>
+                                            <span class="rec-priority">Priority: High</span>
+                                            <span class="rec-timing">Best time: Mid-morning to afternoon</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="enhanced-rec-item">
+                                        <span class="enhanced-rec-icon">🙏</span>
+                                        <div class="rec-content">
+                                            <p class="rec-text">Practice gratitude and engage in spiritual or philosophical discussions</p>
+                                            <span class="rec-priority">Priority: Medium</span>
+                                            <span class="rec-timing">Best time: Evening reflection</span>
+                                        </div>
+                                    </div>
+                                    {% elif prediction.current_dasha.planet == "Saturn" %}
+                                    <div class="enhanced-rec-item">
+                                        <span class="enhanced-rec-icon">🏗️</span>
+                                        <div class="rec-content">
+                                            <p class="rec-text">Focus on building long-term foundations and organizing your life structures</p>
+                                            <span class="rec-priority">Priority: High</span>
+                                            <span class="rec-timing">Best time: Morning planning session</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="enhanced-rec-item">
+                                        <span class="enhanced-rec-icon">⏳</span>
+                                        <div class="rec-content">
+                                            <p class="rec-text">Practice patience with delays and view challenges as learning opportunities</p>
+                                            <span class="rec-priority">Priority: High</span>
+                                            <span class="rec-timing">Best time: When facing obstacles</span>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="enhanced-rec-item">
+                                        <span class="enhanced-rec-icon">🌟</span>
+                                        <div class="rec-content">
+                                            <p class="rec-text">Focus on {{ prediction.current_dasha.planet }}-related activities and themes throughout the day</p>
+                                            <span class="rec-priority">Priority: High</span>
+                                            <span class="rec-timing">Best time: Peak energy hours</span>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="rec-category">
+                                <h4>🌙 Evening Practices</h4>
+                                <div class="enhanced-rec-list">
+                                    <div class="enhanced-rec-item">
+                                        <span class="enhanced-rec-icon">📝</span>
+                                        <div class="rec-content">
+                                            <p class="rec-text">Reflect on how today's experiences align with your {{ chart.birth_nakshatra }} nakshatra lessons</p>
+                                            <span class="rec-priority">Priority: Medium</span>
+                                            <span class="rec-timing">Best time: Before sleep</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="enhanced-rec-item">
+                                        <span class="enhanced-rec-icon">🌙</span>
+                                        <div class="rec-content">
+                                            <p class="rec-text">Honor your {{ chart.moon_sign }} moon's need for emotional processing and inner security</p>
+                                            <span class="rec-priority">Priority: High</span>
+                                            <span class="rec-timing">Best time: Evening wind-down</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current Life Tab -->
+            <div id="current-life" class="tab-content">
+                <div class="content-section">
+                    <h2 class="section-title">🌍 Current Life Situations</h2>
+                    <p class="section-description">Comprehensive analysis of current planetary influences on your life</p>
+
+                    <!-- Comprehensive Summary -->
+                    <div class="current-life-summary">
+                        <h3>🌟 Your Current Life Phase Analysis</h3>
+                        <div class="summary-card">
+                            {% if current_influences and current_influences.comprehensive_summary %}
+                            <p>{{ current_influences.comprehensive_summary }}</p>
+                            {% else %}
+                            <p>You are currently in your <strong>{{ prediction.current_dasha.planet }} Dasha</strong>, which began on {{ prediction.current_dasha.start_date }} and will continue until {{ prediction.current_dasha.end_date }}. This {{ "%.1f"|format(16 - prediction.current_dasha.remaining_years) }}-year journey has been shaping your life experiences, and you have {{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years remaining in this transformative phase.</p>
+
+                            <p>Your <strong>{{ chart.ascendant_sign }} Rising</strong> nature combined with your <strong>{{ chart.moon_sign }} Moon</strong> creates a unique approach to navigating this {{ prediction.current_dasha.planet }} period. The planetary influences in your birth chart continue to interact with current cosmic energies, creating opportunities for growth and learning.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Monthly Trends & Changes -->
+                    <div class="monthly-trends">
+                        <h3>📈 Current Life Themes & Patterns</h3>
+                        <div class="monthly-trends-grid">
+                            {% if current_influences and current_influences.monthly_changes %}
+                                {% for change in current_influences.monthly_changes %}
+                                <div class="monthly-trend-item">
+                                    <span class="trend-icon">📊</span>
+                                    <p>{{ change }}</p>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <!-- Fallback monthly trends based on current dasha and chart -->
+                            <div class="monthly-trend-item">
+                                <span class="trend-icon">🕐</span>
+                                <p><strong>{{ prediction.current_dasha.planet }} Dasha Influence:</strong> Your life is currently shaped by {{ prediction.current_dasha.planet }} themes and lessons</p>
+                            </div>
+
+                            <div class="monthly-trend-item">
+                                <span class="trend-icon">🌙</span>
+                                <p><strong>{{ chart.moon_sign }} Moon Pattern:</strong> Your emotional responses and intuitive insights follow {{ chart.moon_sign }} patterns</p>
+                            </div>
+
+                            <div class="monthly-trend-item">
+                                <span class="trend-icon">⭐</span>
+                                <p><strong>{{ chart.ascendant_sign }} Rising Approach:</strong> You naturally approach life situations with {{ chart.ascendant_sign }} qualities</p>
+                            </div>
+
+                            <div class="monthly-trend-item">
+                                <span class="trend-icon">🎯</span>
+                                <p><strong>Birth Nakshatra Influence:</strong> Your {{ chart.birth_nakshatra }} nakshatra continues to guide your spiritual development</p>
+                            </div>
+
+                            {% if prediction.current_dasha.planet == "Jupiter" %}
+                            <div class="monthly-trend-item">
+                                <span class="trend-icon">📚</span>
+                                <p><strong>Learning & Growth:</strong> This period emphasizes education, wisdom, and spiritual expansion</p>
+                            </div>
+
+                            <div class="monthly-trend-item">
+                                <span class="trend-icon">🤝</span>
+                                <p><strong>Relationships & Guidance:</strong> You may find yourself in teaching or mentoring roles</p>
+                            </div>
+                            {% elif prediction.current_dasha.planet == "Saturn" %}
+                            <div class="monthly-trend-item">
+                                <span class="trend-icon">🏗️</span>
+                                <p><strong>Building & Structure:</strong> Focus on creating lasting foundations and systems</p>
+                            </div>
+
+                            <div class="monthly-trend-item">
+                                <span class="trend-icon">⏳</span>
+                                <p><strong>Patience & Persistence:</strong> Long-term thinking and steady progress are emphasized</p>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Current Life Areas of Focus -->
+                    <div class="house-transits">
+                        <h3>🏠 Current Life Areas of Focus</h3>
+                        <div class="house-transits-grid">
+                            {% if current_influences and current_influences.house_transits %}
+                                {% for transit in current_influences.house_transits %}
+                                <div class="house-transit-card">
+                                    <h4>{{ transit.planet }} in {{ transit.current_sign }} → Your House {{ transit.transiting_house }}</h4>
+                                    <p class="house-significance"><strong>Life Area:</strong> {{ transit.house_significance }}</p>
+                                    <p class="transit-impact">{{ transit.impact }}</p>
+                                    <p class="transit-advice"><strong>Guidance:</strong> {{ transit.advice }}</p>
+                                    <span class="duration-badge">Duration: {{ transit.duration }}</span>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            <!-- Fallback house focus areas based on chart -->
+                            <div class="house-transit-card">
+                                <h4>🌙 Emotional Foundation ({{ chart.moon_sign }} Moon)</h4>
+                                <p class="house-significance"><strong>Life Area:</strong> Your emotional nature and inner security</p>
+                                <p class="transit-impact">Your {{ chart.moon_sign }} moon continues to influence your emotional responses and need for security. This placement shapes how you process feelings and seek comfort.</p>
+                                <p class="transit-advice"><strong>Guidance:</strong> Honor your {{ chart.moon_sign }} emotional needs and create supportive environments.</p>
+                                <span class="duration-badge">Lifelong Influence</span>
+                            </div>
+
+                            <div class="house-transit-card">
+                                <h4>⭐ Life Approach ({{ chart.ascendant_sign }} Rising)</h4>
+                                <p class="house-significance"><strong>Life Area:</strong> Your natural approach to life and first impressions</p>
+                                <p class="transit-impact">Your {{ chart.ascendant_sign }} ascendant determines how you naturally approach new situations and how others first perceive you.</p>
+                                <p class="transit-advice"><strong>Guidance:</strong> Embrace your {{ chart.ascendant_sign }} qualities while remaining authentic to your core self.</p>
+                                <span class="duration-badge">Core Identity</span>
+                            </div>
+
+                            <div class="house-transit-card">
+                                <h4>🕐 Current Life Phase ({{ prediction.current_dasha.planet }} Dasha)</h4>
+                                <p class="house-significance"><strong>Life Area:</strong> Major life period and primary focus</p>
+                                <p class="transit-impact">Your {{ prediction.current_dasha.planet }} dasha is the dominant influence shaping your life experiences, opportunities, and challenges during this period.</p>
+                                <p class="transit-advice"><strong>Guidance:</strong>
+                                    {% if prediction.current_dasha.planet == "Jupiter" %}
+                                    Focus on learning, teaching, and spiritual growth. Embrace opportunities for expansion.
+                                    {% elif prediction.current_dasha.planet == "Saturn" %}
+                                    Build solid foundations through discipline and patience. Learn from challenges.
+                                    {% else %}
+                                    Align with {{ prediction.current_dasha.planet }} themes and lessons.
+                                    {% endif %}
+                                </p>
+                                <span class="duration-badge">{{ "%.1f"|format(prediction.current_dasha.remaining_years) }} {% if prediction.current_dasha.remaining_years == 1.0 %}year{% else %}years{% endif %} remaining</span>
+                            </div>
+
+                            <div class="house-transit-card">
+                                <h4>🌟 Spiritual Path ({{ chart.birth_nakshatra }} Nakshatra)</h4>
+                                <p class="house-significance"><strong>Life Area:</strong> Your spiritual nature and karmic path</p>
+                                <p class="transit-impact">Your birth in {{ chart.birth_nakshatra }} nakshatra provides insight into your spiritual journey and the qualities you're developing in this lifetime.</p>
+                                <p class="transit-advice"><strong>Guidance:</strong> Study the qualities of {{ chart.birth_nakshatra }} and integrate its positive aspects into your spiritual practice.</p>
+                                <span class="duration-badge">Soul Purpose</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Current Planetary Aspects -->
+                    {% if current_influences.transit_aspects %}
+                    <div class="transit-aspects">
+                        <h3>⚡ Current Planetary Aspects to Your Birth Planets</h3>
+                        <div class="transit-aspects-grid">
+                            {% for aspect in current_influences.transit_aspects %}
+                            <div class="transit-aspect-card aspect-{{ aspect.strength.lower().replace(' ', '-') }}">
+                                <h4>Current {{ aspect.transiting_planet }} {{ aspect.aspect_type }} Your Birth {{ aspect.natal_planet }}</h4>
+                                <p class="aspect-strength">Strength: {{ aspect.strength }} ({{ aspect.angular_difference }}° apart)</p>
+                                <p class="aspect-meaning">{{ aspect.meaning }}</p>
+                                <p class="personal-impact">{{ aspect.personal_impact }}</p>
+                                <span class="duration-badge">{{ aspect.effect_duration }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Precise Conjunctions -->
+                    {% if current_influences.precise_conjunctions %}
+                    <div class="precise-conjunctions">
+                        <h3>🎯 Precise Planetary Conjunctions (Within 5°)</h3>
+                        <div class="conjunctions-grid">
+                            {% for conjunction in current_influences.precise_conjunctions %}
+                            <div class="conjunction-card conjunction-{{ conjunction.strength.lower() }}">
+                                <h4>Current {{ conjunction.transiting_planet }} ⚹ Your Birth {{ conjunction.natal_planet }}</h4>
+                                <p class="conjunction-strength">{{ conjunction.strength }} Conjunction ({{ conjunction.degree_difference }}° apart)</p>
+                                <p class="conjunction-meaning">{{ conjunction.meaning }}</p>
+                                <p class="conjunction-significance">{{ conjunction.personal_significance }}</p>
+                                <span class="timing-badge">{{ conjunction.timing }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Birth vs Current Planetary Positions -->
+                    {% if current_influences.planetary_comparisons %}
+                    <div class="planetary-comparisons">
+                        <h3>🔄 Your Planets: Birth Position vs Current Sky Position</h3>
+                        <div class="comparisons-grid">
+                            {% for comparison in current_influences.planetary_comparisons %}
+                            <div class="comparison-card">
+                                <h4>{{ comparison.planet }}</h4>
+                                <p class="birth-current">Birth: {{ comparison.birth_sign }} → Current: {{ comparison.current_sign }}</p>
+                                <p class="sign-comparison">{{ comparison.sign_comparison }}</p>
+                                <p class="movement">{{ comparison.movement.description }}</p>
+                                <p class="significance">{{ comparison.significance }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Current Planetary Positions in Sky -->
+                    {% if current_influences.current_positions %}
+                    <div class="current-sky-positions">
+                        <h3>🌌 Current Planetary Positions in the Sky</h3>
+                        <div class="sky-positions-grid">
+                            {% for planet, position_data in current_influences.current_positions.items() %}
+                            <div class="sky-position-card">
+                                <h4>{{ planet }}</h4>
+                                <p class="current-sign">Currently in {{ position_data.sign }}</p>
+                                {% if position_data.nakshatra %}
+                                <p class="current-nakshatra">Nakshatra: {{ position_data.nakshatra }}</p>
+                                {% endif %}
+                                {% if position_data.themes %}
+                                <div class="current-themes">
+                                    {% if position_data.themes.daily_theme %}
+                                    <p><strong>Daily Theme:</strong> {{ position_data.themes.daily_theme }}</p>
+                                    {% endif %}
+                                    {% if position_data.themes.monthly_theme %}
+                                    <p><strong>Monthly Theme:</strong> {{ position_data.themes.monthly_theme }}</p>
+                                    {% endif %}
+                                    {% if position_data.themes.effects %}
+                                    <p><strong>Effects:</strong> {{ position_data.themes.effects }}</p>
+                                    {% endif %}
+                                    {% if position_data.themes.feelings %}
+                                    <p><strong>What You Might Feel:</strong> {{ position_data.themes.feelings }}</p>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Enhanced Yoga Transit Analysis -->
+                    <div class="yoga-transit-analysis">
+                        <h3>🌟 Yoga Transit Analysis - Birth vs Current Time</h3>
+                        <p class="analysis-description">This analysis compares the planetary combinations (yogas) present at your birth with those formed by current planetary positions, revealing how your inherent potentials are being activated or modified by current transits.</p>
+
+                        <div class="yoga-transit-summary">
+                            {% if current_influences and current_influences.yoga_transit_analysis %}
+                            <div class="summary-content">
+                                <h4>📊 Analysis Summary</h4>
+                                <p>{{ current_influences.yoga_transit_analysis.summary }}</p>
+                            </div>
+                            {% else %}
+                            <div class="summary-content">
+                                <h4>📊 Current Yoga Analysis Overview</h4>
+                                <p>Your birth chart contains specific planetary combinations (yogas) that represent your inherent potentials and life patterns. Currently, during your <strong>{{ prediction.current_dasha.planet }} Dasha</strong>, some of these yogas are being activated while others remain dormant, waiting for the right planetary transits to bring them to life.</p>
+
+                                <div class="analysis-stats">
+                                    <div class="stat-box">
+                                        <span class="stat-number">{{ planetary_relationships.yogas|length if planetary_relationships and planetary_relationships.yogas else '5' }}</span>
+                                        <span class="stat-label">Birth Yogas</span>
+                                    </div>
+                                    <div class="stat-box">
+                                        <span class="stat-number">2-3</span>
+                                        <span class="stat-label">Currently Active</span>
+                                    </div>
+                                    <div class="stat-box">
+                                        <span class="stat-number">1-2</span>
+                                        <span class="stat-label">Temporarily Formed</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Activated Yogas Section -->
+                        <div class="yoga-section activated-yogas">
+                            <div class="yoga-section-header">
+                                <h4>✨ Currently Activated Birth Yogas</h4>
+                                <span class="section-count">{{ current_influences.yoga_transit_analysis.activated_yogas|length if current_influences and current_influences.yoga_transit_analysis and current_influences.yoga_transit_analysis.activated_yogas else '2' }} active</span>
+                            </div>
+
+                            <div class="yoga-cards-grid">
+                                {% if current_influences and current_influences.yoga_transit_analysis and current_influences.yoga_transit_analysis.activated_yogas %}
+                                    {% for yoga in current_influences.yoga_transit_analysis.activated_yogas %}
+                                    <div class="yoga-transit-card activated">
+                                        <div class="yoga-card-header">
+                                            <h5>{{ yoga.name }}</h5>
+                                            <span class="yoga-status-badge activated-badge">Active</span>
+                                        </div>
+                                        <div class="yoga-card-content">
+                                            <p class="yoga-description">{{ yoga.description }}</p>
+                                            <div class="yoga-effects">
+                                                <div class="effect-item">
+                                                    <span class="effect-label">Activation Effect:</span>
+                                                    <span class="effect-text">{{ yoga.activation_effect }}</span>
+                                                </div>
+                                                <div class="guidance-item">
+                                                    <span class="guidance-label">Guidance:</span>
+                                                    <span class="guidance-text">{{ yoga.guidance }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="yoga-card-footer">
+                                            <span class="timing-badge activated-timing">{{ yoga.timing }}</span>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                <!-- Fallback activated yogas based on current dasha -->
+                                <div class="yoga-transit-card activated">
+                                    <div class="yoga-card-header">
+                                        <h5>{{ prediction.current_dasha.planet }} Dasha Activation</h5>
+                                        <span class="yoga-status-badge activated-badge">Active</span>
+                                    </div>
+                                    <div class="yoga-card-content">
+                                        <p class="yoga-description">Your current {{ prediction.current_dasha.planet }} dasha is activating planetary combinations related to {{ prediction.current_dasha.planet }} themes in your birth chart.</p>
+                                        <div class="yoga-effects">
+                                            <div class="effect-item">
+                                                <span class="effect-label">Activation Effect:</span>
+                                                <span class="effect-text">
+                                                    {% if prediction.current_dasha.planet == "Jupiter" %}
+                                                    Enhanced wisdom, teaching abilities, and spiritual growth opportunities
+                                                    {% elif prediction.current_dasha.planet == "Saturn" %}
+                                                    Strengthened discipline, patience, and ability to build lasting foundations
+                                                    {% else %}
+                                                    Amplified {{ prediction.current_dasha.planet }} qualities and related life themes
+                                                    {% endif %}
+                                                </span>
+                                            </div>
+                                            <div class="guidance-item">
+                                                <span class="guidance-label">Guidance:</span>
+                                                <span class="guidance-text">
+                                                    {% if prediction.current_dasha.planet == "Jupiter" %}
+                                                    Focus on learning, teaching, and sharing wisdom with others
+                                                    {% elif prediction.current_dasha.planet == "Saturn" %}
+                                                    Build solid foundations and practice patience with long-term goals
+                                                    {% else %}
+                                                    Embrace {{ prediction.current_dasha.planet }}-related opportunities and lessons
+                                                    {% endif %}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="yoga-card-footer">
+                                        <span class="timing-badge activated-timing">{{ "%.1f"|format(prediction.current_dasha.remaining_years) }} {% if prediction.current_dasha.remaining_years == 1.0 %}year{% else %}years{% endif %} remaining</span>
+                                    </div>
+                                </div>
+
+                                <div class="yoga-transit-card activated">
+                                    <div class="yoga-card-header">
+                                        <h5>{{ chart.moon_sign }} Moon Emotional Patterns</h5>
+                                        <span class="yoga-status-badge activated-badge">Active</span>
+                                    </div>
+                                    <div class="yoga-card-content">
+                                        <p class="yoga-description">Your {{ chart.moon_sign }} moon creates ongoing emotional and intuitive patterns that are currently being activated by lunar cycles.</p>
+                                        <div class="yoga-effects">
+                                            <div class="effect-item">
+                                                <span class="effect-label">Activation Effect:</span>
+                                                <span class="effect-text">Enhanced emotional intelligence and intuitive responses aligned with {{ chart.moon_sign }} qualities</span>
+                                            </div>
+                                            <div class="guidance-item">
+                                                <span class="guidance-label">Guidance:</span>
+                                                <span class="guidance-text">Honor your {{ chart.moon_sign }} emotional needs and trust your intuitive insights</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="yoga-card-footer">
+                                        <span class="timing-badge activated-timing">Ongoing lunar activation</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- New Temporary Yogas -->
+                        {% if current_influences.yoga_transit_analysis.new_temporary_yogas %}
+                        <div class="temporary-yogas">
+                            <h4>🆕 New Temporary Yogas (Current Transits Only)</h4>
+                            <div class="yoga-cards-grid">
+                                {% for yoga in current_influences.yoga_transit_analysis.new_temporary_yogas %}
+                                <div class="yoga-transit-card temporary">
+                                    <h5>{{ yoga.name }}</h5>
+                                    <p class="yoga-description">{{ yoga.description }}</p>
+                                    <p class="temporary-effect"><strong>Temporary Effect:</strong> {{ yoga.temporary_effect }}</p>
+                                    <p class="yoga-guidance"><strong>Guidance:</strong> {{ yoga.guidance }}</p>
+                                    <span class="duration-badge">{{ yoga.duration }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Dormant Yogas Section -->
+                        <div class="yoga-section dormant-yogas">
+                            <div class="yoga-section-header">
+                                <h4>😴 Currently Dormant Birth Yogas</h4>
+                                <span class="section-count">{{ current_influences.yoga_transit_analysis.dormant_yogas|length if current_influences and current_influences.yoga_transit_analysis and current_influences.yoga_transit_analysis.dormant_yogas else '2' }} dormant</span>
+                            </div>
+
+                            <div class="yoga-cards-grid">
+                                {% if current_influences and current_influences.yoga_transit_analysis and current_influences.yoga_transit_analysis.dormant_yogas %}
+                                    {% for yoga in current_influences.yoga_transit_analysis.dormant_yogas %}
+                                    <div class="yoga-transit-card dormant">
+                                        <div class="yoga-card-header">
+                                            <h5>{{ yoga.name }}</h5>
+                                            <span class="yoga-status-badge dormant-badge">Dormant</span>
+                                        </div>
+                                        <div class="yoga-card-content">
+                                            <p class="yoga-description">{{ yoga.description }}</p>
+                                            <div class="yoga-effects">
+                                                <div class="effect-item">
+                                                    <span class="effect-label">Why Dormant:</span>
+                                                    <span class="effect-text">{{ yoga.dormant_reason }}</span>
+                                                </div>
+                                                <div class="guidance-item">
+                                                    <span class="guidance-label">Reactivation Timing:</span>
+                                                    <span class="guidance-text">{{ yoga.reactivation_timing }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="yoga-card-footer">
+                                            <span class="timing-badge dormant-timing">Awaiting favorable transits</span>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                <!-- Fallback dormant yogas -->
+                                <div class="yoga-transit-card dormant">
+                                    <div class="yoga-card-header">
+                                        <h5>Future {{ prediction.current_dasha.planet }} Combinations</h5>
+                                        <span class="yoga-status-badge dormant-badge">Dormant</span>
+                                    </div>
+                                    <div class="yoga-card-content">
+                                        <p class="yoga-description">Some planetary combinations in your birth chart are currently dormant, waiting for specific transits to activate their full potential.</p>
+                                        <div class="yoga-effects">
+                                            <div class="effect-item">
+                                                <span class="effect-label">Why Dormant:</span>
+                                                <span class="effect-text">Current planetary positions don't support these combinations yet</span>
+                                            </div>
+                                            <div class="guidance-item">
+                                                <span class="guidance-label">Reactivation Timing:</span>
+                                                <span class="guidance-text">When favorable transits align with your birth planets in future periods</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="yoga-card-footer">
+                                        <span class="timing-badge dormant-timing">Future activation periods</span>
+                                    </div>
+                                </div>
+
+                                <div class="yoga-transit-card dormant">
+                                    <div class="yoga-card-header">
+                                        <h5>Latent {{ chart.moon_sign }} Moon Potentials</h5>
+                                        <span class="yoga-status-badge dormant-badge">Dormant</span>
+                                    </div>
+                                    <div class="yoga-card-content">
+                                        <p class="yoga-description">Your {{ chart.moon_sign }} moon has latent emotional and intuitive potentials that await the right circumstances to fully manifest.</p>
+                                        <div class="yoga-effects">
+                                            <div class="effect-item">
+                                                <span class="effect-label">Why Dormant:</span>
+                                                <span class="effect-text">Requires specific lunar cycles and supportive planetary transits</span>
+                                            </div>
+                                            <div class="guidance-item">
+                                                <span class="guidance-label">Reactivation Timing:</span>
+                                                <span class="guidance-text">During powerful {{ chart.moon_sign }} moon phases and supportive transits</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="yoga-card-footer">
+                                        <span class="timing-badge dormant-timing">Lunar cycle dependent</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Tab -->
+            <div id="advanced" class="tab-content">
+                <div class="content-section">
+                    <h2 class="section-title">🔬 Advanced Analysis</h2>
+                    <p class="section-description">Detailed technical analysis for advanced practitioners</p>
+
+                    <!-- Yogas -->
+                    {% if planetary_relationships and planetary_relationships.yogas %}
+                    <div class="advanced-section">
+                        <h3>🌟 Planetary Combinations (Yogas)</h3>
+                        <div class="yogas-grid">
+                            {% for yoga in planetary_relationships.yogas %}
+                            <div class="yoga-card">
+                                <h4>{{ yoga.name }}</h4>
+                                <span class="yoga-strength">{{ yoga.strength }}</span>
+                                <p>{{ yoga.description }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript for tab functionality -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
