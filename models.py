@@ -66,8 +66,10 @@ class PlanetPosition(BaseModel):
     latitude: float   # Degrees
     sign: str
     house: int
+    degree: float  # Degree within sign (0-30)
     nakshatra: Optional[str] = None
     nakshatra_pada: Optional[int] = None
+    retrograde: Optional[bool] = False
 
 class VedicChart(BaseModel):
     planets: List[PlanetPosition]

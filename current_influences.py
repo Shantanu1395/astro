@@ -1354,8 +1354,10 @@ class CurrentInfluenceAnalyzer:
                     latitude=0,  # Simplified
                     sign=sign,
                     house=house,
+                    degree=longitude % 30,  # Calculate degree within sign
                     nakshatra=position_data.get("nakshatra"),
-                    nakshatra_pada=1  # Simplified
+                    nakshatra_pada=1,  # Simplified
+                    retrograde=False  # Simplified
                 )
                 planets.append(planet_pos)
                 houses[house].append(planet_name)

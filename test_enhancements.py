@@ -19,8 +19,10 @@ def test_planetary_combination_description():
         latitude=0.0,     # Required field
         sign="Kumbh",
         house=1,
+        degree=15.5,      # Degree within sign
         nakshatra="Dhanishta",
-        nakshatra_pada=2
+        nakshatra_pada=2,
+        retrograde=False
     )
 
     description = calculator.generate_planetary_combination_description("Sun", sun_position)
@@ -45,8 +47,10 @@ def test_planetary_remedies():
         latitude=0.0,     # Required field
         sign="Tula",
         house=6,  # Challenging house
+        degree=15.5,      # Degree within sign
         nakshatra="Swati",
-        nakshatra_pada=1
+        nakshatra_pada=1,
+        retrograde=False
     )
 
     # Calculate strength (this would normally be weak due to debilitation + 6th house)

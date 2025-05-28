@@ -1,0 +1,660 @@
+/* Chart Visualization Styles */
+
+.chart-visualization-container {
+    background: rgba(15, 15, 30, 0.95);
+    border-radius: 20px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.chart-column {
+    min-height: 600px;
+}
+
+.chart-column h3 {
+    color: #6366f1;
+    margin: 0 0 15px 0;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+    .chart-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+.chart-visualization-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+        rgba(99, 102, 241, 0.1) 0%,
+        rgba(139, 92, 246, 0.1) 50%,
+        rgba(236, 72, 153, 0.1) 100%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+/* Chart Controls Panel */
+.chart-controls {
+    margin-bottom: 20px;
+}
+
+.chart-controls-panel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chart-type-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.chart-type-selector label {
+    color: #e5e7eb;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.chart-type-selector select {
+    background: rgba(31, 41, 55, 0.8);
+    border: 1px solid rgba(99, 102, 241, 0.5);
+    border-radius: 8px;
+    color: #ffffff;
+    padding: 8px 12px;
+    font-size: 14px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.chart-type-selector select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.chart-type-selector select option {
+    background: #1f2937;
+    color: #ffffff;
+}
+
+.chart-options {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.chart-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #d1d5db;
+    font-size: 14px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.chart-options label:hover {
+    color: #ffffff;
+}
+
+.chart-options input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #6366f1;
+    cursor: pointer;
+}
+
+.chart-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.chart-btn {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.chart-btn:hover::before {
+    left: 100%;
+}
+
+.chart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.chart-btn:active {
+    transform: translateY(0);
+}
+
+/* Chart Canvas Container */
+#chart-container {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#chart-container canvas {
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Info Panel */
+.chart-info-panel {
+    position: absolute;
+    top: 80px;
+    right: 20px;
+    width: 280px;
+    background: rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(99, 102, 241, 0.5);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    animation: slideInRight 0.3s ease;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.info-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-panel-header h4 {
+    color: #ffffff;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.close-panel {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.close-panel:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+.info-panel-content {
+    padding: 15px;
+}
+
+.planet-info,
+.house-info {
+    color: #d1d5db;
+}
+
+.planet-info p,
+.house-info p {
+    margin: 8px 0;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.planet-info strong,
+.house-info strong {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+/* Chart Error State */
+.chart-error {
+    text-align: center;
+    padding: 40px;
+    color: #ffffff;
+}
+
+.chart-error h3 {
+    color: #ef4444;
+    margin-bottom: 10px;
+}
+
+.chart-error p {
+    color: #d1d5db;
+    margin-bottom: 20px;
+}
+
+.chart-error button {
+    background: #6366f1;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.chart-error button:hover {
+    background: #5856eb;
+}
+
+/* Highlighting Effects */
+.highlighted {
+    background: rgba(99, 102, 241, 0.3) !important;
+    border: 1px solid #6366f1 !important;
+    animation: pulse 2s ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+    }
+}
+
+/* Fullscreen Mode */
+.chart-visualization-container:fullscreen {
+    background: #0a0a0a;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-visualization-container:fullscreen #chart-container {
+    width: 90vw;
+    height: 90vh;
+    max-width: none;
+    max-height: none;
+}
+
+.chart-visualization-container:fullscreen canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .chart-controls-panel {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+    }
+
+    .chart-options {
+        justify-content: center;
+    }
+
+    .chart-actions {
+        justify-content: center;
+    }
+
+    .chart-info-panel {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90vw;
+        max-width: 320px;
+        z-index: 2000;
+    }
+
+    #chart-container {
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chart-visualization-container {
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .chart-controls-panel {
+        padding: 12px;
+    }
+
+    .chart-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    #chart-container {
+        min-height: 350px;
+    }
+}
+
+/* Loading Animation */
+.chart-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    color: #ffffff;
+}
+
+.chart-loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(99, 102, 241, 0.3);
+    border-top: 3px solid #6366f1;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.chart-loading p {
+    font-size: 16px;
+    color: #d1d5db;
+}
+
+/* Chart Type Indicators */
+.chart-type-indicator {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(99, 102, 241, 0.9);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    z-index: 100;
+}
+
+/* Aspect Lines Legend */
+.aspect-legend {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 12px;
+    color: #d1d5db;
+}
+
+.aspect-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 4px 0;
+}
+
+.aspect-line {
+    width: 20px;
+    height: 2px;
+    border-radius: 1px;
+}
+
+.aspect-conjunction { background: rgba(255, 255, 0, 0.8); }
+.aspect-sextile { background: rgba(0, 255, 0, 0.8); }
+.aspect-square { background: rgba(255, 0, 0, 0.8); }
+.aspect-trine { background: rgba(0, 255, 255, 0.8); }
+.aspect-opposition { background: rgba(255, 0, 255, 0.8); }
+
+/* Planetary Analysis Styles */
+.planetary-analysis-container {
+    background: rgba(15, 15, 30, 0.95);
+    border-radius: 20px;
+    padding: 25px;
+    margin: 20px 0;
+    border: 1px solid rgba(99, 102, 241, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.analysis-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.analysis-header h3 {
+    color: #ffffff;
+    margin: 0 0 10px 0;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.analysis-header p {
+    color: #d1d5db;
+    margin: 0;
+    font-size: 14px;
+}
+
+.planet-selector {
+    margin-bottom: 25px;
+}
+
+.planet-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.planet-btn {
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    border: none;
+    border-radius: 25px;
+    color: white;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.planet-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.planet-btn.active {
+    background: linear-gradient(135deg, #10b981, #059669);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+.planet-details {
+    min-height: 400px;
+}
+
+.no-selection {
+    text-align: center;
+    padding: 60px 20px;
+    color: #9ca3af;
+}
+
+.planet-analysis-content {
+    color: #ffffff;
+}
+
+.planet-header {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.planet-header h4 {
+    margin: 0 0 15px 0;
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.planet-position {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.planet-position span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.analysis-sections {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.analysis-section {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.analysis-section h5 {
+    color: #6366f1;
+    margin: 0 0 15px 0;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.analysis-section p {
+    margin: 8px 0;
+    line-height: 1.6;
+    color: #e5e7eb;
+}
+
+.analysis-section strong {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.analysis-section ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.analysis-section li {
+    margin: 8px 0;
+    line-height: 1.6;
+    color: #e5e7eb;
+}
+
+.error-message {
+    text-align: center;
+    padding: 40px;
+    color: #ef4444;
+    font-size: 16px;
+}
+
+/* Responsive Design for Planetary Analysis */
+@media (max-width: 768px) {
+    .planetary-analysis-container {
+        padding: 20px;
+        margin: 15px 0;
+    }
+
+    .planet-buttons {
+        gap: 8px;
+    }
+
+    .planet-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    .analysis-sections {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .planet-position {
+        gap: 10px;
+    }
+
+    .planet-position span {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+}

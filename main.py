@@ -507,6 +507,11 @@ async def test_html():
     """Simple test HTML endpoint."""
     return HTMLResponse(content="<h1>Test HTML Endpoint Working!</h1>")
 
+@app.get("/chart-test", response_class=HTMLResponse)
+async def chart_test(request: Request):
+    """Chart visualization test page."""
+    return templates.TemplateResponse("chart_test.html", {"request": request})
+
 @app.get("/shantanu-simple", response_class=HTMLResponse)
 async def shantanu_simple():
     """Simple Shantanu endpoint to test."""
@@ -1029,6 +1034,173 @@ async def specialized_predict_api(request: dict):
             "status": "error",
             "error": str(e),
             "message": "Failed to generate specialized prediction"
+        }
+
+@app.post("/api/chart-data")
+async def get_chart_data(request: dict):
+    """Get chart data for visualization."""
+    try:
+        from models import BirthData
+        from utils import get_location_data
+
+        # Parse birth data
+        birth_data = BirthData(**request)
+
+        # Get location data
+        location_data = get_location_data(birth_data.birth_location)
+
+        # Calculate chart using vedic calculator
+        chart = vedic_calc.calculate_birth_chart(birth_data, location_data)
+
+        # Format data for visualization
+        chart_data = {
+            'planets': [
+                {
+                    'name': planet.name,
+                    'longitude': planet.longitude,
+                    'sign': planet.sign,
+                    'house': planet.house,
+                    'degree': getattr(planet, 'degree', planet.longitude % 30),
+                    'retrograde': getattr(planet, 'retrograde', False)
+                }
+                for planet in chart.planets
+            ],
+            'houses': chart.houses,  # This is already a dict {house_number: [planets]}
+            'ascendant': chart.ascendant_sign,
+            'chart_type': 'birth',
+            'birth_info': {
+                'name': birth_data.name,
+                'birth_date': birth_data.birth_date.strftime('%d-%m-%Y'),
+                'birth_time': birth_data.birth_time.strftime('%H:%M'),
+                'birth_location': birth_data.birth_location
+            },
+            'chart_summary': {
+                'moon_sign': chart.moon_sign,
+                'sun_sign': chart.sun_sign,
+                'birth_nakshatra': chart.birth_nakshatra
+            }
+        }
+
+        return {
+            "status": "success",
+            "chart_data": chart_data
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "message": "Failed to calculate chart data"
+        }
+
+@app.post("/api/divisional-chart/{chart_type}")
+async def get_divisional_chart(chart_type: str, request: dict):
+    """Get divisional chart data."""
+    try:
+        from models import BirthData
+        from utils import get_location_data
+
+        # Parse birth data
+        birth_data = BirthData(**request)
+
+        # Get location data
+        location_data = get_location_data(birth_data.birth_location)
+
+        # Calculate base chart
+        chart = vedic_calc.calculate_birth_chart(birth_data, location_data)
+
+        # Calculate divisional chart based on type
+        if chart_type == 'navamsa':
+            divisional_chart = vedic_calc.calculate_navamsa_chart(chart)
+        elif chart_type == 'dasamsa':
+            divisional_chart = vedic_calc.calculate_dasamsa_chart(chart)
+        elif chart_type == 'dwadasamsa':
+            divisional_chart = vedic_calc.calculate_dwadasamsa_chart(chart)
+        else:
+            return {
+                "status": "error",
+                "error": f"Unsupported chart type: {chart_type}",
+                "message": f"Chart type {chart_type} is not supported"
+            }
+
+        # Format divisional chart data
+        chart_data = {
+            'planets': [
+                {
+                    'name': planet.name,
+                    'longitude': planet.longitude,
+                    'sign': planet.sign,
+                    'house': planet.house,
+                    'degree': getattr(planet, 'degree', planet.longitude % 30),
+                    'retrograde': getattr(planet, 'retrograde', False)
+                }
+                for planet in divisional_chart.planets
+            ],
+            'houses': divisional_chart.houses,  # This is already a dict {house_number: [planets]}
+            'chart_type': chart_type
+        }
+
+        return {
+            "status": "success",
+            "chart_data": chart_data
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "message": f"Failed to calculate {chart_type} chart"
+        }
+
+@app.post("/api/current-transits")
+async def get_current_transits(request: dict):
+    """Get current planetary transits."""
+    try:
+        from models import BirthData
+        from utils import get_location_data
+        from datetime import datetime
+
+        # Parse birth data
+        birth_data = BirthData(**request)
+
+        # Get location data
+        location_data = get_location_data(birth_data.birth_location)
+
+        # Calculate birth chart for reference
+        birth_chart = vedic_calc.calculate_birth_chart(birth_data, location_data)
+
+        # Calculate current transits
+        current_transits = vedic_calc.calculate_current_transits(
+            birth_chart=birth_chart,
+            current_date=datetime.now()
+        )
+
+        # Format transit data
+        transit_data = {
+            'current_positions': [
+                {
+                    'name': planet_name,
+                    'longitude': details['longitude'],
+                    'sign': details['sign'],
+                    'house': details.get('house_in_birth_chart', 1),
+                    'degree': details.get('degree', details['longitude'] % 30)
+                }
+                for planet_name, details in current_transits.items()
+                if isinstance(details, dict) and 'longitude' in details
+            ],
+            'significant_transits': current_transits.get('significant_aspects', [])
+        }
+
+        return {
+            "status": "success",
+            "transit_data": transit_data
+        }
+
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "message": "Failed to calculate current transits"
         }
 
 

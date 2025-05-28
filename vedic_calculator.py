@@ -171,7 +171,7 @@ class VedicCalculator:
                         break
                 if rahu_pos:
                     ketu_longitude = (rahu_pos.longitude + 180) % 360
-                    sign, _ = degrees_to_sign_and_degree(ketu_longitude, vedic=True)
+                    sign, degree_in_sign = degrees_to_sign_and_degree(ketu_longitude, vedic=True)
                     house = self._calculate_house(ketu_longitude, julian_day, location_data)
 
                     planet_pos = PlanetPosition(
@@ -179,7 +179,9 @@ class VedicCalculator:
                         longitude=ketu_longitude,
                         latitude=0,  # Ketu has no latitude
                         sign=sign,
-                        house=house
+                        house=house,
+                        degree=degree_in_sign,
+                        retrograde=False
                     )
                     planets.append(planet_pos)
                     houses[house].append("Ketu")
@@ -192,7 +194,7 @@ class VedicCalculator:
                 longitude = longitude % 360  # Normalize
                 latitude = pos[1]
 
-                sign, _ = degrees_to_sign_and_degree(longitude, vedic=True)
+                sign, degree_in_sign = degrees_to_sign_and_degree(longitude, vedic=True)
                 house = self._calculate_house(longitude, julian_day, location_data)
 
                 # Calculate nakshatra for Moon
@@ -207,8 +209,10 @@ class VedicCalculator:
                     latitude=latitude,
                     sign=sign,
                     house=house,
+                    degree=degree_in_sign,
                     nakshatra=nakshatra,
-                    nakshatra_pada=nakshatra_pada
+                    nakshatra_pada=nakshatra_pada,
+                    retrograde=False  # TODO: Calculate retrograde status
                 )
 
                 planets.append(planet_pos)
@@ -985,6 +989,157 @@ class VedicCalculator:
             analysis += division_insights[division]
 
         return analysis
+
+    def calculate_navamsa_chart(self, chart: VedicChart) -> VedicChart:
+        """Calculate Navamsa (D9) chart for marriage and spiritual analysis."""
+        return self._create_divisional_chart(chart, "D9")
+
+    def calculate_dasamsa_chart(self, chart: VedicChart) -> VedicChart:
+        """Calculate Dasamsa (D10) chart for career analysis."""
+        return self._create_divisional_chart(chart, "D10")
+
+    def calculate_dwadasamsa_chart(self, chart: VedicChart) -> VedicChart:
+        """Calculate Dwadasamsa (D12) chart for parents and family."""
+        return self._create_divisional_chart(chart, "D12")
+
+    def _create_divisional_chart(self, chart: VedicChart, division: str) -> VedicChart:
+        """Create a VedicChart object for divisional chart."""
+        divisional_data = self.calculate_divisional_chart(chart, division)
+
+        # Create new planet positions for divisional chart
+        divisional_planets = []
+        for planet in chart.planets:
+            if planet.name in divisional_data["planetary_positions"]:
+                div_pos = divisional_data["planetary_positions"][planet.name]
+                # Create new planet position with divisional sign
+                divisional_planet = PlanetPosition(
+                    name=planet.name,
+                    longitude=planet.longitude,  # Keep original longitude
+                    sign=div_pos["divisional_sign"],
+                    house=self._calculate_house_from_sign(div_pos["divisional_sign"], chart.ascendant_sign),
+                    degree=planet.degree,
+                    nakshatra=planet.nakshatra,
+                    nakshatra_pada=planet.nakshatra_pada
+                )
+                divisional_planets.append(divisional_planet)
+
+        # Create houses for divisional chart
+        divisional_houses = {i: [] for i in range(1, 13)}
+        for planet in divisional_planets:
+            divisional_houses[planet.house].append(planet.name)
+
+        return VedicChart(
+            planets=divisional_planets,
+            houses=divisional_houses,
+            ascendant=chart.ascendant,
+            ascendant_sign=chart.ascendant_sign,
+            moon_sign=next((p.sign for p in divisional_planets if p.name == "Moon"), chart.moon_sign),
+            sun_sign=next((p.sign for p in divisional_planets if p.name == "Sun"), chart.sun_sign),
+            birth_nakshatra=chart.birth_nakshatra,
+            birth_nakshatra_pada=chart.birth_nakshatra_pada
+        )
+
+    def _calculate_house_from_sign(self, sign: str, ascendant_sign: str) -> int:
+        """Calculate house number from sign and ascendant."""
+        sign_numbers = {
+            "Aries": 1, "Taurus": 2, "Gemini": 3, "Cancer": 4,
+            "Leo": 5, "Virgo": 6, "Libra": 7, "Scorpio": 8,
+            "Sagittarius": 9, "Capricorn": 10, "Aquarius": 11, "Pisces": 12
+        }
+
+        sign_num = sign_numbers.get(sign, 1)
+        asc_num = sign_numbers.get(ascendant_sign, 1)
+
+        house = ((sign_num - asc_num) % 12) + 1
+        return house if house > 0 else 12
+
+    def calculate_current_transits(self, birth_chart: VedicChart, current_date: datetime) -> Dict[str, Any]:
+        """Calculate current planetary transits."""
+        try:
+            julian_day = julian_day_from_datetime(current_date)
+            ayanamsa = calculate_ayanamsa(julian_day)
+
+            current_positions = {}
+
+            # Calculate current positions for all planets
+            for planet_id, planet_name in PLANET_NAMES.items():
+                try:
+                    pos, _ = swe.calc_ut(julian_day, planet_id)
+                    longitude = (pos[0] - ayanamsa) % 360
+                    sign, degree = degrees_to_sign_and_degree(longitude, vedic=True)
+
+                    # Calculate which house this planet is transiting in birth chart
+                    house_in_birth_chart = self._calculate_house_from_longitude(longitude, birth_chart.ascendant)
+
+                    current_positions[planet_name] = {
+                        "longitude": longitude,
+                        "sign": sign,
+                        "degree": degree,
+                        "house_in_birth_chart": house_in_birth_chart
+                    }
+
+                except Exception as e:
+                    print(f"Error calculating transit for {planet_name}: {e}")
+                    continue
+
+            # Calculate significant aspects
+            significant_aspects = self._calculate_significant_transit_aspects(current_positions, birth_chart)
+
+            return {
+                **current_positions,
+                "significant_aspects": significant_aspects
+            }
+
+        except Exception as e:
+            print(f"Error calculating current transits: {e}")
+            return {}
+
+    def _calculate_significant_transit_aspects(self, current_positions: Dict, birth_chart: VedicChart) -> List[Dict]:
+        """Calculate significant transit aspects to birth chart."""
+        significant_aspects = []
+
+        for transit_planet, transit_data in current_positions.items():
+            for birth_planet in birth_chart.planets:
+                # Calculate angular difference
+                angular_diff = abs(transit_data["longitude"] - birth_planet.longitude)
+                if angular_diff > 180:
+                    angular_diff = 360 - angular_diff
+
+                # Check for major aspects (within 5-degree orb)
+                if abs(angular_diff - 0) < 5:  # Conjunction
+                    significant_aspects.append({
+                        "transiting_planet": transit_planet,
+                        "natal_planet": birth_planet.name,
+                        "aspect": "conjunction",
+                        "orb": angular_diff,
+                        "significance": f"{transit_planet} conjunct natal {birth_planet.name}"
+                    })
+                elif abs(angular_diff - 180) < 5:  # Opposition
+                    significant_aspects.append({
+                        "transiting_planet": transit_planet,
+                        "natal_planet": birth_planet.name,
+                        "aspect": "opposition",
+                        "orb": abs(angular_diff - 180),
+                        "significance": f"{transit_planet} opposite natal {birth_planet.name}"
+                    })
+                elif abs(angular_diff - 90) < 5:  # Square
+                    significant_aspects.append({
+                        "transiting_planet": transit_planet,
+                        "natal_planet": birth_planet.name,
+                        "aspect": "square",
+                        "orb": abs(angular_diff - 90),
+                        "significance": f"{transit_planet} square natal {birth_planet.name}"
+                    })
+                elif abs(angular_diff - 120) < 5:  # Trine
+                    significant_aspects.append({
+                        "transiting_planet": transit_planet,
+                        "natal_planet": birth_planet.name,
+                        "aspect": "trine",
+                        "orb": abs(angular_diff - 120),
+                        "significance": f"{transit_planet} trine natal {birth_planet.name}"
+                    })
+
+        return significant_aspects[:10]  # Return top 10 most significant
 
     # COMPREHENSIVE REMEDY METHODS
 

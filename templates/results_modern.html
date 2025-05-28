@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vedic Astrology Report - {{ birth_data.name }}</title>
     <link rel="stylesheet" href="/static/style_modern.css">
+    <link rel="stylesheet" href="/static/css/chart-visualization.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -78,6 +79,25 @@
             <div id="overview" class="tab-content active">
                 <div class="content-section">
                     <h2 class="section-title">📋 Your Astrological Overview</h2>
+
+                    <!-- Interactive Chart Visualization -->
+                    <div class="chart-visualization-container">
+                        <div class="chart-grid">
+                            <div class="chart-column">
+                                <h3>🎯 Your Birth Chart</h3>
+                                <div id="chart-container" class="chart-container">
+                                    <div class="chart-loading">
+                                        <div class="chart-loading-spinner"></div>
+                                        <p>Preparing your Vedic chart...</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="chart-column">
+                                <div id="planetary-analysis-container"></div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Interactive Constellation Visualization -->
                     <div class="constellation-container">
@@ -3472,6 +3492,54 @@
             birth_location: "{{ birth_data.birth_location }}"
         };
 
+    </script>
+
+    <!-- p5.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+
+    <!-- Chart Visualization Scripts -->
+    <script src="/static/js/chart-visualizer.js"></script>
+    <script src="/static/js/chart-manager.js"></script>
+    <script src="/static/js/planetary-analysis.js"></script>
+
+    <!-- Initialize Chart Visualization -->
+    <script>
+        // Initialize chart visualization when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Wait a bit for other scripts to load
+            setTimeout(() => {
+                // Initialize chart manager if not already done
+                if (window.ChartManager && !window.chartManager) {
+                    window.chartManager = new window.ChartManager();
+                    console.log('🎨 Chart manager created');
+                }
+
+                if (window.chartManager && window.birthData) {
+                    console.log('🎨 Initializing chart visualization...');
+                    window.chartManager.loadChartData(window.birthData);
+
+                    // Initialize planetary analysis
+                    if (window.PlanetaryAnalysis) {
+                        window.planetaryAnalysis = new window.PlanetaryAnalysis('planetary-analysis-container');
+                        console.log('🪐 Planetary analysis initialized');
+
+                        // Update with chart data when available
+                        setTimeout(() => {
+                            if (window.chartManager.chartData) {
+                                window.planetaryAnalysis.updateChartData(window.chartManager.chartData);
+                            }
+                        }, 2000);
+                    }
+                } else {
+                    console.warn('⚠️ Chart manager or birth data not available');
+                    console.log('Available:', {
+                        ChartManager: !!window.ChartManager,
+                        chartManager: !!window.chartManager,
+                        birthData: !!window.birthData
+                    });
+                }
+            }, 1000);
+        });
     </script>
 </body>
 </html>
