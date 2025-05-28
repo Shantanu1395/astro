@@ -5,7 +5,7 @@ from fastapi.responses import HTMLResponse
 from datetime import datetime, date, time
 import uvicorn
 
-from models import BirthData, PredictionRequest, AstrologySystem
+from models import BirthData, PredictionRequest, AstrologySystem, EnhancedPredictionRequest, PredictionType, SubscriptionTier
 from vedic_calculator import VedicCalculator
 from prediction_engine import VedicPredictionEngine
 from utils import get_location_data
@@ -26,10 +26,19 @@ openai_engine = VedicPredictionEngine("openai")  # Force OpenAI
 ollama_engine = VedicPredictionEngine("ollama")  # Force Ollama
 fallback_engine = VedicPredictionEngine("fallback")  # Fast mode without LLM
 
+# Initialize Phase C - Specialized Engine Manager
+from engine_manager import SpecializedEngineManager
+from vedic_analysis import VedicAnalyzer
+from date_calculator import AstrologicalDateCalculator
+
+analyzer = VedicAnalyzer()
+date_calculator = AstrologicalDateCalculator()
+specialized_engine_manager = SpecializedEngineManager(analyzer, date_calculator)
+
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Home page with birth data input form."""
-    return templates.TemplateResponse("index.html", {"request": request})
+    return templates.TemplateResponse("index_modern.html", {"request": request})
 
 @app.post("/predict", response_class=HTMLResponse)
 async def predict(
@@ -122,7 +131,7 @@ async def predict(
         current_analyzer = CurrentInfluenceAnalyzer()
         current_influences = current_analyzer.analyze_current_influences(birth_data, vedic_chart, location_data)
 
-        return templates.TemplateResponse("results.html", {
+        return templates.TemplateResponse("results_modern.html", {
             "request": request,
             "birth_data": birth_data,
             "location_data": location_data,
@@ -977,6 +986,242 @@ async def enhanced_prediction(request: dict):
             "error": "request_error",
             "message": f"Error processing request: {str(e)}"
         }
+
+
+# ===== PHASE C - SPECIALIZED PREDICTION ENDPOINTS =====
+
+@app.post("/api/specialized-predict")
+async def specialized_predict_api(request: dict):
+    """API endpoint for specialized predictions (Phase C)."""
+    try:
+        from models import EnhancedPredictionRequest
+        from utils import get_location_data
+
+        # Parse enhanced request
+        enhanced_request = EnhancedPredictionRequest(**request)
+
+        # Get location data
+        location_data = get_location_data(enhanced_request.birth_data.birth_location)
+
+        # Calculate chart
+        chart = vedic_calc.calculate_birth_chart(enhanced_request.birth_data, location_data)
+
+        # Calculate current dasha
+        current_dasha = vedic_calc.calculate_current_dasha(enhanced_request.birth_data, chart)
+
+        # Generate specialized prediction
+        specialized_prediction = specialized_engine_manager.generate_specialized_prediction(
+            enhanced_request, chart, current_dasha, enhanced_request.birth_data, location_data
+        )
+
+        return {
+            "status": "success",
+            "chart_summary": {
+                "ascendant_sign": chart.ascendant_sign,
+                "moon_sign": chart.moon_sign,
+                "sun_sign": chart.sun_sign,
+                "birth_nakshatra": chart.birth_nakshatra
+            },
+            "specialized_prediction": specialized_prediction
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "message": "Failed to generate specialized prediction"
+        }
+
+
+@app.get("/api/engine-capabilities")
+async def get_engine_capabilities():
+    """Get capabilities of all specialized engines."""
+    try:
+        capabilities = specialized_engine_manager.get_engine_capabilities()
+        return {
+            "status": "success",
+            "capabilities": capabilities
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "message": "Failed to get engine capabilities"
+        }
+
+
+@app.post("/api/prediction-recommendations")
+async def get_prediction_recommendations(request: dict):
+    """Get personalized prediction recommendations based on chart analysis."""
+    try:
+        from models import BirthData, SubscriptionTier
+        from utils import get_location_data
+
+        # Parse request
+        birth_data = BirthData(**request["birth_data"])
+        subscription_tier = SubscriptionTier(request.get("subscription_tier", "free").lower())
+
+        # Get location data
+        location_data = get_location_data(birth_data.birth_location)
+
+        # Calculate chart
+        chart = vedic_calc.calculate_birth_chart(birth_data, location_data)
+
+        # Get recommendations
+        recommendations = specialized_engine_manager.get_prediction_recommendations(chart, subscription_tier)
+
+        return {
+            "status": "success",
+            "recommendations": recommendations,
+            "subscription_tier": subscription_tier.value,
+            "chart_summary": {
+                "ascendant_sign": chart.ascendant_sign,
+                "moon_sign": chart.moon_sign,
+                "sun_sign": chart.sun_sign
+            }
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "error": str(e),
+            "message": "Failed to get prediction recommendations"
+        }
+
+
+# Quick test endpoints for specialized predictions
+@app.get("/api/test/career-prediction")
+async def test_career_prediction():
+    """Test career prediction with Shantanu's data."""
+    try:
+        from models import EnhancedPredictionRequest, PredictionType, SubscriptionTier, BirthData
+        from datetime import date, time
+
+        birth_data = BirthData(
+            name="Shantanu Saini",
+            birth_date=date(1994, 3, 1),
+            birth_time=time(23, 2),
+            birth_location="Faridabad, India"
+        )
+
+        request_dict = {
+            "birth_data": birth_data.dict(),
+            "prediction_type": PredictionType.CAREER.value,
+            "subscription_tier": SubscriptionTier.SILVER.value,
+            "include_timing": True
+        }
+
+        return await specialized_predict_api(request_dict)
+
+    except Exception as e:
+        return {"error": str(e), "message": "Failed to generate career prediction test"}
+
+
+@app.get("/api/test/relationship-prediction")
+async def test_relationship_prediction():
+    """Test relationship prediction with Shantanu's data."""
+    try:
+        from models import EnhancedPredictionRequest, PredictionType, SubscriptionTier, BirthData
+        from datetime import date, time
+
+        birth_data = BirthData(
+            name="Shantanu Saini",
+            birth_date=date(1994, 3, 1),
+            birth_time=time(23, 2),
+            birth_location="Faridabad, India"
+        )
+
+        request_dict = {
+            "birth_data": birth_data.dict(),
+            "prediction_type": PredictionType.RELATIONSHIP.value,
+            "subscription_tier": SubscriptionTier.SILVER.value,
+            "include_timing": True
+        }
+
+        return await specialized_predict_api(request_dict)
+
+    except Exception as e:
+        return {"error": str(e), "message": "Failed to generate relationship prediction test"}
+
+
+@app.get("/api/test/financial-prediction")
+async def test_financial_prediction():
+    """Test financial prediction with Shantanu's data."""
+    try:
+        from models import EnhancedPredictionRequest, PredictionType, SubscriptionTier, BirthData
+        from datetime import date, time
+
+        birth_data = BirthData(
+            name="Shantanu Saini",
+            birth_date=date(1994, 3, 1),
+            birth_time=time(23, 2),
+            birth_location="Faridabad, India"
+        )
+
+        request_dict = {
+            "birth_data": birth_data.dict(),
+            "prediction_type": PredictionType.FINANCIAL.value,
+            "subscription_tier": SubscriptionTier.SILVER.value,
+            "include_timing": True
+        }
+
+        return await specialized_predict_api(request_dict)
+
+    except Exception as e:
+        return {"error": str(e), "message": "Failed to generate financial prediction test"}
+
+
+@app.get("/api/test/health-prediction")
+async def test_health_prediction():
+    """Test health prediction with Shantanu's data."""
+    try:
+        from models import EnhancedPredictionRequest, PredictionType, SubscriptionTier, BirthData
+        from datetime import date, time
+
+        birth_data = BirthData(
+            name="Shantanu Saini",
+            birth_date=date(1994, 3, 1),
+            birth_time=time(23, 2),
+            birth_location="Faridabad, India"
+        )
+
+        request_dict = {
+            "birth_data": birth_data.dict(),
+            "prediction_type": PredictionType.HEALTH.value,
+            "subscription_tier": SubscriptionTier.SILVER.value,
+            "include_timing": True
+        }
+
+        return await specialized_predict_api(request_dict)
+
+    except Exception as e:
+        return {"error": str(e), "message": "Failed to generate health prediction test"}
+
+
+@app.get("/api/test/spiritual-prediction")
+async def test_spiritual_prediction():
+    """Test spiritual prediction with Shantanu's data."""
+    try:
+        from models import EnhancedPredictionRequest, PredictionType, SubscriptionTier, BirthData
+        from datetime import date, time
+
+        birth_data = BirthData(
+            name="Shantanu Saini",
+            birth_date=date(1994, 3, 1),
+            birth_time=time(23, 2),
+            birth_location="Faridabad, India"
+        )
+
+        request_dict = {
+            "birth_data": birth_data.dict(),
+            "prediction_type": PredictionType.SPIRITUAL.value,
+            "subscription_tier": SubscriptionTier.SILVER.value,
+            "include_timing": True
+        }
+
+        return await specialized_predict_api(request_dict)
+
+    except Exception as e:
+        return {"error": str(e), "message": "Failed to generate spiritual prediction test"}
+
 
 if __name__ == "__main__":
     uvicorn.run(

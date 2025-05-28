@@ -61,6 +61,10 @@
                     <span class="nav-icon">🌍</span>
                     <span class="nav-text">Current Life</span>
                 </button>
+                <button class="nav-btn" data-tab="specialized">
+                    <span class="nav-icon">🎯</span>
+                    <span class="nav-text">Specialized</span>
+                </button>
                 <button class="nav-btn" data-tab="advanced">
                     <span class="nav-icon">🔬</span>
                     <span class="nav-text">Advanced</span>
@@ -2261,6 +2265,149 @@
                 </div>
             </div>
 
+            <!-- Specialized Predictions Tab -->
+            <div id="specialized" class="tab-content">
+                <div class="content-section">
+                    <h2 class="section-title">🎯 Specialized Predictions</h2>
+                    <p class="section-description">Detailed predictions for specific life areas with precise timing</p>
+
+                    <!-- Specialized Prediction Cards -->
+                    <div class="specialized-predictions-grid">
+                        <!-- Career Predictions -->
+                        <div class="specialized-card career-card">
+                            <div class="specialized-header">
+                                <h3>💼 Career & Professional Life</h3>
+                                <span class="prediction-badge">Available</span>
+                            </div>
+                            <div class="specialized-preview">
+                                <p>Get detailed career guidance including promotion timing, job change opportunities, and business ventures.</p>
+                                <div class="preview-features">
+                                    <span class="feature-tag">Promotion Windows</span>
+                                    <span class="feature-tag">Business Timing</span>
+                                    <span class="feature-tag">Skill Development</span>
+                                </div>
+                            </div>
+                            <button class="specialized-btn" onclick="loadSpecializedPrediction('career')">
+                                🔍 Get Career Prediction
+                            </button>
+                            <div id="career-prediction-content" class="specialized-content" style="display: none;">
+                                <!-- Career prediction content will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Relationship Predictions -->
+                        <div class="specialized-card relationship-card">
+                            <div class="specialized-header">
+                                <h3>💕 Relationships & Marriage</h3>
+                                <span class="prediction-badge">Available</span>
+                            </div>
+                            <div class="specialized-preview">
+                                <p>Comprehensive relationship analysis including marriage timing, compatibility insights, and family planning.</p>
+                                <div class="preview-features">
+                                    <span class="feature-tag">Marriage Windows</span>
+                                    <span class="feature-tag">Compatibility</span>
+                                    <span class="feature-tag">Family Timing</span>
+                                </div>
+                            </div>
+                            <button class="specialized-btn" onclick="loadSpecializedPrediction('relationship')">
+                                🔍 Get Relationship Prediction
+                            </button>
+                            <div id="relationship-prediction-content" class="specialized-content" style="display: none;">
+                                <!-- Relationship prediction content will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Financial Predictions -->
+                        <div class="specialized-card financial-card">
+                            <div class="specialized-header">
+                                <h3>💰 Financial & Wealth</h3>
+                                <span class="prediction-badge">Available</span>
+                            </div>
+                            <div class="specialized-preview">
+                                <p>Detailed financial guidance including investment timing, income growth periods, and wealth building strategies.</p>
+                                <div class="preview-features">
+                                    <span class="feature-tag">Investment Windows</span>
+                                    <span class="feature-tag">Income Growth</span>
+                                    <span class="feature-tag">Property Timing</span>
+                                </div>
+                            </div>
+                            <button class="specialized-btn" onclick="loadSpecializedPrediction('financial')">
+                                🔍 Get Financial Prediction
+                            </button>
+                            <div id="financial-prediction-content" class="specialized-content" style="display: none;">
+                                <!-- Financial prediction content will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Health Predictions -->
+                        <div class="specialized-card health-card">
+                            <div class="specialized-header">
+                                <h3>🏥 Health & Wellness</h3>
+                                <span class="prediction-badge">Available</span>
+                            </div>
+                            <div class="specialized-preview">
+                                <p>Health analysis including vulnerable periods, recovery windows, and preventive care timing.</p>
+                                <div class="preview-features">
+                                    <span class="feature-tag">Health Timing</span>
+                                    <span class="feature-tag">Recovery Periods</span>
+                                    <span class="feature-tag">Preventive Care</span>
+                                </div>
+                            </div>
+                            <button class="specialized-btn" onclick="loadSpecializedPrediction('health')">
+                                🔍 Get Health Prediction
+                            </button>
+                            <div id="health-prediction-content" class="specialized-content" style="display: none;">
+                                <!-- Health prediction content will be loaded here -->
+                            </div>
+                        </div>
+
+                        <!-- Timeframe Predictions -->
+                        <div class="specialized-card timeframe-card">
+                            <div class="specialized-header">
+                                <h3>📅 Custom Timeframe</h3>
+                                <span class="prediction-badge">Available</span>
+                            </div>
+                            <div class="specialized-preview">
+                                <p>Get predictions for specific time periods - daily, weekly, monthly, or yearly insights.</p>
+                                <div class="preview-features">
+                                    <span class="feature-tag">Daily</span>
+                                    <span class="feature-tag">Weekly</span>
+                                    <span class="feature-tag">Monthly</span>
+                                    <span class="feature-tag">Yearly</span>
+                                </div>
+                            </div>
+
+                            <!-- Timeframe Selection -->
+                            <div class="timeframe-selection" style="margin-bottom: 15px;">
+                                <label for="timeframe-select" style="color: #e0e0e0; font-weight: 500; margin-bottom: 8px; display: block;">Choose Timeframe:</label>
+                                <select id="timeframe-select" class="timeframe-dropdown">
+                                    <option value="daily">📅 Daily Prediction</option>
+                                    <option value="weekly">📊 Weekly Overview</option>
+                                    <option value="monthly" selected>🌙 Monthly Analysis</option>
+                                    <option value="yearly">🎯 Yearly Forecast</option>
+                                </select>
+                            </div>
+
+                            <button class="specialized-btn" onclick="loadTimeframePrediction()">
+                                🔍 Get Timeframe Prediction
+                            </button>
+                            <div id="timeframe-prediction-content" class="specialized-content" style="display: none;">
+                                <!-- Timeframe prediction content will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subscription Info -->
+                    <div class="subscription-info">
+                        <h3>💎 Your Current Access</h3>
+                        <div class="tier-info silver-tier">
+                            <span class="tier-badge">Silver Tier</span>
+                            <p>You have access to Career, Relationship, Financial, Health, and Timeframe predictions. Upgrade to Gold for Spiritual predictions and advanced features.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Advanced Tab -->
             <div id="advanced" class="tab-content">
                 <div class="content-section">
@@ -2293,5 +2440,1038 @@
     <!-- JavaScript for tab functionality and p5.js animations -->
     <script src="/static/app.js"></script>
     <script src="/static/cosmic-animations.js"></script>
+
+    <!-- Specialized Predictions JavaScript -->
+    <script>
+        async function loadSpecializedPrediction(type) {
+            const button = event.target;
+            const contentDiv = document.getElementById(`${type}-prediction-content`);
+
+            // Show loading state
+            button.innerHTML = '⏳ Loading...';
+            button.disabled = true;
+
+            try {
+                // Make API call to get specialized prediction
+                const response = await fetch(`/api/specialized-predict`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        birth_data: {
+                            name: "{{ birth_data.name }}",
+                            birth_date: "{{ birth_data.birth_date }}",
+                            birth_time: "{{ birth_data.birth_time }}",
+                            birth_location: "{{ birth_data.birth_location }}"
+                        },
+                        prediction_type: type,
+                        subscription_tier: "silver",
+                        include_timing: true
+                    })
+                });
+
+                const data = await response.json();
+                console.log('API Response:', data);
+
+                if (data.error) {
+                    contentDiv.innerHTML = `<div class="error-message">❌ ${data.error}</div>`;
+                } else {
+                    // Display the specialized prediction - data is nested under specialized_prediction
+                    const predictionData = data.specialized_prediction || data;
+                    console.log('Prediction Data:', predictionData);
+                    contentDiv.innerHTML = formatSpecializedPrediction(predictionData, type);
+                }
+
+                // Show content and update button
+                contentDiv.style.display = 'block';
+                button.innerHTML = '✅ Prediction Loaded';
+
+            } catch (error) {
+                contentDiv.innerHTML = `<div class="error-message">❌ Failed to load prediction: ${error.message}</div>`;
+                contentDiv.style.display = 'block';
+                button.innerHTML = '🔍 Try Again';
+                button.disabled = false;
+            }
+        }
+
+        function formatSpecializedPrediction(data, type) {
+            let html = '<div class="specialized-prediction-result">';
+
+            if (type === 'career') {
+                html += formatCareerPrediction(data);
+            } else if (type === 'relationship') {
+                html += formatRelationshipPrediction(data);
+            } else if (type === 'financial') {
+                html += formatFinancialPrediction(data);
+            } else if (type === 'health') {
+                html += formatHealthPrediction(data);
+            } else if (type === 'yearly') {
+                html += formatYearlyPrediction(data);
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function formatCareerPrediction(data) {
+            let html = '<h4>💼 Your Career Prediction</h4>';
+
+            // Career Analysis Section
+            if (data.career_analysis) {
+                html += '<div class="analysis-section">';
+                html += '<h5>📊 Career Analysis</h5>';
+
+                if (data.career_analysis.tenth_house_analysis) {
+                    html += `<p><strong>Career Nature:</strong> ${data.career_analysis.tenth_house_analysis.career_nature || 'Professional development'}</p>`;
+                    html += `<p><strong>Authority Potential:</strong> ${data.career_analysis.tenth_house_analysis.authority_potential || 'Good leadership potential'}</p>`;
+                    html += `<p><strong>Public Recognition:</strong> ${data.career_analysis.tenth_house_analysis.public_recognition || 'Steady recognition growth'}</p>`;
+                }
+
+                if (data.career_analysis.professional_strengths) {
+                    html += '<p><strong>Professional Strengths:</strong></p><ul>';
+                    data.career_analysis.professional_strengths.forEach(strength => {
+                        html += `<li>${strength}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.career_analysis.ideal_career_fields) {
+                    html += '<p><strong>Ideal Career Fields:</strong></p><ul>';
+                    data.career_analysis.ideal_career_fields.forEach(field => {
+                        html += `<li>${field}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.career_analysis.dasha_career_impact) {
+                    html += `<p><strong>Current Career Phase:</strong> ${data.career_analysis.dasha_career_impact.career_theme}</p>`;
+                    if (data.career_analysis.dasha_career_impact.remaining_years) {
+                        html += `<p><strong>Phase Duration:</strong> ${data.career_analysis.dasha_career_impact.remaining_years.toFixed(1)} years remaining</p>`;
+                    }
+                }
+
+                // Career Planet Positions - Phase C Feature
+                if (data.career_analysis.career_planet_positions) {
+                    html += '<p><strong>Career Planet Analysis:</strong></p><ul>';
+                    Object.entries(data.career_analysis.career_planet_positions).forEach(([planet, analysis]) => {
+                        html += `<li><strong>${planet}:</strong> House ${analysis.house} - ${analysis.career_influence}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                // Career Challenges - Phase C Feature
+                if (data.career_analysis.career_challenges) {
+                    html += '<p><strong>Career Challenges to Navigate:</strong></p><ul>';
+                    data.career_analysis.career_challenges.forEach(challenge => {
+                        html += `<li>${challenge}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            // Timing Analysis Section
+            if (data.timing_analysis) {
+                html += '<div class="timing-section">';
+                html += '<h5>⏰ Career Timing</h5>';
+
+                if (data.timing_analysis.current_career_phase) {
+                    html += `<p><strong>Current Phase:</strong> ${data.timing_analysis.current_career_phase}</p>`;
+                }
+
+                if (data.timing_analysis.promotion_periods) {
+                    html += '<p><strong>Promotion Opportunities:</strong></p><ul>';
+                    data.timing_analysis.promotion_periods.forEach(period => {
+                        html += `<li>${period.period}: ${period.guidance} (${Math.round(period.probability * 100)}% probability)</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.timing_analysis.job_change_timing) {
+                    html += '<p><strong>Job Change Timing:</strong></p><ul>';
+                    data.timing_analysis.job_change_timing.forEach(period => {
+                        html += `<li>${period.period}: ${period.guidance} (${Math.round(period.favorability * 100)}% favorability)</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            // Advanced Timing Section - ALL Phase C Features
+            if (data.advanced_timing) {
+                // Promotion Windows
+                if (data.advanced_timing.promotion_windows) {
+                    html += '<div class="timing-section">';
+                    html += '<h5>🎯 Detailed Promotion Windows</h5>';
+                    html += '<div class="timeline-container">';
+                    data.advanced_timing.promotion_windows.slice(0, 5).forEach(window => {
+                        const strengthPercent = Math.round(window.strength * 100);
+                        const confidenceClass = window.confidence === 'high' ? 'high-confidence' :
+                                              window.confidence === 'medium' ? 'medium-confidence' : 'low-confidence';
+
+                        html += `
+                            <div class="timeline-item ${confidenceClass}">
+                                <div class="timeline-header">
+                                    <span class="timeline-period">${window.start_date} to ${window.end_date}</span>
+                                    <span class="timeline-strength">${strengthPercent}% strength</span>
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="timeline-guidance">${window.guidance}</p>
+                                    <div class="timeline-meta">
+                                        <span class="confidence-badge ${confidenceClass}">${window.confidence} confidence</span>
+                                    </div>
+                                </div>
+                                <div class="timeline-bar">
+                                    <div class="timeline-progress" style="width: ${strengthPercent}%"></div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    html += '</div>';
+                }
+
+                // Salary Increase Periods
+                if (data.advanced_timing.salary_increase_periods) {
+                    html += '<div class="timing-section">';
+                    html += '<h5>💰 Salary Increase Windows</h5>';
+                    html += '<div class="timeline-container">';
+                    data.advanced_timing.salary_increase_periods.slice(0, 3).forEach(period => {
+                        const strengthPercent = Math.round(period.strength * 100);
+                        html += `
+                            <div class="timeline-item medium-confidence">
+                                <div class="timeline-header">
+                                    <span class="timeline-period">${period.start_date} to ${period.end_date}</span>
+                                    <span class="timeline-strength">${strengthPercent}% strength</span>
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="timeline-guidance">${period.guidance}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    html += '</div>';
+                }
+
+                // Leadership Opportunities
+                if (data.advanced_timing.leadership_opportunities) {
+                    html += '<div class="timing-section">';
+                    html += '<h5>👑 Leadership Opportunities</h5>';
+                    html += '<div class="timeline-container">';
+                    data.advanced_timing.leadership_opportunities.slice(0, 3).forEach(opportunity => {
+                        const strengthPercent = Math.round(opportunity.strength * 100);
+                        html += `
+                            <div class="timeline-item high-confidence">
+                                <div class="timeline-header">
+                                    <span class="timeline-period">${opportunity.start_date} to ${opportunity.end_date}</span>
+                                    <span class="timeline-strength">${strengthPercent}% strength</span>
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="timeline-guidance">${opportunity.guidance}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    html += '</div>';
+                }
+
+                // Business Launch Timing
+                if (data.advanced_timing.business_launch_timing) {
+                    html += '<div class="timing-section">';
+                    html += '<h5>🚀 Business Launch Windows</h5>';
+                    html += '<div class="timeline-container">';
+                    data.advanced_timing.business_launch_timing.slice(0, 3).forEach(window => {
+                        const strengthPercent = Math.round(window.strength * 100);
+                        html += `
+                            <div class="timeline-item medium-confidence">
+                                <div class="timeline-header">
+                                    <span class="timeline-period">${window.start_date} to ${window.end_date}</span>
+                                    <span class="timeline-strength">${strengthPercent}% strength</span>
+                                </div>
+                                <div class="timeline-content">
+                                    <p class="timeline-guidance">${window.guidance}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    html += '</div>';
+                }
+
+                // Skill Development Periods
+                if (data.advanced_timing.skill_development_periods) {
+                    html += '<div class="timing-section">';
+                    html += '<h5>📚 Skill Development Windows</h5>';
+                    html += '<ul>';
+                    data.advanced_timing.skill_development_periods.slice(0, 4).forEach(period => {
+                        html += `<li><strong>${period.start_date} to ${period.end_date}:</strong> ${period.guidance}</li>`;
+                    });
+                    html += '</ul>';
+                    html += '</div>';
+                }
+
+                // Job Change Periods
+                if (data.advanced_timing.job_change_periods) {
+                    html += '<div class="timing-section">';
+                    html += '<h5>🔄 Job Change Windows</h5>';
+                    html += '<ul>';
+                    data.advanced_timing.job_change_periods.slice(0, 4).forEach(period => {
+                        html += `<li><strong>${period.start_date} to ${period.end_date}:</strong> ${period.guidance}</li>`;
+                    });
+                    html += '</ul>';
+                    html += '</div>';
+                }
+            }
+
+            // Guidance Section - ALL Phase C Features
+            if (data.guidance) {
+                html += '<div class="guidance-section">';
+                html += '<h5>🎯 Career Guidance</h5>';
+
+                if (data.guidance.immediate_career_actions) {
+                    html += '<p><strong>Immediate Actions:</strong></p><ul>';
+                    data.guidance.immediate_career_actions.forEach(action => {
+                        html += `<li>${action}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.guidance.skill_development) {
+                    html += '<p><strong>Skill Development:</strong></p><ul>';
+                    data.guidance.skill_development.slice(0, 3).forEach(skill => {
+                        html += `<li>${skill}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                // Networking Guidance - Phase C Feature
+                if (data.guidance.networking_guidance) {
+                    html += '<p><strong>Networking Strategy:</strong></p><ul>';
+                    data.guidance.networking_guidance.slice(0, 3).forEach(tip => {
+                        html += `<li>${tip}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                // Investment Advice - Phase C Feature
+                if (data.guidance.investment_advice) {
+                    html += '<p><strong>Career Investment:</strong></p><ul>';
+                    data.guidance.investment_advice.slice(0, 3).forEach(advice => {
+                        html += `<li>${advice}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                // Risk Management - Phase C Feature
+                if (data.guidance.risk_management) {
+                    html += '<p><strong>Risk Management:</strong></p><ul>';
+                    data.guidance.risk_management.slice(0, 3).forEach(risk => {
+                        html += `<li>${risk}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                // Long-term Strategy - Phase C Feature
+                if (data.guidance.long_term_strategy) {
+                    html += '<p><strong>Long-term Strategy:</strong></p>';
+                    if (data.guidance.long_term_strategy['5_year_goals']) {
+                        html += '<p><em>5-Year Goals:</em></p><ul>';
+                        data.guidance.long_term_strategy['5_year_goals'].slice(0, 3).forEach(goal => {
+                            html += `<li>${goal}</li>`;
+                        });
+                        html += '</ul>';
+                    }
+                    if (data.guidance.long_term_strategy.key_milestones) {
+                        html += '<p><em>Key Milestones:</em></p><ul>';
+                        data.guidance.long_term_strategy.key_milestones.slice(0, 3).forEach(milestone => {
+                            html += `<li>${milestone}</li>`;
+                        });
+                        html += '</ul>';
+                    }
+                }
+
+                html += '</div>';
+            }
+
+            return html;
+        }
+
+        function formatRelationshipPrediction(data) {
+            let html = '<h4>💕 Your Relationship Prediction</h4>';
+
+            // Relationship Analysis Section
+            if (data.relationship_analysis) {
+                html += '<div class="analysis-section">';
+                html += '<h5>💖 Relationship Analysis</h5>';
+
+                if (data.relationship_analysis.seventh_house_analysis) {
+                    html += `<p><strong>Marriage Potential:</strong> ${data.relationship_analysis.seventh_house_analysis.marriage_potential || 'Good potential for relationships'}</p>`;
+                    if (data.relationship_analysis.seventh_house_analysis.partnership_nature) {
+                        html += `<p><strong>Partnership Nature:</strong> ${data.relationship_analysis.seventh_house_analysis.partnership_nature}</p>`;
+                    }
+                }
+
+                if (data.relationship_analysis.compatibility_factors) {
+                    html += '<p><strong>Compatibility Factors:</strong></p><ul>';
+                    data.relationship_analysis.compatibility_factors.forEach(factor => {
+                        html += `<li>${factor}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.relationship_analysis.relationship_strengths) {
+                    html += '<p><strong>Relationship Strengths:</strong></p><ul>';
+                    data.relationship_analysis.relationship_strengths.forEach(strength => {
+                        html += `<li>${strength}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.relationship_analysis.dasha_relationship_impact) {
+                    html += `<p><strong>Current Relationship Phase:</strong> ${data.relationship_analysis.dasha_relationship_impact.relationship_theme}</p>`;
+                }
+
+                // Fifth House Analysis - Phase C Feature
+                if (data.relationship_analysis.fifth_house_analysis) {
+                    html += '<p><strong>Romance & Love Analysis:</strong></p>';
+                    if (data.relationship_analysis.fifth_house_analysis.romance_potential) {
+                        html += `<p><em>Romance Potential:</em> ${data.relationship_analysis.fifth_house_analysis.romance_potential}</p>`;
+                    }
+                    if (data.relationship_analysis.fifth_house_analysis.love_expression) {
+                        html += `<p><em>Love Expression:</em> ${data.relationship_analysis.fifth_house_analysis.love_expression}</p>`;
+                    }
+                }
+
+                // Relationship Planet Positions - Phase C Feature
+                if (data.relationship_analysis.relationship_planet_positions) {
+                    html += '<p><strong>Relationship Planet Analysis:</strong></p><ul>';
+                    Object.entries(data.relationship_analysis.relationship_planet_positions).forEach(([planet, analysis]) => {
+                        html += `<li><strong>${planet}:</strong> House ${analysis.house} - ${analysis.relationship_influence}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                // Marriage Potential - Phase C Feature
+                if (data.relationship_analysis.marriage_potential) {
+                    html += `<p><strong>Marriage Potential:</strong> ${data.relationship_analysis.marriage_potential}</p>`;
+                }
+
+                // Relationship Challenges - Phase C Feature
+                if (data.relationship_analysis.relationship_challenges) {
+                    html += '<p><strong>Relationship Challenges:</strong></p><ul>';
+                    data.relationship_analysis.relationship_challenges.forEach(challenge => {
+                        html += `<li>${challenge}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            // Timing Analysis Section
+            if (data.timing_analysis) {
+                html += '<div class="timing-section">';
+                html += '<h5>⏰ Relationship Timing</h5>';
+
+                if (data.timing_analysis.current_relationship_phase) {
+                    html += `<p><strong>Current Phase:</strong> ${data.timing_analysis.current_relationship_phase}</p>`;
+                }
+
+                if (data.timing_analysis.marriage_periods) {
+                    html += '<p><strong>Marriage Opportunities:</strong></p><ul>';
+                    data.timing_analysis.marriage_periods.forEach(period => {
+                        html += `<li>${period.period}: ${period.guidance} (${Math.round(period.probability * 100)}% probability)</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.timing_analysis.relationship_start_periods) {
+                    html += '<p><strong>New Relationship Timing:</strong></p><ul>';
+                    data.timing_analysis.relationship_start_periods.forEach(period => {
+                        html += `<li>${period.period}: ${period.guidance} (${Math.round(period.favorability * 100)}% favorability)</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            // Guidance Section
+            if (data.guidance) {
+                html += '<div class="guidance-section">';
+                html += '<h5>🎯 Relationship Guidance</h5>';
+
+                if (data.guidance.immediate_actions) {
+                    html += '<p><strong>Immediate Actions:</strong></p><ul>';
+                    data.guidance.immediate_actions.forEach(action => {
+                        html += `<li>${action}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.guidance.compatibility_improvement) {
+                    html += '<p><strong>Compatibility Enhancement:</strong></p><ul>';
+                    data.guidance.compatibility_improvement.slice(0, 3).forEach(tip => {
+                        html += `<li>${tip}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            return html;
+        }
+
+        function formatFinancialPrediction(data) {
+            let html = '<h4>💰 Your Financial Prediction</h4>';
+
+            // Financial Analysis Section
+            if (data.financial_analysis) {
+                html += '<div class="analysis-section">';
+                html += '<h5>💎 Financial Analysis</h5>';
+
+                if (data.financial_analysis.second_house_analysis) {
+                    html += `<p><strong>Wealth Potential:</strong> ${data.financial_analysis.second_house_analysis.wealth_potential}</p>`;
+                }
+
+                if (data.financial_analysis.income_sources) {
+                    html += '<p><strong>Income Sources:</strong></p><ul>';
+                    data.financial_analysis.income_sources.forEach(source => {
+                        html += `<li>${source}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.financial_analysis.financial_challenges) {
+                    html += '<p><strong>Financial Challenges:</strong></p><ul>';
+                    data.financial_analysis.financial_challenges.forEach(challenge => {
+                        html += `<li>${challenge}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.financial_analysis.dasha_financial_impact) {
+                    html += `<p><strong>Current Financial Phase:</strong> ${data.financial_analysis.dasha_financial_impact.financial_theme}</p>`;
+                }
+
+                html += '</div>';
+            }
+
+            // Timing Analysis Section
+            if (data.timing_analysis) {
+                html += '<div class="timing-section">';
+                html += '<h5>⏰ Financial Timing</h5>';
+
+                if (data.timing_analysis.current_financial_phase) {
+                    html += `<p><strong>Current Phase:</strong> ${data.timing_analysis.current_financial_phase}</p>`;
+                }
+
+                if (data.timing_analysis.investment_periods) {
+                    html += '<p><strong>Investment Opportunities:</strong></p><ul>';
+                    data.timing_analysis.investment_periods.forEach(period => {
+                        html += `<li>${period.period}: ${period.guidance} (${Math.round(period.favorability * 100)}% favorability)</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.timing_analysis.income_growth_periods) {
+                    html += '<p><strong>Income Growth Periods:</strong></p><ul>';
+                    data.timing_analysis.income_growth_periods.forEach(period => {
+                        html += `<li>${period.period}: ${period.guidance} (${Math.round(period.growth_potential * 100)}% growth potential)</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            // Guidance Section
+            if (data.guidance) {
+                html += '<div class="guidance-section">';
+                html += '<h5>🎯 Financial Guidance</h5>';
+
+                if (data.guidance.investment_strategy) {
+                    html += '<p><strong>Investment Strategy:</strong></p><ul>';
+                    data.guidance.investment_strategy.slice(0, 3).forEach(strategy => {
+                        html += `<li>${strategy}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.guidance.savings_recommendations) {
+                    html += '<p><strong>Savings Recommendations:</strong></p><ul>';
+                    data.guidance.savings_recommendations.slice(0, 3).forEach(rec => {
+                        html += `<li>${rec}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            return html;
+        }
+
+        function formatHealthPrediction(data) {
+            let html = '<h4>🏥 Your Health Prediction</h4>';
+
+            // Health Analysis Section
+            if (data.health_analysis) {
+                html += '<div class="analysis-section">';
+                html += '<h5>🏥 Health Analysis</h5>';
+
+                if (data.health_analysis.first_house_analysis) {
+                    html += `<p><strong>Overall Vitality:</strong> ${data.health_analysis.first_house_analysis.overall_health}</p>`;
+                    html += `<p><strong>Vitality Strength:</strong> ${data.health_analysis.first_house_analysis.vitality_strength}</p>`;
+                }
+
+                if (data.health_analysis.constitutional_strength) {
+                    html += `<p><strong>Constitutional Strength:</strong> ${data.health_analysis.constitutional_strength}</p>`;
+                }
+
+                if (data.health_analysis.recovery_potential) {
+                    html += `<p><strong>Recovery Potential:</strong> ${data.health_analysis.recovery_potential}</p>`;
+                }
+
+                if (data.health_analysis.dasha_health_impact) {
+                    html += `<p><strong>Current Health Phase:</strong> ${data.health_analysis.dasha_health_impact.health_theme}</p>`;
+                    if (data.health_analysis.dasha_health_impact.remaining_years) {
+                        html += `<p><strong>Phase Duration:</strong> ${data.health_analysis.dasha_health_impact.remaining_years.toFixed(1)} years remaining</p>`;
+                    }
+                }
+
+                // Sixth House Analysis - Phase C Feature
+                if (data.health_analysis.sixth_house_analysis) {
+                    html += '<p><strong>Disease & Immunity Analysis:</strong></p>';
+                    if (data.health_analysis.sixth_house_analysis.disease_resistance) {
+                        html += `<p><em>Disease Resistance:</em> ${data.health_analysis.sixth_house_analysis.disease_resistance}</p>`;
+                    }
+                    if (data.health_analysis.sixth_house_analysis.immune_strength) {
+                        html += `<p><em>Immune Strength:</em> ${data.health_analysis.sixth_house_analysis.immune_strength}</p>`;
+                    }
+                }
+
+                // Eighth House Analysis - Phase C Feature
+                if (data.health_analysis.eighth_house_analysis) {
+                    html += '<p><strong>Longevity & Transformation:</strong></p>';
+                    if (data.health_analysis.eighth_house_analysis.longevity_indicators) {
+                        html += `<p><em>Longevity Indicators:</em> ${data.health_analysis.eighth_house_analysis.longevity_indicators}</p>`;
+                    }
+                    if (data.health_analysis.eighth_house_analysis.transformation_potential) {
+                        html += `<p><em>Health Transformation:</em> ${data.health_analysis.eighth_house_analysis.transformation_potential}</p>`;
+                    }
+                }
+
+                // Health Planet Positions - Phase C Feature
+                if (data.health_analysis.health_planet_positions) {
+                    html += '<p><strong>Health Planet Analysis:</strong></p><ul>';
+                    Object.entries(data.health_analysis.health_planet_positions).forEach(([planet, analysis]) => {
+                        html += `<li><strong>${planet}:</strong> House ${analysis.house} - ${analysis.health_influence}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                // Vulnerable Periods - Phase C Feature
+                if (data.health_analysis.vulnerable_periods) {
+                    html += '<p><strong>Health Vulnerable Periods:</strong></p><ul>';
+                    data.health_analysis.vulnerable_periods.forEach(period => {
+                        html += `<li>${period}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            // Timing Analysis Section
+            if (data.timing_analysis) {
+                html += '<div class="timing-section">';
+                html += '<h5>⏰ Health Timing</h5>';
+
+                if (data.timing_analysis.current_health_phase) {
+                    html += `<p><strong>Current Phase:</strong> ${data.timing_analysis.current_health_phase}</p>`;
+                }
+
+                if (data.timing_analysis.recovery_periods) {
+                    html += '<p><strong>Recovery Periods:</strong></p><ul>';
+                    data.timing_analysis.recovery_periods.forEach(period => {
+                        html += `<li>${period.period}: ${period.guidance} (${Math.round(period.recovery_potential * 100)}% recovery potential)</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.timing_analysis.vulnerable_periods) {
+                    html += '<p><strong>Vulnerable Periods:</strong></p><ul>';
+                    data.timing_analysis.vulnerable_periods.forEach(period => {
+                        html += `<li>${period.period}: ${period.guidance} (${Math.round(period.vulnerability * 100)}% vulnerability)</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            // Guidance Section
+            if (data.guidance) {
+                html += '<div class="guidance-section">';
+                html += '<h5>🎯 Health Guidance</h5>';
+
+                if (data.guidance.immediate_health_actions) {
+                    html += '<p><strong>Immediate Actions:</strong></p><ul>';
+                    data.guidance.immediate_health_actions.slice(0, 3).forEach(action => {
+                        html += `<li>${action}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.guidance.preventive_measures) {
+                    html += '<p><strong>Preventive Measures:</strong></p><ul>';
+                    data.guidance.preventive_measures.slice(0, 3).forEach(measure => {
+                        html += `<li>${measure}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.guidance.lifestyle_recommendations) {
+                    html += '<p><strong>Lifestyle Recommendations:</strong></p><ul>';
+                    data.guidance.lifestyle_recommendations.slice(0, 3).forEach(rec => {
+                        html += `<li>${rec}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            return html;
+        }
+
+        function formatYearlyPrediction(data) {
+            let html = '<h4>📅 Your Yearly Prediction</h4>';
+
+            // Check if this is a yearly prediction or general timeframe data
+            if (data.yearly_analysis || data.prediction_text) {
+                html += '<div class="analysis-section">';
+                html += '<h5>📊 Yearly Overview</h5>';
+
+                if (data.prediction_text) {
+                    html += `<p>${data.prediction_text}</p>`;
+                }
+
+                if (data.key_themes) {
+                    html += '<p><strong>Key Themes for the Year:</strong></p><ul>';
+                    data.key_themes.forEach(theme => {
+                        html += `<li>${theme}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.favorable_periods) {
+                    html += '<p><strong>Favorable Periods:</strong></p><ul>';
+                    data.favorable_periods.forEach(period => {
+                        html += `<li>${period}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.challenging_periods) {
+                    html += '<p><strong>Challenging Periods:</strong></p><ul>';
+                    data.challenging_periods.forEach(period => {
+                        html += `<li>${period}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            } else {
+                html += '<div class="analysis-section">';
+                html += '<h5>📊 Yearly Analysis</h5>';
+                html += '<p>Your yearly prediction provides insights into the major themes, opportunities, and challenges for the coming year based on your current dasha period and planetary transits.</p>';
+                html += '<p>This analysis covers career developments, relationship dynamics, health considerations, and financial opportunities throughout the year.</p>';
+                html += '</div>';
+            }
+
+            return html;
+        }
+
+        // New function to handle timeframe predictions
+        async function loadTimeframePrediction() {
+            const selectedTimeframe = document.getElementById('timeframe-select').value;
+            const contentDiv = document.getElementById('timeframe-prediction-content');
+            const button = event.target;
+
+            // Show loading state
+            button.disabled = true;
+            button.innerHTML = '⏳ Loading...';
+            contentDiv.style.display = 'block';
+            contentDiv.innerHTML = '<div style="text-align: center; padding: 20px; color: #888;">Loading your timeframe prediction...</div>';
+
+            try {
+                const response = await fetch('/api/specialized-predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        birth_data: window.birthData,
+                        prediction_type: selectedTimeframe,
+                        subscription_tier: 'silver',
+                        include_timing: true
+                    })
+                });
+
+                const data = await response.json();
+                console.log('Timeframe API Response:', data);
+
+                if (data.error) {
+                    contentDiv.innerHTML = `<div class="error-message">❌ ${data.error}</div>`;
+                } else {
+                    // Display the timeframe prediction
+                    const predictionData = data.specialized_prediction || data;
+                    contentDiv.innerHTML = formatTimeframePrediction(predictionData, selectedTimeframe);
+                }
+
+            } catch (error) {
+                console.error('Error loading timeframe prediction:', error);
+                contentDiv.innerHTML = '<div class="error-message">❌ Failed to load prediction. Please try again.</div>';
+            } finally {
+                // Reset button
+                button.disabled = false;
+                button.innerHTML = '🔍 Get Timeframe Prediction';
+            }
+        }
+
+        function formatTimeframePrediction(data, timeframe) {
+            const timeframeIcons = {
+                'daily': '📅',
+                'weekly': '📊',
+                'monthly': '🌙',
+                'yearly': '🎯'
+            };
+
+            const timeframeNames = {
+                'daily': 'Daily',
+                'weekly': 'Weekly',
+                'monthly': 'Monthly',
+                'yearly': 'Yearly'
+            };
+
+            const icon = timeframeIcons[timeframe] || '📅';
+            const name = timeframeNames[timeframe] || 'Timeframe';
+
+            let html = `<h4>${icon} Your ${name} Prediction</h4>`;
+
+            // General prediction content
+            if (data.prediction_text) {
+                html += '<div class="analysis-section">';
+                html += `<h5>📊 ${name} Overview</h5>`;
+                html += `<p>${data.prediction_text}</p>`;
+                html += '</div>';
+            }
+
+            // Key themes
+            if (data.key_themes && data.key_themes.length > 0) {
+                html += '<div class="analysis-section">';
+                html += `<h5>🎯 Key ${name} Themes</h5>`;
+                html += '<ul>';
+                data.key_themes.forEach(theme => {
+                    html += `<li>${theme}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+
+            // Favorable periods
+            if (data.favorable_periods && data.favorable_periods.length > 0) {
+                html += '<div class="timing-section">';
+                html += '<h5>✅ Favorable Periods</h5>';
+                html += '<ul>';
+                data.favorable_periods.forEach(period => {
+                    html += `<li>${period}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+
+            // Challenging periods
+            if (data.challenging_periods && data.challenging_periods.length > 0) {
+                html += '<div class="timing-section">';
+                html += '<h5>⚠️ Challenging Periods</h5>';
+                html += '<ul>';
+                data.challenging_periods.forEach(period => {
+                    html += `<li>${period}</li>`;
+                });
+                html += '</ul>';
+                html += '</div>';
+            }
+
+            // Detailed Analysis Sections - Phase C Features
+            if (data.daily_analysis) {
+                html += '<div class="analysis-section">';
+                html += '<h5>📊 Daily Analysis</h5>';
+
+                if (data.daily_analysis.current_lunar_day) {
+                    html += `<p><strong>Lunar Day:</strong> ${data.daily_analysis.current_lunar_day}</p>`;
+                }
+
+                if (data.daily_analysis.daily_planetary_influences) {
+                    html += '<p><strong>Planetary Influences:</strong></p><ul>';
+                    data.daily_analysis.daily_planetary_influences.forEach(influence => {
+                        html += `<li>${influence}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.daily_analysis.favorable_hours) {
+                    html += '<p><strong>Favorable Hours:</strong></p><ul>';
+                    data.daily_analysis.favorable_hours.forEach(hour => {
+                        html += `<li>${hour}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            if (data.weekly_analysis) {
+                html += '<div class="analysis-section">';
+                html += '<h5>📊 Weekly Analysis</h5>';
+
+                if (data.weekly_analysis.week_theme) {
+                    html += `<p><strong>Week Theme:</strong> ${data.weekly_analysis.week_theme}</p>`;
+                }
+
+                if (data.weekly_analysis.energy_flow) {
+                    html += `<p><strong>Energy Flow:</strong> ${data.weekly_analysis.energy_flow}</p>`;
+                }
+
+                if (data.weekly_analysis.weekly_opportunities) {
+                    html += '<p><strong>Weekly Opportunities:</strong></p><ul>';
+                    data.weekly_analysis.weekly_opportunities.forEach(opp => {
+                        html += `<li>${opp}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            if (data.monthly_analysis) {
+                html += '<div class="analysis-section">';
+                html += '<h5>📊 Monthly Analysis</h5>';
+
+                if (data.monthly_analysis.month_theme) {
+                    html += `<p><strong>Month Theme:</strong> ${data.monthly_analysis.month_theme}</p>`;
+                }
+
+                if (data.monthly_analysis.lunar_cycle_influence) {
+                    html += `<p><strong>Lunar Influence:</strong> ${data.monthly_analysis.lunar_cycle_influence}</p>`;
+                }
+
+                if (data.monthly_analysis.growth_areas) {
+                    html += '<p><strong>Growth Areas:</strong></p><ul>';
+                    data.monthly_analysis.growth_areas.forEach(area => {
+                        html += `<li>${area}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            if (data.yearly_analysis) {
+                html += '<div class="analysis-section">';
+                html += '<h5>📊 Yearly Analysis</h5>';
+
+                if (data.yearly_analysis.year_theme) {
+                    html += `<p><strong>Year Theme:</strong> ${data.yearly_analysis.year_theme}</p>`;
+                }
+
+                if (data.yearly_analysis.life_phase_analysis) {
+                    html += `<p><strong>Life Phase:</strong> ${data.yearly_analysis.life_phase_analysis}</p>`;
+                }
+
+                if (data.yearly_analysis.major_transits) {
+                    html += '<p><strong>Major Transits:</strong></p><ul>';
+                    data.yearly_analysis.major_transits.forEach(transit => {
+                        html += `<li>${transit}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            // Guidance Section - Phase C Features
+            if (data.guidance) {
+                html += '<div class="guidance-section">';
+                html += '<h5>🎯 Detailed Guidance</h5>';
+
+                // Display all guidance categories dynamically
+                Object.entries(data.guidance).forEach(([category, guidance]) => {
+                    if (Array.isArray(guidance) && guidance.length > 0) {
+                        const categoryName = category.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+                        html += `<p><strong>${categoryName}:</strong></p><ul>`;
+                        guidance.slice(0, 3).forEach(item => {
+                            html += `<li>${item}</li>`;
+                        });
+                        html += '</ul>';
+                    }
+                });
+
+                html += '</div>';
+            }
+
+            // Current influences (for daily/weekly)
+            if (data.current_influences) {
+                html += '<div class="guidance-section">';
+                html += '<h5>🌟 Current Influences</h5>';
+
+                if (data.current_influences.daily_changes) {
+                    html += '<p><strong>Daily Changes:</strong></p><ul>';
+                    data.current_influences.daily_changes.forEach(change => {
+                        html += `<li>${change}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                if (data.current_influences.recommendations) {
+                    html += '<p><strong>Recommendations:</strong></p><ul>';
+                    data.current_influences.recommendations.forEach(rec => {
+                        html += `<li>${rec}</li>`;
+                    });
+                    html += '</ul>';
+                }
+
+                html += '</div>';
+            }
+
+            // Fallback content if no specific data
+            if (!data.prediction_text && (!data.key_themes || data.key_themes.length === 0)) {
+                html += '<div class="analysis-section">';
+                html += `<h5>📊 ${name} Analysis</h5>`;
+                html += `<p>Your ${timeframe} prediction provides insights into the themes, opportunities, and guidance for this specific timeframe based on your current dasha period and planetary transits.</p>`;
+                html += `<p>This analysis covers the most relevant astrological influences for your ${timeframe} period.</p>`;
+                html += '</div>';
+            }
+
+            return html;
+        }
+
+        // Set birth data for API calls
+        window.birthData = {
+            name: "{{ birth_data.name }}",
+            birth_date: "{{ birth_data.birth_date }}",
+            birth_time: "{{ birth_data.birth_time }}",
+            birth_location: "{{ birth_data.birth_location }}"
+        };
+
+    </script>
 </body>
 </html>
