@@ -11,8 +11,12 @@
 </head>
 <body>
     <div class="app-container">
+        <!-- Full-screen Slime Mold Background -->
+        <div id="slime-mold-background" class="slime-mold-canvas active"></div>
+
         <!-- Header -->
         <header class="app-header">
+            <div id="cosmic-background" class="cosmic-canvas"></div>
             <div class="header-content">
                 <h1 class="app-title">🌟 Vedic Astrology Report</h1>
                 <div class="user-info">
@@ -24,63 +28,7 @@
             </div>
         </header>
 
-        <!-- Summary Cards -->
-        <section class="summary-section">
-            <div class="summary-grid">
-                <!-- Current Phase Card -->
-                <div class="summary-card primary-card">
-                    <div class="card-icon">🕐</div>
-                    <div class="card-content">
-                        <h3>Current Life Phase</h3>
-                        <p class="phase-name">{{ prediction.current_dasha.planet }} Dasha</p>
-                        <p class="phase-duration">{{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years remaining</p>
-                    </div>
-                </div>
 
-                <!-- Chart Essence Card -->
-                <div class="summary-card secondary-card">
-                    <div class="card-icon">⭐</div>
-                    <div class="card-content">
-                        <h3>Chart Essence</h3>
-                        <p class="essence-detail">{{ chart.ascendant_sign }} Rising</p>
-                        <p class="essence-detail">{{ chart.moon_sign }} Moon</p>
-                    </div>
-                </div>
-
-                <!-- Key Themes Card -->
-                <div class="summary-card accent-card">
-                    <div class="card-icon">🎯</div>
-                    <div class="card-content">
-                        <h3>Key Life Themes</h3>
-                        <div class="theme-tags">
-                            {% if prediction.key_themes %}
-                                {% for theme in prediction.key_themes[:3] %}
-                                <span class="theme-tag">{{ theme }}</span>
-                                {% endfor %}
-                            {% elif personality_analysis and personality_analysis.key_life_themes %}
-                                {% for theme in personality_analysis.key_life_themes[:3] %}
-                                <span class="theme-tag">{{ theme }}</span>
-                                {% endfor %}
-                            {% else %}
-                                <span class="theme-tag">Leadership</span>
-                                <span class="theme-tag">Innovation</span>
-                                <span class="theme-tag">Service</span>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Current Focus Card -->
-                <div class="summary-card success-card">
-                    <div class="card-icon">💡</div>
-                    <div class="card-content">
-                        <h3>Current Focus</h3>
-                        <p class="focus-text">{{ chart.birth_nakshatra }} Nakshatra influence</p>
-                        <p class="focus-subtext">Spiritual growth period</p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- Main Navigation -->
         <nav class="main-nav">
@@ -127,101 +75,33 @@
                 <div class="content-section">
                     <h2 class="section-title">📋 Your Astrological Overview</h2>
 
-                    <!-- Enhanced Chart Summary -->
-                    <div class="overview-grid">
-                        <div class="overview-card enhanced-persona">
-                            <div class="card-header">
-                                <h3>🎭 Your Public Persona</h3>
-                                <span class="card-badge">{{ chart.ascendant_sign }} Rising</span>
-                            </div>
-                            <div class="card-content">
-                                {% if personality_analysis and personality_analysis.core_personality.ascendant_influence %}
-                                <p class="primary-trait">{{ personality_analysis.core_personality.ascendant_influence.traits.core_traits[0] if personality_analysis.core_personality.ascendant_influence.traits.core_traits else 'Naturally charismatic' }}</p>
-                                <p class="card-description">Others perceive you as {{ personality_analysis.core_personality.ascendant_influence.traits.core_traits[1] if personality_analysis.core_personality.ascendant_influence.traits.core_traits|length > 1 else 'confident and approachable' }}. Your {{ chart.ascendant_sign }} rising gives you a distinctive presence.</p>
-                                <div class="trait-tags">
-                                    {% for trait in personality_analysis.core_personality.ascendant_influence.traits.core_traits[:2] %}
-                                    <span class="trait-tag">{{ trait }}</span>
-                                    {% endfor %}
-                                </div>
-                                {% else %}
-                                <p class="primary-trait">{{ chart.ascendant_sign }} Energy</p>
-                                <p class="card-description">Your {{ chart.ascendant_sign }} rising creates a distinctive first impression. People naturally see you as someone who embodies {{ chart.ascendant_sign }} qualities.</p>
-                                <div class="trait-tags">
-                                    <span class="trait-tag">Natural presence</span>
-                                    <span class="trait-tag">{{ chart.ascendant_sign }} approach</span>
-                                </div>
-                                {% endif %}
-                            </div>
+                    <!-- Interactive Constellation Visualization -->
+                    <div class="constellation-container">
+                        <div id="constellation-viz" class="constellation-canvas"></div>
+                        <div class="constellation-info">
+                            <h3>🌌 Your Cosmic Blueprint</h3>
+                            <p>Interactive visualization of your planetary positions and their cosmic relationships</p>
                         </div>
+                    </div>
 
-                        <div class="overview-card enhanced-inner">
-                            <div class="card-header">
-                                <h3>🌙 Your Inner Self</h3>
-                                <span class="card-badge">{{ chart.moon_sign }} Moon</span>
+                    <!-- What's Happening Now Section (moved up) -->
+                    {% if prediction.current_influences %}
+                    <div class="influences-card">
+                        <h3>📅 What's Happening Now</h3>
+                        <div class="influences-grid">
+                            <div class="influence-item">
+                                <h4>🌙 Lunar Phase</h4>
+                                <p>{{ prediction.current_influences.lunar_phase.phase }}</p>
+                                <small>{{ prediction.current_influences.lunar_phase.effects }}</small>
                             </div>
-                            <div class="card-content">
-                                {% if personality_analysis and personality_analysis.core_personality.moon_influence %}
-                                <p class="primary-trait">{{ personality_analysis.core_personality.moon_influence.traits.core_traits[0] if personality_analysis.core_personality.moon_influence.traits.core_traits else 'Emotionally intuitive' }}</p>
-                                <p class="card-description">Your emotional world is {{ personality_analysis.core_personality.moon_influence.traits.core_traits[1] if personality_analysis.core_personality.moon_influence.traits.core_traits|length > 1 else 'rich and complex' }}. Your {{ chart.moon_sign }} moon shapes your inner security needs.</p>
-                                <div class="trait-tags">
-                                    {% for trait in personality_analysis.core_personality.moon_influence.traits.core_traits[:2] %}
-                                    <span class="trait-tag">{{ trait }}</span>
-                                    {% endfor %}
-                                </div>
-                                {% else %}
-                                <p class="primary-trait">{{ chart.moon_sign }} Emotions</p>
-                                <p class="card-description">Your {{ chart.moon_sign }} moon creates a unique emotional landscape. This placement influences how you process feelings and seek comfort.</p>
-                                <div class="trait-tags">
-                                    <span class="trait-tag">Emotional depth</span>
-                                    <span class="trait-tag">{{ chart.moon_sign }} sensitivity</span>
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="overview-card enhanced-core">
-                            <div class="card-header">
-                                <h3>☀️ Your Core Identity</h3>
-                                <span class="card-badge">{{ chart.sun_sign }} Sun</span>
-                            </div>
-                            <div class="card-content">
-                                {% if personality_analysis and personality_analysis.core_personality.sun_influence %}
-                                <p class="primary-trait">{{ personality_analysis.core_personality.sun_influence.traits.core_traits[0] if personality_analysis.core_personality.sun_influence.traits.core_traits else 'Authentically expressive' }}</p>
-                                <p class="card-description">Your authentic self is {{ personality_analysis.core_personality.sun_influence.traits.core_traits[1] if personality_analysis.core_personality.sun_influence.traits.core_traits|length > 1 else 'creative and purposeful' }}. Your {{ chart.sun_sign }} sun represents your life's central purpose.</p>
-                                <div class="trait-tags">
-                                    {% for trait in personality_analysis.core_personality.sun_influence.traits.core_traits[:2] %}
-                                    <span class="trait-tag">{{ trait }}</span>
-                                    {% endfor %}
-                                </div>
-                                {% else %}
-                                <p class="primary-trait">{{ chart.sun_sign }} Purpose</p>
-                                <p class="card-description">Your {{ chart.sun_sign }} sun represents your core identity and life purpose. This is the authentic self you're meant to express.</p>
-                                <div class="trait-tags">
-                                    <span class="trait-tag">Life vitality</span>
-                                    <span class="trait-tag">{{ chart.sun_sign }} essence</span>
-                                </div>
-                                {% endif %}
-                            </div>
-                        </div>
-
-                        <div class="overview-card enhanced-soul">
-                            <div class="card-header">
-                                <h3>⭐ Your Soul Path</h3>
-                                <span class="card-badge">{{ chart.birth_nakshatra }}</span>
-                            </div>
-                            <div class="card-content">
-                                <p class="primary-trait">{{ chart.birth_nakshatra }} Journey</p>
-                                <p class="card-description">Born under {{ chart.birth_nakshatra }} nakshatra, your soul's journey involves developing specific spiritual qualities and fulfilling karmic lessons.</p>
-                                <div class="trait-tags">
-                                    <span class="trait-tag">Spiritual growth</span>
-                                    <span class="trait-tag">{{ chart.birth_nakshatra }} wisdom</span>
-                                </div>
-                                <div class="soul-phase">
-                                    <p><strong>Current Phase:</strong> {{ prediction.current_dasha.planet }} Dasha ({{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years remaining)</p>
-                                </div>
+                            <div class="influence-item">
+                                <h4>🗓️ Monthly Theme</h4>
+                                <p>{{ prediction.current_influences.month_theme.primary_theme }}</p>
+                                <small>{{ prediction.current_influences.month_theme.month_name }}</small>
                             </div>
                         </div>
                     </div>
+                    {% endif %}
 
                     <!-- Enhanced Current Prediction -->
                     <div class="prediction-card enhanced-prediction">
@@ -316,46 +196,99 @@
                         </div>
                     </div>
 
-                    <!-- Key Life Themes Section -->
-                    {% if personality_analysis and personality_analysis.key_life_themes %}
-                    <div class="key-themes-section">
-                        <h3>🎯 Your Key Life Themes</h3>
-                        <p class="themes-description">Based on your birth chart, these are the major themes that will play out throughout your life:</p>
-                        <div class="themes-detailed-grid">
-                            {% for theme in personality_analysis.key_life_themes %}
-                            <div class="theme-detailed-card">
-                                <h4>{{ theme.theme }}</h4>
-                                <p class="theme-description">{{ theme.description }}</p>
-                                {% if theme.manifestation %}
-                                <p class="theme-manifestation"><strong>How it manifests:</strong> {{ theme.manifestation }}</p>
-                                {% endif %}
-                                {% if theme.guidance %}
-                                <p class="theme-guidance"><strong>Guidance:</strong> {{ theme.guidance }}</p>
-                                {% endif %}
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    {% endif %}
 
-                    <!-- Current Influences -->
-                    {% if prediction.current_influences %}
-                    <div class="influences-card">
-                        <h3>📅 What's Happening Now</h3>
-                        <div class="influences-grid">
-                            <div class="influence-item">
-                                <h4>🌙 Lunar Phase</h4>
-                                <p>{{ prediction.current_influences.lunar_phase.phase }}</p>
-                                <small>{{ prediction.current_influences.lunar_phase.effects }}</small>
+
+                    <!-- Essential Chart Summary - 4x1 Grid at Bottom -->
+                    <div class="essential-chart-section">
+                        <h3>🌟 Your Essential Chart Summary</h3>
+                        <p class="section-description">The four pillars of your astrological identity</p>
+
+                        <div class="essential-grid">
+                            <!-- Current Life Phase -->
+                            <div class="overview-card enhanced-soul">
+                                <div class="card-header">
+                                    <h3>🕐 Current Life Phase</h3>
+                                    <span class="card-badge">{{ prediction.current_dasha.planet }} Dasha</span>
+                                </div>
+                                <div class="card-content">
+                                    <p class="primary-trait">{{ prediction.current_dasha.planet }} Period</p>
+                                    <p class="card-description">You're in a {{ "%.1f"|format(16 - prediction.current_dasha.remaining_years) }}-year {{ prediction.current_dasha.planet }} phase that began {{ prediction.current_dasha.start_date }}. This major life cycle shapes your experiences and opportunities.</p>
+                                    <div class="trait-tags">
+                                        <span class="trait-tag">{{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years left</span>
+                                        <span class="trait-tag">{{ prediction.current_dasha.planet }} themes</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="influence-item">
-                                <h4>🗓️ Monthly Theme</h4>
-                                <p>{{ prediction.current_influences.month_theme.primary_theme }}</p>
-                                <small>{{ prediction.current_influences.month_theme.month_name }}</small>
+
+                            <!-- Chart Essence -->
+                            <div class="overview-card enhanced-core">
+                                <div class="card-header">
+                                    <h3>⭐ Chart Essence</h3>
+                                    <span class="card-badge">{{ chart.birth_nakshatra }}</span>
+                                </div>
+                                <div class="card-content">
+                                    <p class="primary-trait">{{ chart.birth_nakshatra }} Soul</p>
+                                    <p class="card-description">Born under {{ chart.birth_nakshatra }} nakshatra, your soul's essence involves specific spiritual qualities and karmic lessons that define your life's deeper purpose.</p>
+                                    <div class="trait-tags">
+                                        <span class="trait-tag">Spiritual growth</span>
+                                        <span class="trait-tag">{{ chart.birth_nakshatra }} wisdom</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Key Life Themes -->
+                            <div class="overview-card enhanced-persona">
+                                <div class="card-header">
+                                    <h3>🎯 Key Life Themes</h3>
+                                    <span class="card-badge">{{ chart.ascendant_sign }} Rising</span>
+                                </div>
+                                <div class="card-content">
+                                    {% if personality_analysis and personality_analysis.key_life_themes %}
+                                    <p class="primary-trait">{{ personality_analysis.key_life_themes[0].theme if personality_analysis.key_life_themes else 'Personal Growth' }}</p>
+                                    <p class="card-description">Your major life themes include {{ personality_analysis.key_life_themes[0].theme.lower() if personality_analysis.key_life_themes else 'developing your unique potential' }} and other significant patterns that will unfold throughout your lifetime.</p>
+                                    <div class="trait-tags">
+                                        {% for theme in personality_analysis.key_life_themes[:2] %}
+                                        <span class="trait-tag">{{ theme.theme }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    <p class="primary-trait">Life Development</p>
+                                    <p class="card-description">Your {{ chart.ascendant_sign }} rising and {{ chart.moon_sign }} moon create unique life themes focused on personal growth and authentic expression.</p>
+                                    <div class="trait-tags">
+                                        <span class="trait-tag">Personal growth</span>
+                                        <span class="trait-tag">Authentic expression</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <!-- Current Focus -->
+                            <div class="overview-card enhanced-inner">
+                                <div class="card-header">
+                                    <h3>🎯 Current Focus</h3>
+                                    <span class="card-badge">{{ chart.moon_sign }} Moon</span>
+                                </div>
+                                <div class="card-content">
+                                    {% if prediction.current_influences %}
+                                    <p class="primary-trait">{{ prediction.current_influences.month_theme.primary_theme if prediction.current_influences.month_theme else 'Inner Development' }}</p>
+                                    <p class="card-description">This month's focus is on {{ prediction.current_influences.month_theme.primary_theme.lower() if prediction.current_influences.month_theme else 'inner development' }}. Your {{ chart.moon_sign }} moon helps you navigate current emotional and intuitive themes.</p>
+                                    <div class="trait-tags">
+                                        <span class="trait-tag">{{ prediction.current_influences.lunar_phase.phase if prediction.current_influences.lunar_phase else 'Lunar cycle' }}</span>
+                                        <span class="trait-tag">{{ chart.moon_sign }} guidance</span>
+                                    </div>
+                                    {% else %}
+                                    <p class="primary-trait">Emotional Balance</p>
+                                    <p class="card-description">Your {{ chart.moon_sign }} moon guides your current emotional focus and intuitive development. This placement shapes how you process experiences.</p>
+                                    <div class="trait-tags">
+                                        <span class="trait-tag">Emotional wisdom</span>
+                                        <span class="trait-tag">{{ chart.moon_sign }} intuition</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
-                    {% endif %}
+
                 </div>
             </div>
 
@@ -367,15 +300,20 @@
 
                     <div class="planets-modern-grid">
                         {% for planet in chart.planets %}
-                        <div class="planet-modern-card">
+                        <div class="planet-modern-card" data-planet="{{ planet.name.lower() }}">
                             <div class="planet-header">
-                                <h3>{{ planet.name }}</h3>
-                                <div class="planet-position">
-                                    <span class="position-badge">{{ planet.sign }}</span>
-                                    <span class="house-badge">House {{ planet.house }}</span>
-                                    {% if planet.nakshatra %}
-                                    <span class="nakshatra-badge">{{ planet.nakshatra }}</span>
-                                    {% endif %}
+                                <div class="planet-visual-container">
+                                    <div id="planet-{{ planet.name.lower() }}" class="planet-animation"></div>
+                                </div>
+                                <div class="planet-info">
+                                    <h3>{{ planet.name }}</h3>
+                                    <div class="planet-position">
+                                        <span class="position-badge">{{ planet.sign }}</span>
+                                        <span class="house-badge">House {{ planet.house }}</span>
+                                        {% if planet.nakshatra %}
+                                        <span class="nakshatra-badge">{{ planet.nakshatra }}</span>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
 
@@ -2349,7 +2287,11 @@
         </main>
     </div>
 
-    <!-- JavaScript for tab functionality -->
+    <!-- p5.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+
+    <!-- JavaScript for tab functionality and p5.js animations -->
     <script src="/static/app.js"></script>
+    <script src="/static/cosmic-animations.js"></script>
 </body>
 </html>

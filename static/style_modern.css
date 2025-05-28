@@ -12,6 +12,7 @@
 
     /* Backgrounds */
     --bg-primary: #0f172a;
+    --bg-primary-rgb: 15, 23, 42;
     --bg-secondary: #1e293b;
     --bg-tertiary: #334155;
     --bg-card: #1e293b;
@@ -128,12 +129,171 @@ strong {
 
 /* Header */
 .app-header {
+    position: relative;
     text-align: center;
     margin-bottom: var(--space-8);
     padding: var(--space-8) var(--space-4);
     background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    min-height: 200px;
+}
+
+/* Cosmic Background Canvas */
+.cosmic-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+.header-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* Full-screen Slime Mold Background */
+.slime-mold-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+    pointer-events: none;
+}
+
+/* Ensure body and html allow full coverage */
+html, body {
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.app-container {
+    position: relative;
+    z-index: 1;
+}
+
+.slime-mold-canvas canvas {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    z-index: -1 !important;
+}
+
+.slime-mold-canvas.active {
+    opacity: 0.8;
+    animation: slimeMoldFadeIn 4s ease-in-out;
+}
+
+@keyframes slimeMoldFadeIn {
+    0% { opacity: 0; }
+    25% { opacity: 0.2; }
+    50% { opacity: 0.5; }
+    100% { opacity: 0.8; }
+}
+
+/* Content Transition */
+.app-container {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.5s ease-out 0.5s, transform 1.5s ease-out 0.5s;
+}
+
+.app-container.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Enhanced content visibility over slime mold */
+.app-header {
+    background: rgba(var(--bg-primary-rgb), 0.7);
+    backdrop-filter: blur(10px);
+    border: none;
+}
+
+.summary-section {
+    background: transparent;
+}
+
+.main-content {
+    background: transparent;
+}
+
+/* Universal card styling for 50% opacity - COMPREHENSIVE */
+.card,
+.analysis-card,
+.transit-card,
+.yoga-card,
+.house-card,
+.aspect-card,
+.conjunction-card,
+.divisional-card,
+.personality-card,
+.influences-card,
+.enhanced-effect-card,
+.enhanced-recommendation-card,
+.yoga-transit-card,
+.timing-card,
+.summary-card,
+.content-section,
+.section-card,
+.modern-card,
+.info-card,
+.detail-card,
+.analysis-section,
+.prediction-section,
+.chart-section,
+.transit-section,
+.yoga-section,
+.house-section,
+.aspect-section,
+.conjunction-section,
+.divisional-section,
+.personality-section,
+.influences-section,
+.enhanced-section,
+.timing-section,
+.dasha-card,
+.nakshatra-card,
+.planetary-card,
+.astrological-card {
+    background: rgba(30, 41, 59, 0.5) !important;
+    backdrop-filter: blur(8px) !important;
+    border: none !important;
+}
+
+/* Catch-all rule for any remaining elements with backgrounds */
+[class*="card"]:not(.cosmic-btn):not(.nav-btn),
+[class*="section"]:not(.content-section),
+[class*="container"]:not(.app-container):not(.header-content),
+[class*="analysis"],
+[class*="prediction"],
+[class*="chart"],
+[class*="transit"],
+[class*="yoga"],
+[class*="house"],
+[class*="aspect"],
+[class*="conjunction"],
+[class*="divisional"],
+[class*="personality"],
+[class*="influences"],
+[class*="enhanced"],
+[class*="timing"],
+[class*="dasha"],
+[class*="nakshatra"],
+[class*="planetary"],
+[class*="astrological"] {
+    background: rgba(30, 41, 59, 0.5) !important;
+    backdrop-filter: blur(8px) !important;
+    border: none !important;
 }
 
 .app-title {
@@ -232,11 +392,12 @@ strong {
 /* Navigation */
 .main-nav {
     margin-bottom: var(--space-8);
-    background: var(--bg-card);
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(8px);
     border-radius: var(--radius-lg);
     padding: var(--space-2);
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    border: none;
 }
 
 .nav-container {
@@ -283,20 +444,22 @@ strong {
 
 /* Main Content */
 .main-content {
-    background: var(--bg-card);
+    background: transparent;
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    border: none;
     overflow: hidden;
 }
 
 .tab-content {
     display: none;
     padding: var(--space-8);
+    background: transparent;
 }
 
 .tab-content.active {
     display: block;
+    background: transparent;
 }
 
 .content-section {
@@ -317,6 +480,97 @@ strong {
 }
 
 /* Overview Tab */
+.constellation-container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+    padding: var(--space-6);
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-lg);
+    border: none;
+}
+
+.constellation-canvas {
+    width: 400px;
+    height: 300px;
+    border-radius: var(--radius-md);
+    background: radial-gradient(circle at center, rgba(15, 15, 35, 0.9) 0%, rgba(5, 5, 15, 0.95) 100%);
+    border: none;
+    overflow: hidden;
+    position: relative;
+}
+
+.constellation-info {
+    flex: 1;
+}
+
+.constellation-info h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+}
+
+.constellation-info p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 1.125rem;
+}
+
+@media (max-width: 768px) {
+    .constellation-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .constellation-canvas {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
+/* Essential Chart Section */
+.essential-chart-section {
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-8);
+    padding-top: var(--space-8);
+    border-top: none;
+    display: block !important;
+    visibility: visible !important;
+}
+
+.essential-chart-section h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.essential-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    visibility: visible !important;
+}
+
+@media (max-width: 1200px) {
+    .essential-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-4);
+    }
+}
+
+@media (max-width: 768px) {
+    .essential-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+    }
+}
+
 .overview-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -331,10 +585,14 @@ strong {
 }
 
 .overview-card {
-    background: var(--bg-surface);
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(8px);
     padding: var(--space-6);
     border-radius: var(--radius-lg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: none;
+    display: block !important;
+    visibility: visible !important;
+    min-height: 200px;
 }
 
 .overview-card h3 {
@@ -359,11 +617,12 @@ strong {
 }
 
 .prediction-card {
-    background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-tertiary) 100%);
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(8px);
     padding: var(--space-8);
     border-radius: var(--radius-lg);
     margin-bottom: var(--space-8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: none;
 }
 
 .prediction-card h3 {
@@ -391,10 +650,11 @@ strong {
 }
 
 .planet-modern-card {
-    background: var(--bg-surface);
+    background: rgba(30, 41, 59, 0.5);
+    backdrop-filter: blur(8px);
     border-radius: var(--radius-lg);
     padding: var(--space-6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: none;
     transition: transform var(--transition);
 }
 
@@ -404,9 +664,29 @@ strong {
 
 .planet-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: var(--space-4);
     margin-bottom: var(--space-4);
+}
+
+.planet-visual-container {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--bg-tertiary) 0%, var(--bg-surface) 100%);
+    border: none;
+    overflow: hidden;
+    position: relative;
+}
+
+.planet-animation {
+    width: 100%;
+    height: 100%;
+}
+
+.planet-info {
+    flex: 1;
 }
 
 .planet-header h3 {
