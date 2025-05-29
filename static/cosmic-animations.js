@@ -127,7 +127,7 @@ class Mold {
 function createCosmicBackground() {
     backgroundSketch = function(p) {
         let molds = [];
-        let numMolds = 800; // Reduced number for performance
+        let numMolds = 50; // Drastically reduced for performance
 
         p.setup = function() {
             const canvas = p.createCanvas(p.windowWidth, 200);
@@ -165,8 +165,8 @@ function createCosmicBackground() {
 
             cosmicTime += 0.01;
 
-            // Load pixels for slime mold sensing
-            p.loadPixels();
+            // Skip pixel loading for performance
+            // p.loadPixels(); // Disabled for performance
 
             // Update and display slime molds
             for (let i = 0; i < numMolds; i++) {
@@ -455,7 +455,7 @@ function createConstellationVisualization() {
 function createFullScreenSlimeMold() {
     const slimeMoldSketch = function(p) {
         let molds = [];
-        let numMolds = 1000; // Reduced for testing
+        let numMolds = 0; // Disabled for performance
 
         p.setup = function() {
             console.log('Slime mold setup called');
