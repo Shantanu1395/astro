@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Insights - Unlock Your Cosmic Blueprint</title>
+    <link rel="stylesheet" href="/static/cosmic-style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="cosmic-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">🌌</span>
+                <span class="brand-text">Cosmic Insights</span>
+            </div>
+            <div class="nav-links">
+                <button class="sign-up-btn">Sign up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Unlock Your Cosmic Blueprint</h1>
+                <p class="hero-subtitle">
+                    Discover personalized astrological insights to navigate life's journey with clarity and purpose.
+                    Explore your unique birth chart and receive daily guidance tailored to your cosmic profile.
+                </p>
+                <button class="cta-button" onclick="scrollToForm()">Get Started</button>
+            </div>
+            <div class="hero-visual">
+                <div class="cosmic-figure">
+                    <div class="figure-silhouette"></div>
+                    <div class="cosmic-particles"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="features-section">
+        <div class="features-container">
+            <h2 class="features-title">Key Features</h2>
+            <p class="features-subtitle">
+                Explore the core functionalities of Cosmic Insights, designed to provide comprehensive astrological guidance.
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">☀️</div>
+                    <h3 class="feature-title">Personalized Birth Chart</h3>
+                    <p class="feature-description">
+                        Uncover your unique astrological profile with a detailed birth chart analysis,
+                        revealing insights into your personality, strengths, and life path.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🌙</div>
+                    <h3 class="feature-title">Daily Cosmic Guidance</h3>
+                    <p class="feature-description">
+                        Receive daily astrological forecasts tailored to your birth chart, offering
+                        guidance on navigating opportunities and challenges.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔮</div>
+                    <h3 class="feature-title">Advanced Timing Calculations</h3>
+                    <p class="feature-description">
+                        Gain deeper insights into future trends and cycles with advanced timing
+                        calculations, helping you make informed decisions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personalized Prediction Form -->
+    <section class="prediction-section" id="prediction-form">
+        <div class="prediction-container">
+            <h2 class="prediction-title">Personalized Prediction</h2>
+
+            <form action="/predict" method="post" class="cosmic-form">
+                <div class="form-group">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" id="name" name="name" class="form-input"
+                           placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="birth_date" class="form-label">Date of Birth</label>
+                    <input type="date" id="birth_date" name="birth_date" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="birth_time" class="form-label">Time of Birth</label>
+                    <input type="time" id="birth_time" name="birth_time" class="form-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="birth_location" class="form-label">Location of Birth</label>
+                    <input type="text" id="birth_location" name="birth_location" class="form-input"
+                           placeholder="City, State" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="prediction_type" class="form-label">Prediction Type</label>
+                    <select id="prediction_type" name="prediction_type" class="form-select">
+                        <option value="">Select Prediction Type</option>
+                        <option value="overview">Overview</option>
+                        <option value="career">Career</option>
+                        <option value="relationships">Relationships</option>
+                        <option value="health">Health</option>
+                        <option value="spiritual">Spiritual</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="prediction-button">Get Prediction</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="cosmic-footer">
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="#" class="footer-link">Privacy Policy</a>
+                <a href="#" class="footer-link">Terms of Service</a>
+            </div>
+            <p class="footer-copyright">© 2024 Cosmic Insights. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll to form
+        function scrollToForm() {
+            document.getElementById('prediction-form').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Set max date to today
+        document.getElementById('birth_date').max = new Date().toISOString().split('T')[0];
+
+        // Form validation and enhancement
+        document.querySelector('.cosmic-form').addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value.trim();
+            const location = document.getElementById('birth_location').value.trim();
+
+            if (name.length < 2) {
+                alert('Please enter a valid name');
+                e.preventDefault();
+                return;
+            }
+
+            if (location.length < 3) {
+                alert('Please enter a valid location');
+                e.preventDefault();
+                return;
+            }
+        });
+
+        // Add cosmic particles animation
+        function createCosmicParticles() {
+            const particles = document.querySelector('.cosmic-particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                particles.appendChild(particle);
+            }
+        }
+
+        // Initialize particles on load
+        window.addEventListener('load', createCosmicParticles);
+    </script>
+</body>
+</html>

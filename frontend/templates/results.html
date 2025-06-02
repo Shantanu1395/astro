@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedic Prediction Results - {{ birth_data.name }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌟 Vedic Astrology Report</h1>
+            <h2>{{ birth_data.name }}</h2>
+            <p>Born on {{ birth_data.birth_date }} at {{ birth_data.birth_time }} in {{ birth_data.birth_location }}</p>
+        </header>
+
+        <main class="results-main">
+            <!-- Chart Summary -->
+            <section class="chart-summary">
+                <h3>📊 Chart Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <strong>Ascendant (Lagna):</strong> {{ chart.ascendant_sign }}
+                    </div>
+                    <div class="summary-item">
+                        <strong>Moon Sign (Rashi):</strong> {{ chart.moon_sign }}
+                    </div>
+                    <div class="summary-item">
+                        <strong>Sun Sign:</strong> {{ chart.sun_sign }}
+                    </div>
+                    <div class="summary-item">
+                        <strong>Birth Nakshatra:</strong> {{ chart.birth_nakshatra }} (Pada {{ chart.birth_nakshatra_pada }})
+                    </div>
+                </div>
+            </section>
+
+            <!-- Current Dasha -->
+            <section class="dasha-section">
+                <h3>🕐 Current Dasha Period - Detailed Analysis</h3>
+                <div class="dasha-info">
+                    <div class="dasha-planet">
+                        <h4>{{ prediction.current_dasha.planet }} Mahadasha</h4>
+                        <p><strong>Remaining:</strong> {{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years</p>
+                        <p><strong>Period:</strong> {{ prediction.current_dasha.start_date }} to {{ prediction.current_dasha.end_date }}</p>
+                    </div>
+
+                    <div class="dasha-explanation">
+                        <h5>🌟 What This Period Means:</h5>
+                        <p>The {{ prediction.current_dasha.planet }} Mahadasha is a significant life phase that influences your experiences, opportunities, and challenges. This planetary period shapes your destiny according to Vedic astrology principles.</p>
+
+                        <h5>🎯 Key Themes & Focus Areas:</h5>
+                        <p>During this {{ prediction.current_dasha.planet }} period, your life will be influenced by themes related to this planet's natural characteristics and the houses it rules in your chart.</p>
+
+                        <h5>⏰ Timing Significance:</h5>
+                        <p>With {{ "%.1f"|format(prediction.current_dasha.remaining_years) }} years remaining, you are in a crucial phase of this planetary cycle. The effects will vary through different sub-periods (antardashas) within this main period.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Comprehensive Planetary Analysis -->
+            <section class="planets-section">
+                <h3>🪐 Comprehensive Planetary Analysis</h3>
+                <div class="planets-explanation">
+                    <p><strong>Understanding Planetary Positions:</strong> Each planet's position, strength, and relationships reveal specific life themes and influences. Our analysis includes classical Vedic calculations for complete accuracy.</p>
+                </div>
+
+                <div class="planets-grid">
+                    {% for planet in chart.planets %}
+                    <div class="planet-card enhanced">
+                        <h4>{{ planet.name }}</h4>
+
+                        <!-- Basic Position -->
+                        <div class="planet-position">
+                            <p><strong>Sign:</strong> {{ planet.sign }}</p>
+                            <p><strong>House:</strong> {{ planet.house }}</p>
+                            {% if planet.nakshatra %}
+                            <p><strong>Nakshatra:</strong> {{ planet.nakshatra }}</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Planetary Strength Analysis -->
+                        {% if planetary_strengths[planet.name] %}
+                        <div class="planet-strength">
+                            <h5>💪 Planetary Strength</h5>
+                            <div class="strength-summary">
+                                <span class="strength-badge strength-{{ planetary_strengths[planet.name].overall_strength.lower().replace(' ', '-') }}">
+                                    {{ planetary_strengths[planet.name].overall_strength }}
+                                </span>
+                                <span class="strength-score">{{ planetary_strengths[planet.name].total_score }}/100</span>
+                            </div>
+
+                            <div class="strength-interpretation">
+                                <p>{{ planetary_strengths[planet.name].interpretation }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Enhanced Planetary Combination Description -->
+                        {% if planetary_descriptions[planet.name] %}
+                        <div class="planet-combination-description">
+                            <h5>🔍 Detailed Analysis</h5>
+                            <div class="combination-content">
+                                <h6>{{ planetary_descriptions[planet.name].title }}</h6>
+
+                                <div class="analysis-section">
+                                    <strong>{{ planetary_descriptions[planet.name].sign_influence.title }}:</strong>
+                                    <p>{{ planetary_descriptions[planet.name].sign_influence.description }}</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <strong>{{ planetary_descriptions[planet.name].house_influence.title }}:</strong>
+                                    <p>{{ planetary_descriptions[planet.name].house_influence.description }}</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <strong>{{ planetary_descriptions[planet.name].combined_effect.title }}:</strong>
+                                    <p>{{ planetary_descriptions[planet.name].combined_effect.description }}</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <strong>{{ planetary_descriptions[planet.name].life_manifestation.title }}:</strong>
+                                    <p>{{ planetary_descriptions[planet.name].life_manifestation.description }}</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <strong>{{ planetary_descriptions[planet.name].timing_activation.title }}:</strong>
+                                    <p>{{ planetary_descriptions[planet.name].timing_activation.description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Remedial Suggestions -->
+                        {% if planetary_remedies[planet.name] and planetary_remedies[planet.name].remedies_needed %}
+                        <div class="planet-remedies">
+                            <h5>🌟 Remedial Suggestions</h5>
+
+                            <div class="remedy-overview">
+                                <p class="remedy-approach">{{ planetary_remedies[planet.name].overall_approach }}</p>
+                            </div>
+
+                            <div class="remedy-tabs">
+                                <div class="remedy-tab-buttons">
+                                    <button class="remedy-tab-btn active" data-tab="gemstone-{{ planet.name }}">💎 Gemstone</button>
+                                    <button class="remedy-tab-btn" data-tab="mantra-{{ planet.name }}">🕉️ Mantra</button>
+                                    <button class="remedy-tab-btn" data-tab="lifestyle-{{ planet.name }}">🌱 Lifestyle</button>
+                                    <button class="remedy-tab-btn" data-tab="charity-{{ planet.name }}">🤲 Charity</button>
+                                </div>
+
+                                <div class="remedy-tab-content">
+                                    <!-- Gemstone Therapy -->
+                                    <div id="gemstone-{{ planet.name }}" class="remedy-tab-panel active">
+                                        <h6>💎 Gemstone Therapy</h6>
+                                        <div class="gemstone-details">
+                                            <p><strong>Primary Gemstone:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.primary }}</p>
+                                            {% if planetary_remedies[planet.name].gemstone_therapy.alternatives %}
+                                            <p><strong>Alternatives:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.alternatives|join(', ') }}</p>
+                                            {% endif %}
+                                            {% if planetary_remedies[planet.name].gemstone_therapy.weight %}
+                                            <p><strong>Weight:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.weight }}</p>
+                                            <p><strong>Metal:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.metal }}</p>
+                                            <p><strong>Finger:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.finger }}</p>
+                                            <p><strong>Day to Wear:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.day_to_wear }}</p>
+                                            {% endif %}
+                                            {% if planetary_remedies[planet.name].gemstone_therapy.precautions %}
+                                            <p class="remedy-warning"><strong>⚠️ Precautions:</strong> {{ planetary_remedies[planet.name].gemstone_therapy.precautions }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Mantra Therapy -->
+                                    <div id="mantra-{{ planet.name }}" class="remedy-tab-panel">
+                                        <h6>🕉️ Mantra Therapy</h6>
+                                        <div class="mantra-details">
+                                            <p><strong>Simple Mantra:</strong> <span class="mantra-text">{{ planetary_remedies[planet.name].mantra_therapy.simple_mantra }}</span></p>
+                                            {% if planetary_remedies[planet.name].mantra_therapy.beej_mantra %}
+                                            <p><strong>Beej Mantra:</strong> <span class="mantra-text">{{ planetary_remedies[planet.name].mantra_therapy.beej_mantra }}</span></p>
+                                            {% endif %}
+                                            <p><strong>Repetitions:</strong> {{ planetary_remedies[planet.name].mantra_therapy.repetitions }}</p>
+                                            {% if planetary_remedies[planet.name].mantra_therapy.best_time %}
+                                            <p><strong>Best Time:</strong> {{ planetary_remedies[planet.name].mantra_therapy.best_time }}</p>
+                                            <p><strong>Direction:</strong> {{ planetary_remedies[planet.name].mantra_therapy.direction }}</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Lifestyle Modifications -->
+                                    <div id="lifestyle-{{ planet.name }}" class="remedy-tab-panel">
+                                        <h6>🌱 Lifestyle Modifications</h6>
+                                        <div class="lifestyle-details">
+                                            {% if planetary_remedies[planet.name].lifestyle_modifications.wake_time %}
+                                            <p><strong>Wake Time:</strong> {{ planetary_remedies[planet.name].lifestyle_modifications.wake_time }}</p>
+                                            <p><strong>Exercise:</strong> {{ planetary_remedies[planet.name].lifestyle_modifications.exercise }}</p>
+                                            <p><strong>Meditation:</strong> {{ planetary_remedies[planet.name].lifestyle_modifications.meditation }}</p>
+                                            {% endif %}
+
+                                            {% if planetary_remedies[planet.name].color_therapy %}
+                                            <div class="color-therapy">
+                                                <p><strong>Beneficial Colors:</strong> {{ planetary_remedies[planet.name].color_therapy.primary_colors|join(', ') }}</p>
+                                                <p><strong>Clothing:</strong> {{ planetary_remedies[planet.name].color_therapy.clothing }}</p>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                    <!-- Charitable Activities -->
+                                    <div id="charity-{{ planet.name }}" class="remedy-tab-panel">
+                                        <h6>🤲 Charitable Activities</h6>
+                                        <div class="charity-details">
+                                            <p><strong>Primary Charity:</strong> {{ planetary_remedies[planet.name].charitable_activities.primary_charity }}</p>
+                                            <p><strong>Items to Donate:</strong> {{ planetary_remedies[planet.name].charitable_activities.items_to_donate|join(', ') }}</p>
+                                            <p><strong>Best Timing:</strong> {{ planetary_remedies[planet.name].charitable_activities.timing }}</p>
+                                            <p><strong>Beneficiaries:</strong> {{ planetary_remedies[planet.name].charitable_activities.beneficiaries }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Expected Timeline -->
+                            {% if planetary_remedies[planet.name].expected_timeline %}
+                            <div class="remedy-timeline">
+                                <h6>⏰ Expected Timeline</h6>
+                                <p><strong>Initial Relief:</strong> {{ planetary_remedies[planet.name].expected_timeline.initial_relief }}</p>
+                                <p><strong>Noticeable Improvement:</strong> {{ planetary_remedies[planet.name].expected_timeline.noticeable_improvement }}</p>
+                                <p><strong>Significant Change:</strong> {{ planetary_remedies[planet.name].expected_timeline.significant_change }}</p>
+                                <p class="timeline-note">{{ planetary_remedies[planet.name].expected_timeline.note }}</p>
+                            </div>
+                            {% endif %}
+
+                            <!-- Precautions -->
+                            {% if planetary_remedies[planet.name].precautions %}
+                            <div class="remedy-precautions">
+                                <h6>⚠️ Important Precautions</h6>
+                                <ul>
+                                    {% for precaution in planetary_remedies[planet.name].precautions %}
+                                    <li>{{ precaution }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% elif planetary_remedies[planet.name] and not planetary_remedies[planet.name].remedies_needed %}
+                        <div class="planet-no-remedies">
+                            <h5>✅ Strong Planet</h5>
+                            <p>{{ planetary_remedies[planet.name].message }}</p>
+                        </div>
+                        {% endif %}
+
+                        <!-- House Significance -->
+                        <div class="planet-meaning">
+                            <h6>House {{ planet.house }} Significance:</h6>
+                            <small>
+                            {% if planet.house == 1 %}Self, personality, health, overall vitality{% endif %}
+                            {% if planet.house == 2 %}Wealth, family, speech, values{% endif %}
+                            {% if planet.house == 3 %}Courage, siblings, communication, short journeys{% endif %}
+                            {% if planet.house == 4 %}Home, mother, education, emotional foundation{% endif %}
+                            {% if planet.house == 5 %}Children, creativity, intelligence, romance{% endif %}
+                            {% if planet.house == 6 %}Health, service, enemies, daily work{% endif %}
+                            {% if planet.house == 7 %}Marriage, partnerships, business relationships{% endif %}
+                            {% if planet.house == 8 %}Transformation, occult, inheritance, longevity{% endif %}
+                            {% if planet.house == 9 %}Dharma, higher learning, spirituality, fortune{% endif %}
+                            {% if planet.house == 10 %}Career, reputation, authority, public image{% endif %}
+                            {% if planet.house == 11 %}Gains, friends, aspirations, elder siblings{% endif %}
+                            {% if planet.house == 12 %}Spirituality, losses, foreign lands, liberation{% endif %}
+                            </small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Planetary Aspects Analysis -->
+            {% if planetary_aspects %}
+            <section class="aspects-section">
+                <h3>🔗 Planetary Aspects & Relationships</h3>
+                <div class="aspects-explanation">
+                    <p><strong>Understanding Planetary Aspects:</strong> Aspects are special angular relationships between planets that create powerful influences. These connections reveal how different planetary energies interact in your chart.</p>
+                </div>
+
+                <div class="aspects-grid">
+                    {% for aspect in planetary_aspects %}
+                    <div class="aspect-card">
+                        <h5>{{ aspect.aspecting_planet }} → {{ aspect.aspected_planet }}</h5>
+                        <div class="aspect-details">
+                            <p><strong>Type:</strong> {{ aspect.aspect_type }}</p>
+                            <p><strong>Strength:</strong> <span class="aspect-strength-{{ aspect.strength.lower().replace(' ', '-') }}">{{ aspect.strength }}</span></p>
+                            <p><strong>Effect:</strong> <span class="aspect-effect-{{ aspect.effect.lower() }}">{{ aspect.effect }}</span></p>
+                        </div>
+                        <div class="aspect-interpretation">
+                            <p>{{ aspect.interpretation }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Comprehensive Yogas Analysis -->
+            {% if planetary_relationships and planetary_relationships.yogas %}
+            <section class="yogas-section">
+                <h3>🌟 Yogas (Planetary Combinations) in Your Chart</h3>
+                <div class="yogas-explanation">
+                    <p><strong>Understanding Yogas:</strong> Yogas are special planetary combinations that create specific life patterns and opportunities. These classical combinations are the foundation of Vedic astrological analysis.</p>
+                </div>
+
+                <div class="yogas-grid">
+                    {% for yoga in planetary_relationships.yogas %}
+                    <div class="yoga-card">
+                        <h5>{{ yoga.name }}</h5>
+                        <div class="yoga-details">
+                            <span class="yoga-strength-badge strength-{{ yoga.strength.lower() }}">{{ yoga.strength }}</span>
+                            {% if yoga.category %}
+                            <span class="yoga-category-badge">{{ yoga.category }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="yoga-description">
+                            <p>{{ yoga.description }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Comprehensive Divisional Charts Analysis -->
+            {% if comprehensive_divisional_analysis %}
+            <section class="divisional-charts-section">
+                <h3>📊 Comprehensive Divisional Charts (Vargas) Analysis</h3>
+                <div class="divisional-explanation">
+                    <p><strong>Understanding Divisional Charts:</strong> Divisional charts provide precise insights into specific life areas. Each varga reveals exactly how planetary positions affect different aspects of your life with detailed predictions and guidance.</p>
+                </div>
+
+                <div class="comprehensive-divisional-tabs">
+                    {% for division, analysis in comprehensive_divisional_analysis.items() %}
+                    <div class="comprehensive-divisional-card">
+                        <div class="divisional-header">
+                            <h4>{{ analysis.name }} ({{ division }})</h4>
+                            <span class="strength-badge divisional-strength-{{ analysis.overall_strength.lower().replace(' ', '-') }}">
+                                {{ analysis.overall_strength }}
+                            </span>
+                        </div>
+
+                        <div class="divisional-significance">
+                            <h5>🎯 Primary Focus: {{ analysis.primary_significance }}</h5>
+                            <div class="detailed-areas">
+                                <h6>Specific Life Areas Covered:</h6>
+                                <ul>
+                                    {% for area in analysis.detailed_areas %}
+                                    <li>{{ area }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Planetary Analysis -->
+                        {% if analysis.planetary_analysis %}
+                        <div class="planetary-divisional-analysis">
+                            <h5>🪐 Planetary Positions & Effects</h5>
+                            <div class="planetary-grid">
+                                {% for planet_analysis in analysis.planetary_analysis %}
+                                <div class="planet-divisional-card">
+                                    <h6>{{ planet_analysis.planet }}</h6>
+                                    <p class="planet-position"><strong>Position:</strong> {{ planet_analysis.position }}</p>
+                                    <p class="strength-assessment">
+                                        <strong>Strength:</strong>
+                                        <span class="strength-indicator strength-{{ planet_analysis.strength_assessment.lower().replace(' ', '-') }}">
+                                            {{ planet_analysis.strength_assessment }}
+                                        </span>
+                                    </p>
+
+                                    {% if planet_analysis.specific_effects %}
+                                    <div class="specific-effects">
+                                        <strong>Specific Effects:</strong>
+                                        <p>{{ planet_analysis.specific_effects }}</p>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if planet_analysis.life_impact %}
+                                    <div class="life-impact">
+                                        <strong>Life Impact:</strong>
+                                        <p>{{ planet_analysis.life_impact }}</p>
+                                    </div>
+                                    {% endif %}
+
+                                    {% if planet_analysis.recommendations %}
+                                    <div class="planet-recommendations">
+                                        <strong>Recommendations:</strong>
+                                        <ul>
+                                            {% for rec in planet_analysis.recommendations %}
+                                            <li>{{ rec }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Key Insights -->
+                        {% if analysis.key_insights %}
+                        <div class="divisional-insights">
+                            <h5>💡 Key Insights</h5>
+                            <ul>
+                                {% for insight in analysis.key_insights %}
+                                <li>{{ insight }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <!-- Practical Guidance -->
+                        {% if analysis.practical_guidance %}
+                        <div class="practical-guidance">
+                            <h5>🎯 Practical Guidance</h5>
+                            <ul>
+                                {% for guidance in analysis.practical_guidance %}
+                                <li>{{ guidance }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        <!-- Specific Predictions -->
+                        {% if analysis.specific_predictions %}
+                        <div class="specific-predictions">
+                            <h5>🔮 Specific Predictions</h5>
+                            <ul>
+                                {% for prediction in analysis.specific_predictions %}
+                                <li>{{ prediction }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Enhanced Dasha Analysis -->
+            {% if dasha_analysis %}
+            <section class="enhanced-dasha-section">
+                <h3>🕐 Enhanced Dasha Analysis</h3>
+                <div class="dasha-comprehensive">
+                    <h4>{{ prediction.current_dasha.planet }} Mahadasha - Deep Analysis</h4>
+
+                    <div class="dasha-details-grid">
+                        <div class="dasha-nature">
+                            <h5>🌟 Planetary Nature</h5>
+                            <p>{{ dasha_analysis.planet_nature }}</p>
+                        </div>
+
+                        <div class="dasha-themes">
+                            <h5>🎯 Key Themes</h5>
+                            <ul>
+                                {% for theme in dasha_analysis.key_themes %}
+                                <li>{{ theme }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+                        <div class="dasha-guidance">
+                            <h5>💡 Guidance</h5>
+                            <p>{{ dasha_analysis.guidance }}</p>
+                        </div>
+
+                        {% if dasha_analysis.cautions %}
+                        <div class="dasha-cautions">
+                            <h5>⚠️ Areas to Watch</h5>
+                            <p>{{ dasha_analysis.cautions }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if dasha_analysis.positive_effects %}
+                        <div class="dasha-positive">
+                            <h5>✅ Positive Effects</h5>
+                            <p>{{ dasha_analysis.positive_effects }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if dasha_analysis.negative_effects %}
+                        <div class="dasha-negative">
+                            <h5>⚠️ Challenging Effects</h5>
+                            <p>{{ dasha_analysis.negative_effects }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if dasha_analysis.house_influence %}
+                        <div class="dasha-house">
+                            <h5>🏠 House Influence</h5>
+                            <p>{{ dasha_analysis.house_influence }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if dasha_analysis.sign_influence %}
+                        <div class="dasha-sign">
+                            <h5>♈ Sign Influence</h5>
+                            <p>{{ dasha_analysis.sign_influence }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if dasha_analysis.significance %}
+                        <div class="dasha-significance">
+                            <h5>🌟 Overall Significance</h5>
+                            <p>{{ dasha_analysis.significance }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- COMPREHENSIVE PERSONALITY ANALYSIS -->
+            {% if personality_analysis %}
+            <section class="personality-analysis-section">
+                <h3>🧠 Your Inherent Personality Traits</h3>
+                <p class="section-description">Based on your birth chart positions - your fundamental nature and characteristics</p>
+
+                <!-- Core Personality -->
+                {% if personality_analysis.core_personality %}
+                <div class="core-personality">
+                    <h4>🌟 Core Personality Structure</h4>
+
+                    <!-- Ascendant Influence -->
+                    <div class="personality-influence-card ascendant-influence">
+                        <h5>🎭 Public Persona (Ascendant in {{ personality_analysis.core_personality.ascendant_influence.sign }})</h5>
+                        <p class="influence-description">{{ personality_analysis.core_personality.ascendant_influence.description }}</p>
+                        <div class="traits-grid">
+                            <div class="trait-category">
+                                <h6>Core Traits:</h6>
+                                <ul>
+                                    {% for trait in personality_analysis.core_personality.ascendant_influence.traits.core_traits %}
+                                    <li>{{ trait }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="trait-category">
+                                <h6>Positive Qualities:</h6>
+                                <ul>
+                                    {% for quality in personality_analysis.core_personality.ascendant_influence.traits.positive_qualities %}
+                                    <li>{{ quality }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="context-influence">{{ personality_analysis.core_personality.ascendant_influence.traits.context_influence }}</p>
+                    </div>
+
+                    <!-- Sun Influence -->
+                    <div class="personality-influence-card sun-influence">
+                        <h5>☀️ Core Self (Sun in {{ personality_analysis.core_personality.sun_influence.sign }}, House {{ personality_analysis.core_personality.sun_influence.house }})</h5>
+                        <p class="influence-description">{{ personality_analysis.core_personality.sun_influence.description }}</p>
+                        <div class="traits-grid">
+                            <div class="trait-category">
+                                <h6>Core Traits:</h6>
+                                <ul>
+                                    {% for trait in personality_analysis.core_personality.sun_influence.traits.core_traits %}
+                                    <li>{{ trait }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="trait-category">
+                                <h6>Motivation:</h6>
+                                <p>{{ personality_analysis.core_personality.sun_influence.traits.motivation }}</p>
+                            </div>
+                        </div>
+                        <p class="context-influence">{{ personality_analysis.core_personality.sun_influence.traits.context_influence }}</p>
+                    </div>
+
+                    <!-- Moon Influence -->
+                    <div class="personality-influence-card moon-influence">
+                        <h5>🌙 Emotional Nature (Moon in {{ personality_analysis.core_personality.moon_influence.sign }}, House {{ personality_analysis.core_personality.moon_influence.house }})</h5>
+                        <p class="influence-description">{{ personality_analysis.core_personality.moon_influence.description }}</p>
+                        <div class="traits-grid">
+                            <div class="trait-category">
+                                <h6>Core Traits:</h6>
+                                <ul>
+                                    {% for trait in personality_analysis.core_personality.moon_influence.traits.core_traits %}
+                                    <li>{{ trait }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="trait-category">
+                                <h6>Energy Type:</h6>
+                                <p>{{ personality_analysis.core_personality.moon_influence.traits.energy_type }}</p>
+                            </div>
+                        </div>
+                        <p class="context-influence">{{ personality_analysis.core_personality.moon_influence.traits.context_influence }}</p>
+                    </div>
+
+                    <!-- Integrated Personality -->
+                    <div class="integrated-personality">
+                        <h5>🎯 Integrated Personality Profile</h5>
+                        <div class="personality-blend formatted-personality">
+                            {{ personality_analysis.core_personality.integrated_personality.personality_blend |
+                               replace('**', '<strong>') |
+                               replace('**', '</strong>') |
+                               replace('• ', '<li>') |
+                               replace('\n\n', '</p><p>') |
+                               replace('\n', '<br>') |
+                               safe }}
+                        </div>
+                        <div class="personality-stats">
+                            <span class="complexity-badge">Complexity: {{ personality_analysis.core_personality.integrated_personality.complexity_level }}</span>
+                            <span class="harmony-badge">Harmony: {{ personality_analysis.core_personality.integrated_personality.harmony_level }}</span>
+                            <span class="integration-badge">Integration: {{ personality_analysis.core_personality.integrated_personality.emotional_integration }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Temperament Analysis -->
+                {% if personality_analysis.temperament %}
+                <div class="temperament-analysis">
+                    <h4>🔥 Temperament & Energy Type</h4>
+                    <div class="temperament-card">
+                        <h5>{{ personality_analysis.temperament.temperament_type }} Temperament</h5>
+                        <p class="temperament-description">{{ personality_analysis.temperament.description }}</p>
+
+                        <div class="temperament-details">
+                            <div class="elemental-distribution">
+                                <h6>Elemental Distribution:</h6>
+                                <div class="element-bars">
+                                    {% for element, count in personality_analysis.temperament.elemental_distribution.items() %}
+                                    <div class="element-bar">
+                                        <span class="element-name">{{ element }}:</span>
+                                        <div class="bar-container">
+                                            <div class="bar-fill element-{{ element.lower() }}" style="width: {{ (count / 10 * 100) }}%"></div>
+                                        </div>
+                                        <span class="element-count">{{ count }}</span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+
+                            <div class="behavioral-tendencies">
+                                <h6>Behavioral Tendencies:</h6>
+                                <ul>
+                                    {% for behavior in personality_analysis.temperament.behavioral_tendencies %}
+                                    <li>{{ behavior }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </section>
+            {% endif %}
+
+            <!-- Prediction -->
+            <section class="prediction-section">
+                <h3>🔮 Your Vedic Prediction</h3>
+                <div class="prediction-content">
+                    <div class="prediction-text formatted-text">
+                        {{ prediction.prediction_text | replace('\n\n', '</p><p>') | replace('\n', '<br>') | replace('🌟', '<span class="highlight-star">🌟</span>') | replace('🎯', '<span class="highlight-target">🎯</span>') | replace('💡', '<span class="highlight-bulb">💡</span>') | replace('⚠️', '<span class="highlight-warning">⚠️</span>') | safe }}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Themes -->
+            <section class="themes-section">
+                <h3>🎯 Key Life Themes</h3>
+                <div class="themes-list">
+                    {% for theme in prediction.key_themes %}
+                    <span class="theme-tag">{{ theme }}</span>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- Favorable & Challenging Periods -->
+            <section class="periods-section">
+                <div class="periods-grid">
+                    <div class="favorable-periods">
+                        <h4>✅ Favorable Periods</h4>
+                        <ul>
+                            {% for period in prediction.favorable_periods %}
+                            <li>{{ period }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="challenging-periods">
+                        <h4>⚠️ Periods Requiring Caution</h4>
+                        <ul>
+                            {% for period in prediction.challenging_periods %}
+                            <li>{{ period }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Current Day/Month Influences -->
+            {% if prediction.current_influences %}
+            <section class="current-influences-section">
+                <h3>📅 Current Day/Month Influences - {{ prediction.current_influences.current_date }}</h3>
+
+                <div class="influences-grid">
+                    <!-- Lunar Phase -->
+                    <div class="influence-card lunar-phase">
+                        <h4>🌙 Current Lunar Phase</h4>
+                        <p><strong>{{ prediction.current_influences.lunar_phase.phase }}</strong></p>
+                        <p>{{ prediction.current_influences.lunar_phase.effects }}</p>
+                        <small><em>{{ prediction.current_influences.lunar_phase.emotional_impact }}</em></small>
+                    </div>
+
+                    <!-- Month Theme -->
+                    <div class="influence-card month-theme">
+                        <h4>🗓️ This Month's Theme</h4>
+                        <p><strong>{{ prediction.current_influences.month_theme.month_name }}</strong></p>
+                        <p>{{ prediction.current_influences.month_theme.primary_theme }}</p>
+                        <small>Sun in {{ prediction.current_influences.month_theme.sun_sign }}</small>
+                    </div>
+                </div>
+
+                <!-- Daily Changes -->
+                <div class="daily-changes">
+                    <h4>🌅 What You Might Feel Today</h4>
+                    <ul>
+                        {% for change in prediction.current_influences.daily_changes %}
+                        <li>{{ change }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Monthly Changes -->
+                <div class="monthly-changes">
+                    <h4>📈 Monthly Trends & Changes</h4>
+                    <ul>
+                        {% for change in prediction.current_influences.monthly_changes %}
+                        <li>{{ change }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Personal Effects -->
+                {% if prediction.current_influences.personal_effects %}
+                <div class="personal-effects">
+                    <h4>🎯 How Current Planets Affect You Personally</h4>
+                    {% for effect in prediction.current_influences.personal_effects %}
+                    <div class="effect-item">
+                        <strong>{{ effect.type }}:</strong> {{ effect.description }}
+                        <br><small>Impact: {{ effect.impact }}</small>
+                        <br><small>Feeling: {{ effect.feeling }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Current Recommendations -->
+                <div class="current-recommendations">
+                    <h4>💡 Today's Recommendations</h4>
+                    <ul>
+                        {% for rec in prediction.current_influences.recommendations %}
+                        <li>{{ rec }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Current Transits -->
+            <section class="transits-section">
+                <h3>🌍 Current Planetary Influences & Their Impact</h3>
+                <div class="transits-explanation">
+                    <p><strong>Understanding Current Transits:</strong> These are the current positions of planets in the sky and how they interact with your birth chart. Transits create temporary influences that can trigger events and opportunities in your life.</p>
+
+                    <h5>🔄 How Transits Work:</h5>
+                    <ul>
+                        <li><strong>Jupiter Transits:</strong> Bring expansion, wisdom, and opportunities (stay ~1 year per sign)</li>
+                        <li><strong>Saturn Transits:</strong> Bring discipline, challenges, and karmic lessons (~2.5 years per sign)</li>
+                        <li><strong>Rahu/Ketu Transits:</strong> Bring transformation and karmic experiences (~1.5 years per sign)</li>
+                    </ul>
+                </div>
+                <div class="transits-list">
+                    {% for transit in prediction.current_transits %}
+                    <div class="transit-item">{{ transit }}</div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <!-- COMPREHENSIVE CURRENT INFLUENCES ANALYSIS -->
+            {% if current_influences %}
+            <section class="comprehensive-influences-section">
+                <h3>🌟 Comprehensive Current Transit Analysis</h3>
+                <div class="influences-summary">
+                    <p class="summary-text">{{ current_influences.comprehensive_summary }}</p>
+                </div>
+
+                <!-- House Transits -->
+                {% if current_influences.house_transits %}
+                <div class="house-transits">
+                    <h4>🏠 Current Planets Transiting Your Birth Chart Houses</h4>
+                    <div class="transit-grid">
+                        {% for transit in current_influences.house_transits %}
+                        <div class="transit-card">
+                            <h5>{{ transit.planet }} in {{ transit.current_sign }} → Your House {{ transit.transiting_house }}</h5>
+                            <p class="house-significance"><strong>Life Area:</strong> {{ transit.house_significance }}</p>
+                            <p class="transit-impact">{{ transit.impact }}</p>
+                            <p class="transit-advice"><strong>Guidance:</strong> {{ transit.advice }}</p>
+                            <span class="duration-badge">Duration: {{ transit.duration }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Transit Aspects -->
+                {% if current_influences.transit_aspects %}
+                <div class="transit-aspects">
+                    <h4>⚡ Current Planetary Aspects to Your Birth Planets</h4>
+                    <div class="aspects-grid">
+                        {% for aspect in current_influences.transit_aspects %}
+                        <div class="aspect-card aspect-{{ aspect.strength.lower().replace(' ', '-') }}">
+                            <h5>Current {{ aspect.transiting_planet }} {{ aspect.aspect_type }} Your Birth {{ aspect.natal_planet }}</h5>
+                            <p class="aspect-strength">Strength: {{ aspect.strength }} ({{ aspect.angular_difference }}° apart)</p>
+                            <p class="aspect-meaning">{{ aspect.meaning }}</p>
+                            <p class="personal-impact">{{ aspect.personal_impact }}</p>
+                            <span class="duration-badge">{{ aspect.effect_duration }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Precise Conjunctions -->
+                {% if current_influences.precise_conjunctions %}
+                <div class="precise-conjunctions">
+                    <h4>🎯 Precise Planetary Conjunctions (Within 5°)</h4>
+                    <div class="conjunctions-grid">
+                        {% for conjunction in current_influences.precise_conjunctions %}
+                        <div class="conjunction-card conjunction-{{ conjunction.strength.lower() }}">
+                            <h5>Current {{ conjunction.transiting_planet }} ⚹ Your Birth {{ conjunction.natal_planet }}</h5>
+                            <p class="conjunction-strength">{{ conjunction.strength }} Conjunction ({{ conjunction.degree_difference }}° apart)</p>
+                            <p class="conjunction-meaning">{{ conjunction.meaning }}</p>
+                            <p class="conjunction-significance">{{ conjunction.personal_significance }}</p>
+                            <span class="timing-badge">{{ conjunction.timing }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Planetary Comparisons -->
+                {% if current_influences.planetary_comparisons %}
+                <div class="planetary-comparisons">
+                    <h4>🔄 Your Planets: Birth Position vs Current Sky Position</h4>
+                    <div class="comparisons-grid">
+                        {% for comparison in current_influences.planetary_comparisons %}
+                        <div class="comparison-card">
+                            <h5>{{ comparison.planet }}</h5>
+                            <p class="birth-current">Birth: {{ comparison.birth_sign }} → Current: {{ comparison.current_sign }}</p>
+                            <p class="sign-comparison">{{ comparison.sign_comparison }}</p>
+                            <p class="movement">{{ comparison.movement.description }}</p>
+                            <p class="significance">{{ comparison.significance }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Current Planetary Positions -->
+                {% if current_influences.current_positions %}
+                <div class="current-positions">
+                    <h4>🌌 Current Planetary Positions in the Sky</h4>
+                    <div class="positions-grid">
+                        {% for planet, position_data in current_influences.current_positions.items() %}
+                        <div class="position-card">
+                            <h5>{{ planet }}</h5>
+                            <p class="current-sign">Currently in {{ position_data.sign }}</p>
+                            {% if position_data.nakshatra %}
+                            <p class="current-nakshatra">Nakshatra: {{ position_data.nakshatra }}</p>
+                            {% endif %}
+                            {% if position_data.themes %}
+                            <div class="current-themes">
+                                {% if position_data.themes.daily_theme %}
+                                <p><strong>Daily Theme:</strong> {{ position_data.themes.daily_theme }}</p>
+                                {% endif %}
+                                {% if position_data.themes.monthly_theme %}
+                                <p><strong>Monthly Theme:</strong> {{ position_data.themes.monthly_theme }}</p>
+                                {% endif %}
+                                {% if position_data.themes.effects %}
+                                <p><strong>Effects:</strong> {{ position_data.themes.effects }}</p>
+                                {% endif %}
+                                {% if position_data.themes.feelings %}
+                                <p><strong>What You Might Feel:</strong> {{ position_data.themes.feelings }}</p>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Enhanced Daily & Monthly Changes -->
+                <div class="enhanced-changes-section">
+                    <div class="enhanced-daily-changes">
+                        <h4>📅 Enhanced Daily Influences</h4>
+                        <ul>
+                            {% for change in current_influences.daily_changes %}
+                            <li>{{ change }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="enhanced-monthly-changes">
+                        <h4>📆 Enhanced Monthly Themes</h4>
+                        <ul>
+                            {% for change in current_influences.monthly_changes %}
+                            <li>{{ change }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Enhanced Personal Effects -->
+                {% if current_influences.personal_effects %}
+                <div class="enhanced-personal-effects">
+                    <h4>🎯 Enhanced Personal Effects Analysis</h4>
+                    {% for effect in current_influences.personal_effects %}
+                    <div class="enhanced-effect-item">
+                        <h5>{{ effect.type }}</h5>
+                        <p class="effect-description">{{ effect.description }}</p>
+                        <p class="effect-impact"><strong>Impact:</strong> {{ effect.impact }}</p>
+                        {% if effect.feeling %}
+                        <p class="effect-feeling"><strong>What You Might Feel:</strong> {{ effect.feeling }}</p>
+                        {% endif %}
+                        <p class="effect-house"><strong>Life Area Affected:</strong> House {{ effect.house_affected }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Enhanced Current Recommendations -->
+                <div class="enhanced-current-recommendations">
+                    <h4>💡 Enhanced Current Recommendations</h4>
+                    <ul class="enhanced-recommendations-list">
+                        {% for recommendation in current_influences.recommendations %}
+                        <li>{{ recommendation }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- NEW: Yoga Transit Analysis -->
+                {% if current_influences.yoga_transit_analysis %}
+                <div class="yoga-transit-analysis">
+                    <h4>🌟 Yoga Transit Analysis - Birth vs Current Time</h4>
+                    <p class="analysis-description">This analysis compares the planetary combinations (yogas) present at your birth with those formed by current planetary positions, revealing how your inherent potentials are being activated or modified by current transits.</p>
+
+                    <div class="yoga-transit-summary">
+                        <p class="summary-text">{{ current_influences.yoga_transit_analysis.summary }}</p>
+                    </div>
+
+                    <!-- Activated Yogas -->
+                    {% if current_influences.yoga_transit_analysis.activated_yogas %}
+                    <div class="activated-yogas">
+                        <h5>✨ Currently Activated Birth Yogas</h5>
+                        <div class="yoga-cards-grid">
+                            {% for yoga in current_influences.yoga_transit_analysis.activated_yogas %}
+                            <div class="yoga-transit-card activated">
+                                <h6>{{ yoga.name }}</h6>
+                                <p class="yoga-description">{{ yoga.description }}</p>
+                                <p class="activation-effect"><strong>Activation Effect:</strong> {{ yoga.activation_effect }}</p>
+                                <p class="yoga-guidance"><strong>Guidance:</strong> {{ yoga.guidance }}</p>
+                                <span class="timing-badge">{{ yoga.timing }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- New Temporary Yogas -->
+                    {% if current_influences.yoga_transit_analysis.new_temporary_yogas %}
+                    <div class="temporary-yogas">
+                        <h5>🆕 New Temporary Yogas (Current Transits Only)</h5>
+                        <div class="yoga-cards-grid">
+                            {% for yoga in current_influences.yoga_transit_analysis.new_temporary_yogas %}
+                            <div class="yoga-transit-card temporary">
+                                <h6>{{ yoga.name }}</h6>
+                                <p class="yoga-description">{{ yoga.description }}</p>
+                                <p class="temporary-effect"><strong>Temporary Effect:</strong> {{ yoga.temporary_effect }}</p>
+                                <p class="yoga-guidance"><strong>Guidance:</strong> {{ yoga.guidance }}</p>
+                                <span class="duration-badge">{{ yoga.duration }}</span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Dormant Yogas -->
+                    {% if current_influences.yoga_transit_analysis.dormant_yogas %}
+                    <div class="dormant-yogas">
+                        <h5>😴 Currently Dormant Birth Yogas</h5>
+                        <div class="yoga-cards-grid">
+                            {% for yoga in current_influences.yoga_transit_analysis.dormant_yogas %}
+                            <div class="yoga-transit-card dormant">
+                                <h6>{{ yoga.name }}</h6>
+                                <p class="yoga-description">{{ yoga.description }}</p>
+                                <p class="dormancy-effect"><strong>Current Status:</strong> {{ yoga.dormancy_effect }}</p>
+
+                                <div class="reactivation-timing">
+                                    <p class="reactivation-potential"><strong>Reactivation Timing:</strong> {{ yoga.reactivation_potential }}</p>
+                                    {% if yoga.reactivation_details %}
+                                    <p class="reactivation-details"><strong>Details:</strong> {{ yoga.reactivation_details }}</p>
+                                    {% endif %}
+                                    {% if yoga.next_activation_period %}
+                                    <p class="next-activation"><strong>Next Activation Period:</strong> {{ yoga.next_activation_period }}</p>
+                                    {% endif %}
+                                </div>
+
+                                <p class="yoga-guidance"><strong>Preparation:</strong> {{ yoga.guidance }}</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Yoga Transit Effects -->
+                    {% if current_influences.yoga_transit_analysis.yoga_transit_effects %}
+                    <div class="yoga-transit-effects">
+                        <h5>⚡ Overall Yoga Transit Effects</h5>
+                        {% for effect in current_influences.yoga_transit_analysis.yoga_transit_effects %}
+                        <div class="transit-effect-card">
+                            <h6>{{ effect.type }}</h6>
+                            <p class="effect-description">{{ effect.description }}</p>
+                            <p class="effect-impact"><strong>Impact:</strong> {{ effect.impact }}</p>
+                            <p class="effect-recommendation"><strong>Recommendation:</strong> {{ effect.recommendation }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- NEW: Divisional Transit Analysis -->
+                {% if current_influences.divisional_transit_analysis %}
+                <div class="divisional-transit-analysis">
+                    <h4>📊 Divisional Chart Transit Analysis - Birth vs Current Time</h4>
+                    <p class="analysis-description">This analysis compares your birth divisional charts (vargas) with current time divisional charts, revealing how different life areas are being influenced by current planetary transits.</p>
+
+                    <div class="divisional-transit-summary">
+                        <p class="summary-text">{{ current_influences.divisional_transit_analysis.summary }}</p>
+                    </div>
+
+                    <!-- Life Area Impacts -->
+                    {% if current_influences.divisional_transit_analysis.life_area_impacts %}
+                    <div class="life-area-impacts">
+                        <h5>🎯 Life Area Impact Analysis</h5>
+                        <div class="life-area-grid">
+                            {% for division, impact in current_influences.divisional_transit_analysis.life_area_impacts.items() %}
+                            <div class="life-area-card">
+                                <h6>{{ impact.life_area }} ({{ division }})</h6>
+                                <div class="stability-indicator">
+                                    <span class="stability-badge stability-{{ impact.stability_level.lower() }}">{{ impact.stability_level }} Stability</span>
+                                </div>
+                                <p class="change-impact">{{ impact.change_impact }}</p>
+                                <div class="themes-affected">
+                                    <strong>Themes Affected:</strong>
+                                    <ul>
+                                        {% for theme in impact.themes_affected %}
+                                        <li>{{ theme }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                <div class="area-recommendations">
+                                    <strong>Recommendations:</strong>
+                                    <ul>
+                                        {% for rec in impact.recommendations %}
+                                        <li>{{ rec }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Significant Changes -->
+                    {% if current_influences.divisional_transit_analysis.significant_changes %}
+                    <div class="significant-divisional-changes">
+                        <h5>⚡ Significant Divisional Changes</h5>
+                        <div class="changes-grid">
+                            {% for change in current_influences.divisional_transit_analysis.significant_changes %}
+                            <div class="change-card significance-{{ change.significance_level.lower().replace(' ', '-') }}">
+                                <h6>{{ change.planet }} in {{ change.division }}</h6>
+                                <p class="change-details">{{ change.change }}</p>
+                                <p class="change-impact">{{ change.impact }}</p>
+                                <p class="change-guidance"><strong>Guidance:</strong> {{ change.guidance }}</p>
+                                <div class="change-badges">
+                                    <span class="significance-badge">{{ change.significance_level }} Significance</span>
+                                    <span class="timing-badge">{{ change.timing }}</span>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Divisional Comparisons -->
+                    {% if current_influences.divisional_transit_analysis.divisional_comparisons %}
+                    <div class="divisional-comparisons">
+                        <h5>🔄 Detailed Divisional Chart Comparisons</h5>
+                        {% for division, comparison in current_influences.divisional_transit_analysis.divisional_comparisons.items() %}
+                        <div class="divisional-comparison-card">
+                            <h6>{{ division }} Chart Comparison</h6>
+                            <p class="comparison-summary">{{ comparison.change_summary }}</p>
+
+                            <div class="stability-analysis">
+                                <h7>Stability Analysis:</h7>
+                                <div class="stability-stats">
+                                    <span class="stat">{{ comparison.stability_analysis.stable_planets }} Stable</span>
+                                    <span class="stat">{{ comparison.stability_analysis.changed_planets }} Changed</span>
+                                    <span class="stability-percentage">{{ "%.0f"|format(comparison.stability_analysis.stability_percentage) }}% Stability</span>
+                                </div>
+                            </div>
+
+                            {% if comparison.planetary_changes %}
+                            <div class="planetary-changes">
+                                <h7>Planetary Changes:</h7>
+                                <div class="planetary-changes-list">
+                                    {% for change in comparison.planetary_changes %}
+                                    <div class="planetary-change-item status-{{ change.status.lower() }}">
+                                        <strong>{{ change.planet }}:</strong>
+                                        {% if change.status == "Stable" %}
+                                        Remains in {{ change.birth_sign }}
+                                        {% else %}
+                                        {{ change.birth_sign }} → {{ change.current_sign }}
+                                        {% endif %}
+                                        <small>{{ change.significance }}</small>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+            </section>
+            {% endif %}
+
+            <!-- Actions -->
+            <section class="actions-section">
+                <div class="action-buttons">
+                    <a href="/" class="btn btn-primary">New Reading</a>
+                    <button onclick="window.print()" class="btn btn-secondary">Print Report</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>This reading is based on Vedic astrological principles and AI interpretation.</p>
+            <p>For detailed consultation, please consult with a qualified Vedic astrologer.</p>
+        </footer>
+    </div>
+
+    <style>
+        @media print {
+            .action-buttons { display: none; }
+            body { font-size: 12px; }
+        }
+    </style>
+
+    <script>
+        // Remedy tabs functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle remedy tab switching
+            const tabButtons = document.querySelectorAll('.remedy-tab-btn');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetTab = this.getAttribute('data-tab');
+                    const parentCard = this.closest('.planet-remedies');
+
+                    // Remove active class from all buttons in this card
+                    parentCard.querySelectorAll('.remedy-tab-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Remove active class from all panels in this card
+                    parentCard.querySelectorAll('.remedy-tab-panel').forEach(panel => {
+                        panel.classList.remove('active');
+                    });
+
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    // Show target panel
+                    const targetPanel = document.getElementById(targetTab);
+                    if (targetPanel) {
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

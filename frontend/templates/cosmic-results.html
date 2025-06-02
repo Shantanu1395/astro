@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Insights - {{ person_name }}</title>
+    <link rel="stylesheet" href="/static/cosmic-style.css">
+    <link rel="stylesheet" href="/static/cosmic-results.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="cosmic-nav">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">🌌</span>
+                <span class="brand-text">Cosmic Insights</span>
+            </div>
+            <div class="nav-links">
+                <a href="#overview" class="nav-link active">Overview</a>
+                <a href="#daily" class="nav-link">Daily</a>
+                <a href="#career" class="nav-link">Career</a>
+                <a href="#relationships" class="nav-link">Relationships</a>
+                <a href="#transits" class="nav-link">Transits</a>
+                <a href="#natal-chart" class="nav-link">Natal Chart</a>
+                <div class="user-profile">
+                    <img src="https://via.placeholder.com/32x32/3b82f6/ffffff?text={{ person_name[0]|upper }}" 
+                         alt="Profile" class="profile-avatar">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="results-main">
+        <!-- Overview Section -->
+        <section id="overview" class="section-content active">
+            <div class="content-container">
+                <header class="section-header">
+                    <h1 class="section-title">Welcome, {{ person_name }}</h1>
+                    <p class="section-subtitle">Your comprehensive cosmic analysis</p>
+                </header>
+
+                <!-- Chart Summary Cards -->
+                <div class="summary-grid">
+                    {% if chart and chart.planets %}
+                    {% set sun_planet = chart.planets | selectattr("name", "equalto", "Sun") | first %}
+                    {% set moon_planet = chart.planets | selectattr("name", "equalto", "Moon") | first %}
+                    {% set ascendant = chart.planets[0] if chart.planets else none %}
+
+                    <div class="summary-card">
+                        <div class="card-icon">☀️</div>
+                        <h3 class="card-title">Sun Sign</h3>
+                        <div class="card-value">{{ sun_planet.sign if sun_planet else "Calculating..." }}</div>
+                        <p class="card-description">Your core identity and life purpose</p>
+                        {% if sun_planet %}
+                        <div class="card-meta">House {{ sun_planet.house }} • {{ "%.1f"|format(sun_planet.degree) }}°</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-icon">🌙</div>
+                        <h3 class="card-title">Moon Sign</h3>
+                        <div class="card-value">{{ moon_planet.sign if moon_planet else "Calculating..." }}</div>
+                        <p class="card-description">Your emotional nature and inner self</p>
+                        {% if moon_planet %}
+                        <div class="card-meta">{{ moon_planet.nakshatra if moon_planet.nakshatra else "House " + moon_planet.house|string }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-icon">⬆️</div>
+                        <h3 class="card-title">Ascendant</h3>
+                        <div class="card-value">{{ ascendant.sign if ascendant else "Calculating..." }}</div>
+                        <p class="card-description">Your rising sign and outer personality</p>
+                        {% if ascendant %}
+                        <div class="card-meta">{{ "%.1f"|format(ascendant.degree) }}° rising</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-icon">⏰</div>
+                        <h3 class="card-title">Current Dasha</h3>
+                        <div class="card-value">
+                            {% if current_dasha and current_dasha.planet %}
+                                {{ current_dasha.planet }}
+                            {% else %}
+                                Calculating...
+                            {% endif %}
+                        </div>
+                        <p class="card-description">Your current planetary period</p>
+                        {% if current_dasha and current_dasha.remaining_years %}
+                        <div class="card-meta">{{ "%.1f"|format(current_dasha.remaining_years) }} years remaining</div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- AI Insights -->
+                {% if ai_prediction %}
+                <div class="insights-section">
+                    <h2 class="insights-title">🔮 AI-Powered Insights</h2>
+                    <div class="insights-grid">
+                        {% if ai_prediction.summary %}
+                        <div class="insight-card primary">
+                            <div class="insight-icon">📋</div>
+                            <h3 class="insight-title">Summary</h3>
+                            <p class="insight-content">{{ ai_prediction.summary }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if ai_prediction.key_themes %}
+                        <div class="insight-card secondary">
+                            <div class="insight-icon">🎯</div>
+                            <h3 class="insight-title">Key Themes</h3>
+                            <ul class="insight-list">
+                                {% for theme in ai_prediction.key_themes %}
+                                <li>{{ theme }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        {% if ai_prediction.guidance %}
+                        <div class="insight-card tertiary">
+                            <div class="insight-icon">💡</div>
+                            <h3 class="insight-title">Guidance</h3>
+                            <p class="insight-content">{{ ai_prediction.guidance }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Yogas Section -->
+                {% if yogas %}
+                <div class="yogas-section">
+                    <h2 class="section-subtitle">🌟 Planetary Yogas</h2>
+                    <div class="yogas-grid">
+                        {% for yoga in yogas[:6] %}
+                        <div class="yoga-card">
+                            <div class="yoga-header">
+                                <h4 class="yoga-name">{{ yoga.name }}</h4>
+                                {% if yoga.strength %}
+                                <span class="yoga-strength strength-{{ yoga.strength.lower() }}">{{ yoga.strength }}</span>
+                                {% endif %}
+                            </div>
+                            {% if yoga.description %}
+                            <p class="yoga-description">{{ yoga.description[:150] }}{% if yoga.description|length > 150 %}...{% endif %}</p>
+                            {% endif %}
+                            {% if yoga.planets %}
+                            <div class="yoga-planets">
+                                <span class="planets-label">Planets:</span>
+                                <span class="planets-list">{{ yoga.planets | join(', ') }}</span>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Planetary Positions -->
+                {% if chart and chart.planets %}
+                <div class="planets-section">
+                    <h2 class="section-subtitle">🪐 Planetary Positions</h2>
+                    <div class="planets-grid">
+                        {% for planet in chart.planets %}
+                        <div class="planet-card" id="planet-{{ planet.name.lower() }}">
+                            <div class="planet-header">
+                                <div class="planet-info">
+                                    <h4 class="planet-name">{{ planet.name }}</h4>
+                                    {% if planet.retrograde %}
+                                    <span class="retrograde-indicator">℞</span>
+                                    {% endif %}
+                                </div>
+                                <div class="planet-actions">
+                                    <span class="planet-sign">{{ planet.sign }}</span>
+                                    <button class="detail-icon" onclick="togglePlanetDetails('{{ planet.name.lower() }}')" title="View detailed explanation">
+                                        <i class="detail-icon-symbol">ℹ️</i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="planet-details">
+                                <div class="planet-detail">
+                                    <span class="detail-label">House:</span>
+                                    <span class="detail-value">{{ planet.house }}</span>
+                                </div>
+                                <div class="planet-detail">
+                                    <span class="detail-label">Degree:</span>
+                                    <span class="detail-value">{{ "%.2f"|format(planet.degree) }}°</span>
+                                </div>
+                                {% if planet.nakshatra %}
+                                <div class="planet-detail">
+                                    <span class="detail-label">Nakshatra:</span>
+                                    <span class="detail-value">{{ planet.nakshatra }}</span>
+                                </div>
+                                {% endif %}
+                                {% if planet.nakshatra_pada %}
+                                <div class="planet-detail">
+                                    <span class="detail-label">Pada:</span>
+                                    <span class="detail-value">{{ planet.nakshatra_pada }}</span>
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Detailed Explanation (Hidden by default) -->
+                            <div class="planet-explanation" id="explanation-{{ planet.name.lower() }}" style="display: none;">
+                                <div class="explanation-content">
+                                    <h5>🔍 Detailed Analysis</h5>
+                                    <div class="explanation-section">
+                                        <h6>Sign Influence</h6>
+                                        <p>{{ planet.name }} in {{ planet.sign }} creates a unique blend where {{ planet.name.lower() }}'s energy is expressed through {{ planet.sign.lower() }} characteristics. This combination influences how {{ planet.name.lower() }} energy manifests in your life through {{ planet.sign.lower() }} traits and qualities.</p>
+                                    </div>
+                                    <div class="explanation-section">
+                                        <h6>House Significance</h6>
+                                        <p>Positioned in the {{ planet.house }}{{ 'st' if planet.house == 1 else ('nd' if planet.house == 2 else ('rd' if planet.house == 3 else 'th')) }} house, {{ planet.name }} influences
+                                        {% if planet.house == 1 %}your personality, appearance, and overall approach to life
+                                        {% elif planet.house == 2 %}your wealth, family, speech, and values
+                                        {% elif planet.house == 3 %}your communication, siblings, courage, and short journeys
+                                        {% elif planet.house == 4 %}your home, mother, emotions, and inner peace
+                                        {% elif planet.house == 5 %}your creativity, children, education, and romance
+                                        {% elif planet.house == 6 %}your health, service, daily work, and obstacles
+                                        {% elif planet.house == 7 %}your partnerships, marriage, and business relationships
+                                        {% elif planet.house == 8 %}your transformation, occult knowledge, and shared resources
+                                        {% elif planet.house == 9 %}your higher learning, spirituality, and fortune
+                                        {% elif planet.house == 10 %}your career, reputation, and public image
+                                        {% elif planet.house == 11 %}your gains, friendships, and aspirations
+                                        {% elif planet.house == 12 %}your spirituality, losses, and foreign connections
+                                        {% endif %}.</p>
+                                    </div>
+                                    <div class="explanation-section">
+                                        <h6>Life Manifestation</h6>
+                                        <p>In daily life, this combination manifests through {{ planet.name.lower() }}'s influence expressed via {{ planet.sign.lower() }} qualities in the {{ planet.house }}{{ 'st' if planet.house == 1 else ('nd' if planet.house == 2 else ('rd' if planet.house == 3 else 'th')) }} house area of life. This creates specific patterns in how you experience and express {{ planet.name.lower() }}'s energy in practical, everyday situations.</p>
+                                    </div>
+                                    {% if planet.retrograde %}
+                                    <div class="explanation-section retrograde-note">
+                                        <h6>Retrograde Effect</h6>
+                                        <p>{{ planet.name }} is retrograde, which means its energy is turned inward and may manifest differently than usual. Retrograde planets often bring lessons from the past and require deeper introspection to fully utilize their potential.</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Career Section -->
+        <section id="career" class="section-content">
+            <div class="content-container">
+                <header class="section-header">
+                    <h1 class="section-title">💼 Career Predictions</h1>
+                    <p class="section-subtitle">Explore your career path with insights into your professional strengths, challenges, and opportunities.</p>
+                </header>
+
+                <div class="career-content">
+                    <!-- Career Overview from Specialized Predictions -->
+                    {% if specialized_predictions and specialized_predictions.career %}
+                    <div class="career-summary">
+                        <div class="summary-icon">📊</div>
+                        <h2>Career Summary</h2>
+                        {% if specialized_predictions.career.summary %}
+                        <p>{{ specialized_predictions.career.summary }}</p>
+                        {% else %}
+                        <p>Your career path is influenced by the alignment of celestial bodies at the time of your birth. This analysis provides a comprehensive overview of your professional journey.</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+
+                    <!-- House Analysis for Career (10th House) -->
+                    {% if house_analysis %}
+                    <div class="career-houses">
+                        <h2>🏠 Career Houses Analysis</h2>
+                        <div class="houses-grid">
+                            {% for house_num, house_data in house_analysis.items() %}
+                            {% if house_num|int in [1, 2, 6, 10, 11] %}
+                            <div class="house-card career-relevant">
+                                <div class="house-header">
+                                    <h3>{{ house_num }}{{ 'st' if house_num|int == 1 else ('nd' if house_num|int == 2 else ('rd' if house_num|int == 3 else 'th')) }} House</h3>
+                                    <span class="house-significance">
+                                        {% if house_num|int == 1 %}Personality
+                                        {% elif house_num|int == 2 %}Wealth
+                                        {% elif house_num|int == 6 %}Service
+                                        {% elif house_num|int == 10 %}Career
+                                        {% elif house_num|int == 11 %}Gains
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                {% if house_data.planets %}
+                                <div class="house-planets">
+                                    <span class="planets-label">Planets:</span>
+                                    <div class="planets-list">
+                                        {% for planet in house_data.planets %}
+                                        <span class="planet-tag">{{ planet }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% if house_data.significance %}
+                                <p class="house-description">{{ house_data.significance[:200] }}{% if house_data.significance|length > 200 %}...{% endif %}</p>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Planetary Strengths for Career -->
+                    {% if planetary_strengths %}
+                    <div class="career-strengths">
+                        <h2>⭐ Planetary Strengths</h2>
+                        <div class="strengths-grid">
+                            {% for planet, strength_data in planetary_strengths.items() %}
+                            {% if planet in ['Sun', 'Mars', 'Mercury', 'Jupiter', 'Saturn'] %}
+                            <div class="strength-card">
+                                <div class="strength-header">
+                                    <h3>{{ planet }}</h3>
+                                    {% if strength_data.overall_strength %}
+                                    <span class="strength-value strength-{{ strength_data.overall_strength.lower() }}">
+                                        {{ strength_data.overall_strength }}
+                                    </span>
+                                    {% endif %}
+                                </div>
+                                {% if strength_data.interpretation %}
+                                <p class="strength-description">{{ strength_data.interpretation[:150] }}{% if strength_data.interpretation|length > 150 %}...{% endif %}</p>
+                                {% endif %}
+                                <div class="strength-factors">
+                                    <div class="factor-item">
+                                        <span class="factor-name">Total Score:</span>
+                                        <span class="factor-value">{{ strength_data.total_score }}/100</span>
+                                    </div>
+                                    {% if strength_data.strength_factors %}
+                                    {% for factor in strength_data.strength_factors[:2] %}
+                                    <div class="factor-item">
+                                        <span class="factor-name">{{ factor.factor[:20] }}:</span>
+                                        <span class="factor-value">{{ factor.score }}</span>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Dasha Analysis for Career -->
+                    {% if dasha_analysis %}
+                    <div class="career-timing">
+                        <h2>⏰ Career Timing Analysis</h2>
+                        <div class="dasha-timeline">
+                            {% if current_dasha %}
+                            <div class="current-dasha">
+                                <div class="dasha-header">
+                                    <h3>Current {{ current_dasha.planet }} Dasha</h3>
+                                    <span class="dasha-period">
+                                        {% if current_dasha.remaining_years %}
+                                        {{ "%.1f"|format(current_dasha.remaining_years) }} years remaining
+                                        {% endif %}
+                                    </span>
+                                </div>
+                                {% if current_dasha.career_effects %}
+                                <p class="dasha-description">{{ current_dasha.career_effects }}</p>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+
+                            {% if dasha_analysis.upcoming_periods %}
+                            <div class="upcoming-dashas">
+                                <h3>Upcoming Career Periods</h3>
+                                {% for dasha in dasha_analysis.upcoming_periods[:3] %}
+                                <div class="upcoming-dasha">
+                                    <div class="dasha-info">
+                                        <h4>{{ dasha.planet }} Period</h4>
+                                        {% if dasha.start_date and dasha.end_date %}
+                                        <span class="dasha-dates">{{ dasha.start_date }} - {{ dasha.end_date }}</span>
+                                        {% endif %}
+                                    </div>
+                                    {% if dasha.career_potential %}
+                                    <p class="dasha-potential">{{ dasha.career_potential }}</p>
+                                    {% endif %}
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Career Yogas -->
+                    {% if yogas %}
+                    <div class="career-yogas">
+                        <h2>🌟 Career-Related Yogas</h2>
+                        <div class="yogas-grid">
+                            {% for yoga in yogas %}
+                            {% if 'career' in yoga.name.lower() or 'wealth' in yoga.name.lower() or 'success' in yoga.name.lower() or 'raj' in yoga.name.lower() %}
+                            <div class="yoga-card career-yoga">
+                                <div class="yoga-header">
+                                    <h4 class="yoga-name">{{ yoga.name }}</h4>
+                                    {% if yoga.strength %}
+                                    <span class="yoga-strength strength-{{ yoga.strength.lower() }}">{{ yoga.strength }}</span>
+                                    {% endif %}
+                                </div>
+                                {% if yoga.description %}
+                                <p class="yoga-description">{{ yoga.description[:200] }}{% if yoga.description|length > 200 %}...{% endif %}</p>
+                                {% endif %}
+                                {% if yoga.effects %}
+                                <div class="yoga-effects">
+                                    <span class="effects-label">Effects:</span>
+                                    <p class="effects-text">{{ yoga.effects[:150] }}{% if yoga.effects|length > 150 %}...{% endif %}</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Relationships Section -->
+        <section id="relationships" class="section-content">
+            <div class="content-container">
+                <header class="section-header">
+                    <h1 class="section-title">Relationship Predictions</h1>
+                    <p class="section-subtitle">Explore the dynamics of your relationships with detailed compatibility analysis and future event predictions.</p>
+                </header>
+
+                <div class="relationships-content">
+                    <div class="compatibility-summary">
+                        <h2>Compatibility Summary</h2>
+                        <div class="compatibility-metrics">
+                            <div class="metric">
+                                <span class="metric-label">Overall Compatibility</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width: 85%"></div>
+                                </div>
+                                <span class="metric-value">85%</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Emotional Connection</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width: 90%"></div>
+                                </div>
+                                <span class="metric-value">90%</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-label">Communication Style</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width: 75%"></div>
+                                </div>
+                                <span class="metric-value">75%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="marriage-potential">
+                        <h2>Marriage Potential</h2>
+                        <p>Based on your astrological charts, the potential for marriage is strong. Key periods for significant relationship developments are highlighted below.</p>
+                    </div>
+
+                    <div class="romance-analysis">
+                        <h2>Romance Analysis</h2>
+                        <p>Your romantic life is influenced by several planetary alignments. Expect periods of intense passion and emotional depth, with potential challenges in maintaining balance.</p>
+                    </div>
+
+                    <div class="event-timings">
+                        <h2>Significant Event Timings</h2>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-icon">💍</div>
+                                <div class="timeline-content">
+                                    <h3>Potential Engagement</h3>
+                                    <p class="timeline-date">Late 2024</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon">💒</div>
+                                <div class="timeline-content">
+                                    <h3>Marriage Window</h3>
+                                    <p class="timeline-date">Mid 2025 - Early 2026</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-icon">💕</div>
+                                <div class="timeline-content">
+                                    <h3>Relationship Growth Phase</h3>
+                                    <p class="timeline-date">Throughout 2027</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Daily Section -->
+        <section id="daily" class="section-content">
+            <div class="content-container">
+                <header class="section-header">
+                    <h1 class="section-title">🌅 Daily Cosmic Guidance</h1>
+                    <p class="section-subtitle">Your personalized daily insights and cosmic influences</p>
+                </header>
+
+                <div class="daily-content">
+                    <!-- Current Influences -->
+                    {% if current_influences %}
+                    <div class="daily-overview">
+                        <div class="overview-icon">📅</div>
+                        <h2>Today's Overview</h2>
+                        {% if current_influences.daily_summary %}
+                        <p>{{ current_influences.daily_summary }}</p>
+                        {% else %}
+                        <p>The cosmic energies today are influenced by your current planetary periods and transits. Your personal chart shows specific patterns that affect your daily experiences.</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="daily-influences">
+                        <h2>🪐 Current Planetary Influences</h2>
+                        <div class="influences-grid">
+                            {% if planetary_strengths %}
+                            {% for planet, strength_data in planetary_strengths.items() %}
+                            {% if loop.index <= 6 %}
+                            <div class="influence-card">
+                                <div class="influence-header">
+                                    <h3>{{ planet }} Influence</h3>
+                                    <span class="influence-strength strength-{{ strength_data.overall_strength.lower() }}">{{ strength_data.overall_strength }}</span>
+                                </div>
+                                <div class="influence-content">
+                                    <p>{{ strength_data.interpretation }}</p>
+                                    <div class="strength-details">
+                                        <div class="affected-areas">
+                                            <span class="areas-label">Strength Score:</span>
+                                            <span class="areas-list">{{ strength_data.total_score }}/100</span>
+                                        </div>
+                                        {% if strength_data.strength_factors %}
+                                        <div class="key-factors">
+                                            <span class="areas-label">Key Factors:</span>
+                                            <span class="areas-list">{{ strength_data.strength_factors[0].factor if strength_data.strength_factors[0] else 'Multiple factors' }}</span>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                            {% else %}
+                            <!-- Fallback based on current dasha -->
+                            {% if current_dasha %}
+                            <div class="influence-card">
+                                <div class="influence-header">
+                                    <h3>{{ current_dasha.planet }} Dasha</h3>
+                                    <span class="influence-strength strength-high">Active</span>
+                                </div>
+                                <div class="influence-content">
+                                    <p>Your current {{ current_dasha.planet }} period is the primary influence shaping your daily experiences and opportunities.</p>
+                                    {% if current_dasha.remaining_years %}
+                                    <div class="affected-areas">
+                                        <span class="areas-label">Duration:</span>
+                                        <span class="areas-list">{{ "%.1f"|format(current_dasha.remaining_years) }} years remaining</span>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Personality Analysis for Daily Guidance -->
+                    {% if personality_analysis %}
+                    <div class="daily-personality">
+                        <h2>🎭 Personal Tendencies Today</h2>
+                        <div class="personality-grid">
+                            <!-- Core Personality -->
+                            {% if personality_analysis.core_personality %}
+                            <div class="personality-card">
+                                <h3>Core Personality</h3>
+                                {% if personality_analysis.core_personality.integrated_personality and personality_analysis.core_personality.integrated_personality.prominent_traits %}
+                                <p><strong>Key Traits:</strong> {{ personality_analysis.core_personality.integrated_personality.prominent_traits[:4]|join(', ') }}</p>
+                                <p><strong>Complexity:</strong> {{ personality_analysis.core_personality.integrated_personality.complexity_level or 'Moderate' }}</p>
+                                {% elif personality_analysis.core_personality.ascendant_influence and personality_analysis.core_personality.ascendant_influence.traits %}
+                                <p><strong>Primary Traits:</strong> {{ personality_analysis.core_personality.ascendant_influence.traits.core_traits[:3]|join(', ') }}</p>
+                                <p>{{ personality_analysis.core_personality.ascendant_influence.description[:100] }}...</p>
+                                {% else %}
+                                <p>Your core personality reflects a unique blend of astrological influences.</p>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+
+                            <!-- Mental Nature -->
+                            {% if personality_analysis.mental_nature %}
+                            <div class="personality-card">
+                                <h3>Mental Nature</h3>
+                                {% if personality_analysis.mental_nature.description %}
+                                <p>{{ personality_analysis.mental_nature.description[:150] }}{% if personality_analysis.mental_nature.description|length > 150 %}...{% endif %}</p>
+                                {% elif personality_analysis.mental_nature.thinking_style %}
+                                <p><strong>Thinking Style:</strong> {{ personality_analysis.mental_nature.thinking_style }}</p>
+                                {% else %}
+                                <p>{{ personality_analysis.mental_nature|string|truncate(150) }}</p>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+
+                            <!-- Emotional Nature -->
+                            {% if personality_analysis.emotional_nature %}
+                            <div class="personality-card">
+                                <h3>Emotional Nature</h3>
+                                {% if personality_analysis.emotional_nature.description %}
+                                <p>{{ personality_analysis.emotional_nature.description[:150] }}{% if personality_analysis.emotional_nature.description|length > 150 %}...{% endif %}</p>
+                                {% elif personality_analysis.emotional_nature.emotional_style %}
+                                <p><strong>Emotional Style:</strong> {{ personality_analysis.emotional_nature.emotional_style }}</p>
+                                {% else %}
+                                <p>{{ personality_analysis.emotional_nature|string|truncate(150) }}</p>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+
+                            <!-- Communication Style -->
+                            {% if personality_analysis.communication_style %}
+                            <div class="personality-card">
+                                <h3>Communication Style</h3>
+                                {% if personality_analysis.communication_style.description %}
+                                <p>{{ personality_analysis.communication_style.description[:150] }}{% if personality_analysis.communication_style.description|length > 150 %}...{% endif %}</p>
+                                {% elif personality_analysis.communication_style.style %}
+                                <p><strong>Style:</strong> {{ personality_analysis.communication_style.style }}</p>
+                                {% else %}
+                                <p>{{ personality_analysis.communication_style|string|truncate(150) }}</p>
+                                {% endif %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Career Timing Analysis -->
+                    <div class="daily-timing">
+                        <h2>⏰ Career Timing Analysis</h2>
+                        <div class="timing-sections">
+                            {% if current_dasha %}
+                            <div class="timing-card favorable">
+                                <div class="timing-header">
+                                    <h3>🌟 Current {{ current_dasha.planet }} Period</h3>
+                                </div>
+                                <div class="time-period">
+                                    <span class="time-label">Active {{ current_dasha.level|title if current_dasha.level else 'Dasha' }}</span>
+                                    <p>Your {{ current_dasha.planet }} period is the primary influence shaping your career opportunities and professional growth patterns.</p>
+                                    {% if current_dasha.remaining_years %}
+                                    <p><strong>Duration:</strong> {{ "%.1f"|format(current_dasha.remaining_years) }} years remaining</p>
+                                    {% endif %}
+                                    {% if current_dasha.start_date and current_dasha.end_date %}
+                                    <p><strong>Period:</strong> {{ current_dasha.start_date }} to {{ current_dasha.end_date }}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
+
+                            {% if planetary_strengths %}
+                            <div class="timing-card moderate">
+                                <div class="timing-header">
+                                    <h3>📈 Professional Planet Influences</h3>
+                                </div>
+                                {% for planet, strength in planetary_strengths.items() %}
+                                {% if planet in ['Jupiter', 'Saturn', 'Sun', 'Mercury'] and loop.index <= 3 %}
+                                <div class="time-period">
+                                    <span class="time-label">{{ planet }} ({{ strength.overall_strength }})</span>
+                                    <p>{{ strength.interpretation[:120] }}{% if strength.interpretation|length > 120 %}...{% endif %}</p>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            <!-- Career Guidance -->
+                            <div class="timing-card challenging">
+                                <div class="timing-header">
+                                    <h3>💼 Career Guidance</h3>
+                                </div>
+                                <div class="time-period">
+                                    <span class="time-label">Current Focus</span>
+                                    {% if current_dasha %}
+                                    <p>During your {{ current_dasha.planet }} period, focus on activities that align with {{ current_dasha.planet }} energy for maximum career benefit.</p>
+                                    {% else %}
+                                    <p>Focus on building consistent professional habits and leveraging your strongest planetary influences.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Default Guidance if no specific data -->
+                    {% if not current_influences and not timing_analysis %}
+                    <div class="daily-guidance">
+                        <h2>🌟 General Guidance for Today</h2>
+                        <div class="guidance-sections">
+                            <div class="guidance-item">
+                                <h3>🌅 Morning (6 AM - 12 PM)</h3>
+                                <p>Start your day with meditation or quiet reflection. The morning hours are particularly favorable for setting intentions and planning based on your {{ current_dasha.planet if current_dasha else "current" }} period.</p>
+                            </div>
+                            <div class="guidance-item">
+                                <h3>☀️ Afternoon (12 PM - 6 PM)</h3>
+                                <p>Peak energy time for important meetings and creative work. Your communication skills are enhanced during these hours.</p>
+                            </div>
+                            <div class="guidance-item">
+                                <h3>🌙 Evening (6 PM - 12 AM)</h3>
+                                <p>Focus on relationships and personal connections. This is an ideal time for intimate conversations and emotional bonding.</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Transits Section -->
+        <section id="transits" class="section-content">
+            <div class="content-container">
+                <header class="section-header">
+                    <h1 class="section-title">Current Transits</h1>
+                    <p class="section-subtitle">Planetary movements and their impact on your birth chart</p>
+                </header>
+
+                <div class="transits-content">
+                    <div class="transit-overview">
+                        <h2>Transit Summary</h2>
+                        <p>Current planetary transits are creating significant shifts in your cosmic landscape. Pay special attention to the Jupiter and Saturn influences affecting your career and relationship sectors.</p>
+                    </div>
+
+                    <div class="active-transits">
+                        <h2>Active Transits</h2>
+                        <div class="transits-grid">
+                            <div class="transit-card major">
+                                <div class="transit-header">
+                                    <h3>Jupiter in 10th House</h3>
+                                    <span class="transit-duration">6 months remaining</span>
+                                </div>
+                                <p class="transit-description">Expansion in career and public recognition. Excellent time for professional growth and leadership opportunities.</p>
+                                <div class="transit-impact">
+                                    <span class="impact-label">Impact:</span>
+                                    <span class="impact-value high">High</span>
+                                </div>
+                            </div>
+
+                            <div class="transit-card moderate">
+                                <div class="transit-header">
+                                    <h3>Saturn Trine Venus</h3>
+                                    <span class="transit-duration">2 months remaining</span>
+                                </div>
+                                <p class="transit-description">Stabilizing influence on relationships and finances. Good time for long-term commitments.</p>
+                                <div class="transit-impact">
+                                    <span class="impact-label">Impact:</span>
+                                    <span class="impact-value moderate">Moderate</span>
+                                </div>
+                            </div>
+
+                            <div class="transit-card minor">
+                                <div class="transit-header">
+                                    <h3>Mercury Conjunct Sun</h3>
+                                    <span class="transit-duration">3 days remaining</span>
+                                </div>
+                                <p class="transit-description">Enhanced mental clarity and communication skills. Favorable for important conversations.</p>
+                                <div class="transit-impact">
+                                    <span class="impact-label">Impact:</span>
+                                    <span class="impact-value low">Low</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="upcoming-transits">
+                        <h2>Upcoming Significant Transits</h2>
+                        <div class="upcoming-timeline">
+                            <div class="upcoming-item">
+                                <div class="upcoming-date">Next Month</div>
+                                <div class="upcoming-details">
+                                    <h3>Mars enters 7th House</h3>
+                                    <p>Increased activity in partnerships and relationships. Potential for conflicts but also passionate connections.</p>
+                                </div>
+                            </div>
+                            <div class="upcoming-item">
+                                <div class="upcoming-date">3 Months</div>
+                                <div class="upcoming-details">
+                                    <h3>Venus Return</h3>
+                                    <p>A fresh cycle in love and creativity begins. Excellent time for artistic pursuits and romantic endeavors.</p>
+                                </div>
+                            </div>
+                            <div class="upcoming-item">
+                                <div class="upcoming-date">6 Months</div>
+                                <div class="upcoming-details">
+                                    <h3>Jupiter Square Natal Moon</h3>
+                                    <p>Emotional expansion and growth. May bring challenges that lead to greater wisdom and understanding.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Natal Chart Section -->
+        <section id="natal-chart" class="section-content">
+            <div class="content-container">
+                <header class="section-header">
+                    <h1 class="section-title">Natal Chart</h1>
+                    <p class="section-subtitle">Your complete birth chart analysis and planetary positions</p>
+                </header>
+
+                <div class="chart-content">
+                    <div class="chart-visualization">
+                        <div class="chart-placeholder">
+                            <div class="chart-circle">
+                                <div class="chart-center">
+                                    <h3>{{ person_name }}</h3>
+                                    <p>{{ birth_data.birth_date }}</p>
+                                    <p>{{ birth_data.birth_location }}</p>
+                                </div>
+                                <!-- Houses would be rendered here -->
+                                <div class="house-markers">
+                                    {% for i in range(1, 13) %}
+                                    <div class="house-marker house-{{ i }}">{{ i }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="chart-details">
+                        <div class="chart-summary">
+                            <h2>Chart Summary</h2>
+                            <div class="chart-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Dominant Element:</span>
+                                    <span class="stat-value">Water</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Dominant Quality:</span>
+                                    <span class="stat-value">Cardinal</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Chart Pattern:</span>
+                                    <span class="stat-value">Bowl</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="aspects-summary">
+                            <h2>Major Aspects</h2>
+                            <div class="aspects-list">
+                                <div class="aspect-item">
+                                    <span class="aspect-planets">Sun ☌ Mercury</span>
+                                    <span class="aspect-type conjunction">Conjunction</span>
+                                    <span class="aspect-orb">2°</span>
+                                </div>
+                                <div class="aspect-item">
+                                    <span class="aspect-planets">Moon △ Jupiter</span>
+                                    <span class="aspect-type trine">Trine</span>
+                                    <span class="aspect-orb">4°</span>
+                                </div>
+                                <div class="aspect-item">
+                                    <span class="aspect-planets">Venus ☐ Mars</span>
+                                    <span class="aspect-type square">Square</span>
+                                    <span class="aspect-orb">3°</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Tab Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+                
+                // Update active section
+                document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+                document.getElementById(targetId)?.classList.add('active');
+            });
+        });
+
+        // Expandable sections
+        function toggleExpand(header) {
+            const card = header.parentElement;
+            const content = card.querySelector('.analysis-content');
+            const icon = header.querySelector('.expand-icon');
+
+            card.classList.toggle('expanded');
+            icon.textContent = card.classList.contains('expanded') ? '▲' : '▼';
+        }
+
+        // Toggle planet details
+        function togglePlanetDetails(planetName) {
+            const explanation = document.getElementById(`explanation-${planetName}`);
+            const button = document.querySelector(`#planet-${planetName} .detail-icon`);
+
+            if (explanation.style.display === 'none' || explanation.style.display === '') {
+                explanation.style.display = 'block';
+                explanation.style.animation = 'fadeIn 0.3s ease-in-out';
+                button.style.background = 'rgba(59, 130, 246, 0.2)';
+                button.style.color = '#3b82f6';
+            } else {
+                explanation.style.display = 'none';
+                button.style.background = '';
+                button.style.color = '';
+            }
+        }
+    </script>
+</body>
+</html>

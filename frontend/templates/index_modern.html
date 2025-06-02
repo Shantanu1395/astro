@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedic Astrology Prediction System</title>
+    <link rel="stylesheet" href="/static/style_modern.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Full-screen Slime Mold Background -->
+        <div id="slime-mold-background" class="slime-mold-canvas active"></div>
+
+        <!-- Header -->
+        <header class="app-header">
+            <div id="cosmic-background" class="cosmic-canvas"></div>
+            <div class="header-content">
+                <h1 class="app-title">🌟 Vedic Astrology Prediction System</h1>
+                <p class="app-subtitle">Discover your cosmic blueprint through ancient Vedic wisdom</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-section">
+                <!-- Birth Details Form -->
+                <div class="form-container modern-form">
+                    <h2 class="section-title">✨ Enter Your Birth Details</h2>
+                    <p class="section-description">Provide accurate birth information for precise astrological calculations</p>
+                    
+                    <form action="/predict" method="post" class="birth-form modern-birth-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="name" class="form-label">
+                                    <span class="label-icon">👤</span>
+                                    Full Name
+                                </label>
+                                <input type="text" id="name" name="name" required 
+                                       class="form-input"
+                                       placeholder="Enter your full name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="birth_date" class="form-label">
+                                    <span class="label-icon">📅</span>
+                                    Birth Date
+                                </label>
+                                <input type="date" id="birth_date" name="birth_date" required
+                                       class="form-input">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="birth_time" class="form-label">
+                                    <span class="label-icon">🕐</span>
+                                    Birth Time
+                                </label>
+                                <input type="time" id="birth_time" name="birth_time" required
+                                       class="form-input">
+                                <small class="form-hint">Enter as accurately as possible for precise calculations</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="birth_location" class="form-label">
+                                    <span class="label-icon">📍</span>
+                                    Birth Location
+                                </label>
+                                <input type="text" id="birth_location" name="birth_location" required 
+                                       class="form-input"
+                                       placeholder="City, Country (e.g., Mumbai, India)">
+                                <small class="form-hint">Enter city and country for accurate coordinates</small>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn cosmic-btn">
+                            <span class="btn-icon">✨</span>
+                            Generate Vedic Prediction
+                            <span class="btn-arrow">→</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- About Section -->
+                <div class="about-section">
+                    <h3 class="section-title">🌌 About Vedic Astrology</h3>
+                    <p class="section-description">Explore the ancient wisdom that reveals your cosmic blueprint</p>
+                    
+                    <div class="info-grid modern-info-grid">
+                        <div class="info-card modern-info-card">
+                            <div class="card-header">
+                                <span class="card-icon">🌙</span>
+                                <h4>Dasha System</h4>
+                            </div>
+                            <p>Planetary periods that influence different phases of your life, revealing timing and opportunities</p>
+                            <div class="card-features">
+                                <span class="feature-tag">Life Phases</span>
+                                <span class="feature-tag">Timing</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card modern-info-card">
+                            <div class="card-header">
+                                <span class="card-icon">⭐</span>
+                                <h4>Nakshatras</h4>
+                            </div>
+                            <p>27 lunar mansions that reveal your deeper nature, destiny, and spiritual path</p>
+                            <div class="card-features">
+                                <span class="feature-tag">Soul Purpose</span>
+                                <span class="feature-tag">Destiny</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card modern-info-card">
+                            <div class="card-header">
+                                <span class="card-icon">🏠</span>
+                                <h4>Houses</h4>
+                            </div>
+                            <p>12 life areas showing where planetary energies manifest in your experience</p>
+                            <div class="card-features">
+                                <span class="feature-tag">Life Areas</span>
+                                <span class="feature-tag">Manifestation</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card modern-info-card">
+                            <div class="card-header">
+                                <span class="card-icon">🔮</span>
+                                <h4>AI Predictions</h4>
+                            </div>
+                            <p>Advanced AI-powered insights based on authentic Vedic astrological principles</p>
+                            <div class="card-features">
+                                <span class="feature-tag">AI Powered</span>
+                                <span class="feature-tag">Authentic</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card modern-info-card">
+                            <div class="card-header">
+                                <span class="card-icon">🎯</span>
+                                <h4>Specialized Analysis</h4>
+                            </div>
+                            <p>Career, relationship, financial, and health predictions with precise timing</p>
+                            <div class="card-features">
+                                <span class="feature-tag">Career</span>
+                                <span class="feature-tag">Relationships</span>
+                            </div>
+                        </div>
+
+                        <div class="info-card modern-info-card">
+                            <div class="card-header">
+                                <span class="card-icon">⏰</span>
+                                <h4>Precise Timing</h4>
+                            </div>
+                            <p>Advanced timing calculations for optimal decision-making and life planning</p>
+                            <div class="card-features">
+                                <span class="feature-tag">Timing</span>
+                                <span class="feature-tag">Planning</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Features Preview -->
+                <div class="features-preview">
+                    <h3 class="section-title">🚀 What You'll Discover</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <span class="feature-icon">📊</span>
+                            <h4>Complete Chart Analysis</h4>
+                            <p>Comprehensive planetary positions and their influences</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🎯</span>
+                            <h4>Specialized Predictions</h4>
+                            <p>Career, relationship, financial, and health guidance</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">⏰</span>
+                            <h4>Precise Timing</h4>
+                            <p>Optimal periods for important life decisions</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🧠</span>
+                            <h4>Personality Insights</h4>
+                            <p>Deep understanding of your inherent nature</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🌟</span>
+                            <h4>Remedial Guidance</h4>
+                            <p>Personalized remedies for planetary enhancement</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📅</span>
+                            <h4>Daily Influences</h4>
+                            <p>Current cosmic influences and daily guidance</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Powered by Swiss Ephemeris and AI • For entertainment and guidance purposes</p>
+        </footer>
+    </div>
+
+    <!-- p5.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+
+    <!-- JavaScript for animations and form functionality -->
+    <script src="/static/cosmic-animations.js"></script>
+    <script>
+        // Auto-load content after slime mold animation starts
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.querySelector('.app-container').classList.add('loaded');
+            }, 500);
+        });
+
+        // Set max date to today
+        document.getElementById('birth_date').max = new Date().toISOString().split('T')[0];
+        
+        // Form validation
+        document.querySelector('.birth-form').addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value.trim();
+            const location = document.getElementById('birth_location').value.trim();
+            
+            if (name.length < 2) {
+                alert('Please enter a valid name');
+                e.preventDefault();
+                return;
+            }
+            
+            if (location.length < 3) {
+                alert('Please enter a valid location');
+                e.preventDefault();
+                return;
+            }
+        });
+    </script>
+</body>
+</html>
