@@ -1,0 +1,11 @@
+cd /Users/shantanu/Documents/Coding/Python/SacredTextRag
+source venv_astrology/bin/activate
+python -m uvicorn src.api.comprehensive_backend_api:app --host 0.0.0.0 --port 8006 --reload
+
+cd /Users/shantanu/Documents/Coding/Python/SacredTextRag
+source venv_astrology/bin/activate
+python -m uvicorn src.api.frontend_server:app --host 0.0.0.0 --port 8007 --reload
+
+cd /Users/shantanu/Documents/Coding/Python/SacredTextRag
+source venv_astrology/bin/activate
+python -m uvicorn src.api.frontend_server:app --host 0.0.0.0 --port 8007 --reload

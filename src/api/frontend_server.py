@@ -162,11 +162,19 @@ async def predict(
                         "personality_analysis": data.get("personality_analysis", {}),
                         "current_influences": data.get("current_influences", {}),
                         "ai_prediction": data.get("ai_prediction", {}),
-                        "specialized_predictions": data.get("specialized_predictions", {})
+                        "specialized_predictions": data.get("specialized_predictions", {}),
+
+                        # Advanced analysis data for wireframe template (only missing keys)
+                        "divisional_charts": data.get("divisional_charts", {}),
+                        "advanced_yogas": data.get("advanced_yogas", []),
+                        "ashtakavarga": data.get("ashtakavarga", {}),
+                        "transit_analysis": data.get("transit_analysis", {}),
+                        "yogas": data.get("yogas", []),
+                        "location_data": data.get("location_data", {})
                     }
 
-                    # Render results page with comprehensive data
-                    return templates.TemplateResponse("cosmic-results.html", template_data)
+                    # Render results page with comprehensive data using wireframe template
+                    return templates.TemplateResponse("wireframe-results.html", template_data)
                 else:
                     error_message = analysis_data.get("error", "Unknown error occurred")
                     return templates.TemplateResponse("index.html", {
