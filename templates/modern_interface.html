@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Vedic Astrology - Phase 2</title>
+    
+    <!-- Material UI CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #6366f1, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-container {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            color: #e2e8f0;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: #f8fafc;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -12px rgba(99, 102, 241, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(99, 102, 241, 0.3);
+            border-top: 3px solid #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .results-container {
+            display: none;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .results-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 1rem;
+        }
+
+        .birth-info {
+            background: rgba(30, 41, 59, 0.6);
+            padding: 1.5rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tabs-container {
+            margin-bottom: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: linear-gradient(45deg, #6366f1, #8b5cf6);
+            color: white;
+            border-color: transparent;
+        }
+
+        .tab:hover:not(.active) {
+            background: rgba(99, 102, 241, 0.2);
+            color: #f8fafc;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .data-card {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .data-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.3);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .data-card h3 {
+            color: #6366f1;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .data-card .material-icons {
+            font-size: 1.2rem;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .success-message {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #86efac;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+
+        .comparison-link {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .comparison-link:hover {
+            background: rgba(99, 102, 241, 0.2);
+            color: #f8fafc;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                padding: 1.5rem;
+            }
+            
+            .tabs {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
+            .comparison-link {
+                position: static;
+                display: block;
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="comparison-link">
+        <span class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">compare</span>
+        Original Interface
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1>Modern Vedic Astrology</h1>
+            <p>Phase 2: Advanced astrological analysis with modern interface consuming comprehensive JSON API</p>
+        </div>
+
+        <div class="form-container">
+            <form id="predictionForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="birth_date">Birth Date</label>
+                        <input type="date" id="birth_date" name="birth_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="birth_time">Birth Time</label>
+                        <input type="time" id="birth_time" name="birth_time" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="birth_location">Birth Location</label>
+                        <input type="text" id="birth_location" name="birth_location" required placeholder="City, Country">
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">
+                    <span class="material-icons" style="vertical-align: middle; margin-right: 0.5rem;">auto_awesome</span>
+                    Generate Comprehensive Analysis
+                </button>
+            </form>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Calculating your comprehensive astrological analysis...</p>
+            <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">This may take a few moments</p>
+        </div>
+
+        <div class="results-container" id="results">
+            <!-- Results will be populated here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // Phase 2: Modern Frontend JavaScript
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = {
+                name: formData.get('name'),
+                birth_date: formData.get('birth_date'),
+                birth_time: formData.get('birth_time'),
+                birth_location: formData.get('birth_location')
+            };
+
+            // Show loading
+            document.querySelector('.form-container').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+
+            try {
+                // Call the comprehensive JSON API
+                const response = await fetch('/api/comprehensive-analysis', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    displayResults(result.data, data);
+                } else {
+                    showError(result.error || 'Failed to generate analysis');
+                }
+            } catch (error) {
+                showError('Network error: ' + error.message);
+            }
+        });
+
+        function displayResults(data, formData) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('results').style.display = 'block';
+            
+            // Populate results container
+            const resultsContainer = document.getElementById('results');
+            resultsContainer.innerHTML = generateResultsHTML(data, formData);
+            
+            // Initialize tabs
+            initializeTabs();
+        }
+
+        function showError(message) {
+            document.getElementById('loading').style.display = 'none';
+            document.querySelector('.form-container').style.display = 'block';
+            
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.innerHTML = `<strong>Error:</strong> ${message}`;
+            
+            document.querySelector('.form-container').appendChild(errorDiv);
+            
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
+
+        function generateResultsHTML(data, formData) {
+            return `
+                <div class="results-header">
+                    <h2>Comprehensive Analysis for ${formData.name}</h2>
+                    <div class="birth-info">
+                        <strong>Born:</strong> ${formData.birth_date} at ${formData.birth_time} in ${formData.birth_location}
+                    </div>
+                </div>
+
+                <div class="tabs-container">
+                    <div class="tabs">
+                        <div class="tab active" data-tab="overview">
+                            <span class="material-icons">dashboard</span> Overview
+                        </div>
+                        <div class="tab" data-tab="planetary">
+                            <span class="material-icons">public</span> Planetary Analysis
+                        </div>
+                        <div class="tab" data-tab="personality">
+                            <span class="material-icons">psychology</span> Personality
+                        </div>
+                        <div class="tab" data-tab="timing">
+                            <span class="material-icons">schedule</span> Timing Analysis
+                        </div>
+                        <div class="tab" data-tab="predictions">
+                            <span class="material-icons">crystal_ball</span> Predictions
+                        </div>
+                        <div class="tab" data-tab="yogas">
+                            <span class="material-icons">auto_awesome</span> Yogas
+                        </div>
+                        <div class="tab" data-tab="remedies">
+                            <span class="material-icons">healing</span> Remedies
+                        </div>
+                        <div class="tab" data-tab="life-themes">
+                            <span class="material-icons">psychology</span> Life Themes
+                        </div>
+                        <div class="tab" data-tab="advanced">
+                            <span class="material-icons">insights</span> Advanced
+                        </div>
+                    </div>
+
+                    <div class="tab-content active" id="overview">
+                        ${generateOverviewTab(data)}
+                    </div>
+                    
+                    <div class="tab-content" id="planetary">
+                        ${generatePlanetaryTab(data)}
+                    </div>
+                    
+                    <div class="tab-content" id="personality">
+                        ${generatePersonalityTab(data)}
+                    </div>
+                    
+                    <div class="tab-content" id="timing">
+                        ${generateTimingTab(data)}
+                    </div>
+                    
+                    <div class="tab-content" id="predictions">
+                        ${generatePredictionsTab(data)}
+                    </div>
+                    
+                    <div class="tab-content" id="yogas">
+                        ${generateYogasTab(data)}
+                    </div>
+
+                    <div class="tab-content" id="remedies">
+                        ${generateRemediesTab(data)}
+                    </div>
+
+                    <div class="tab-content" id="life-themes">
+                        ${generateLifeThemesTab(data)}
+                    </div>
+
+                    <div class="tab-content" id="advanced">
+                        ${generateAdvancedTab(data)}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateOverviewTab(data) {
+            const chart = data.vedic_chart || {};
+            const dasha = data.current_dasha || {};
+
+            return `
+                <div class="data-grid">
+                    <div class="data-card">
+                        <h3><span class="material-icons">account_circle</span> Chart Summary</h3>
+                        <p><strong>Ascendant:</strong> ${chart.ascendant_sign || 'N/A'}</p>
+                        <p><strong>Moon Sign:</strong> ${chart.moon_sign || 'N/A'}</p>
+                        <p><strong>Sun Sign:</strong> ${chart.sun_sign || 'N/A'}</p>
+                        <p><strong>Birth Nakshatra:</strong> ${chart.birth_nakshatra || 'N/A'}</p>
+                    </div>
+
+                    <div class="data-card">
+                        <h3><span class="material-icons">schedule</span> Current Dasha</h3>
+                        <p><strong>Planet:</strong> ${dasha.planet || 'N/A'}</p>
+                        <p><strong>Remaining Years:</strong> ${dasha.remaining_years || 'N/A'}</p>
+                        <p><strong>Period:</strong> ${dasha.start_date || 'N/A'} to ${dasha.end_date || 'N/A'}</p>
+                    </div>
+
+                    <div class="data-card">
+                        <h3><span class="material-icons">insights</span> Key Insights</h3>
+                        <p><strong>Total Planets:</strong> ${chart.planets ? chart.planets.length : 0}</p>
+                        <p><strong>Yogas Found:</strong> ${data.yogas ? data.yogas.length : 0}</p>
+                        <p><strong>Analysis Sections:</strong> ${Object.keys(data).length}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generatePlanetaryTab(data) {
+            const planets = data.vedic_chart?.planets || [];
+            const strengths = data.planetary_strengths || {};
+            const descriptions = data.planetary_descriptions || {};
+            const remedies = data.planetary_remedies || {};
+
+            let html = '<div class="data-grid">';
+
+            planets.forEach(planet => {
+                const strength = strengths[planet.name] || {};
+                const description = descriptions[planet.name] || {};
+                const remedy = remedies[planet.name] || {};
+
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">public</span> ${planet.name}</h3>
+                        <p><strong>Sign:</strong> ${planet.sign}</p>
+                        <p><strong>House:</strong> ${planet.house}</p>
+                        <p><strong>Degree:</strong> ${planet.longitude?.toFixed(2)}°</p>
+                        ${planet.nakshatra ? `<p><strong>Nakshatra:</strong> ${planet.nakshatra}</p>` : ''}
+                        ${planet.retrograde ? '<p style="color: #f59e0b;"><strong>Retrograde</strong></p>' : ''}
+
+                        ${strength.overall_strength ? `
+                            <div style="margin-top: 1rem; padding: 0.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 8px;">
+                                <p><strong>Strength:</strong> ${strength.overall_strength}</p>
+                                <p><strong>Score:</strong> ${strength.total_score || 'N/A'}/100</p>
+                                ${strength.interpretation ? `<p><strong>Analysis:</strong> ${strength.interpretation}</p>` : ''}
+                            </div>
+                        ` : ''}
+
+                        ${description.title ? `
+                            <div style="margin-top: 1rem; padding: 0.5rem; background: rgba(34, 197, 94, 0.1); border-radius: 8px;">
+                                <h4>${description.title}</h4>
+                                ${description.sign_influence ? `
+                                    <div style="margin: 0.5rem 0;">
+                                        <strong>${description.sign_influence.title}:</strong>
+                                        <p style="margin: 0.25rem 0; font-size: 0.9em;">${description.sign_influence.description}</p>
+                                    </div>
+                                ` : ''}
+                                ${description.house_influence ? `
+                                    <div style="margin: 0.5rem 0;">
+                                        <strong>${description.house_influence.title}:</strong>
+                                        <p style="margin: 0.25rem 0; font-size: 0.9em;">${description.house_influence.description}</p>
+                                    </div>
+                                ` : ''}
+                                ${description.combined_effect ? `
+                                    <div style="margin: 0.5rem 0;">
+                                        <strong>${description.combined_effect.title}:</strong>
+                                        <p style="margin: 0.25rem 0; font-size: 0.9em;">${description.combined_effect.description}</p>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        ` : ''}
+
+                        ${remedy.gemstone || remedy.mantra || remedy.ritual ? `
+                            <div style="margin-top: 1rem; padding: 0.5rem; background: rgba(168, 85, 247, 0.1); border-radius: 8px;">
+                                <h4>Remedies</h4>
+                                ${remedy.gemstone ? `<p><strong>Gemstone:</strong> ${remedy.gemstone}</p>` : ''}
+                                ${remedy.mantra ? `<p><strong>Mantra:</strong> ${remedy.mantra}</p>` : ''}
+                                ${remedy.ritual ? `<p><strong>Ritual:</strong> ${remedy.ritual}</p>` : ''}
+                                ${remedy.lifestyle ? `<p><strong>Lifestyle:</strong> ${remedy.lifestyle}</p>` : ''}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            return html;
+        }
+
+        function generatePersonalityTab(data) {
+            const personality = data.personality_analysis || {};
+
+            let html = '<div class="data-grid">';
+
+            Object.entries(personality).forEach(([key, value]) => {
+                if (value && typeof value === 'string') {
+                    html += `
+                        <div class="data-card">
+                            <h3><span class="material-icons">psychology</span> ${key.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</h3>
+                            <p>${value}</p>
+                        </div>
+                    `;
+                }
+            });
+
+            html += '</div>';
+            return html;
+        }
+
+        function generateTimingTab(data) {
+            const timing = data.timing_analysis || {};
+            const favorable = timing.favorable_periods || [];
+            const challenging = timing.challenging_periods || [];
+            const muhurta = timing.muhurta_analysis || {};
+
+            return `
+                <div class="data-grid">
+                    <div class="data-card">
+                        <h3><span class="material-icons">trending_up</span> Current Muhurta</h3>
+                        <p><strong>Time:</strong> ${muhurta.current_time || 'N/A'}</p>
+                        <p><strong>Auspiciousness:</strong> ${muhurta.auspiciousness_level || 'N/A'}</p>
+                        <p><strong>Day:</strong> ${muhurta.current_day || 'N/A'}</p>
+                        <p><strong>Guidance:</strong> ${muhurta.guidance || 'N/A'}</p>
+                    </div>
+
+                    <div class="data-card">
+                        <h3><span class="material-icons">star</span> Favorable Periods</h3>
+                        ${favorable.length > 0 ? favorable.slice(0, 3).map(period => `
+                            <div style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(34, 197, 94, 0.1); border-radius: 8px;">
+                                <p><strong>Period:</strong> ${period.start_date} to ${period.end_date}</p>
+                                <p><strong>Strength:</strong> ${(period.strength * 100).toFixed(1)}%</p>
+                                <p>${period.guidance}</p>
+                            </div>
+                        `).join('') : '<p>No favorable periods data available</p>'}
+                    </div>
+
+                    <div class="data-card">
+                        <h3><span class="material-icons">warning</span> Challenging Periods</h3>
+                        ${challenging.length > 0 ? challenging.slice(0, 3).map(period => `
+                            <div style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(239, 68, 68, 0.1); border-radius: 8px;">
+                                <p><strong>Period:</strong> ${period.start_date} to ${period.end_date}</p>
+                                <p><strong>Challenge Level:</strong> ${(period.challenge_level * 100).toFixed(1)}%</p>
+                                <p>${period.guidance}</p>
+                            </div>
+                        `).join('') : '<p>No challenging periods data available</p>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generatePredictionsTab(data) {
+            const prediction = data.ai_prediction || {};
+            const specialized = data.specialized_predictions || {};
+
+            return `
+                <div class="data-grid">
+                    <div class="data-card">
+                        <h3><span class="material-icons">auto_awesome</span> AI Prediction</h3>
+                        <p><strong>Summary:</strong> ${prediction.prediction_text || 'No prediction available'}</p>
+                        ${prediction.key_themes && prediction.key_themes.length > 0 ? `
+                            <p><strong>Key Themes:</strong></p>
+                            <ul>${prediction.key_themes.map(theme => `<li>${theme}</li>`).join('')}</ul>
+                        ` : ''}
+                        <p><strong>Guidance:</strong> ${prediction.guidance || 'Follow your planetary influences'}</p>
+                    </div>
+
+                    <div class="data-card">
+                        <h3><span class="material-icons">work</span> Specialized Analysis</h3>
+                        ${specialized.error ? `
+                            <p style="color: #f59e0b;">Specialized predictions: ${specialized.error}</p>
+                        ` : `
+                            <p>Specialized prediction analysis available</p>
+                            <p><strong>Type:</strong> ${specialized.prediction_type || 'General'}</p>
+                            <p><strong>Confidence:</strong> ${specialized.confidence_score || 'N/A'}</p>
+                        `}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateYogasTab(data) {
+            const yogas = data.yogas || [];
+            const advancedYogas = data.advanced_yogas || [];
+
+            let html = '<div class="data-grid">';
+
+            // Regular yogas
+            if (yogas.length > 0) {
+                yogas.forEach(yoga => {
+                    html += `
+                        <div class="data-card">
+                            <h3><span class="material-icons">auto_awesome</span> ${yoga.name || 'Unnamed Yoga'}</h3>
+                            <p><strong>Description:</strong> ${yoga.description || 'No description available'}</p>
+                            ${yoga.strength ? `<p><strong>Strength:</strong> ${yoga.strength}</p>` : ''}
+                            ${yoga.effects ? `<p><strong>Effects:</strong> ${yoga.effects}</p>` : ''}
+                        </div>
+                    `;
+                });
+            }
+
+            // Advanced yogas
+            if (advancedYogas.length > 0) {
+                advancedYogas.forEach(yoga => {
+                    html += `
+                        <div class="data-card">
+                            <h3><span class="material-icons">stars</span> ${yoga.name || 'Advanced Yoga'}</h3>
+                            <p><strong>Strength:</strong> ${yoga.strength || 'N/A'}</p>
+                            <p><strong>Description:</strong> ${yoga.detailed_description || 'No description available'}</p>
+                            <p><strong>Formation:</strong> ${yoga.formation || 'N/A'}</p>
+                            <p><strong>Effects:</strong> ${yoga.effects || 'N/A'}</p>
+                            <p><strong>Timing:</strong> ${yoga.timing || 'N/A'}</p>
+                        </div>
+                    `;
+                });
+            }
+
+            if (yogas.length === 0 && advancedYogas.length === 0) {
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">info</span> Yogas Analysis</h3>
+                        <p>No specific yogas detected in the current analysis.</p>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function generateRemediesTab(data) {
+            const remedies = data.remedies || {};
+
+            let html = '<div class="data-grid">';
+
+            // Gemstones
+            if (remedies.gemstones && remedies.gemstones.length > 0) {
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">diamond</span> Gemstones</h3>
+                        ${remedies.gemstones.map(gem => `
+                            <div style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 8px;">
+                                <p><strong>${gem.name}</strong></p>
+                                <p><strong>Purpose:</strong> ${gem.purpose}</p>
+                                <p><strong>Instructions:</strong> ${gem.wearing_instructions}</p>
+                                <p><strong>Benefits:</strong> ${gem.benefits}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Mantras
+            if (remedies.mantras && remedies.mantras.length > 0) {
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">music_note</span> Mantras</h3>
+                        ${remedies.mantras.map(mantra => `
+                            <div style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(34, 197, 94, 0.1); border-radius: 8px;">
+                                <p><strong>${mantra.planet} Mantra</strong></p>
+                                <p><strong>Text:</strong> ${mantra.text}</p>
+                                <p><strong>Repetitions:</strong> ${mantra.repetitions}</p>
+                                <p><strong>Timing:</strong> ${mantra.timing}</p>
+                                <p><strong>Benefits:</strong> ${mantra.benefits}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Rituals
+            if (remedies.rituals && remedies.rituals.length > 0) {
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">self_improvement</span> Rituals</h3>
+                        ${remedies.rituals.map(ritual => `
+                            <div style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(168, 85, 247, 0.1); border-radius: 8px;">
+                                <p><strong>${ritual.name}</strong></p>
+                                <p><strong>Purpose:</strong> ${ritual.purpose}</p>
+                                <p><strong>Instructions:</strong> ${ritual.instructions}</p>
+                                <p><strong>Frequency:</strong> ${ritual.frequency}</p>
+                                <p><strong>Benefits:</strong> ${ritual.benefits}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Lifestyle
+            if (remedies.lifestyle && remedies.lifestyle.length > 0) {
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">spa</span> Lifestyle</h3>
+                        ${remedies.lifestyle.map(lifestyle => `
+                            <div style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(245, 158, 11, 0.1); border-radius: 8px;">
+                                <p><strong>${lifestyle.category}</strong></p>
+                                <p><strong>Recommendation:</strong> ${lifestyle.recommendation}</p>
+                                <p><strong>Benefits:</strong> ${lifestyle.benefits}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            if (!remedies.gemstones && !remedies.mantras && !remedies.rituals && !remedies.lifestyle) {
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">info</span> Remedies</h3>
+                        <p>No specific remedies available in current analysis.</p>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function generateLifeThemesTab(data) {
+            const lifeThemes = data.life_themes || {};
+            const detailedPredictions = data.detailed_specialized_predictions || {};
+
+            let html = '<div class="data-grid">';
+
+            // Life themes
+            if (Object.keys(lifeThemes).length > 0) {
+                Object.entries(lifeThemes).forEach(([theme, description]) => {
+                    html += `
+                        <div class="data-card">
+                            <h3><span class="material-icons">psychology</span> ${theme.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}</h3>
+                            <p>${description}</p>
+                        </div>
+                    `;
+                });
+            }
+
+            // Detailed specialized predictions
+            Object.entries(detailedPredictions).forEach(([category, details]) => {
+                if (details && typeof details === 'object') {
+                    html += `
+                        <div class="data-card">
+                            <h3><span class="material-icons">insights</span> ${details.title || category.replace(/\b\w/g, l => l.toUpperCase())}</h3>
+                            <p><strong>Summary:</strong> ${details.summary || 'No summary available'}</p>
+
+                            ${details.key_periods ? `
+                                <div style="margin-top: 1rem;">
+                                    <p><strong>Key Periods:</strong></p>
+                                    ${details.key_periods.map(period => `
+                                        <div style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 6px;">
+                                            <strong>${period.timeframe}:</strong> ${period.description}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+
+                            ${details.recommendations ? `
+                                <div style="margin-top: 1rem;">
+                                    <p><strong>Recommendations:</strong></p>
+                                    <ul>${details.recommendations.map(rec => `<li>${rec}</li>`).join('')}</ul>
+                                </div>
+                            ` : ''}
+
+                            ${details.vulnerable_areas ? `
+                                <div style="margin-top: 1rem;">
+                                    <p><strong>Areas of Attention:</strong></p>
+                                    ${details.vulnerable_areas.map(area => `
+                                        <div style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(239, 68, 68, 0.1); border-radius: 6px;">
+                                            <strong>${area.body_part}:</strong> ${area.guidance}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+
+                            ${details.wealth_periods ? `
+                                <div style="margin-top: 1rem;">
+                                    <p><strong>Wealth Periods:</strong></p>
+                                    ${details.wealth_periods.map(period => `
+                                        <div style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(34, 197, 94, 0.1); border-radius: 6px;">
+                                            <strong>${period.timeframe}:</strong> ${period.opportunities}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+
+                            ${details.growth_phases ? `
+                                <div style="margin-top: 1rem;">
+                                    <p><strong>Growth Phases:</strong></p>
+                                    ${details.growth_phases.map(phase => `
+                                        <div style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(168, 85, 247, 0.1); border-radius: 6px;">
+                                            <strong>${phase.phase_name}:</strong> ${phase.description}
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }
+            });
+
+            if (Object.keys(lifeThemes).length === 0 && Object.keys(detailedPredictions).length === 0) {
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">info</span> Life Themes</h3>
+                        <p>No specific life themes available in current analysis.</p>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function generateAdvancedTab(data) {
+            const ashtakavarga = data.ashtakavarga || {};
+            const transitAnalysis = data.transit_analysis || {};
+            const dashaSequence = data.dasha_sequence || [];
+            const divisionalInsights = data.detailed_divisional_insights || {};
+
+            let html = '<div class="data-grid">';
+
+            // Ashtakavarga
+            if (Object.keys(ashtakavarga).length > 0) {
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">analytics</span> Ashtakavarga Analysis</h3>
+                        <p><strong>Summary:</strong> ${ashtakavarga.summary || 'No summary available'}</p>
+                        <p><strong>Total Score:</strong> ${ashtakavarga.total_score || 'N/A'}</p>
+                        <p><strong>Interpretation:</strong> ${ashtakavarga.interpretation || 'No interpretation available'}</p>
+
+                        ${ashtakavarga.planetary_scores ? `
+                            <div style="margin-top: 1rem;">
+                                <p><strong>Planetary Scores:</strong></p>
+                                ${Object.entries(ashtakavarga.planetary_scores).map(([planet, score]) => `
+                                    <div style="display: inline-block; margin: 0.25rem; padding: 0.25rem 0.5rem; background: rgba(99, 102, 241, 0.1); border-radius: 4px;">
+                                        ${planet}: ${score}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+
+            // Transit Analysis
+            if (transitAnalysis.major_transits && transitAnalysis.major_transits.length > 0) {
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">timeline</span> Transit Analysis</h3>
+                        ${transitAnalysis.major_transits.map(transit => `
+                            <div style="margin-bottom: 1rem; padding: 0.5rem; background: rgba(34, 197, 94, 0.1); border-radius: 8px;">
+                                <p><strong>${transit.planet} Transit</strong></p>
+                                <p><strong>Current Sign:</strong> ${transit.current_sign}</p>
+                                <p><strong>Current House:</strong> ${transit.current_house}</p>
+                                <p><strong>Duration:</strong> ${transit.duration}</p>
+                                <p><strong>Impact:</strong> ${transit.impact_description}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Dasha Sequence
+            if (dashaSequence.length > 0) {
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">schedule</span> Dasha Sequence</h3>
+                        ${dashaSequence.map(dasha => `
+                            <div style="margin-bottom: 1rem; padding: 0.5rem; background: ${dasha.is_current ? 'rgba(34, 197, 94, 0.1)' : 'rgba(99, 102, 241, 0.1)'}; border-radius: 8px;">
+                                <p><strong>${dasha.planet} Dasha</strong> ${dasha.is_current ? '(Current)' : ''}</p>
+                                <p><strong>Period:</strong> ${dasha.start_date} to ${dasha.end_date}</p>
+                                <p><strong>Duration:</strong> ${dasha.duration} years</p>
+                                <p><strong>Description:</strong> ${dasha.description}</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+
+            // Divisional Insights
+            Object.entries(divisionalInsights).forEach(([chart, insights]) => {
+                if (insights && typeof insights === 'object') {
+                    html += `
+                        <div class="data-card">
+                            <h3><span class="material-icons">grid_view</span> ${chart.replace('_', ' ')}</h3>
+                            <p><strong>Purpose:</strong> ${insights.purpose || 'N/A'}</p>
+                            <p><strong>Strength:</strong> ${insights.strength_analysis || 'N/A'}</p>
+
+                            ${insights.key_insights ? `
+                                <div style="margin-top: 1rem;">
+                                    <p><strong>Key Insights:</strong></p>
+                                    <ul>${insights.key_insights.map(insight => `<li>${insight}</li>`).join('')}</ul>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                }
+            });
+
+            if (Object.keys(ashtakavarga).length === 0 && !transitAnalysis.major_transits && dashaSequence.length === 0 && Object.keys(divisionalInsights).length === 0) {
+                html += `
+                    <div class="data-card">
+                        <h3><span class="material-icons">info</span> Advanced Analysis</h3>
+                        <p>No advanced analysis data available.</p>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function initializeTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetTab = tab.getAttribute('data-tab');
+
+                    // Remove active class from all tabs and contents
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+
+                    // Add active class to clicked tab and corresponding content
+                    tab.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+        }
+    </script>
+</body>
+</html>

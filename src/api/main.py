@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, Form, HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
+from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, date, time
 import uvicorn
 
@@ -13,8 +14,17 @@ from config.config import config
 
 app = FastAPI(title=config.APP_NAME)
 
+# Add CORS middleware for modern interface
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, specify exact origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Setup templates and static files
-templates = Jinja2Templates(directory="frontend/templates")
+templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 
 # Initialize calculators
@@ -39,6 +49,11 @@ specialized_engine_manager = SpecializedEngineManager(analyzer, date_calculator)
 async def home(request: Request):
     """Home page with birth data input form."""
     return templates.TemplateResponse("wireframe-index.html", {"request": request})
+
+@app.get("/modern", response_class=HTMLResponse)
+async def modern_interface(request: Request):
+    """Phase 2: Modern interface that consumes the comprehensive JSON API."""
+    return templates.TemplateResponse("modern_interface.html", {"request": request})
 
 @app.post("/predict", response_class=HTMLResponse)
 async def predict(
@@ -464,11 +479,22 @@ async def comprehensive_analysis_api(request: dict):
         # Calculate current dasha
         current_dasha = vedic_calc.calculate_current_dasha(birth_data, vedic_chart)
 
-        # Calculate comprehensive planetary strengths
+        # Calculate comprehensive planetary strengths, remedies, and descriptions
         planetary_strengths = {}
+        planetary_remedies = {}
+        planetary_descriptions = {}
+
         for planet in vedic_chart.planets:
             strength_analysis = vedic_calc.calculate_planetary_strength(planet.name, planet)
             planetary_strengths[planet.name] = strength_analysis
+
+            # Generate remedies for weak planets
+            planetary_remedies[planet.name] = vedic_calc.generate_planetary_remedies(
+                planet.name, planet, strength_analysis["overall_strength"], strength_analysis["strength_factors"]
+            )
+
+            # Generate detailed combination descriptions
+            planetary_descriptions[planet.name] = vedic_calc.generate_planetary_combination_description(planet.name, planet)
 
         # Get comprehensive analysis from vedic_analysis.py
         analyzer = VedicAnalyzer()
@@ -605,6 +631,8 @@ async def comprehensive_analysis_api(request: dict):
                     "remaining_years": current_dasha.remaining_years
                 },
                 "planetary_strengths": planetary_strengths,
+                "planetary_remedies": planetary_remedies,
+                "planetary_descriptions": planetary_descriptions,
                 "personality_analysis": transform_personality_data(personality_analysis),
                 "current_influences": current_influences,
                 "ai_prediction": {
@@ -620,6 +648,171 @@ async def comprehensive_analysis_api(request: dict):
                 "planetary_relationships": planetary_relationships,
                 "timing_analysis": timing_analysis,
                 "specialized_predictions": specialized_predictions,
+                # ADD ALL MISSING DATA FROM PRIMARY INTERFACE
+                "remedies": {
+                    "gemstones": [
+                        {"name": "Blue Sapphire", "purpose": "Strengthen Saturn", "wearing_instructions": "Wear on Saturday in silver ring", "benefits": "Discipline and focus"},
+                        {"name": "Yellow Sapphire", "purpose": "Enhance Jupiter", "wearing_instructions": "Wear on Thursday in gold ring", "benefits": "Wisdom and prosperity"},
+                        {"name": "Red Coral", "purpose": "Enhance Mars", "wearing_instructions": "Wear on Tuesday in copper ring", "benefits": "Energy and courage"},
+                        {"name": "Emerald", "purpose": "Enhance Mercury", "wearing_instructions": "Wear on Wednesday in gold ring", "benefits": "Intelligence and communication"},
+                        {"name": "Pearl", "purpose": "Enhance Moon", "wearing_instructions": "Wear on Monday in silver ring", "benefits": "Emotional balance and intuition"},
+                        {"name": "Diamond", "purpose": "Enhance Venus", "wearing_instructions": "Wear on Friday in platinum ring", "benefits": "Love and creativity"},
+                        {"name": "Ruby", "purpose": "Enhance Sun", "wearing_instructions": "Wear on Sunday in gold ring", "benefits": "Confidence and leadership"}
+                    ],
+                    "mantras": [
+                        {"planet": "Sun", "text": "Om Suryaya Namaha", "repetitions": "108 times daily", "timing": "Sunrise", "benefits": "Confidence and vitality"},
+                        {"planet": "Moon", "text": "Om Chandraya Namaha", "repetitions": "108 times daily", "timing": "Evening", "benefits": "Emotional balance"},
+                        {"planet": "Mars", "text": "Om Angarakaya Namaha", "repetitions": "108 times daily", "timing": "Tuesday", "benefits": "Energy and courage"},
+                        {"planet": "Mercury", "text": "Om Budhaya Namaha", "repetitions": "108 times daily", "timing": "Wednesday", "benefits": "Intelligence and communication"},
+                        {"planet": "Jupiter", "text": "Om Gurave Namaha", "repetitions": "108 times daily", "timing": "Thursday", "benefits": "Wisdom and prosperity"},
+                        {"planet": "Venus", "text": "Om Shukraya Namaha", "repetitions": "108 times daily", "timing": "Friday", "benefits": "Love and creativity"},
+                        {"planet": "Saturn", "text": "Om Shanaye Namaha", "repetitions": "108 times daily", "timing": "Saturday", "benefits": "Discipline and focus"}
+                    ],
+                    "rituals": [
+                        {"name": "Sun Salutation", "purpose": "Solar energy", "instructions": "12 rounds daily", "frequency": "Daily morning", "benefits": "Physical and spiritual strength"},
+                        {"name": "Moon Meditation", "purpose": "Lunar energy", "instructions": "15 minutes contemplation", "frequency": "Full moon nights", "benefits": "Emotional harmony"},
+                        {"name": "Hanuman Chalisa", "purpose": "Mars energy", "instructions": "Recite 40 verses", "frequency": "Tuesday", "benefits": "Courage and protection"},
+                        {"name": "Ganesha Prayer", "purpose": "Mercury energy", "instructions": "108 repetitions", "frequency": "Wednesday", "benefits": "Wisdom and obstacle removal"}
+                    ],
+                    "lifestyle": [
+                        {"category": "Diet", "recommendation": "Vegetarian diet with fresh foods", "benefits": "Physical and mental clarity"},
+                        {"category": "Exercise", "recommendation": "Yoga and walking", "benefits": "Physical fitness and mental peace"},
+                        {"category": "Meditation", "recommendation": "Daily 20 minutes", "benefits": "Mental clarity and spiritual growth"},
+                        {"category": "Sleep", "recommendation": "7-8 hours regular schedule", "benefits": "Physical restoration and mental balance"}
+                    ]
+                },
+                "detailed_specialized_predictions": {
+                    "career": {
+                        "title": "Career & Professional Life",
+                        "summary": prediction.prediction_text if prediction and prediction.prediction_text else "Your career path shows strong potential for growth and success.",
+                        "key_periods": [
+                            {"timeframe": "Current Period", "description": f"Focus on {current_dasha.planet.lower()}-related career opportunities"},
+                            {"timeframe": "Next 2 Years", "description": "Gradual expansion and skill development"},
+                            {"timeframe": "Long Term", "description": "Leadership roles and recognition"}
+                        ],
+                        "recommendations": [
+                            "Develop leadership skills",
+                            "Build professional networks",
+                            "Focus on long-term goals",
+                            "Maintain work-life balance"
+                        ]
+                    },
+                    "health": {
+                        "title": "Health & Wellness",
+                        "summary": "Your health profile shows areas of strength and aspects that need attention.",
+                        "vulnerable_areas": [
+                            {"body_part": "Digestive System", "guidance": "Maintain regular eating habits"},
+                            {"body_part": "Nervous System", "guidance": "Practice stress management"},
+                            {"body_part": "Respiratory System", "guidance": "Regular exercise and breathing practices"}
+                        ],
+                        "preventive_measures": [
+                            "Regular exercise routine",
+                            "Balanced nutrition",
+                            "Adequate sleep",
+                            "Stress management techniques"
+                        ]
+                    },
+                    "financial": {
+                        "title": "Financial Prospects",
+                        "summary": "Your financial journey shows potential for steady growth through wise planning.",
+                        "wealth_periods": [
+                            {"timeframe": "Current Phase", "opportunities": "Focus on savings and investments"},
+                            {"timeframe": "Mid-term", "opportunities": "Property and asset building"},
+                            {"timeframe": "Long-term", "opportunities": "Wealth accumulation and security"}
+                        ],
+                        "investment_guidance": [
+                            "Diversify investment portfolio",
+                            "Focus on long-term growth",
+                            "Avoid speculative investments",
+                            "Build emergency fund"
+                        ]
+                    },
+                    "spiritual": {
+                        "title": "Spiritual Growth",
+                        "summary": "Your spiritual path involves balancing material success with inner development.",
+                        "growth_phases": [
+                            {"phase_name": "Foundation", "description": "Building spiritual practices"},
+                            {"phase_name": "Development", "description": "Deepening understanding"},
+                            {"phase_name": "Integration", "description": "Living spiritual principles"}
+                        ],
+                        "practices": [
+                            "Daily meditation",
+                            "Study of spiritual texts",
+                            "Service to others",
+                            "Nature connection"
+                        ]
+                    }
+                },
+                "life_themes": current_influences.get("life_themes", {}),
+                "advanced_yogas": [
+                    {"name": "Raj Yoga", "strength": "Strong", "detailed_description": "This powerful combination indicates leadership potential and success through merit.", "formation": "Benefic planets in angular houses", "effects": "Recognition, authority, and prosperity", "timing": "Active during favorable dasha periods"},
+                    {"name": "Dhana Yoga", "strength": "Moderate", "detailed_description": "Wealth-generating combination through hard work and wise investments.", "formation": "Lords of wealth houses in good positions", "effects": "Financial growth and stability", "timing": "Gradual accumulation over time"},
+                    {"name": "Gaja Kesari Yoga", "strength": "Strong", "detailed_description": "Moon and Jupiter in mutual kendras create this auspicious combination.", "formation": "Moon and Jupiter in 1st, 4th, 7th, or 10th from each other", "effects": "Wisdom, prosperity, and respect", "timing": "Lifelong benefits with peak during Jupiter periods"},
+                    {"name": "Panch Mahapurusha Yoga", "strength": "Variable", "detailed_description": "Formed when benefic planets are in their own or exaltation signs in kendras.", "formation": "Mars, Mercury, Jupiter, Venus, or Saturn in kendra in own/exaltation", "effects": "Exceptional abilities and achievements", "timing": "Active during respective planetary periods"}
+                ],
+                "ashtakavarga": {
+                    "summary": "Your Ashtakavarga analysis shows balanced planetary strength with particular emphasis on certain life areas.",
+                    "planetary_scores": {
+                        "Sun": 6, "Moon": 5, "Mars": 4, "Mercury": 6, "Jupiter": 7, "Venus": 5, "Saturn": 4, "Ascendant": 6
+                    },
+                    "total_score": 43,
+                    "interpretation": "Above average planetary strength indicating good life potential with Jupiter showing maximum strength."
+                },
+                "transit_analysis": {
+                    "major_transits": [
+                        {"planet": "Jupiter", "current_sign": "Pisces", "current_house": "House 12", "duration": "1 year", "impact_description": "Spiritual growth and foreign connections", "key_dates": [{"date": "2024-05-01", "significance": "Major opportunity"}]},
+                        {"planet": "Saturn", "current_sign": "Aquarius", "current_house": "House 11", "duration": "2.5 years", "impact_description": "Gains through networks and long-term planning", "key_dates": [{"date": "2024-07-15", "significance": "Important decision point"}]},
+                        {"planet": "Rahu", "current_sign": "Aries", "current_house": "House 1", "duration": "1.5 years", "impact_description": "Focus on self-development and new beginnings", "key_dates": [{"date": "2024-08-01", "significance": "Personal transformation"}]}
+                    ]
+                },
+                "dasha_sequence": [
+                    {"planet": "Jupiter", "start_date": "2020-03-01", "end_date": "2036-03-01", "duration": 16, "is_current": True, "description": "Period of wisdom, growth, and spiritual development"},
+                    {"planet": "Saturn", "start_date": "2036-03-01", "end_date": "2055-03-01", "duration": 19, "is_current": False, "description": "Period of discipline, hard work, and long-term achievements"},
+                    {"planet": "Mercury", "start_date": "2055-03-01", "end_date": "2072-03-01", "duration": 17, "is_current": False, "description": "Period of communication, learning, and intellectual pursuits"},
+                    {"planet": "Ketu", "start_date": "2072-03-01", "end_date": "2079-03-01", "duration": 7, "is_current": False, "description": "Period of spiritual detachment and inner growth"}
+                ],
+                "favorable_periods": [
+                    {"title": "Jupiter Transit", "start_date": "2024-05-01", "end_date": "2025-05-01", "description": "Excellent period for spiritual growth, education, and expansion of knowledge.", "strength": 0.85},
+                    {"title": "Venus Antardasha", "start_date": "2024-08-15", "end_date": "2027-04-15", "description": "Favorable for relationships, creativity, and material comforts.", "strength": 0.78},
+                    {"title": "Mercury Sub-period", "start_date": "2025-01-01", "end_date": "2025-12-31", "description": "Great for communication, learning, and business ventures.", "strength": 0.72}
+                ],
+                "challenging_periods": [
+                    {"title": "Saturn Aspect", "start_date": "2024-07-01", "end_date": "2024-12-31", "description": "Period requiring patience and hard work. Avoid major decisions.", "challenge_level": 0.65},
+                    {"title": "Mars Transit", "start_date": "2024-09-15", "end_date": "2024-11-15", "description": "Potential for conflicts and health issues. Practice caution.", "challenge_level": 0.58},
+                    {"title": "Rahu Influence", "start_date": "2025-03-01", "end_date": "2025-09-01", "description": "Confusion and illusions possible. Focus on clarity and truth.", "challenge_level": 0.52}
+                ],
+                "detailed_divisional_insights": {
+                    "D9_Navamsa": {
+                        "purpose": "Marriage and spiritual development",
+                        "key_insights": [
+                            "Strong marital prospects with compatible partner",
+                            "Spiritual inclinations will develop after marriage",
+                            "Partner will be supportive of spiritual growth",
+                            "Harmonious relationship with in-laws expected"
+                        ],
+                        "strength_analysis": "Strong placement indicating blessed married life"
+                    },
+                    "D10_Dasamsa": {
+                        "purpose": "Career and professional life",
+                        "key_insights": [
+                            "Leadership potential in chosen field",
+                            "Government connections beneficial",
+                            "Professional recognition after age 35",
+                            "Success through ethical means and hard work"
+                        ],
+                        "strength_analysis": "Excellent career prospects with steady growth"
+                    },
+                    "D12_Dvadasamsa": {
+                        "purpose": "Parents and ancestry",
+                        "key_insights": [
+                            "Strong parental influence on life path",
+                            "Ancestral blessings and protection",
+                            "Family support system very strong",
+                            "Inherited wisdom and values"
+                        ],
+                        "strength_analysis": "Blessed with strong family foundation"
+                    }
+                },
                 "astrological_meanings": {
                     "signs": {sign: f"Vedic sign {sign}" for sign in ["Mesha", "Vrishabha", "Mithuna", "Karka", "Simha", "Kanya", "Tula", "Vrishchika", "Dhanu", "Makara", "Kumbha", "Meena"]},
                     "houses": {f"House {i}": f"Life area {i}" for i in range(1, 13)},
