@@ -135,6 +135,12 @@ class CurrentInfluenceAnalyzer:
         daily_changes = self._calculate_daily_changes(current_positions, chart)
         monthly_changes = self._calculate_monthly_changes(month_theme, chart)
 
+        # 8. NEW: Generate comprehensive life themes analysis
+        life_themes = self._generate_comprehensive_life_themes(
+            current_positions, chart, house_transits, transit_aspects,
+            yoga_transit_analysis, divisional_transit_analysis, current_date
+        )
+
         return {
             "current_date": current_date.strftime("%B %d, %Y"),
             "current_positions": current_positions,
@@ -147,6 +153,7 @@ class CurrentInfluenceAnalyzer:
             "planetary_comparisons": planetary_comparisons,
             "yoga_transit_analysis": yoga_transit_analysis,  # NEW
             "divisional_transit_analysis": divisional_transit_analysis,  # NEW
+            "life_themes": life_themes,  # NEW - Comprehensive life themes
             "daily_changes": daily_changes,
             "monthly_changes": monthly_changes,
             "recommendations": self._get_current_recommendations(current_positions, chart),
@@ -815,29 +822,47 @@ class CurrentInfluenceAnalyzer:
         """Analyze current planets transiting through birth chart houses."""
         house_transits = []
 
+        # Group planets by the houses they're transiting
+        house_planet_groups = {}
+
         # Calculate which houses current planets are transiting through
         for planet_name, current_data in current_positions.items():
             current_longitude = current_data.get("longitude", 0)
 
             # Calculate which birth chart house this current planet is transiting
-            # This requires calculating house cusps for birth time
             transit_house = self._calculate_transit_house(current_longitude, chart)
 
-            # Find what this house represents in the birth chart
-            house_significance = self._get_detailed_house_significance(transit_house)
+            if transit_house not in house_planet_groups:
+                house_planet_groups[transit_house] = []
+            house_planet_groups[transit_house].append(planet_name)
 
-            # Get the impact of this planet transiting this house
-            transit_impact = self._get_transit_house_impact(planet_name, transit_house)
+        # Create house transit analysis for each active house
+        for house_num, planets in house_planet_groups.items():
+            if house_num and planets:  # Only process valid houses with planets
+                life_area = self._get_house_theme(house_num)
 
-            house_transits.append({
-                "planet": planet_name,
-                "current_sign": current_data.get("sign", ""),
-                "transiting_house": transit_house,
-                "house_significance": house_significance,
-                "impact": transit_impact,
-                "duration": self._get_transit_duration(planet_name),
-                "advice": self._get_house_transit_advice(planet_name, transit_house)
-            })
+                # Determine challenge level based on planets involved
+                challenge_level = self._assess_house_challenge_level(planets, house_num)
+
+                # Get comprehensive guidance for this house activation
+                guidance = self._get_comprehensive_house_guidance(planets, house_num, life_area)
+
+                # Get duration estimate
+                duration = self._estimate_house_transit_duration(planets)
+
+                house_transits.append({
+                    "house": house_num,
+                    "life_area": life_area.title(),
+                    "transiting_planets": planets,
+                    "challenge_level": challenge_level,
+                    "guidance": guidance,
+                    "duration": duration,
+                    "planet_count": len(planets),
+                    "primary_influence": planets[0] if planets else "Unknown"
+                })
+
+        # Sort by number of planets (most active houses first)
+        house_transits.sort(key=lambda x: x.get("planet_count", 0), reverse=True)
 
         return house_transits
 
@@ -1221,12 +1246,12 @@ class CurrentInfluenceAnalyzer:
 
         summary_parts.append(f"Currently, there's strong planetary emphasis in {most_emphasized_sign}, highlighting themes of {self.sign_monthly_themes.get(most_emphasized_sign, 'growth and development')}.")
 
-        # Major transits
+        # Major transits - updated for new house transit structure
         if house_transits:
-            major_transits = [t for t in house_transits if t["planet"] in ["Jupiter", "Saturn", "Rahu"]]
-            if major_transits:
-                transit_descriptions = [f"{t['planet']} in your {t['transiting_house']} house" for t in major_transits[:2]]
-                summary_parts.append(f"Major long-term influences: {', '.join(transit_descriptions)}.")
+            major_houses = [t for t in house_transits if any(planet in ["Jupiter", "Saturn", "Rahu"] for planet in t.get("transiting_planets", []))]
+            if major_houses:
+                transit_descriptions = [f"House {t['house']} ({t.get('life_area', 'Unknown')})" for t in major_houses[:2]]
+                summary_parts.append(f"Major long-term influences in: {', '.join(transit_descriptions)}.")
 
         # Strongest aspects
         if transit_aspects:
@@ -1918,8 +1943,427 @@ class CurrentInfluenceAnalyzer:
             "preparation": pattern.get("preparation", "focusing on the core themes and qualities of this yoga")
         }
 
+    def _assess_house_challenge_level(self, planets: List[str], house_num: int) -> str:
+        """Assess the challenge level of planets transiting a house."""
+        challenging_planets = ['Mars', 'Saturn', 'Rahu', 'Ketu']
+        beneficial_planets = ['Jupiter', 'Venus', 'Mercury']
+
+        challenging_count = sum(1 for planet in planets if planet in challenging_planets)
+        beneficial_count = sum(1 for planet in planets if planet in beneficial_planets)
+
+        if challenging_count > beneficial_count:
+            return "High"
+        elif challenging_count == beneficial_count or len(planets) >= 3:
+            return "Moderate"
+        else:
+            return "Low"
+
+    def _get_comprehensive_house_guidance(self, planets: List[str], house_num: int, life_area: str) -> str:
+        """Get comprehensive guidance for house transit."""
+        planet_str = ", ".join(planets)
+
+        guidance_templates = {
+            1: f"With {planet_str} transiting your 1st house, focus on personal development and self-image. This is a time for new beginnings and establishing your identity.",
+            2: f"With {planet_str} in your 2nd house, pay attention to finances, family matters, and personal values. Focus on building security and resources.",
+            3: f"With {planet_str} activating your 3rd house, emphasize communication, learning, and relationships with siblings. Short journeys may be significant.",
+            4: f"With {planet_str} in your 4th house, focus on home, family, and emotional foundations. Property matters and maternal relationships are highlighted.",
+            5: f"With {planet_str} transiting your 5th house, creativity, children, and romance are emphasized. This is favorable for artistic pursuits and speculation.",
+            6: f"With {planet_str} in your 6th house, focus on health, daily routines, and service. Address any health issues and improve work habits.",
+            7: f"With {planet_str} activating your 7th house, relationships and partnerships are highlighted. Marriage and business partnerships may be significant.",
+            8: f"With {planet_str} in your 8th house, transformation and hidden matters are emphasized. Research, occult studies, and joint resources are favored.",
+            9: f"With {planet_str} transiting your 9th house, focus on higher learning, spirituality, and long journeys. Teachers and mentors may be important.",
+            10: f"With {planet_str} in your 10th house, career and public image are highlighted. This is a time for professional advancement and recognition.",
+            11: f"With {planet_str} activating your 11th house, focus on gains, friendships, and aspirations. Social networks and group activities are favored.",
+            12: f"With {planet_str} in your 12th house, spirituality, foreign connections, and subconscious matters are emphasized. Meditation and retreat are beneficial."
+        }
+
+        return guidance_templates.get(house_num, f"Focus on {life_area.lower()} matters as {planet_str} brings significant influence to this area of life.")
+
+    def _estimate_house_transit_duration(self, planets: List[str]) -> str:
+        """Estimate duration of house transit based on planets involved."""
+        fast_planets = ['Moon', 'Mercury', 'Venus', 'Sun', 'Mars']
+        slow_planets = ['Jupiter', 'Saturn', 'Rahu', 'Ketu']
+
+        has_slow = any(planet in slow_planets for planet in planets)
+        has_fast = any(planet in fast_planets for planet in planets)
+
+        if has_slow and has_fast:
+            return "Several months to 1 year"
+        elif has_slow:
+            return "1-2 years"
+        else:
+            return "Few weeks to months"
+
     def _calculate_house_from_longitude(self, longitude: float, ascendant_longitude: float) -> int:
         """Calculate house position from longitude and ascendant."""
         # Calculate house based on 30-degree equal houses
         house_position = ((longitude - ascendant_longitude) % 360) / 30
         return int(house_position) + 1
+
+    def _generate_comprehensive_life_themes(self, current_positions: Dict, chart: VedicChart,
+                                          house_transits: List, transit_aspects: List,
+                                          yoga_transit_analysis: Dict, divisional_transit_analysis: Dict,
+                                          current_date: datetime) -> Dict[str, Any]:
+        """Generate comprehensive life themes analysis combining all current influences."""
+
+        # 1. Major Life Themes - Based on strongest current influences
+        major_themes = self._extract_major_life_themes(current_positions, chart, house_transits)
+
+        # 2. Recurring Patterns - Based on transit patterns and birth chart
+        recurring_patterns = self._extract_recurring_patterns(chart, transit_aspects, yoga_transit_analysis)
+
+        # 3. Growth Areas - Based on challenging transits and opportunities
+        growth_areas = self._extract_growth_areas(house_transits, transit_aspects, divisional_transit_analysis)
+
+        # 4. Current Life Areas of Focus - Based on house transits
+        current_focus_areas = self._extract_current_focus_areas(house_transits, current_positions)
+
+        # 5. Life Transformation Opportunities - Based on major transits
+        transformation_opportunities = self._extract_transformation_opportunities(transit_aspects, yoga_transit_analysis, current_positions)
+
+        # 6. Seasonal Life Themes - Based on current month/season
+        seasonal_themes = self._extract_seasonal_themes(current_date, current_positions)
+
+        return {
+            "major_themes": major_themes,
+            "recurring_patterns": recurring_patterns,
+            "growth_areas": growth_areas,
+            "current_focus_areas": current_focus_areas,
+            "transformation_opportunities": transformation_opportunities,
+            "seasonal_themes": seasonal_themes,
+            "summary": self._generate_life_themes_summary(major_themes, recurring_patterns, growth_areas)
+        }
+
+    def _extract_major_life_themes(self, current_positions: Dict, chart: VedicChart, house_transits: List) -> List[Dict[str, str]]:
+        """Extract major life themes from current planetary influences."""
+        themes = []
+
+        # Theme 1: Based on strongest current planetary influence
+        strongest_planet = self._get_strongest_current_influence(current_positions)
+        if strongest_planet:
+            theme_data = self.planetary_themes.get(strongest_planet, {})
+            themes.append({
+                "theme_name": f"{strongest_planet} Influence - {theme_data.get('monthly_theme', 'Personal Development')}",
+                "description": f"Your life is currently dominated by {strongest_planet.lower()} energy, bringing themes of {theme_data.get('monthly_theme', 'growth and development').lower()}. This influence shapes your daily experiences and long-term direction.",
+                "current_manifestation": theme_data.get('effects', 'Enhanced personal growth and development'),
+                "guidance": f"Focus on {strongest_planet.lower()}-related activities and embrace the opportunities this energy brings",
+                "duration": "Current planetary period",
+                "intensity": "Strong"
+            })
+
+        # Theme 2: Based on most active house transit
+        most_active_house = self._get_most_active_house(house_transits)
+        if most_active_house:
+            house_theme = self._get_house_theme(most_active_house)
+            themes.append({
+                "theme_name": f"House {most_active_house} Activation - {house_theme.title()}",
+                "description": f"Your {house_theme} sector is highly activated by current planetary transits, making this a central theme in your life right now.",
+                "current_manifestation": f"Increased focus on {house_theme} with multiple planetary influences",
+                "guidance": f"Pay special attention to {house_theme} as this area is receiving significant cosmic support",
+                "duration": "Several months",
+                "intensity": "High"
+            })
+
+        # Theme 3: Based on birth chart's strongest planet in current sky
+        birth_strongest = self._get_birth_chart_strongest_planet(chart)
+        if birth_strongest and birth_strongest in current_positions:
+            current_sign = current_positions[birth_strongest].get('sign', 'Unknown')
+            themes.append({
+                "theme_name": f"Core Nature Evolution - {birth_strongest} in {current_sign}",
+                "description": f"Your core {birth_strongest.lower()} nature is being refined as this planet transits through {current_sign}, bringing evolution to your fundamental character.",
+                "current_manifestation": f"{birth_strongest} energy expressing through {current_sign} qualities",
+                "guidance": f"Embrace the {current_sign} qualities to enhance your natural {birth_strongest.lower()} strengths",
+                "duration": "Extended period",
+                "intensity": "Moderate to Strong"
+            })
+
+        return themes[:3]  # Return top 3 major themes
+
+    def _extract_recurring_patterns(self, chart: VedicChart, transit_aspects: List, yoga_transit_analysis: Dict) -> List[Dict[str, str]]:
+        """Extract recurring life patterns from astrological analysis."""
+        patterns = []
+
+        # Pattern 1: Based on repeating planetary aspects
+        if transit_aspects:
+            aspect_pattern = self._identify_recurring_aspect_pattern(transit_aspects)
+            if aspect_pattern:
+                patterns.append({
+                    "pattern_name": f"Recurring {aspect_pattern['type']} Challenges",
+                    "description": f"You frequently experience {aspect_pattern['type'].lower()} situations that challenge your {aspect_pattern['area']} nature, creating opportunities for growth.",
+                    "frequency": aspect_pattern.get('frequency', 'Monthly cycles'),
+                    "transformation_opportunity": f"Each cycle offers deeper mastery of {aspect_pattern['area']} themes",
+                    "recognition_signs": aspect_pattern.get('signs', 'Tension followed by breakthrough'),
+                    "guidance": f"Recognize this pattern and use it consciously for {aspect_pattern['area']} development"
+                })
+
+        # Pattern 2: Based on yoga reactivation cycles
+        if yoga_transit_analysis and yoga_transit_analysis.get('reactivation_predictions'):
+            patterns.append({
+                "pattern_name": "Cyclical Yoga Reactivation",
+                "description": "Your birth yogas become active and dormant in predictable cycles, creating waves of opportunity and challenge.",
+                "frequency": "Multi-year cycles",
+                "transformation_opportunity": "Each reactivation brings deeper understanding and mastery of your inherent potentials",
+                "recognition_signs": "Sudden opportunities, increased synchronicities, life theme intensification",
+                "guidance": "Track these cycles to maximize opportunities during active phases"
+            })
+
+        # Pattern 3: Based on birth chart patterns
+        chart_pattern = self._identify_birth_chart_pattern(chart)
+        if chart_pattern:
+            patterns.append({
+                "pattern_name": f"{chart_pattern['type']} Life Pattern",
+                "description": chart_pattern['description'],
+                "frequency": chart_pattern.get('frequency', 'Life-long pattern'),
+                "transformation_opportunity": chart_pattern.get('opportunity', 'Conscious integration of opposing forces'),
+                "recognition_signs": chart_pattern.get('signs', 'Alternating phases of different life themes'),
+                "guidance": chart_pattern.get('guidance', 'Balance and integrate all aspects of your nature')
+            })
+
+        return patterns
+
+    def _extract_growth_areas(self, house_transits: List, transit_aspects: List, divisional_transit_analysis: Dict) -> List[Dict[str, Any]]:
+        """Extract current growth areas from challenging transits and opportunities."""
+        growth_areas = []
+
+        # Growth Area 1: Based on challenging house transits
+        challenging_transits = [t for t in house_transits if t.get('challenge_level', 'Low') in ['High', 'Moderate']]
+        if challenging_transits:
+            transit = challenging_transits[0]  # Most challenging
+            growth_areas.append({
+                "area_name": f"{transit.get('life_area', 'Personal Development')} Mastery",
+                "description": f"Current planetary transits are creating growth opportunities in your {transit.get('life_area', 'personal development').lower()} sector through constructive challenges.",
+                "current_challenge": transit.get('guidance', 'Navigate current changes with patience'),
+                "development_steps": [
+                    f"Embrace {transit.get('life_area', 'this area')} challenges as growth opportunities",
+                    "Practice patience and persistence during difficult phases",
+                    "Seek guidance from mentors or experts in this area",
+                    "Document your progress and lessons learned"
+                ],
+                "expected_outcome": f"Mastery and confidence in {transit.get('life_area', 'personal development').lower()}",
+                "timeline": transit.get('duration', 'Several months')
+            })
+
+        # Growth Area 2: Based on divisional chart changes
+        if divisional_transit_analysis and divisional_transit_analysis.get('major_changes'):
+            for division, analysis in divisional_transit_analysis['major_changes'].items():
+                if analysis.get('change_impact') and 'growth' in analysis.get('change_impact', '').lower():
+                    growth_areas.append({
+                        "area_name": f"{analysis.get('life_area', 'Specialized Area')} Development",
+                        "description": f"Your {division} divisional chart shows significant changes affecting {analysis.get('life_area', 'this specialized area').lower()}, indicating a period of focused development.",
+                        "current_challenge": f"Adapting to changes in {analysis.get('life_area', 'this area').lower()}",
+                        "development_steps": analysis.get('recommendations', [
+                            "Focus on this specialized area",
+                            "Seek expert guidance",
+                            "Practice patience with the process"
+                        ]),
+                        "expected_outcome": f"Enhanced {analysis.get('life_area', 'specialized').lower()} capabilities",
+                        "timeline": "Extended period"
+                    })
+                    break  # Only add one divisional growth area
+
+        # Growth Area 3: Based on spiritual/philosophical development
+        spiritual_growth = self._identify_spiritual_growth_opportunity(transit_aspects)
+        if spiritual_growth:
+            growth_areas.append(spiritual_growth)
+
+
+
+        return growth_areas[:3]  # Return top 3 growth areas
+
+    def _extract_current_focus_areas(self, house_transits: List, current_positions: Dict) -> List[Dict[str, str]]:
+        """Extract current life areas of focus based on house transits."""
+        focus_areas = []
+
+        # Sort house transits by activity level
+        sorted_transits = sorted(house_transits, key=lambda x: len(x.get('transiting_planets', [])), reverse=True)
+
+        for transit in sorted_transits[:4]:  # Top 4 most active houses
+            house_num = transit.get('house', 0)
+            life_area = transit.get('life_area', 'Unknown')
+            planets = transit.get('transiting_planets', [])
+
+            if house_num and life_area and planets:
+                focus_areas.append({
+                    "area_name": f"House {house_num} - {life_area}",
+                    "description": f"Multiple planets ({', '.join(planets)}) are currently transiting your {life_area.lower()} sector, making this a major area of focus.",
+                    "active_planets": planets,
+                    "guidance": transit.get('guidance', f"Focus your attention on {life_area.lower()} matters"),
+                    "duration": transit.get('duration', 'Current period'),
+                    "intensity": "High" if len(planets) >= 2 else "Moderate"
+                })
+
+
+
+        return focus_areas
+
+    def _extract_transformation_opportunities(self, transit_aspects: List, yoga_transit_analysis: Dict, current_positions: Dict) -> List[Dict[str, str]]:
+        """Extract life transformation opportunities from major transits."""
+        opportunities = []
+
+        # Opportunity 1: Based on major challenging aspects (transformation through challenge)
+        major_aspects = [a for a in transit_aspects if a.get('strength', 'Weak') in ['Strong', 'Very Strong']]
+        if major_aspects:
+            aspect = major_aspects[0]  # Strongest aspect
+            opportunities.append({
+                "opportunity_name": f"{aspect.get('aspect_type', 'Planetary')} Transformation",
+                "description": f"A powerful {aspect.get('aspect_type', 'planetary').lower()} aspect is creating opportunities for deep personal transformation through {aspect.get('area', 'personal growth').lower()}.",
+                "transformation_type": "Character Development",
+                "timeline": aspect.get('duration', 'Current period'),
+                "guidance": aspect.get('guidance', 'Embrace the challenges as opportunities for growth'),
+                "expected_outcome": f"Enhanced {aspect.get('area', 'personal').lower()} mastery and wisdom"
+            })
+
+        # Opportunity 2: Based on yoga reactivation (transformation through opportunity)
+        if yoga_transit_analysis and yoga_transit_analysis.get('newly_active_yogas'):
+            opportunities.append({
+                "opportunity_name": "Yoga Reactivation Transformation",
+                "description": "Dormant yogas in your birth chart are being reactivated, opening new pathways for spiritual and material growth.",
+                "transformation_type": "Spiritual Evolution",
+                "timeline": "Extended period",
+                "guidance": "Recognize and act upon the new opportunities presenting themselves",
+                "expected_outcome": "Manifestation of latent potentials and talents"
+            })
+
+        # Opportunity 3: Based on current planetary strength
+        strong_planets = [p for p, data in current_positions.items() if data.get('strength', 'Weak') in ['Strong', 'Very Strong']]
+        if strong_planets:
+            opportunities.append({
+                "opportunity_name": f"{strong_planets[0]} Empowerment Phase",
+                "description": f"Your {strong_planets[0].lower()} energy is particularly strong right now, offering opportunities to develop {strong_planets[0].lower()}-related qualities and achievements.",
+                "transformation_type": "Personal Empowerment",
+                "timeline": "Current planetary period",
+                "guidance": f"Focus on {strong_planets[0].lower()}-related activities and goals",
+                "expected_outcome": f"Enhanced {strong_planets[0].lower()} capabilities and confidence"
+            })
+
+        return opportunities[:3]  # Return top 3 opportunities
+
+    def _extract_seasonal_themes(self, current_date: datetime, current_positions: Dict) -> Dict[str, str]:
+        """Extract seasonal life themes based on current time and planetary positions."""
+        month = current_date.month
+        season_themes = {
+            "spring": (3, 4, 5, "Growth, new beginnings, creative energy, fresh starts"),
+            "summer": (6, 7, 8, "Action, manifestation, peak energy, achievement"),
+            "autumn": (9, 10, 11, "Harvest, reflection, preparation, wisdom gathering"),
+            "winter": (12, 1, 2, "Introspection, planning, spiritual focus, inner work")
+        }
+
+        current_season = None
+        seasonal_description = ""
+
+        for season, (start, mid, end, description) in season_themes.items():
+            if month in [start, mid, end]:
+                current_season = season
+                seasonal_description = description
+                break
+
+        # Get dominant planetary influence for the season
+        sun_sign = current_positions.get('Sun', {}).get('sign', 'Unknown')
+
+        return {
+            "season": current_season or "transitional",
+            "theme": seasonal_description or "Transitional energy, adaptation, flexibility",
+            "solar_influence": f"Sun in {sun_sign}",
+            "guidance": f"Align your activities with {current_season or 'transitional'} energy themes",
+            "focus": f"This {current_season or 'transitional period'} emphasizes {seasonal_description.split(',')[0] if seasonal_description else 'adaptation'}"
+        }
+
+    def _generate_life_themes_summary(self, major_themes: List, recurring_patterns: List, growth_areas: List) -> str:
+        """Generate a comprehensive summary of current life themes."""
+        summary_parts = []
+
+        if major_themes:
+            primary_theme = major_themes[0]['theme_name']
+            summary_parts.append(f"Your life is currently centered around {primary_theme.lower()}")
+
+        if recurring_patterns:
+            pattern_count = len(recurring_patterns)
+            summary_parts.append(f"with {pattern_count} major recurring pattern{'s' if pattern_count > 1 else ''} shaping your experiences")
+
+        if growth_areas:
+            growth_count = len(growth_areas)
+            summary_parts.append(f"and {growth_count} key area{'s' if growth_count > 1 else ''} of active development")
+
+        base_summary = ", ".join(summary_parts) + "."
+
+        return f"{base_summary} This period offers significant opportunities for personal evolution through conscious engagement with these themes."
+
+    # Helper methods for life themes analysis
+    def _get_strongest_current_influence(self, current_positions: Dict) -> str:
+        """Get the planet with strongest current influence."""
+        # Simple implementation - can be enhanced with actual strength calculations
+        planet_priorities = ['Sun', 'Moon', 'Mars', 'Jupiter', 'Venus', 'Mercury', 'Saturn', 'Rahu', 'Ketu']
+        for planet in planet_priorities:
+            if planet in current_positions:
+                return planet
+        return 'Sun'  # Default
+
+    def _get_most_active_house(self, house_transits: List) -> int:
+        """Get the house with most planetary activity."""
+        if not house_transits:
+            return 1
+
+        # Find house with most transiting planets
+        most_active = max(house_transits, key=lambda x: len(x.get('transiting_planets', [])))
+        return most_active.get('house', 1)
+
+    def _get_birth_chart_strongest_planet(self, chart: VedicChart) -> str:
+        """Get the strongest planet from birth chart."""
+        # Simple implementation - can be enhanced with actual strength calculations
+        if chart and chart.planets:
+            # Return the first planet (can be enhanced with dignity calculations)
+            return chart.planets[0].name
+        return 'Sun'  # Default
+
+    def _identify_recurring_aspect_pattern(self, transit_aspects: List) -> Dict[str, str]:
+        """Identify recurring patterns in transit aspects."""
+        if not transit_aspects:
+            return None
+
+        # Simple pattern identification
+        aspect_types = [a.get('aspect_type', 'Unknown') for a in transit_aspects]
+        most_common = max(set(aspect_types), key=aspect_types.count) if aspect_types else 'Challenging'
+
+        return {
+            'type': most_common,
+            'area': 'personal development',
+            'frequency': 'Monthly cycles',
+            'signs': 'Tension followed by breakthrough'
+        }
+
+    def _identify_birth_chart_pattern(self, chart: VedicChart) -> Dict[str, str]:
+        """Identify major patterns in birth chart."""
+        if not chart or not chart.planets:
+            return None
+
+        # Simple pattern identification based on planetary distribution
+        return {
+            'type': 'Evolutionary',
+            'description': 'Your birth chart shows a pattern of continuous growth through balancing different life areas',
+            'frequency': 'Life-long pattern',
+            'opportunity': 'Integration of diverse experiences into wisdom',
+            'signs': 'Alternating phases of focus on different life themes',
+            'guidance': 'Embrace the diversity of experiences as part of your growth path'
+        }
+
+    def _identify_spiritual_growth_opportunity(self, transit_aspects: List) -> Dict[str, Any]:
+        """Identify spiritual growth opportunities from current transits."""
+        # Look for Jupiter, Saturn, or Ketu aspects which often indicate spiritual growth
+        spiritual_aspects = [a for a in transit_aspects if any(planet in a.get('description', '') for planet in ['Jupiter', 'Saturn', 'Ketu'])]
+
+        if spiritual_aspects:
+            return {
+                "area_name": "Spiritual Development",
+                "description": "Current planetary transits are creating opportunities for deeper spiritual understanding and philosophical growth.",
+                "current_challenge": "Balancing material responsibilities with spiritual aspirations",
+                "development_steps": [
+                    "Dedicate time to meditation or spiritual practices",
+                    "Study philosophical or spiritual texts",
+                    "Seek guidance from spiritual mentors",
+                    "Practice mindfulness in daily activities"
+                ],
+                "expected_outcome": "Enhanced spiritual awareness and inner peace",
+                "timeline": "Extended period"
+            }
+
+        return None

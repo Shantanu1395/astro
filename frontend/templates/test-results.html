@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Results</title>
+</head>
+<body>
+    <h1>Test Results Page</h1>
+    <p>Name: {{ birth_data.name if birth_data else "Unknown" }}</p>
+    <p>Birth Date: {{ birth_data.birth_date if birth_data else "Unknown" }}</p>
+    <p>Birth Time: {{ birth_data.birth_time if birth_data else "Unknown" }}</p>
+    <p>Location: {{ birth_data.birth_location if birth_data else "Unknown" }}</p>
+    
+    {% if chart and chart.planets %}
+    <h2>Planets Found: {{ chart.planets|length }}</h2>
+    {% for planet in chart.planets %}
+    <p>{{ planet.name }}: {{ planet.sign }} in House {{ planet.house }}</p>
+    {% endfor %}
+    {% else %}
+    <p>No chart data available</p>
+    {% endif %}
+    
+    {% if prediction %}
+    <h2>Prediction</h2>
+    <p>{{ prediction.prediction_text if prediction.prediction_text else "No prediction available" }}</p>
+    {% endif %}
+</body>
+</html>

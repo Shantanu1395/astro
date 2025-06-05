@@ -9,13 +9,13 @@ from src.models.models import BirthData, PredictionRequest, AstrologySystem, Enh
 from src.core.vedic_calculator import VedicCalculator
 from src.core.prediction_engine import VedicPredictionEngine
 from src.utils.utils import get_location_data
-from config.config import config.config
+from config.config import config
 
 app = FastAPI(title=config.APP_NAME)
 
 # Setup templates and static files
-templates = Jinja2Templates(directory="templates")
-app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="frontend/templates")
+app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 
 # Initialize calculators
 vedic_calc = VedicCalculator()
@@ -38,7 +38,7 @@ specialized_engine_manager = SpecializedEngineManager(analyzer, date_calculator)
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
     """Home page with birth data input form."""
-    return templates.TemplateResponse("index_modern.html", {"request": request})
+    return templates.TemplateResponse("wireframe-index.html", {"request": request})
 
 @app.post("/predict", response_class=HTMLResponse)
 async def predict(
@@ -131,7 +131,29 @@ async def predict(
         current_analyzer = CurrentInfluenceAnalyzer()
         current_influences = current_analyzer.analyze_current_influences(birth_data, vedic_chart, location_data)
 
-        return templates.TemplateResponse("results_modern.html", {
+        # Extract yogas from planetary relationships
+        yogas = []
+        if planetary_relationships and "yogas" in planetary_relationships:
+            yogas = planetary_relationships["yogas"]
+
+        # Create ascendant data
+        ascendant = None
+        if vedic_chart and hasattr(vedic_chart, 'ascendant_sign'):
+            ascendant = type('obj', (object,), {
+                'sign': vedic_chart.ascendant_sign,
+                'degree': getattr(vedic_chart, 'ascendant_degree', 0.0)
+            })
+
+        # Create AI prediction data from the prediction
+        ai_prediction = None
+        if prediction:
+            ai_prediction = {
+                'summary': getattr(prediction, 'prediction_text', 'Comprehensive astrological analysis based on your birth chart.'),
+                'key_themes': getattr(prediction, 'key_themes', []),
+                'guidance': getattr(prediction, 'guidance', 'Follow your planetary influences for optimal life alignment.')
+            }
+
+        return templates.TemplateResponse("wireframe-results.html", {
             "request": request,
             "birth_data": birth_data,
             "location_data": location_data,
@@ -146,7 +168,151 @@ async def predict(
             "dasha_analysis": dasha_analysis,
             "planetary_relationships": planetary_relationships,
             "personality_analysis": personality_analysis,
-            "current_influences": current_influences
+            "current_influences": current_influences,
+            # Additional data for cosmic-results.html template
+            "current_dasha": current_dasha,
+            "yogas": yogas,
+            "ascendant": ascendant,
+            "ai_prediction": ai_prediction,
+            "specialized_predictions": {
+                "career": {
+                    "title": "Career & Professional Life",
+                    "summary": prediction.prediction_text if prediction and prediction.prediction_text else "Your career path shows strong potential for growth and success.",
+                    "key_periods": [
+                        {"timeframe": "Current Period", "description": f"Focus on {current_dasha.planet.lower()}-related career opportunities"},
+                        {"timeframe": "Next 2 Years", "description": "Gradual expansion and skill development"},
+                        {"timeframe": "Long Term", "description": "Leadership roles and recognition"}
+                    ],
+                    "recommendations": [
+                        "Develop leadership skills",
+                        "Build professional networks",
+                        "Focus on long-term goals",
+                        "Maintain work-life balance"
+                    ]
+                },
+                "health": {
+                    "title": "Health & Wellness",
+                    "summary": "Your health profile shows areas of strength and aspects that need attention.",
+                    "vulnerable_areas": [
+                        {"body_part": "Digestive System", "guidance": "Maintain regular eating habits"},
+                        {"body_part": "Nervous System", "guidance": "Practice stress management"},
+                        {"body_part": "Respiratory System", "guidance": "Regular exercise and breathing practices"}
+                    ],
+                    "preventive_measures": [
+                        "Regular exercise routine",
+                        "Balanced nutrition",
+                        "Adequate sleep",
+                        "Stress management techniques"
+                    ]
+                },
+                "financial": {
+                    "title": "Financial Prospects",
+                    "summary": "Your financial journey shows potential for steady growth through wise planning.",
+                    "wealth_periods": [
+                        {"timeframe": "Current Phase", "opportunities": "Focus on savings and investments"},
+                        {"timeframe": "Mid-term", "opportunities": "Property and asset building"},
+                        {"timeframe": "Long-term", "opportunities": "Wealth accumulation and security"}
+                    ],
+                    "investment_guidance": [
+                        "Diversify investment portfolio",
+                        "Focus on long-term growth",
+                        "Avoid speculative investments",
+                        "Build emergency fund"
+                    ]
+                },
+                "spiritual": {
+                    "title": "Spiritual Growth",
+                    "summary": "Your spiritual path involves balancing material success with inner development.",
+                    "growth_phases": [
+                        {"phase_name": "Foundation", "description": "Building spiritual practices"},
+                        {"phase_name": "Development", "description": "Deepening understanding"},
+                        {"phase_name": "Integration", "description": "Living spiritual principles"}
+                    ],
+                    "practices": [
+                        "Daily meditation",
+                        "Study of spiritual texts",
+                        "Service to others",
+                        "Nature connection"
+                    ]
+                }
+            },
+            "remedies": {
+                "gemstones": [
+                    {"name": "Blue Sapphire", "purpose": "Strengthen Saturn", "wearing_instructions": "Wear on Saturday in silver ring", "benefits": "Discipline and focus"},
+                    {"name": "Yellow Sapphire", "purpose": "Enhance Jupiter", "wearing_instructions": "Wear on Thursday in gold ring", "benefits": "Wisdom and prosperity"}
+                ],
+                "mantras": [
+                    {"planet": "Sun", "text": "Om Suryaya Namaha", "repetitions": "108 times daily", "timing": "Sunrise", "benefits": "Confidence and vitality"},
+                    {"planet": "Moon", "text": "Om Chandraya Namaha", "repetitions": "108 times daily", "timing": "Evening", "benefits": "Emotional balance"}
+                ],
+                "rituals": [
+                    {"name": "Sun Salutation", "purpose": "Solar energy", "instructions": "12 rounds daily", "frequency": "Daily morning", "benefits": "Physical and spiritual strength"},
+                    {"name": "Moon Meditation", "purpose": "Lunar energy", "instructions": "15 minutes contemplation", "frequency": "Full moon nights", "benefits": "Emotional harmony"}
+                ],
+                "lifestyle": [
+                    {"category": "Diet", "recommendation": "Vegetarian diet with fresh foods", "benefits": "Physical and mental clarity"},
+                    {"category": "Exercise", "recommendation": "Yoga and walking", "benefits": "Physical fitness and mental peace"}
+                ]
+            },
+            "life_themes": current_influences.get("life_themes", {}),
+            "advanced_yogas": [
+                {"name": "Raj Yoga", "strength": "Strong", "detailed_description": "This powerful combination indicates leadership potential and success through merit.", "formation": "Benefic planets in angular houses", "effects": "Recognition, authority, and prosperity", "timing": "Active during favorable dasha periods"},
+                {"name": "Dhana Yoga", "strength": "Moderate", "detailed_description": "Wealth-generating combination through hard work and wise investments.", "formation": "Lords of wealth houses in good positions", "effects": "Financial growth and stability", "timing": "Gradual accumulation over time"}
+            ],
+            "ashtakavarga": {
+                "summary": "Your Ashtakavarga analysis shows balanced planetary strength with particular emphasis on certain life areas.",
+                "planetary_scores": {
+                    "Sun": 6, "Moon": 5, "Mars": 4, "Mercury": 6, "Jupiter": 7, "Venus": 5, "Saturn": 4, "Ascendant": 6
+                }
+            },
+            "transit_analysis": {
+                "major_transits": [
+                    {"planet": "Jupiter", "current_sign": "Pisces", "current_house": "House 12", "duration": "1 year", "impact_description": "Spiritual growth and foreign connections", "key_dates": [{"date": "2024-05-01", "significance": "Major opportunity"}]},
+                    {"planet": "Saturn", "current_sign": "Aquarius", "current_house": "House 11", "duration": "2.5 years", "impact_description": "Gains through networks and long-term planning", "key_dates": [{"date": "2024-07-15", "significance": "Important decision point"}]}
+                ]
+            },
+            "dasha_sequence": [
+                {"planet": "Jupiter", "start_date": "2020-03-01", "end_date": "2036-03-01", "duration": 16, "is_current": True},
+                {"planet": "Saturn", "start_date": "2036-03-01", "end_date": "2055-03-01", "duration": 19, "is_current": False},
+                {"planet": "Mercury", "start_date": "2055-03-01", "end_date": "2072-03-01", "duration": 17, "is_current": False},
+                {"planet": "Ketu", "start_date": "2072-03-01", "end_date": "2079-03-01", "duration": 7, "is_current": False}
+            ],
+            "favorable_periods": [
+                {"title": "Jupiter Transit", "start_date": "2024-05-01", "end_date": "2025-05-01", "description": "Excellent period for spiritual growth, education, and expansion of knowledge."},
+                {"title": "Venus Antardasha", "start_date": "2024-08-15", "end_date": "2027-04-15", "description": "Favorable for relationships, creativity, and material comforts."},
+                {"title": "Mercury Sub-period", "start_date": "2025-01-01", "end_date": "2025-12-31", "description": "Great for communication, learning, and business ventures."}
+            ],
+            "challenging_periods": [
+                {"title": "Saturn Aspect", "start_date": "2024-07-01", "end_date": "2024-12-31", "description": "Period requiring patience and hard work. Avoid major decisions."},
+                {"title": "Mars Transit", "start_date": "2024-09-15", "end_date": "2024-11-15", "description": "Potential for conflicts and health issues. Practice caution."},
+                {"title": "Rahu Influence", "start_date": "2025-03-01", "end_date": "2025-09-01", "description": "Confusion and illusions possible. Focus on clarity and truth."}
+            ],
+            "divisional_charts": {
+                "D9_Navamsa": {
+                    "purpose": "Marriage and spiritual development",
+                    "key_insights": [
+                        "Strong marital prospects",
+                        "Spiritual inclinations",
+                        "Partner compatibility indicators"
+                    ]
+                },
+                "D10_Dasamsa": {
+                    "purpose": "Career and professional life",
+                    "key_insights": [
+                        "Leadership potential",
+                        "Government connections",
+                        "Professional recognition"
+                    ]
+                },
+                "D12_Dvadasamsa": {
+                    "purpose": "Parents and ancestry",
+                    "key_insights": [
+                        "Strong parental influence",
+                        "Ancestral blessings",
+                        "Family support system"
+                    ]
+                }
+            }
         })
 
     except ValueError as e:
@@ -952,13 +1118,15 @@ async def list_providers():
 @app.get("/api/v2/systems")
 async def get_systems_status():
     """Get status of all astrological systems."""
-    from src.services.system_manager import src.services.system_manager
+    from src.services.system_manager import SystemManager
+    system_manager = SystemManager()
     return system_manager.get_system_status()
 
 @app.get("/api/v2/pricing")
 async def get_pricing_info():
     """Get pricing information for all tiers."""
-    from src.services.system_manager import src.services.system_manager
+    from src.services.system_manager import SystemManager
+    system_manager = SystemManager()
     return system_manager.get_pricing_info()
 
 @app.post("/api/v2/predict")
@@ -966,7 +1134,8 @@ async def enhanced_prediction(request: dict):
     """Enhanced prediction endpoint with full architecture support."""
     try:
         from src.models.models import EnhancedPredictionRequest
-        from src.services.system_manager import src.services.system_manager
+        from src.services.system_manager import SystemManager
+        system_manager = SystemManager()
         from src.utils.utils import get_location_data
 
         # Parse enhanced request

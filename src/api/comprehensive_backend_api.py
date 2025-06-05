@@ -25,6 +25,7 @@ from src.core.prediction_engine import VedicPredictionEngine
 from src.core.divisional_analyzer import DivisionalAnalyzer
 from src.core.current_influences import CurrentInfluenceAnalyzer
 from src.core.advanced_timing import AdvancedTimingCalculator
+from src.core.astrological_meanings import AstrologicalMeanings
 from src.services.specialized_engines import (
     CareerPredictionEngine, RelationshipPredictionEngine,
     HealthPredictionEngine, FinancialPredictionEngine, SpiritualPredictionEngine
@@ -62,6 +63,7 @@ prediction_engine = VedicPredictionEngine()
 divisional_analyzer = DivisionalAnalyzer()
 current_influences_analyzer = CurrentInfluenceAnalyzer()
 advanced_timing_calculator = AdvancedTimingCalculator()
+astrological_meanings = AstrologicalMeanings()
 date_calculator = AstrologicalDateCalculator()
 
 # Initialize specialized engines with required parameters
@@ -225,10 +227,50 @@ async def create_comprehensive_analysis(request: ComprehensiveAnalysisRequest):
             logger.warning(f"Error in specialized predictions: {e}")
             specialized_predictions = {"error": str(e)}
 
+        # 9. ASTROLOGICAL MEANINGS (AstrologicalMeanings)
+        logger.info("Getting astrological meanings...")
+        try:
+            # Extract key astrological elements
+            sun_sign = None
+            moon_sign = None
+            ascendant_sign = vedic_chart.ascendant_sign
+            current_dasha_planet = current_dasha.planet
+
+            # Get sun and moon signs from planets
+            for planet in vedic_chart.planets:
+                if planet.name == "Sun":
+                    sun_sign = planet.sign
+                elif planet.name == "Moon":
+                    moon_sign = planet.sign
+
+            # Get meanings from astrological meanings service
+            astrological_meanings_data = {
+                "general_explanations": astrological_meanings.get_general_explanations(),
+                "sun_sign": {
+                    "sign": sun_sign,
+                    "meaning": astrological_meanings.get_sun_sign_meaning(sun_sign) if sun_sign else None
+                },
+                "moon_sign": {
+                    "sign": moon_sign,
+                    "meaning": astrological_meanings.get_moon_sign_meaning(moon_sign) if moon_sign else None
+                },
+                "ascendant": {
+                    "sign": ascendant_sign,
+                    "meaning": astrological_meanings.get_ascendant_meaning(ascendant_sign) if ascendant_sign else None
+                },
+                "current_dasha": {
+                    "planet": current_dasha_planet,
+                    "meaning": astrological_meanings.get_dasha_meaning(current_dasha_planet) if current_dasha_planet else None
+                }
+            }
+        except Exception as e:
+            logger.warning(f"Error getting astrological meanings: {e}")
+            astrological_meanings_data = {"error": str(e)}
+
         end_time = datetime.now()
         generation_time = (end_time - start_time).total_seconds() * 1000
 
-        # 9. COMPILE COMPREHENSIVE DATA
+        # 10. COMPILE COMPREHENSIVE DATA
         comprehensive_data = {
             # Core chart data from VedicCalculator
             "vedic_chart": {
@@ -265,7 +307,10 @@ async def create_comprehensive_analysis(request: ComprehensiveAnalysisRequest):
             "timing_analysis": timing_analysis,
 
             # Specialized predictions from SpecializedEngines
-            "specialized_predictions": specialized_predictions
+            "specialized_predictions": specialized_predictions,
+
+            # Astrological meanings for signs, ascendants, and dashas
+            "astrological_meanings": astrological_meanings_data
         }
 
         # Create response metadata

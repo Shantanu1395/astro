@@ -22,7 +22,8 @@ from src.core.prediction_engine import VedicPredictionEngine
 from src.core.divisional_analyzer import DivisionalAnalyzer
 from src.core.current_influences import CurrentInfluenceAnalyzer
 from src.core.advanced_timing import AdvancedTimingCalculator
-from src.core import src.core.planetary_combination_descriptions
+from src.core.astrological_meanings import AstrologicalMeanings
+from src.core import planetary_combination_descriptions
 
 # Import models
 from src.models.models import BirthData, LocationData, VedicChart, DashaPeriod
@@ -54,6 +55,7 @@ class ComprehensivePredictionService:
             self.current_influences_analyzer = CurrentInfluenceAnalyzer()
             self.advanced_timing_calculator = AdvancedTimingCalculator()
             self.planetary_descriptions = planetary_combination_descriptions
+            self.astrological_meanings = AstrologicalMeanings()
 
             # Specialized prediction engines
             self.career_engine = CareerPredictionEngine()
@@ -119,6 +121,9 @@ class ComprehensivePredictionService:
             # 11. ADVANCED CALCULATIONS
             advanced_calculations = await self._get_advanced_calculations(chart_data)
 
+            # 12. ASTROLOGICAL MEANINGS
+            astrological_meanings = await self._get_astrological_meanings(chart_data)
+
             end_time = datetime.now()
             generation_time = (end_time - start_time).total_seconds() * 1000
 
@@ -173,7 +178,10 @@ class ComprehensivePredictionService:
                 "ai_predictions": ai_predictions,
 
                 # Advanced astrological calculations
-                "advanced_calculations": advanced_calculations
+                "advanced_calculations": advanced_calculations,
+
+                # Astrological meanings for signs, ascendants, and dashas
+                "astrological_meanings": astrological_meanings
             }
 
             logger.info(f"Complete analysis generated in {generation_time:.2f}ms")
@@ -264,3 +272,112 @@ class ComprehensivePredictionService:
         except Exception as e:
             logger.error(f"Error in planetary analysis: {e}")
             return {"error": str(e)}
+
+    async def _get_astrological_meanings(self, chart_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Get comprehensive astrological meanings for signs, ascendants, and dashas."""
+        try:
+            vedic_chart_dict = chart_data.get("vedic_chart", {})
+            current_dasha_dict = chart_data.get("current_dasha", {})
+
+            # Extract key astrological elements
+            sun_sign = None
+            moon_sign = None
+            ascendant_sign = None
+
+            # Get sun and moon signs from planets
+            planets = vedic_chart_dict.get("planets", [])
+            for planet in planets:
+                if planet.get("name") == "Sun":
+                    sun_sign = planet.get("sign")
+                elif planet.get("name") == "Moon":
+                    moon_sign = planet.get("sign")
+
+            # Get ascendant sign
+            ascendant_sign = vedic_chart_dict.get("ascendant_sign")
+
+            # Get current dasha planet
+            current_dasha_planet = current_dasha_dict.get("planet")
+
+            # Get meanings from astrological meanings service
+            meanings = {
+                "general_explanations": self.astrological_meanings.get_general_explanations(),
+                "sun_sign": {
+                    "sign": sun_sign,
+                    "meaning": self.astrological_meanings.get_sun_sign_meaning(sun_sign) if sun_sign else None
+                },
+                "moon_sign": {
+                    "sign": moon_sign,
+                    "meaning": self.astrological_meanings.get_moon_sign_meaning(moon_sign) if moon_sign else None
+                },
+                "ascendant": {
+                    "sign": ascendant_sign,
+                    "meaning": self.astrological_meanings.get_ascendant_meaning(ascendant_sign) if ascendant_sign else None
+                },
+                "current_dasha": {
+                    "planet": current_dasha_planet,
+                    "meaning": self.astrological_meanings.get_dasha_meaning(current_dasha_planet) if current_dasha_planet else None
+                }
+            }
+
+            return meanings
+
+        except Exception as e:
+            logger.error(f"Error getting astrological meanings: {e}")
+            return {"error": str(e)}
+
+    # Stub implementations for missing methods
+    async def _get_complete_yogas_analysis(self, chart_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Get complete yogas analysis."""
+        return {"yogas": [], "note": "Yoga analysis implementation pending"}
+
+    async def _get_all_divisional_charts(self, chart_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Get all divisional charts analysis."""
+        return {"divisional_charts": {}, "note": "Divisional charts implementation pending"}
+
+    async def _get_current_influences_analysis(self, chart_data: Dict[str, Any], location_data) -> Dict[str, Any]:
+        """Get current influences analysis."""
+        return {"current_influences": {}, "note": "Current influences implementation pending"}
+
+    async def _get_advanced_timing_analysis(self, chart_data: Dict[str, Any], birth_data) -> Dict[str, Any]:
+        """Get advanced timing analysis."""
+        return {"timing_analysis": {}, "note": "Advanced timing implementation pending"}
+
+    async def _get_complete_personality_analysis(self, chart_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Get complete personality analysis."""
+        return {"personality_analysis": {}, "note": "Personality analysis implementation pending"}
+
+    async def _get_all_specialized_predictions(self, chart_data: Dict[str, Any], birth_data) -> Dict[str, Any]:
+        """Get all specialized predictions."""
+        return {"specialized_predictions": {}, "note": "Specialized predictions implementation pending"}
+
+    async def _get_comprehensive_remedial_guidance(self, chart_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Get comprehensive remedial guidance."""
+        return {"remedial_guidance": {}, "note": "Remedial guidance implementation pending"}
+
+    async def _get_ai_predictions(self, chart_data: Dict[str, Any], birth_data, location_data) -> Dict[str, Any]:
+        """Get AI predictions."""
+        return {"ai_predictions": {}, "note": "AI predictions implementation pending"}
+
+    async def _get_advanced_calculations(self, chart_data: Dict[str, Any]) -> Dict[str, Any]:
+        """Get advanced calculations."""
+        return {"advanced_calculations": {}, "note": "Advanced calculations implementation pending"}
+
+    def _get_planet_significations(self, planet_name: str) -> Dict[str, Any]:
+        """Get planet significations."""
+        return {"significations": f"{planet_name} significations"}
+
+    def _analyze_planet_current_state(self, planet, vedic_chart) -> Dict[str, Any]:
+        """Analyze planet current state."""
+        return {"current_state": f"{planet.name} current state analysis"}
+
+    def _identify_planetary_patterns(self, vedic_chart) -> Dict[str, Any]:
+        """Identify planetary patterns."""
+        return {"patterns": "Planetary patterns analysis"}
+
+    def _get_aspect_analysis(self, vedic_chart) -> Dict[str, Any]:
+        """Get aspect analysis."""
+        return {"aspects": "Aspect analysis"}
+
+    def _get_conjunction_analysis(self, vedic_chart) -> Dict[str, Any]:
+        """Get conjunction analysis."""
+        return {"conjunctions": "Conjunction analysis"}

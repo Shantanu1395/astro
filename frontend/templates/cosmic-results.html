@@ -48,51 +48,620 @@
                     {% set moon_planet = chart.planets | selectattr("name", "equalto", "Moon") | first %}
                     {% set ascendant = chart.planets[0] if chart.planets else none %}
 
-                    <div class="summary-card">
-                        <div class="card-icon">☀️</div>
-                        <h3 class="card-title">Sun Sign</h3>
-                        <div class="card-value">{{ sun_planet.sign if sun_planet else "Calculating..." }}</div>
-                        <p class="card-description">Your core identity and life purpose</p>
-                        {% if sun_planet %}
-                        <div class="card-meta">House {{ sun_planet.house }} • {{ "%.1f"|format(sun_planet.degree) }}°</div>
-                        {% endif %}
-                    </div>
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('sun-sign', event)" id="sun-sign-card">
+                        <div class="card-header">
+                            <div class="card-icon">☀️</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Sun Sign</h3>
+                                <div class="card-value">{{ sun_planet.sign if sun_planet else "Calculating..." }}</div>
+                                {% if sun_planet %}
+                                <div class="card-meta">House {{ sun_planet.house }} • {{ "%.1f"|format(sun_planet.degree) }}°</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('sun_sign')" title="What is Sun Sign?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
 
-                    <div class="summary-card">
-                        <div class="card-icon">🌙</div>
-                        <h3 class="card-title">Moon Sign</h3>
-                        <div class="card-value">{{ moon_planet.sign if moon_planet else "Calculating..." }}</div>
-                        <p class="card-description">Your emotional nature and inner self</p>
-                        {% if moon_planet %}
-                        <div class="card-meta">{{ moon_planet.nakshatra if moon_planet.nakshatra else "House " + moon_planet.house|string }}</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="summary-card">
-                        <div class="card-icon">⬆️</div>
-                        <h3 class="card-title">Ascendant</h3>
-                        <div class="card-value">{{ ascendant.sign if ascendant else "Calculating..." }}</div>
-                        <p class="card-description">Your rising sign and outer personality</p>
-                        {% if ascendant %}
-                        <div class="card-meta">{{ "%.1f"|format(ascendant.degree) }}° rising</div>
-                        {% endif %}
-                    </div>
-
-                    <div class="summary-card">
-                        <div class="card-icon">⏰</div>
-                        <h3 class="card-title">Current Dasha</h3>
-                        <div class="card-value">
-                            {% if current_dasha and current_dasha.planet %}
-                                {{ current_dasha.planet }}
+                        <!-- Detailed Explanation (Hidden by default) -->
+                        <div class="card-details" id="sun-sign-details" style="display: none;">
+                            {% if analysis.astrological_meanings and analysis.astrological_meanings.sun_sign and analysis.astrological_meanings.sun_sign.meaning %}
+                            {% set sun_meaning = analysis.astrological_meanings.sun_sign.meaning %}
+                            <div class="details-content">
+                                <h5>{{ sun_planet.sign }} ({{ sun_meaning.name }}) Sun Sign</h5>
+                                <div class="meaning-section">
+                                    <h6>General Nature</h6>
+                                    <p>{{ sun_meaning.general_meaning }}</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Key Traits</h6>
+                                    <div class="traits-list">
+                                        {% for trait in sun_meaning.personality_traits %}
+                                        <span class="trait-tag">{{ trait }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Life Purpose</h6>
+                                    <p>{{ sun_meaning.life_purpose }}</p>
+                                </div>
+                            </div>
                             {% else %}
-                                Calculating...
+                            <div class="details-content">
+                                <p>Detailed analysis for {{ sun_planet.sign if sun_planet else 'your sun sign' }} is being compiled.</p>
+                            </div>
                             {% endif %}
                         </div>
-                        <p class="card-description">Your current planetary period</p>
-                        {% if current_dasha and current_dasha.remaining_years %}
-                        <div class="card-meta">{{ "%.1f"|format(current_dasha.remaining_years) }} years remaining</div>
-                        {% endif %}
                     </div>
+
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('moon-sign', event)" id="moon-sign-card">
+                        <div class="card-header">
+                            <div class="card-icon">🌙</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Moon Sign</h3>
+                                <div class="card-value">{{ moon_planet.sign if moon_planet else "Calculating..." }}</div>
+                                {% if moon_planet %}
+                                <div class="card-meta">{{ moon_planet.nakshatra if moon_planet.nakshatra else "House " + moon_planet.house|string }}</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('moon_sign')" title="What is Moon Sign?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+
+                        <!-- Detailed Explanation (Hidden by default) -->
+                        <div class="card-details" id="moon-sign-details" style="display: none;">
+                            {% if analysis.astrological_meanings and analysis.astrological_meanings.moon_sign and analysis.astrological_meanings.moon_sign.meaning %}
+                            {% set moon_meaning = analysis.astrological_meanings.moon_sign.meaning %}
+                            <div class="details-content">
+                                <h5>{{ moon_planet.sign }} ({{ moon_meaning.name }}) Moon Sign</h5>
+                                <div class="meaning-section">
+                                    <h6>Emotional Nature</h6>
+                                    <p>{{ moon_meaning.emotional_nature }}</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Inner Self</h6>
+                                    <p>{{ moon_meaning.inner_self }}</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Comfort Needs</h6>
+                                    <p>{{ moon_meaning.comfort_needs }}</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Relationship Style</h6>
+                                    <p>{{ moon_meaning.relationship_style }}</p>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="details-content">
+                                <p>Detailed analysis for {{ moon_planet.sign if moon_planet else 'your moon sign' }} is being compiled.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('ascendant', event)" id="ascendant-card">
+                        <div class="card-header">
+                            <div class="card-icon">⬆️</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Ascendant</h3>
+                                <div class="card-value">{{ ascendant.sign if ascendant else "Calculating..." }}</div>
+                                {% if ascendant %}
+                                <div class="card-meta">{{ "%.1f"|format(ascendant.degree) }}° rising</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('ascendant')" title="What is Ascendant?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+
+                        <!-- Detailed Explanation (Hidden by default) -->
+                        <div class="card-details" id="ascendant-details" style="display: none;">
+                            {% if analysis.astrological_meanings and analysis.astrological_meanings.ascendant and analysis.astrological_meanings.ascendant.meaning %}
+                            {% set ascendant_meaning = analysis.astrological_meanings.ascendant.meaning %}
+                            <div class="details-content">
+                                <h5>{{ ascendant.sign }} ({{ ascendant_meaning.name }}) Ascendant</h5>
+                                <div class="meaning-section">
+                                    <h6>First Impression</h6>
+                                    <p>{{ ascendant_meaning.first_impression }}</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Approach to Life</h6>
+                                    <p>{{ ascendant_meaning.approach_to_life }}</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Life Path</h6>
+                                    <p>{{ ascendant_meaning.life_path }}</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Challenges</h6>
+                                    <p>{{ ascendant_meaning.challenges }}</p>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="details-content">
+                                <p>Detailed analysis for {{ ascendant.sign if ascendant else 'your ascendant' }} is being compiled.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('current-dasha', event)" id="current-dasha-card">
+                        <div class="card-header">
+                            <div class="card-icon">⏰</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Current Dasha</h3>
+                                <div class="card-value">
+                                    {% if current_dasha and current_dasha.planet %}
+                                        {{ current_dasha.planet }}
+                                    {% else %}
+                                        Calculating...
+                                    {% endif %}
+                                </div>
+                                {% if current_dasha and current_dasha.remaining_years %}
+                                <div class="card-meta">{{ "%.1f"|format(current_dasha.remaining_years) }} years remaining</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('dasha')" title="What is Dasha?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+
+                        <!-- Detailed Explanation (Hidden by default) -->
+                        <div class="card-details" id="current-dasha-details" style="display: none;">
+                            {% if analysis.astrological_meanings and analysis.astrological_meanings.current_dasha and analysis.astrological_meanings.current_dasha.meaning %}
+                            {% set dasha_meaning = analysis.astrological_meanings.current_dasha.meaning %}
+                            <div class="details-content">
+                                <h5>{{ current_dasha.planet if current_dasha else 'Current' }} Dasha Period</h5>
+                                <div class="meaning-section">
+                                    <h6>General Nature</h6>
+                                    <p>{{ dasha_meaning.general_nature }}</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Key Themes</h6>
+                                    <div class="themes-list">
+                                        {% for theme in dasha_meaning.themes %}
+                                        <span class="theme-tag">{{ theme }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Guidance</h6>
+                                    <p>{{ dasha_meaning.guidance }}</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Duration</h6>
+                                    <p>{{ dasha_meaning.duration }}</p>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="details-content">
+                                <p>Detailed analysis for {{ current_dasha.planet if current_dasha else 'your current dasha' }} period is being compiled.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Additional Cards for 4x4 Grid -->
+                    {% if chart and chart.planets %}
+                    {% set mars_planet = chart.planets | selectattr("name", "equalto", "Mars") | first %}
+                    {% set mercury_planet = chart.planets | selectattr("name", "equalto", "Mercury") | first %}
+                    {% set jupiter_planet = chart.planets | selectattr("name", "equalto", "Jupiter") | first %}
+                    {% set venus_planet = chart.planets | selectattr("name", "equalto", "Venus") | first %}
+                    {% set saturn_planet = chart.planets | selectattr("name", "equalto", "Saturn") | first %}
+                    {% set rahu_planet = chart.planets | selectattr("name", "equalto", "Rahu") | first %}
+                    {% set ketu_planet = chart.planets | selectattr("name", "equalto", "Ketu") | first %}
+
+                    <!-- Mars Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('mars', event)" id="mars-card">
+                        <div class="card-header">
+                            <div class="card-icon">♂️</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Mars</h3>
+                                <div class="card-value">{{ mars_planet.sign if mars_planet else "Calculating..." }}</div>
+                                {% if mars_planet %}
+                                <div class="card-meta">House {{ mars_planet.house }} • {{ "%.1f"|format(mars_planet.degree) }}°</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('mars')" title="What is Mars?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="mars-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>{{ mars_planet.sign if mars_planet else 'Mars' }} Mars</h5>
+                                <div class="meaning-section">
+                                    <h6>Energy & Action</h6>
+                                    <p>Mars represents your drive, ambition, and how you take action in life.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Courage & Strength</h6>
+                                    <p>Shows your physical energy, courage, and competitive spirit.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mercury Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('mercury', event)" id="mercury-card">
+                        <div class="card-header">
+                            <div class="card-icon">☿️</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Mercury</h3>
+                                <div class="card-value">{{ mercury_planet.sign if mercury_planet else "Calculating..." }}</div>
+                                {% if mercury_planet %}
+                                <div class="card-meta">House {{ mercury_planet.house }} • {{ "%.1f"|format(mercury_planet.degree) }}°</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('mercury')" title="What is Mercury?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="mercury-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>{{ mercury_planet.sign if mercury_planet else 'Mercury' }} Mercury</h5>
+                                <div class="meaning-section">
+                                    <h6>Communication</h6>
+                                    <p>Mercury governs your communication style, thinking patterns, and learning abilities.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Intelligence</h6>
+                                    <p>Shows your analytical skills, wit, and intellectual approach to life.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Jupiter Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('jupiter', event)" id="jupiter-card">
+                        <div class="card-header">
+                            <div class="card-icon">♃</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Jupiter</h3>
+                                <div class="card-value">{{ jupiter_planet.sign if jupiter_planet else "Calculating..." }}</div>
+                                {% if jupiter_planet %}
+                                <div class="card-meta">House {{ jupiter_planet.house }} • {{ "%.1f"|format(jupiter_planet.degree) }}°</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('jupiter')" title="What is Jupiter?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="jupiter-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>{{ jupiter_planet.sign if jupiter_planet else 'Jupiter' }} Jupiter</h5>
+                                <div class="meaning-section">
+                                    <h6>Wisdom & Growth</h6>
+                                    <p>Jupiter represents wisdom, expansion, higher learning, and spiritual growth.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Fortune & Luck</h6>
+                                    <p>Shows areas of life where you experience growth, luck, and abundance.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Venus Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('venus', event)" id="venus-card">
+                        <div class="card-header">
+                            <div class="card-icon">♀️</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Venus</h3>
+                                <div class="card-value">{{ venus_planet.sign if venus_planet else "Calculating..." }}</div>
+                                {% if venus_planet %}
+                                <div class="card-meta">House {{ venus_planet.house }} • {{ "%.1f"|format(venus_planet.degree) }}°</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('venus')" title="What is Venus?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="venus-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>{{ venus_planet.sign if venus_planet else 'Venus' }} Venus</h5>
+                                <div class="meaning-section">
+                                    <h6>Love & Beauty</h6>
+                                    <p>Venus governs love, relationships, beauty, and artistic expression.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Values & Pleasure</h6>
+                                    <p>Shows what you value, your aesthetic sense, and sources of pleasure.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saturn Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('saturn', event)" id="saturn-card">
+                        <div class="card-header">
+                            <div class="card-icon">♄</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Saturn</h3>
+                                <div class="card-value">{{ saturn_planet.sign if saturn_planet else "Calculating..." }}</div>
+                                {% if saturn_planet %}
+                                <div class="card-meta">House {{ saturn_planet.house }} • {{ "%.1f"|format(saturn_planet.degree) }}°</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('saturn')" title="What is Saturn?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="saturn-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>{{ saturn_planet.sign if saturn_planet else 'Saturn' }} Saturn</h5>
+                                <div class="meaning-section">
+                                    <h6>Discipline & Lessons</h6>
+                                    <p>Saturn represents discipline, responsibility, and life lessons through challenges.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Structure & Karma</h6>
+                                    <p>Shows areas where you need to build structure and work through karmic patterns.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rahu Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('rahu', event)" id="rahu-card">
+                        <div class="card-header">
+                            <div class="card-icon">☊</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Rahu</h3>
+                                <div class="card-value">{{ rahu_planet.sign if rahu_planet else "Calculating..." }}</div>
+                                {% if rahu_planet %}
+                                <div class="card-meta">House {{ rahu_planet.house }} • {{ "%.1f"|format(rahu_planet.degree) }}°</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('rahu')" title="What is Rahu?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="rahu-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>{{ rahu_planet.sign if rahu_planet else 'Rahu' }} Rahu</h5>
+                                <div class="meaning-section">
+                                    <h6>Desires & Ambitions</h6>
+                                    <p>Rahu represents worldly desires, ambitions, and areas of intense focus.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Innovation & Change</h6>
+                                    <p>Shows where you seek innovation, change, and material advancement.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ketu Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('ketu', event)" id="ketu-card">
+                        <div class="card-header">
+                            <div class="card-icon">☋</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Ketu</h3>
+                                <div class="card-value">{{ ketu_planet.sign if ketu_planet else "Calculating..." }}</div>
+                                {% if ketu_planet %}
+                                <div class="card-meta">House {{ ketu_planet.house }} • {{ "%.1f"|format(ketu_planet.degree) }}°</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('ketu')" title="What is Ketu?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="ketu-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>{{ ketu_planet.sign if ketu_planet else 'Ketu' }} Ketu</h5>
+                                <div class="meaning-section">
+                                    <h6>Spirituality & Detachment</h6>
+                                    <p>Ketu represents spiritual growth, detachment, and past-life influences.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Intuition & Wisdom</h6>
+                                    <p>Shows areas where you have natural wisdom and intuitive understanding.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nakshatra Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('nakshatra', event)" id="nakshatra-card">
+                        <div class="card-header">
+                            <div class="card-icon">⭐</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Nakshatra</h3>
+                                <div class="card-value">{{ moon_planet.nakshatra if moon_planet and moon_planet.nakshatra else "Calculating..." }}</div>
+                                {% if moon_planet and moon_planet.nakshatra_pada %}
+                                <div class="card-meta">Pada {{ moon_planet.nakshatra_pada }}</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('nakshatra')" title="What is Nakshatra?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="nakshatra-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>{{ moon_planet.nakshatra if moon_planet and moon_planet.nakshatra else 'Your' }} Nakshatra</h5>
+                                <div class="meaning-section">
+                                    <h6>Lunar Mansion</h6>
+                                    <p>Your birth nakshatra reveals deep personality traits and life patterns.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Spiritual Nature</h6>
+                                    <p>Shows your spiritual inclinations and karmic influences from birth.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yoga Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('yoga-summary', event)" id="yoga-summary-card">
+                        <div class="card-header">
+                            <div class="card-icon">🧘</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Yogas</h3>
+                                <div class="card-value">{{ yogas|length if yogas else 0 }} Found</div>
+                                {% if yogas %}
+                                <div class="card-meta">{{ yogas[0].name if yogas[0] else "Various combinations" }}</div>
+                                {% endif %}
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('yoga')" title="What are Yogas?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="yoga-summary-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>Planetary Yogas</h5>
+                                <div class="meaning-section">
+                                    <h6>Special Combinations</h6>
+                                    <p>Yogas are special planetary combinations that create unique influences in your life.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Life Patterns</h6>
+                                    <p>These combinations reveal specific patterns of success, challenges, and opportunities.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Houses Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('houses', event)" id="houses-card">
+                        <div class="card-header">
+                            <div class="card-icon">🏠</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Houses</h3>
+                                <div class="card-value">12 Houses</div>
+                                <div class="card-meta">Life areas analysis</div>
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('houses')" title="What are Houses?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="houses-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>Astrological Houses</h5>
+                                <div class="meaning-section">
+                                    <h6>Life Areas</h6>
+                                    <p>The 12 houses represent different areas of life experience and development.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Planetary Influence</h6>
+                                    <p>Each house shows how planetary energies manifest in specific life areas.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Divisional Charts Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('divisional', event)" id="divisional-card">
+                        <div class="card-header">
+                            <div class="card-icon">📊</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Vargas</h3>
+                                <div class="card-value">D1-D60</div>
+                                <div class="card-meta">Divisional charts</div>
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('divisional')" title="What are Divisional Charts?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="divisional-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>Divisional Charts (Vargas)</h5>
+                                <div class="meaning-section">
+                                    <h6>Detailed Analysis</h6>
+                                    <p>Divisional charts provide deeper insights into specific life areas.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Specialized Predictions</h6>
+                                    <p>Each varga chart reveals detailed information about career, relationships, health, and more.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transits Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('transits', event)" id="transits-card">
+                        <div class="card-header">
+                            <div class="card-icon">🔄</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Transits</h3>
+                                <div class="card-value">Current</div>
+                                <div class="card-meta">Planetary movements</div>
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('transits')" title="What are Transits?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="transits-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>Current Transits</h5>
+                                <div class="meaning-section">
+                                    <h6>Moving Influences</h6>
+                                    <p>Transits show how current planetary positions affect your birth chart.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Timing Predictions</h6>
+                                    <p>Understanding transits helps predict favorable and challenging periods.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Remedies Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('remedies', event)" id="remedies-card">
+                        <div class="card-header">
+                            <div class="card-icon">🔮</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Remedies</h3>
+                                <div class="card-value">Available</div>
+                                <div class="card-meta">Astrological solutions</div>
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('remedies')" title="What are Remedies?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="remedies-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>Astrological Remedies</h5>
+                                <div class="meaning-section">
+                                    <h6>Balancing Energies</h6>
+                                    <p>Remedies help balance planetary energies and reduce negative influences.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Practical Solutions</h6>
+                                    <p>Includes mantras, gemstones, rituals, and lifestyle adjustments for harmony.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Compatibility Card -->
+                    <div class="summary-card clickable-card" onclick="toggleCardDetails('compatibility', event)" id="compatibility-card">
+                        <div class="card-header">
+                            <div class="card-icon">💕</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Compatibility</h3>
+                                <div class="card-value">Analysis</div>
+                                <div class="card-meta">Relationship insights</div>
+                            </div>
+                            <button class="info-icon" onclick="event.stopPropagation(); showGeneralInfo('compatibility')" title="What is Compatibility?">
+                                <i class="info-symbol">ℹ️</i>
+                            </button>
+                        </div>
+                        <div class="card-details" id="compatibility-details" style="display: none;">
+                            <div class="details-content">
+                                <h5>Relationship Compatibility</h5>
+                                <div class="meaning-section">
+                                    <h6>Partnership Analysis</h6>
+                                    <p>Compatibility analysis reveals relationship dynamics and potential.</p>
+                                </div>
+                                <div class="meaning-section">
+                                    <h6>Harmony Factors</h6>
+                                    <p>Shows areas of natural harmony and potential challenges in relationships.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                     {% endif %}
                 </div>
 
@@ -920,6 +1489,127 @@
                 button.style.background = '';
                 button.style.color = '';
             }
+        }
+
+        // Toggle card details for summary cards
+        function toggleCardDetails(cardType, event) {
+            // Prevent event bubbling
+            if (event) {
+                event.stopPropagation();
+            }
+
+            const details = document.getElementById(`${cardType}-details`);
+            const card = document.getElementById(`${cardType}-card`);
+
+            if (!details || !card) {
+                console.error(`Card elements not found for ${cardType}`);
+                return;
+            }
+
+            // Close all other expanded cards first
+            const allCards = document.querySelectorAll('.summary-card.expanded');
+            const allDetails = document.querySelectorAll('.card-details');
+
+            allCards.forEach(otherCard => {
+                if (otherCard.id !== `${cardType}-card`) {
+                    otherCard.classList.remove('expanded');
+                }
+            });
+
+            allDetails.forEach(otherDetails => {
+                if (otherDetails.id !== `${cardType}-details`) {
+                    otherDetails.style.display = 'none';
+                }
+            });
+
+            // Toggle current card
+            const isHidden = details.style.display === 'none' || details.style.display === '';
+
+            if (isHidden) {
+                // Show details
+                details.style.display = 'block';
+                card.classList.add('expanded');
+                console.log(`Expanded ${cardType} card`);
+            } else {
+                // Hide details
+                details.style.display = 'none';
+                card.classList.remove('expanded');
+                console.log(`Collapsed ${cardType} card`);
+            }
+        }
+
+        // Show general info modal
+        function showGeneralInfo(type) {
+            const generalExplanations = {
+                'sun_sign': 'Your Sun sign represents your core identity, ego, and life purpose. It shows how you express your essential self and what drives you in life.',
+                'moon_sign': 'Your Moon sign represents your emotional nature, inner self, and subconscious patterns. It shows how you process emotions and what you need for emotional security.',
+                'ascendant': 'Your Ascendant (Rising sign) represents your outer personality, first impressions, and approach to life. It\'s the mask you wear and how others initially perceive you.',
+                'dasha': 'Dasha periods are planetary time cycles in Vedic astrology that influence different phases of your life. Each planet\'s period brings specific themes, opportunities, and challenges.',
+                'mars': 'Mars represents your energy, drive, ambition, and how you take action. It shows your physical vitality, courage, competitive spirit, and approach to conflict.',
+                'mercury': 'Mercury governs communication, thinking, learning, and intellectual abilities. It shows how you process information, express ideas, and connect with others.',
+                'jupiter': 'Jupiter represents wisdom, expansion, higher learning, and spiritual growth. It shows areas where you experience luck, abundance, and opportunities for growth.',
+                'venus': 'Venus governs love, relationships, beauty, and artistic expression. It shows what you value, your aesthetic sense, and how you approach romance and partnerships.',
+                'saturn': 'Saturn represents discipline, responsibility, structure, and life lessons. It shows areas where you need to work hard, face challenges, and build lasting foundations.',
+                'rahu': 'Rahu represents worldly desires, ambitions, and areas of intense focus. It shows where you seek material advancement, innovation, and breaking conventional boundaries.',
+                'ketu': 'Ketu represents spiritual growth, detachment, and past-life influences. It shows areas where you have natural wisdom, intuitive understanding, and need for spiritual development.',
+                'nakshatra': 'Nakshatras are lunar mansions that provide deeper insights into your personality and karmic patterns. Your birth nakshatra reveals spiritual inclinations and life themes.',
+                'yoga': 'Yogas are special planetary combinations that create unique influences in your life. They reveal specific patterns of success, challenges, and opportunities based on planetary relationships.',
+                'houses': 'The 12 astrological houses represent different areas of life experience. Each house governs specific themes like personality, wealth, communication, home, creativity, and spirituality.',
+                'divisional': 'Divisional charts (Vargas) provide detailed analysis of specific life areas. Each divisional chart offers specialized insights into career, relationships, health, and spiritual development.',
+                'transits': 'Transits show how current planetary positions affect your birth chart. They help predict favorable and challenging periods for different life activities and decisions.',
+                'remedies': 'Astrological remedies help balance planetary energies and reduce negative influences. They include mantras, gemstones, rituals, and lifestyle adjustments for harmony.',
+                'compatibility': 'Compatibility analysis reveals relationship dynamics and potential between partners. It shows areas of natural harmony and potential challenges in romantic and business partnerships.'
+            };
+
+            const explanation = generalExplanations[type] || 'General astrological information.';
+
+            // Create modal
+            const modal = document.createElement('div');
+            modal.className = 'info-modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>${type.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}</h3>
+                        <button class="modal-close" onclick="closeInfoModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>${explanation}</p>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeInfoModal();
+                }
+            });
+        }
+
+        // Close info modal
+        function closeInfoModal() {
+            const modal = document.querySelector('.info-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        // Planet name mapping function (transliterated Hindi)
+        function getHindiPlanetName(englishName) {
+            const planetMapping = {
+                'Sun': 'Surya',
+                'Moon': 'Chandra',
+                'Mars': 'Mangal',
+                'Mercury': 'Budh',
+                'Jupiter': 'Guru',
+                'Venus': 'Shukra',
+                'Saturn': 'Shani',
+                'Rahu': 'Rahu',
+                'Ketu': 'Ketu'
+            };
+            return planetMapping[englishName] || englishName;
         }
     </script>
 </body>

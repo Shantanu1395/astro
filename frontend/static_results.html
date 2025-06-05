@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Insights - Shantanu Saini</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="static/css/wireframe-styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">✨</div>
+                    <h1>Cosmic Insights</h1>
+                </div>
+                
+                <nav class="main-nav">
+                    <button class="nav-tab active" data-tab="overview">Overview</button>
+                    <button class="nav-tab" data-tab="planetary-analysis">Planetary Analysis</button>
+                    <button class="nav-tab" data-tab="life-timing">Life Timing & Periods</button>
+                    <button class="nav-tab" data-tab="remedial-guidance">Remedial Guidance</button>
+                    <button class="nav-tab" data-tab="core-personality">Core Personality</button>
+                    <button class="nav-tab" data-tab="todays-influences">Today's Influences</button>
+                    <button class="nav-tab" data-tab="current-life-themes">Current Life Themes</button>
+                    <button class="nav-tab" data-tab="specialized-predictions">Specialized Predictions</button>
+                    <button class="nav-tab" data-tab="advanced-analysis">Advanced Analysis</button>
+                </nav>
+
+                <div class="user-profile">
+                    <div class="profile-avatar">S</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Overview Tab -->
+            <section id="overview" class="tab-content active">
+                <div class="content-header">
+                    <h1>Overview</h1>
+                    <p>Your comprehensive astrological analysis based on your birth chart</p>
+                </div>
+
+                <div class="content-grid">
+                    <!-- Summary Section -->
+                    <div class="summary-section">
+                        <h2>Summary</h2>
+                        <p>Your astrological profile reveals unique patterns and influences that shape your life journey. This comprehensive analysis provides insights into your personality, strengths, and potential paths forward.</p>
+                    </div>
+
+                    <!-- Key Themes -->
+                    <div class="themes-section">
+                        <h2>Key Themes</h2>
+                        <p>Your life is characterized by themes of personal growth, spiritual development, and the pursuit of authentic expression based on your Aquarius rising and distinctive moon placement.</p>
+                    </div>
+
+                    <!-- Current Dasha -->
+                    <div class="dasha-section">
+                        <h2>Current Life Phase</h2>
+                        <div class="dasha-info">
+                            <h3>Jupiter Dasha</h3>
+                            <p>You are currently in your Jupiter period, which began 2021-02-29 and will continue until 2037-02-29. This 2.7-year remaining phase focuses on jupiter-related themes and opportunities.</p>
+                        </div>
+                    </div>
+
+                    <!-- Planetary Positions -->
+                    <div class="planets-section">
+                        <h2>All Planetary Positions</h2>
+                        <div class="planets-grid">
+                            <div class="planet-item">
+                                <span class="planet-name">Sun</span>
+                                <span class="planet-position">Aquarius (House 1)</span>
+                                <span class="planet-nakshatra">Dhanishta</span>
+                                <span class="planet-degree">11.2°</span>
+                            </div>
+                            <div class="planet-item">
+                                <span class="planet-name">Moon</span>
+                                <span class="planet-position">Gemini (House 5)</span>
+                                <span class="planet-nakshatra">Mrigashira</span>
+                                <span class="planet-degree">23.8°</span>
+                            </div>
+                            <div class="planet-item">
+                                <span class="planet-name">Mars</span>
+                                <span class="planet-position">Aquarius (House 1)</span>
+                                <span class="planet-nakshatra">Shatabhisha</span>
+                                <span class="planet-degree">5.7°</span>
+                            </div>
+                            <div class="planet-item">
+                                <span class="planet-name">Mercury</span>
+                                <span class="planet-position">Aquarius (House 1)</span>
+                                <span class="planet-nakshatra">Purva Bhadrapada</span>
+                                <span class="planet-degree">28.4°</span>
+                            </div>
+                            <div class="planet-item">
+                                <span class="planet-name">Jupiter</span>
+                                <span class="planet-position">Sagittarius (House 9)</span>
+                                <span class="planet-nakshatra">Moola</span>
+                                <span class="planet-degree">15.3°</span>
+                            </div>
+                            <div class="planet-item">
+                                <span class="planet-name">Venus</span>
+                                <span class="planet-position">Capricorn (House 12)</span>
+                                <span class="planet-nakshatra">Uttara Ashadha</span>
+                                <span class="planet-degree">7.9°</span>
+                            </div>
+                            <div class="planet-item">
+                                <span class="planet-name">Saturn</span>
+                                <span class="planet-position">Aquarius (House 1)</span>
+                                <span class="planet-nakshatra">Dhanishta</span>
+                                <span class="planet-degree">19.6°</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yogas -->
+                    <div class="yogas-section">
+                        <h2>All Planetary Combinations (Yogas)</h2>
+                        <div class="yogas-list">
+                            <div class="yoga-item">
+                                <h4>Gaja Kesari Yoga</h4>
+                                <div class="yoga-strength">Strength: Strong</div>
+                                <p>This powerful combination of Jupiter and Moon creates wisdom, prosperity, and good fortune in life.</p>
+                                <div class="yoga-effects">
+                                    <strong>Effects:</strong> Enhanced wisdom, financial prosperity, respect in society
+                                </div>
+                                <div class="yoga-timing">
+                                    <strong>Activation:</strong> Jupiter periods and Moon transits
+                                </div>
+                            </div>
+                            <div class="yoga-item">
+                                <h4>Budh Aditya Yoga</h4>
+                                <div class="yoga-strength">Strength: Moderate</div>
+                                <p>Sun and Mercury conjunction enhances intelligence, communication skills, and leadership abilities.</p>
+                                <div class="yoga-effects">
+                                    <strong>Effects:</strong> Sharp intellect, excellent communication, leadership qualities
+                                </div>
+                                <div class="yoga-timing">
+                                    <strong>Activation:</strong> Mercury and Sun periods
+                                </div>
+                            </div>
+                            <div class="yoga-item">
+                                <h4>Stellium in Aquarius</h4>
+                                <div class="yoga-strength">Strength: Very Strong</div>
+                                <p>Multiple planets in Aquarius create innovative thinking, humanitarian nature, and technological aptitude.</p>
+                                <div class="yoga-effects">
+                                    <strong>Effects:</strong> Innovation, humanitarian work, technology expertise
+                                </div>
+                                <div class="yoga-timing">
+                                    <strong>Activation:</strong> Throughout life, especially during Aquarius transits
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Planetary Analysis Tab -->
+            <section id="planetary-analysis" class="tab-content">
+                <div class="content-header">
+                    <h1>Planetary Analysis</h1>
+                    <p>Detailed analysis of each planet's influence in your chart</p>
+                </div>
+
+                <div class="content-grid">
+                    <div class="planets-detailed-grid">
+                        <div class="planet-detailed-card">
+                            <div class="planet-header">
+                                <h3>Sun</h3>
+                                <div class="planet-position-info">
+                                    <span class="position-badge">Aquarius</span>
+                                    <span class="house-badge">House 1</span>
+                                    <span class="nakshatra-badge">Dhanishta</span>
+                                    <span class="degree-badge">11.2°</span>
+                                </div>
+                            </div>
+
+                            <div class="planet-analysis">
+                                <h4>Sun in Aquarius - The Innovative Leader</h4>
+
+                                <div class="analysis-section">
+                                    <h5>Sign Influence</h5>
+                                    <p>Your Sun in Aquarius gives you a progressive, humanitarian nature with strong ideals and innovative thinking.</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <h5>House Influence</h5>
+                                    <p>Positioned in the 1st house, your Sun strongly influences your personality, making you a natural leader with strong individuality.</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <h5>Combined Effect</h5>
+                                    <p>This combination creates a unique personality that stands out from the crowd, with natural leadership abilities and innovative ideas.</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <h5>Life Manifestation</h5>
+                                    <p>You're likely to be involved in progressive causes, technology, or humanitarian work, often taking leadership roles in these areas.</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <h5>Timing & Activation</h5>
+                                    <p>This energy is most active during Sun periods and when transiting planets activate your 1st house or Aquarius sign.</p>
+                                </div>
+                            </div>
+
+                            <div class="planet-strength-analysis">
+                                <h4>Strength Analysis</h4>
+                                <div class="strength-score">
+                                    <span class="score-value">75/100</span>
+                                    <span class="strength-grade">Strong</span>
+                                </div>
+                                <p class="strength-interpretation">Your Sun is well-placed and strong, providing good vitality and leadership abilities.</p>
+                            </div>
+                        </div>
+
+                        <div class="planet-detailed-card">
+                            <div class="planet-header">
+                                <h3>Moon</h3>
+                                <div class="planet-position-info">
+                                    <span class="position-badge">Gemini</span>
+                                    <span class="house-badge">House 5</span>
+                                    <span class="nakshatra-badge">Mrigashira</span>
+                                    <span class="degree-badge">23.8°</span>
+                                </div>
+                            </div>
+
+                            <div class="planet-analysis">
+                                <h4>Moon in Gemini - The Curious Mind</h4>
+
+                                <div class="analysis-section">
+                                    <h5>Sign Influence</h5>
+                                    <p>Your Moon in Gemini gives you a quick, adaptable mind with strong communication skills and curiosity about everything.</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <h5>House Influence</h5>
+                                    <p>In the 5th house, your Moon enhances creativity, intelligence, and brings joy through learning and self-expression.</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <h5>Combined Effect</h5>
+                                    <p>This creates a highly intelligent, creative personality with excellent communication skills and a love for learning.</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <h5>Life Manifestation</h5>
+                                    <p>You excel in fields requiring communication, writing, teaching, or creative expression. You may have multiple interests and talents.</p>
+                                </div>
+
+                                <div class="analysis-section">
+                                    <h5>Timing & Activation</h5>
+                                    <p>This energy peaks during Moon periods and when transits activate your 5th house or Gemini sign.</p>
+                                </div>
+                            </div>
+
+                            <div class="planet-strength-analysis">
+                                <h4>Strength Analysis</h4>
+                                <div class="strength-score">
+                                    <span class="score-value">68/100</span>
+                                    <span class="strength-grade">Good</span>
+                                </div>
+                                <p class="strength-interpretation">Your Moon is well-placed, providing good emotional intelligence and creative abilities.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Life Timing & Periods Tab -->
+            <section id="life-timing" class="tab-content">
+                <div class="content-header">
+                    <h1>Life Timing & Periods</h1>
+                    <p>Understanding your planetary periods and their influences</p>
+                </div>
+
+                <div class="content-grid">
+                    <div class="current-life-phase">
+                        <h2>🌟 Current Life Phase: Jupiter Dasha</h2>
+
+                        <div class="dasha-timeline-section">
+                            <h3>📅 Timeline</h3>
+                            <div class="timeline-visual">
+                                <div class="timeline-bar">
+                                    <div class="timeline-progress" style="width: 83.1%;">
+                                        <div class="timeline-marker">Now</div>
+                                    </div>
+                                </div>
+                                <div class="timeline-details">
+                                    <div class="timeline-detail">
+                                        <span class="detail-label">Duration:</span>
+                                        <span class="detail-value">16 years</span>
+                                    </div>
+                                    <div class="timeline-detail">
+                                        <span class="detail-label">Elapsed:</span>
+                                        <span class="detail-value">13.3 years</span>
+                                    </div>
+                                    <div class="timeline-detail">
+                                        <span class="detail-label">Remaining:</span>
+                                        <span class="detail-value">2.7 years</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dasha-characteristics-section">
+                            <h3>🌟 Jupiter Dasha Characteristics</h3>
+                            <div class="characteristics-grid">
+                                <div class="characteristic-item positive">
+                                    <span class="char-icon">✨</span>
+                                    <span class="char-text">Wisdom and spiritual growth</span>
+                                </div>
+                                <div class="characteristic-item positive">
+                                    <span class="char-icon">💰</span>
+                                    <span class="char-text">Financial expansion opportunities</span>
+                                </div>
+                                <div class="characteristic-item positive">
+                                    <span class="char-icon">🎓</span>
+                                    <span class="char-text">Higher learning and teaching</span>
+                                </div>
+                                <div class="characteristic-item positive">
+                                    <span class="char-icon">🌍</span>
+                                    <span class="char-text">Travel and foreign connections</span>
+                                </div>
+                                <div class="characteristic-item neutral">
+                                    <span class="char-icon">⚖️</span>
+                                    <span class="char-text">Balance optimism with realism</span>
+                                </div>
+                                <div class="characteristic-item neutral">
+                                    <span class="char-icon">🎯</span>
+                                    <span class="char-text">Long-term planning focus</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Other tabs will be added here -->
+            <section id="remedial-guidance" class="tab-content">
+                <div class="content-header">
+                    <h1>Remedial Guidance</h1>
+                    <p>Astrological remedies and guidance for balance and harmony</p>
+                </div>
+                <div class="content-grid">
+                    <p>Remedial guidance content will be displayed here...</p>
+                </div>
+            </section>
+
+            <section id="core-personality" class="tab-content">
+                <div class="content-header">
+                    <h1>Core Personality</h1>
+                    <p>Deep insights into your personality structure</p>
+                </div>
+                <div class="content-grid">
+                    <p>Core personality analysis will be displayed here...</p>
+                </div>
+            </section>
+
+            <section id="todays-influences" class="tab-content">
+                <div class="content-header">
+                    <h1>Today's Influences</h1>
+                    <p>Current planetary influences affecting you today</p>
+                </div>
+                <div class="content-grid">
+                    <p>Today's influences will be displayed here...</p>
+                </div>
+            </section>
+
+            <section id="current-life-themes" class="tab-content">
+                <div class="content-header">
+                    <h1>Current Life Themes</h1>
+                    <p>Major themes and patterns in your current life phase</p>
+                </div>
+                <div class="content-grid">
+                    <p>Current life themes will be displayed here...</p>
+                </div>
+            </section>
+
+            <section id="specialized-predictions" class="tab-content">
+                <div class="content-header">
+                    <h1>Specialized Predictions</h1>
+                    <p>Specific predictions for different life areas</p>
+                </div>
+                <div class="content-grid">
+                    <p>Specialized predictions will be displayed here...</p>
+                </div>
+            </section>
+
+            <section id="advanced-analysis" class="tab-content">
+                <div class="content-header">
+                    <h1>Advanced Analysis</h1>
+                    <p>Advanced astrological techniques and analysis</p>
+                </div>
+                <div class="content-grid">
+                    <p>Advanced analysis will be displayed here...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="static/js/wireframe-app.js"></script>
+</body>
+</html>

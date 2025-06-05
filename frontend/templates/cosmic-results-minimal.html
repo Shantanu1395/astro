@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Results - {{ birth_data.name if birth_data else "Unknown" }}</title>
+    <link rel="stylesheet" href="/static/cosmic-style.css">
+</head>
+<body>
+    <div class="cosmic-container">
+        <nav class="cosmic-nav">
+            <div class="nav-content">
+                <div class="nav-brand">
+                    <h1>🌌 Cosmic Insights</h1>
+                </div>
+                <div class="nav-tabs">
+                    <button class="nav-tab active" data-section="overview">Overview</button>
+                    <button class="nav-tab" data-section="career">Career</button>
+                    <button class="nav-tab" data-section="relationships">Relationships</button>
+                    <button class="nav-tab" data-section="daily">Daily</button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Overview Section -->
+        <section id="overview" class="section-content active">
+            <div class="content-container">
+                <header class="section-header">
+                    <h1 class="section-title">Welcome, {{ birth_data.name if birth_data else "Seeker" }}</h1>
+                    <p class="section-subtitle">Your comprehensive cosmic analysis</p>
+                </header>
+
+                <!-- Chart Summary Cards -->
+                <div class="summary-grid">
+                    {% if chart and chart.planets %}
+                    {% set sun_planet = chart.planets | selectattr("name", "equalto", "Sun") | first %}
+                    {% set moon_planet = chart.planets | selectattr("name", "equalto", "Moon") | first %}
+                    {% set ascendant = chart.planets[0] if chart.planets else none %}
+
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <div class="card-icon">☀️</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Sun Sign</h3>
+                                <div class="card-value">{{ sun_planet.sign if sun_planet else "Calculating..." }}</div>
+                                {% if sun_planet %}
+                                <div class="card-meta">House {{ sun_planet.house }} • {{ "%.1f"|format(sun_planet.degree) }}°</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <div class="card-icon">🌙</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Moon Sign</h3>
+                                <div class="card-value">{{ moon_planet.sign if moon_planet else "Calculating..." }}</div>
+                                {% if moon_planet %}
+                                <div class="card-meta">{{ moon_planet.nakshatra if moon_planet.nakshatra else "House " + moon_planet.house|string }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <div class="card-icon">⬆️</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Ascendant</h3>
+                                <div class="card-value">{{ ascendant.sign if ascendant else "Calculating..." }}</div>
+                                {% if ascendant %}
+                                <div class="card-meta">{{ "%.1f"|format(ascendant.degree) }}° rising</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <div class="card-icon">⏰</div>
+                            <div class="card-content">
+                                <h3 class="card-title">Current Dasha</h3>
+                                <div class="card-value">
+                                    {% if current_dasha and current_dasha.planet %}
+                                        {{ current_dasha.planet }}
+                                    {% else %}
+                                        Calculating...
+                                    {% endif %}
+                                </div>
+                                {% if current_dasha and current_dasha.remaining_years %}
+                                <div class="card-meta">{{ "%.1f"|format(current_dasha.remaining_years) }} years remaining</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- AI Insights -->
+                {% if ai_prediction %}
+                <div class="insights-section">
+                    <h2 class="insights-title">🔮 AI-Powered Insights</h2>
+                    <div class="insights-grid">
+                        {% if ai_prediction.summary %}
+                        <div class="insight-card primary">
+                            <div class="insight-icon">📋</div>
+                            <h3 class="insight-title">Summary</h3>
+                            <p class="insight-content">{{ ai_prediction.summary }}</p>
+                        </div>
+                        {% endif %}
+
+                        {% if ai_prediction.key_themes %}
+                        <div class="insight-card secondary">
+                            <div class="insight-icon">🎯</div>
+                            <h3 class="insight-title">Key Themes</h3>
+                            <ul class="insight-list">
+                                {% for theme in ai_prediction.key_themes %}
+                                <li>{{ theme }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+
+                        {% if ai_prediction.guidance %}
+                        <div class="insight-card tertiary">
+                            <div class="insight-icon">💡</div>
+                            <h3 class="insight-title">Guidance</h3>
+                            <p class="insight-content">{{ ai_prediction.guidance }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Yogas Section -->
+                {% if yogas %}
+                <div class="yogas-section">
+                    <h2 class="section-subtitle">🌟 Planetary Yogas</h2>
+                    <div class="yogas-grid">
+                        {% for yoga in yogas[:6] %}
+                        <div class="yoga-card">
+                            <div class="yoga-header">
+                                <h4 class="yoga-name">{{ yoga.name }}</h4>
+                                {% if yoga.strength %}
+                                <span class="yoga-strength strength-{{ yoga.strength.lower() }}">{{ yoga.strength }}</span>
+                                {% endif %}
+                            </div>
+                            {% if yoga.description %}
+                            <p class="yoga-description">{{ yoga.description[:150] }}{% if yoga.description|length > 150 %}...{% endif %}</p>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Career Section -->
+        <section id="career" class="section-content">
+            <div class="content-container">
+                <header class="section-header">
+                    <h1 class="section-title">💼 Career Predictions</h1>
+                    <p class="section-subtitle">Your professional path and opportunities</p>
+                </header>
+                <div class="career-content">
+                    <p>Career analysis based on your planetary positions and current dasha period.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Relationships Section -->
+        <section id="relationships" class="section-content">
+            <div class="content-container">
+                <header class="section-header">
+                    <h1 class="section-title">💕 Relationship Predictions</h1>
+                    <p class="section-subtitle">Love, compatibility, and relationship insights</p>
+                </header>
+                <div class="relationships-content">
+                    <p>Relationship analysis based on your Venus, Mars, and 7th house influences.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Daily Section -->
+        <section id="daily" class="section-content">
+            <div class="content-container">
+                <header class="section-header">
+                    <h1 class="section-title">🌅 Daily Cosmic Guidance</h1>
+                    <p class="section-subtitle">Today's planetary influences and guidance</p>
+                </header>
+                <div class="daily-content">
+                    <p>Daily guidance based on current transits and your birth chart.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.nav-tab');
+            const sections = document.querySelectorAll('.section-content');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetSection = this.getAttribute('data-section');
+                    
+                    // Remove active class from all tabs and sections
+                    tabs.forEach(t => t.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding section
+                    this.classList.add('active');
+                    document.getElementById(targetSection).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

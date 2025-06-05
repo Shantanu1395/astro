@@ -47,6 +47,33 @@ app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
 # Setup templates
 templates = Jinja2Templates(directory="frontend/templates")
 
+# Planet name mapping for Hindi display (transliterated)
+def get_hindi_planet_name(english_name):
+    """Convert English planet names to Hindi names (in English script)."""
+    planet_mapping = {
+        'Sun': 'Surya',
+        'Moon': 'Chandra',
+        'Mars': 'Mangal',
+        'Mercury': 'Budh',
+        'Jupiter': 'Guru',
+        'Venus': 'Shukra',
+        'Saturn': 'Shani',
+        'Rahu': 'Rahu',
+        'Ketu': 'Ketu'
+    }
+    return planet_mapping.get(english_name, english_name)
+
+def get_planet_with_english(english_name):
+    """Get Hindi name with English name in brackets."""
+    hindi_name = get_hindi_planet_name(english_name)
+    if hindi_name != english_name:
+        return f"{hindi_name} ({english_name})"
+    return english_name
+
+# Register custom filters
+templates.env.filters['hindi_planet'] = get_hindi_planet_name
+templates.env.filters['planet_with_english'] = get_planet_with_english
+
 # Backend API URL
 BACKEND_API_URL = "http://localhost:8006"
 

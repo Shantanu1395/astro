@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmic Insights - Unlock Your Cosmic Blueprint</title>
+    <link rel="stylesheet" href="/static/wireframe-home-style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <div class="hero-visual">
+                    <div class="cosmic-frame left"></div>
+                    <div class="hero-center">
+                        <h1 class="hero-title">Unlock Your Cosmic Blueprint</h1>
+                        <p class="hero-subtitle">Discover personalized astrological insights to navigate life's journey with clarity and purpose. Explore your unique birth chart and receive daily guidance tailored to your cosmic profile.</p>
+                        <button class="cta-button" onclick="scrollToForm()">Get Started</button>
+                    </div>
+                    <div class="cosmic-frame right"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="features-content">
+                <h2 class="features-title">Key Features</h2>
+                <p class="features-subtitle">Explore the core functionalities of Cosmic Insights, designed to provide comprehensive astrological guidance.</p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">☀️</div>
+                        <h3 class="feature-title">Personalized Birth Chart</h3>
+                        <p class="feature-description">Uncover your unique astrological profile with a detailed birth chart analysis, revealing insights into your personality, strengths, and life path.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🌙</div>
+                        <h3 class="feature-title">Daily Cosmic Guidance</h3>
+                        <p class="feature-description">Receive daily astrological forecasts tailored to your birth chart, offering guidance on navigating opportunities and challenges.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">🔮</div>
+                        <h3 class="feature-title">Advanced Timing Calculations</h3>
+                        <p class="feature-description">Gain deeper insights into future trends and cycles with advanced timing calculations, helping you make informed decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Form Section -->
+        <section class="form-section" id="form-section">
+            <div class="form-content">
+                <h2 class="form-title">Personalized Prediction</h2>
+                
+                <form class="prediction-form" action="/predict" method="post">
+                    <div class="form-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" id="name" name="name" class="form-input" placeholder="Enter your name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="birth_date" class="form-label">Date of Birth</label>
+                        <input type="date" id="birth_date" name="birth_date" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="birth_time" class="form-label">Time of Birth</label>
+                        <input type="time" id="birth_time" name="birth_time" class="form-input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="birth_location" class="form-label">Location of Birth</label>
+                        <input type="text" id="birth_location" name="birth_location" class="form-input" placeholder="City, State" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prediction_type" class="form-label">Prediction Type</label>
+                        <select id="prediction_type" name="prediction_type" class="form-select" required>
+                            <option value="">Select Prediction Type</option>
+                            <option value="overview">Overview</option>
+                            <option value="career">Career</option>
+                            <option value="relationship">Relationships</option>
+                            <option value="health">Health</option>
+                            <option value="financial">Financial</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">Get Prediction</button>
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function scrollToForm() {
+            document.getElementById('form-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Form validation and enhancement
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('.prediction-form');
+            const submitButton = document.querySelector('.submit-button');
+            
+            form.addEventListener('submit', function(e) {
+                submitButton.textContent = 'Generating Prediction...';
+                submitButton.disabled = true;
+            });
+        });
+    </script>
+</body>
+</html>
