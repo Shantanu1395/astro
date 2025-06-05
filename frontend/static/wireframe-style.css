@@ -218,9 +218,27 @@ body {
 /* Planets Grid */
 .planets-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
     margin-top: 1rem;
+}
+
+@media (max-width: 1200px) {
+    .planets-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .planets-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .planets-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .planet-item {
@@ -228,6 +246,36 @@ body {
     padding: 1rem;
     border-radius: 8px;
     border: 1px solid #2a2d3a;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 120px;
+    justify-content: space-between;
+}
+
+.planet-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
+.planet-position {
+    color: #a0a9c0;
+    font-size: 0.9rem;
+}
+
+.planet-nakshatra {
+    color: #7c8db5;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.planet-degree {
+    color: #6366f1;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: auto;
 }
 
 .planet-name {
