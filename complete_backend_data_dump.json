@@ -1,0 +1,2526 @@
+{
+  "birth_data": {
+    "name": "Test User",
+    "birth_date": "1994-03-01",
+    "birth_time": "23:02:00",
+    "birth_location": "Faridabad, India"
+  },
+  "vedic_chart": {
+    "ascendant_sign": "Makara",
+    "moon_sign": "Tula",
+    "sun_sign": "Kumbha",
+    "birth_nakshatra": "Swati",
+    "birth_nakshatra_pada": 2,
+    "planets": [
+      {
+        "name": "Sun",
+        "longitude": 317.3572948003902,
+        "latitude": -9.002867733376107e-05,
+        "sign": "Kumbha",
+        "house": 1,
+        "degree": 17.357294800390207,
+        "nakshatra": null,
+        "nakshatra_pada": null,
+        "retrograde": false
+      },
+      {
+        "name": "Moon",
+        "longitude": 191.28149319552315,
+        "latitude": -1.8828616633986335,
+        "sign": "Tula",
+        "house": 8,
+        "degree": 11.281493195523154,
+        "nakshatra": "Swati",
+        "nakshatra_pada": 2,
+        "retrograde": false
+      },
+      {
+        "name": "Mercury",
+        "longitude": 299.45404967908047,
+        "latitude": 2.476670821894984,
+        "sign": "Makara",
+        "house": 1,
+        "degree": 29.45404967908047,
+        "nakshatra": null,
+        "nakshatra_pada": null,
+        "retrograde": false
+      },
+      {
+        "name": "Venus",
+        "longitude": 327.9458436419598,
+        "latitude": -1.3844771646536882,
+        "sign": "Kumbha",
+        "house": 1,
+        "degree": 27.94584364195981,
+        "nakshatra": null,
+        "nakshatra_pada": null,
+        "retrograde": false
+      },
+      {
+        "name": "Mars",
+        "longitude": 301.89904008008375,
+        "latitude": -1.104376106395691,
+        "sign": "Kumbha",
+        "house": 1,
+        "degree": 1.8990400800837506,
+        "nakshatra": null,
+        "nakshatra_pada": null,
+        "retrograde": false
+      },
+      {
+        "name": "Jupiter",
+        "longitude": 200.8776210544888,
+        "latitude": 1.3078809085029248,
+        "sign": "Tula",
+        "house": 9,
+        "degree": 20.8776210544888,
+        "nakshatra": null,
+        "nakshatra_pada": null,
+        "retrograde": false
+      },
+      {
+        "name": "Saturn",
+        "longitude": 310.06801903573097,
+        "latitude": -1.437891178123174,
+        "sign": "Kumbha",
+        "house": 1,
+        "degree": 10.06801903573097,
+        "nakshatra": null,
+        "nakshatra_pada": null,
+        "retrograde": false
+      },
+      {
+        "name": "Rahu",
+        "longitude": 214.14635094803376,
+        "latitude": 0.0,
+        "sign": "Vrishchika",
+        "house": 9,
+        "degree": 4.146350948033756,
+        "nakshatra": null,
+        "nakshatra_pada": null,
+        "retrograde": false
+      },
+      {
+        "name": "Ketu",
+        "longitude": 34.14635094803373,
+        "latitude": 0.0,
+        "sign": "Vrishabha",
+        "house": 3,
+        "degree": 4.146350948033728,
+        "nakshatra": null,
+        "nakshatra_pada": null,
+        "retrograde": false
+      }
+    ]
+  },
+  "current_dasha": {
+    "planet": "Jupiter",
+    "start_date": "2012-02-29",
+    "end_date": "2028-02-29",
+    "remaining_years": 2.736481861738536
+  },
+  "planetary_strengths": {
+    "Sun": {
+      "overall_strength": "Average",
+      "strength_factors": [
+        {
+          "factor": "Unknown Sign Relationship",
+          "score": 10,
+          "description": "Sun in Kumbha - relationship unclear"
+        },
+        {
+          "factor": "Neither Exalted nor Debilitated",
+          "score": 0,
+          "description": "Sun in Kumbha - normal strength from exaltation perspective"
+        },
+        {
+          "factor": "Neutral Directional Position",
+          "score": 0,
+          "description": "Sun in house 1 - neutral directional strength"
+        },
+        {
+          "factor": "Temporal Strength (daytime)",
+          "score": 15,
+          "description": "Sun has good temporal strength during daytime"
+        },
+        {
+          "factor": "Natural Strength (Naisargika Bala)",
+          "score": 15,
+          "description": "Sun has high natural strength"
+        }
+      ],
+      "dignity": "Unknown"
+    },
+    "Moon": {
+      "overall_strength": "Weak",
+      "strength_factors": [
+        {
+          "factor": "Unknown Sign Relationship",
+          "score": 10,
+          "description": "Moon in Tula - relationship unclear"
+        },
+        {
+          "factor": "Neither Exalted nor Debilitated",
+          "score": 0,
+          "description": "Moon in Tula - normal strength from exaltation perspective"
+        },
+        {
+          "factor": "Neutral Directional Position",
+          "score": 0,
+          "description": "Moon in house 8 - neutral directional strength"
+        },
+        {
+          "factor": "Temporal Strength (daytime)",
+          "score": 5,
+          "description": "Moon has moderate temporal strength during daytime"
+        },
+        {
+          "factor": "Natural Strength (Naisargika Bala)",
+          "score": 12,
+          "description": "Moon has good natural strength"
+        }
+      ],
+      "dignity": "Unknown"
+    },
+    "Mercury": {
+      "overall_strength": "Average",
+      "strength_factors": [
+        {
+          "factor": "Unknown Sign Relationship",
+          "score": 10,
+          "description": "Mercury in Makara - relationship unclear"
+        },
+        {
+          "factor": "Neither Exalted nor Debilitated",
+          "score": 0,
+          "description": "Mercury in Makara - normal strength from exaltation perspective"
+        },
+        {
+          "factor": "Directional Strength (Dig Bala)",
+          "score": 15,
+          "description": "Mercury is in its directional strength house 1, providing maximum directional power"
+        },
+        {
+          "factor": "Temporal Strength (daytime)",
+          "score": 10,
+          "description": "Mercury has good temporal strength during daytime"
+        },
+        {
+          "factor": "Natural Strength (Naisargika Bala)",
+          "score": 8,
+          "description": "Mercury has moderate natural strength"
+        }
+      ],
+      "dignity": "Unknown"
+    },
+    "Venus": {
+      "overall_strength": "Weak",
+      "strength_factors": [
+        {
+          "factor": "Unknown Sign Relationship",
+          "score": 10,
+          "description": "Venus in Kumbha - relationship unclear"
+        },
+        {
+          "factor": "Neither Exalted nor Debilitated",
+          "score": 0,
+          "description": "Venus in Kumbha - normal strength from exaltation perspective"
+        },
+        {
+          "factor": "Neutral Directional Position",
+          "score": 0,
+          "description": "Venus in house 1 - neutral directional strength"
+        },
+        {
+          "factor": "Temporal Strength (daytime)",
+          "score": 5,
+          "description": "Venus has moderate temporal strength during daytime"
+        },
+        {
+          "factor": "Natural Strength (Naisargika Bala)",
+          "score": 10,
+          "description": "Venus has good natural strength"
+        }
+      ],
+      "dignity": "Unknown"
+    },
+    "Mars": {
+      "overall_strength": "Weak",
+      "strength_factors": [
+        {
+          "factor": "Unknown Sign Relationship",
+          "score": 10,
+          "description": "Mars in Kumbha - relationship unclear"
+        },
+        {
+          "factor": "Neither Exalted nor Debilitated",
+          "score": 0,
+          "description": "Mars in Kumbha - normal strength from exaltation perspective"
+        },
+        {
+          "factor": "Neutral Directional Position",
+          "score": 0,
+          "description": "Mars in house 1 - neutral directional strength"
+        },
+        {
+          "factor": "Temporal Strength (daytime)",
+          "score": 15,
+          "description": "Mars has good temporal strength during daytime"
+        },
+        {
+          "factor": "Natural Strength (Naisargika Bala)",
+          "score": 12,
+          "description": "Mars has good natural strength"
+        }
+      ],
+      "dignity": "Unknown"
+    },
+    "Jupiter": {
+      "overall_strength": "Average",
+      "strength_factors": [
+        {
+          "factor": "Unknown Sign Relationship",
+          "score": 10,
+          "description": "Jupiter in Tula - relationship unclear"
+        },
+        {
+          "factor": "Neither Exalted nor Debilitated",
+          "score": 0,
+          "description": "Jupiter in Tula - normal strength from exaltation perspective"
+        },
+        {
+          "factor": "Neutral Directional Position",
+          "score": 0,
+          "description": "Jupiter in house 9 - neutral directional strength"
+        },
+        {
+          "factor": "Temporal Strength (daytime)",
+          "score": 15,
+          "description": "Jupiter has good temporal strength during daytime"
+        },
+        {
+          "factor": "Natural Strength (Naisargika Bala)",
+          "score": 18,
+          "description": "Jupiter has high natural strength"
+        }
+      ],
+      "dignity": "Unknown"
+    },
+    "Saturn": {
+      "overall_strength": "Very Weak",
+      "strength_factors": [
+        {
+          "factor": "Unknown Sign Relationship",
+          "score": 10,
+          "description": "Saturn in Kumbha - relationship unclear"
+        },
+        {
+          "factor": "Neither Exalted nor Debilitated",
+          "score": 0,
+          "description": "Saturn in Kumbha - normal strength from exaltation perspective"
+        },
+        {
+          "factor": "Directional Weakness",
+          "score": -5,
+          "description": "Saturn is opposite to its directional strength, creating directional weakness"
+        },
+        {
+          "factor": "Temporal Strength (daytime)",
+          "score": 5,
+          "description": "Saturn has moderate temporal strength during daytime"
+        },
+        {
+          "factor": "Natural Strength (Naisargika Bala)",
+          "score": 6,
+          "description": "Saturn has moderate natural strength"
+        }
+      ],
+      "dignity": "Unknown"
+    },
+    "Rahu": {
+      "overall_strength": "Weak",
+      "strength_factors": [
+        {
+          "factor": "Unknown Sign Relationship",
+          "score": 10,
+          "description": "Rahu in Vrishchika - relationship unclear"
+        },
+        {
+          "factor": "Neither Exalted nor Debilitated",
+          "score": 0,
+          "description": "Rahu in Vrishchika - normal strength from exaltation perspective"
+        },
+        {
+          "factor": "Neutral Directional Position",
+          "score": 0,
+          "description": "Rahu in house 9 - neutral directional strength"
+        },
+        {
+          "factor": "Temporal Strength (daytime)",
+          "score": 5,
+          "description": "Rahu has moderate temporal strength during daytime"
+        },
+        {
+          "factor": "Natural Strength (Naisargika Bala)",
+          "score": 8,
+          "description": "Rahu has moderate natural strength"
+        }
+      ],
+      "dignity": "Unknown"
+    },
+    "Ketu": {
+      "overall_strength": "Weak",
+      "strength_factors": [
+        {
+          "factor": "Unknown Sign Relationship",
+          "score": 10,
+          "description": "Ketu in Vrishabha - relationship unclear"
+        },
+        {
+          "factor": "Neither Exalted nor Debilitated",
+          "score": 0,
+          "description": "Ketu in Vrishabha - normal strength from exaltation perspective"
+        },
+        {
+          "factor": "Neutral Directional Position",
+          "score": 0,
+          "description": "Ketu in house 3 - neutral directional strength"
+        },
+        {
+          "factor": "Temporal Strength (daytime)",
+          "score": 15,
+          "description": "Ketu has good temporal strength during daytime"
+        },
+        {
+          "factor": "Natural Strength (Naisargika Bala)",
+          "score": 8,
+          "description": "Ketu has moderate natural strength"
+        }
+      ],
+      "dignity": "Unknown"
+    }
+  },
+  "personality_analysis": {
+    "core_personality": "**🎭 COMPREHENSIVE PERSONALITY INTEGRATION**\n\n**Your Three-Layered Personality Structure:**\n\n🌟 **PUBLIC PERSONA (Ascendant Influence)**\n• How others perceive you: ambitious, disciplined, responsible\n• Your natural approach to new situations: Methodical, goal-oriented, traditional\n• Energy you project: Steady, enduring energy, focused on long-term goals\n• First impression you make: hardworking, reliable\n\n☀️ **CORE IDENTITY (Sun Influence)**\n• Your authentic self: independent, innovative, humanitarian\n• What drives you: To innovate and serve humanity\n• Your life approach: Unconventional, group-oriented, future-focused\n• Your ego expression: original, progressive\n\n🌙 **EMOTIONAL FOUNDATION (Moon Influence)**\n• Your inner emotional world: harmonious, diplomatic, artistic\n• How you process feelings: Social energy, seeks balance and harmony\n• Your subconscious patterns: Diplomatic, aesthetic, relationship-focused\n• Your emotional needs: fair-minded, charming\n\n**🎯 INTEGRATED PERSONALITY PROFILE**\n\n**Most Prominent Traits**: Ambitious, Disciplined, Responsible, Traditional, Reserved\n\n**Personality Dynamics:**\n• **External vs Internal**: Your public persona (ambitious, disciplined) may differ from your core self (independent, innovative), creating a complex with significant differences between public and private self dynamic\n• **Rational vs Emotional**: Your conscious mind (independent, innovative) and emotional nature (harmonious, diplomatic) create a complex with potential tension between logic and emotion approach to life\n• **Consistency Level**: Complex and multifaceted personality with rich internal diversity\n\n**Strengths Integration:**\n• **Practical**: reliable, practical\n• **Leadership**: authoritative\n• **Creative**: original\n• **Communication**: charming\n\n**Growth Areas Integration:**\n• **Self-Management**: Work on rigid\n• **Relationships**: Work on aloof, stubborn\n• **Emotional Balance**: Work on emotionally distant\n• **Decision Making**: Work on indecisive\n\n**Life Expression Pattern:**\n• **Daily Expression**: You approach daily life with a methodical, goal-oriented, traditional style\n• **Long-term Goals**: Your core self drives you toward unconventional, group-oriented, future-focused achievement\n• **Emotional Processing**: You handle feelings with social energy, seeks balance and harmony patterns\n• **Overall Pattern**: This creates a dynamic where you balance external adaptation with internal purpose and emotional wisdom\n\n**Relationship Dynamics:**\n• **First Impressions**: Others initially see your ambitious, disciplined nature\n• **Deeper Connections**: As people get to know you, they discover your independent, innovative core\n• **Intimate Relationships**: In close relationships, your harmonious, diplomatic emotional nature emerges\n• **Relationship Challenge**: Balancing your public persona with authentic self-expression in relationships\n\n**Career & Life Path Indicators:**\n• **Public Role**: Your natural public presence suggests careers involving to achieve status and build lasting structures\n• **Core Purpose**: Your authentic self seeks to innovate and serve humanity\n• **Work Style**: You work best with social energy, seeks balance and harmony and emotional connection\n• **Ideal Career**: Combines public engagement, personal meaning, and emotional satisfaction\n\nThis creates a highly complex and multifaceted personality that balances external presentation with inner authenticity and emotional depth.",
+    "temperament": "{'elemental_distribution': {'Fire': 0, 'Earth': 3, 'Air': 6, 'Water': 1}, 'modal_distribution': {'Cardinal': 4, 'Fixed': 6, 'Mutable': 0}, 'dominant_element': 'Air', 'dominant_mode': 'Fixed', 'temperament_type': 'Fixed Air', 'description': 'Your temperament is primarily Fixed Air. Mental, communicative, social, and adaptable. You thrive on ideas, communication, and variety. Determined, persistent, and stable. You prefer to see things through to completion and resist change.', 'behavioral_tendencies': ['Unique behavioral patterns', 'Individual approach to life', 'Personal style of interaction']}",
+    "mental_nature": "{'thinking_style': 'Primarily practical and methodical and mentally-oriented thinking style', 'learning_preference': 'Adaptable learning style that combines multiple approaches', 'communication_patterns': 'Communication is actively communicative', 'mercury_influence': {'thinking_style': 'Unique mental approach influenced by Capricorn', 'communication': 'Communication style shaped by Capricorn energy', 'learning': 'Learning preferences influenced by Capricorn', 'strengths': ['Mental gifts from Capricorn'], 'challenges': ['Mental growth areas from Capricorn'], 'house_focus': 'Mental energy focused on self-expression and personal identity'}, 'moon_mental_influence': {'mental_emotional_style': 'Mental processing influenced by Tula emotional patterns', 'memory_patterns': 'Memory and recall influenced by Tula energy', 'subconscious_thinking': 'Subconscious mental patterns shaped by Tula', 'intuitive_insights': 'Intuitive mental abilities enhanced by Tula placement'}, 'third_house_influence': {'communication_enhancement': ['Ketu in 3rd house enhances Vrishabha communication style'], 'learning_boost': 'Learning enhanced by 1 planet(s) in 3rd house', 'mental_activity': 'Increased mental activity and communication focus'}, 'mental_strengths': ['Enhanced communication abilities'], 'mental_challenges': ['Minor tendency toward overthinking'], 'intellectual_interests': ['Diverse intellectual curiosity'], 'information_processing': 'Processes information in a balanced way combining logic and intuition'}",
+    "emotional_nature": "{'emotional_style': 'Balanced emotional style adapting to situations', 'emotional_needs': 'Balanced emotional needs including security, love, and personal growth', 'emotional_expression': 'Balanced emotional expression adapting to circumstances', 'moon_influence': {'emotional_style': 'Emotional nature influenced by Libra energy', 'emotional_needs': 'Emotional requirements shaped by Libra', 'emotional_expression': 'Emotional expression colored by Libra', 'emotional_security': 'Emotional security through Libra qualities'}, 'venus_influence': {'love_style': 'Love expression influenced by Kumbha energy', 'relationship_needs': 'Relationship requirements shaped by Kumbha', 'aesthetic_emotions': 'Beauty and harmony needs influenced by Kumbha', 'social_emotions': 'Social emotional expression colored by Kumbha'}, 'fourth_house_influence': {'influence': 'No planets in 4th house - natural emotional foundation'}, 'emotional_strengths': ['Natural emotional balance', 'Adaptive emotional responses'], 'emotional_challenges': ['Minor emotional sensitivity'], 'relationship_patterns': 'In relationships, you are stable and loyal emotionally and independent and unique in love expression', 'emotional_security': 'Emotional security through balanced life and supportive relationships'}",
+    "behavioral_patterns": "{'action_style': 'Thoughtful and planned', 'conflict_resolution': 'Diplomatic', 'motivation_style': 'Self-motivated'}",
+    "strengths": "['Practical Mercury energy - reliability and groundedness', 'Practical Ketu energy - reliability and groundedness']",
+    "challenges": "['Moon in 8th house - transformation and letting go']",
+    "life_approach": "{'primary_motivation': 'Achievement and recognition', 'life_philosophy': 'Practical and goal-oriented', 'approach_to_change': 'Cautious but adaptable'}",
+    "communication_style": "{'speaking_style': 'Thoughtful and diplomatic', 'listening_style': 'Active and engaged', 'written_communication': 'Detailed and organized'}",
+    "relationship_nature": "{'relationship_style': 'Independent and direct', 'partnership_needs': 'Emotional security and stability', 'social_nature': 'Outgoing and friendly'}",
+    "career_inclinations": "{'career_strengths': ['Leadership', 'Communication', 'Analysis'], 'work_environment': 'Structured and goal-oriented', 'professional_style': 'Reliable and dedicated'}",
+    "spiritual_nature": "{'spiritual_inclination': 'Philosophical and seeking', 'spiritual_path': 'Traditional and structured', 'higher_purpose': 'Service to others and personal growth'}",
+    "physical_constitution": "{'physical_type': 'Balanced constitution', 'health_tendencies': 'Generally strong with attention to diet', 'energy_levels': 'Steady and consistent'}",
+    "learning_style": "{'learning_preference': 'Visual and hands-on', 'study_habits': 'Organized and systematic', 'intellectual_interests': 'Practical and applied knowledge'}",
+    "decision_making": "{'decision_style': 'Thoughtful and analytical', 'risk_tolerance': 'Moderate - calculated risks', 'decision_factors': 'Logic, intuition, and practical considerations'}"
+  },
+  "current_influences": {
+    "current_date": "June 05, 2025",
+    "current_positions": {
+      "Sun": {
+        "longitude": 51.21420603871998,
+        "sign": "Vrishabha",
+        "degree": 21.21420603871998,
+        "themes": {
+          "daily_theme": "Leadership and self-expression",
+          "monthly_theme": "Authority and recognition",
+          "effects": "Increased confidence, leadership opportunities, focus on career",
+          "feelings": "More authoritative, confident, desire for recognition",
+          "physical": "Increased energy, better posture, stronger presence"
+        }
+      },
+      "Moon": {
+        "longitude": 171.15160974366447,
+        "sign": "Kanya",
+        "degree": 21.151609743664466,
+        "themes": {
+          "daily_theme": "Emotions and intuition",
+          "monthly_theme": "Family and nurturing",
+          "effects": "Heightened emotions, family focus, intuitive insights",
+          "feelings": "More emotional, nurturing, intuitive, changeable moods",
+          "physical": "Fluid retention, digestive changes, sleep pattern shifts"
+        }
+      },
+      "Mars": {
+        "longitude": 119.45659981356445,
+        "sign": "Karka",
+        "degree": 29.456599813564452,
+        "themes": {
+          "daily_theme": "Action and energy",
+          "monthly_theme": "Competition and courage",
+          "effects": "Increased activity, competitive spirit, quick decisions",
+          "feelings": "More aggressive, impatient, energetic, action-oriented",
+          "physical": "Higher energy, possible inflammation, increased metabolism"
+        }
+      },
+      "Mercury": {
+        "longitude": 59.35635459102002,
+        "sign": "Vrishabha",
+        "degree": 29.356354591020022,
+        "themes": {
+          "daily_theme": "Communication and learning",
+          "monthly_theme": "Business and networking",
+          "effects": "Enhanced communication, learning opportunities, travel",
+          "feelings": "More talkative, curious, analytical, restless",
+          "physical": "Nervous energy, hand/arm activity, mental alertness"
+        }
+      },
+      "Jupiter": {
+        "longitude": 64.87934342425369,
+        "sign": "Mithuna",
+        "degree": 4.87934342425369,
+        "themes": {
+          "daily_theme": "Wisdom and expansion",
+          "monthly_theme": "Growth and spirituality",
+          "effects": "Optimism, learning, spiritual growth, good fortune",
+          "feelings": "More optimistic, generous, philosophical, expansive",
+          "physical": "Weight gain tendency, improved liver function, vitality"
+        }
+      },
+      "Venus": {
+        "longitude": 5.454324788025133,
+        "sign": "Mesha",
+        "degree": 5.454324788025133,
+        "themes": {
+          "daily_theme": "Love and beauty",
+          "monthly_theme": "Relationships and creativity",
+          "effects": "Romantic feelings, artistic inspiration, social activities",
+          "feelings": "More loving, artistic, social, pleasure-seeking",
+          "physical": "Enhanced beauty, kidney function, reproductive health"
+        }
+      },
+      "Saturn": {
+        "longitude": 336.5794690919987,
+        "sign": "Meena",
+        "degree": 6.579469091998703,
+        "themes": {
+          "daily_theme": "Discipline and responsibility",
+          "monthly_theme": "Hard work and karma",
+          "effects": "Increased responsibility, disciplined approach, delays",
+          "feelings": "More serious, disciplined, pessimistic, patient",
+          "physical": "Joint stiffness, slower metabolism, endurance focus"
+        }
+      },
+      "Rahu": {
+        "longitude": 329.0320318235189,
+        "sign": "Kumbha",
+        "degree": 29.032031823518878,
+        "themes": {
+          "daily_theme": "Ambition and illusion",
+          "monthly_theme": "Material desires and confusion",
+          "effects": "Ambitious pursuits, unconventional approaches, confusion",
+          "feelings": "More ambitious, confused, materialistic, rebellious",
+          "physical": "Nervous system effects, unusual symptoms, restlessness"
+        }
+      }
+    },
+    "lunar_phase": {
+      "phase": "Waxing Moon",
+      "angle": 119.93740370494449,
+      "effects": "Growth, building energy, taking action",
+      "emotional_impact": "Increasing optimism, motivation building, social energy rising"
+    },
+    "month_theme": {
+      "primary_theme": "Stability, material security, sensual pleasures",
+      "sun_sign": "Vrishabha",
+      "secondary_influences": [
+        "Moon: Family and nurturing",
+        "Mars: Competition and courage",
+        "Mercury: Business and networking"
+      ],
+      "month_name": "June 2025"
+    },
+    "personal_effects": [
+      {
+        "type": "Planetary Activation",
+        "description": "Today's Sun energy is highlighting your natural Ketu qualities",
+        "impact": "Your spiritual inclinations and detachment from ego are heightened. You feel less concerned with worldly recognition and more focused on inner development and self-realization.",
+        "house_affected": 3,
+        "feeling": "Feeling spiritually inclined and less concerned with worldly recognition. Your ego is subdued, leading to introspection and spiritual insights. Detachment from material desires."
+      },
+      {
+        "type": "Current Energy Focus",
+        "description": "Your Sun energy is currently focused on your personality and how others see you",
+        "impact": "Your personality radiates confidence and natural authority. You feel strong, vital, and ready to lead. Others see you as a natural leader and your self-expression is powerful and magnetic.",
+        "house_affected": 1,
+        "feeling": "More authoritative, confident, desire for recognition"
+      },
+      {
+        "type": "Current Energy Focus",
+        "description": "Your Moon energy is currently focused on deep changes, shared resources, and transformation",
+        "impact": "Deep emotional changes and transformations are occurring. You feel psychically sensitive and may have intense emotional experiences related to hidden or occult matters.",
+        "house_affected": 8,
+        "feeling": "More emotional, nurturing, intuitive, changeable moods"
+      },
+      {
+        "type": "Current Energy Focus",
+        "description": "Your Mars energy is currently focused on your personality and how others see you",
+        "impact": "You're feeling highly energetic, assertive, and ready for action. Your personality radiates courage and determination. You appear bold and dynamic to others.",
+        "house_affected": 1,
+        "feeling": "More aggressive, impatient, energetic, action-oriented"
+      },
+      {
+        "type": "Planetary Activation",
+        "description": "Today's Mercury energy is highlighting your natural Ketu qualities",
+        "impact": "Your thinking becomes deep and intuitive with preference for meaningful communication. You're less interested in small talk and more drawn to profound conversations.",
+        "house_affected": 3,
+        "feeling": "Deep, intuitive thinking with less interest in superficial communication. You prefer meaningful conversations and may have insights into hidden knowledge."
+      }
+    ],
+    "house_transits": [
+      {
+        "house": 5,
+        "life_area": "Creativity And Children",
+        "transiting_planets": [
+          "Sun",
+          "Mercury"
+        ],
+        "challenge_level": "Low",
+        "guidance": "With Sun, Mercury transiting your 5th house, creativity, children, and romance are emphasized. This is favorable for artistic pursuits and speculation.",
+        "duration": "Few weeks to months",
+        "planet_count": 2,
+        "primary_influence": "Sun"
+      },
+      {
+        "house": 9,
+        "life_area": "Spirituality And Higher Learning",
+        "transiting_planets": [
+          "Moon"
+        ],
+        "challenge_level": "Moderate",
+        "guidance": "With Moon transiting your 9th house, focus on higher learning, spirituality, and long journeys. Teachers and mentors may be important.",
+        "duration": "Few weeks to months",
+        "planet_count": 1,
+        "primary_influence": "Moon"
+      },
+      {
+        "house": 7,
+        "life_area": "Relationships And Partnerships",
+        "transiting_planets": [
+          "Mars"
+        ],
+        "challenge_level": "High",
+        "guidance": "With Mars activating your 7th house, relationships and partnerships are highlighted. Marriage and business partnerships may be significant.",
+        "duration": "Few weeks to months",
+        "planet_count": 1,
+        "primary_influence": "Mars"
+      },
+      {
+        "house": 6,
+        "life_area": "Health And Daily Routine",
+        "transiting_planets": [
+          "Jupiter"
+        ],
+        "challenge_level": "Low",
+        "guidance": "With Jupiter in your 6th house, focus on health, daily routines, and service. Address any health issues and improve work habits.",
+        "duration": "1-2 years",
+        "planet_count": 1,
+        "primary_influence": "Jupiter"
+      },
+      {
+        "house": 4,
+        "life_area": "Home And Emotional Foundation",
+        "transiting_planets": [
+          "Venus"
+        ],
+        "challenge_level": "Low",
+        "guidance": "With Venus in your 4th house, focus on home, family, and emotional foundations. Property matters and maternal relationships are highlighted.",
+        "duration": "Few weeks to months",
+        "planet_count": 1,
+        "primary_influence": "Venus"
+      },
+      {
+        "house": 3,
+        "life_area": "Communication And Siblings",
+        "transiting_planets": [
+          "Saturn"
+        ],
+        "challenge_level": "High",
+        "guidance": "With Saturn activating your 3rd house, emphasize communication, learning, and relationships with siblings. Short journeys may be significant.",
+        "duration": "1-2 years",
+        "planet_count": 1,
+        "primary_influence": "Saturn"
+      },
+      {
+        "house": 2,
+        "life_area": "Wealth And Family Matters",
+        "transiting_planets": [
+          "Rahu"
+        ],
+        "challenge_level": "High",
+        "guidance": "With Rahu in your 2nd house, pay attention to finances, family matters, and personal values. Focus on building security and resources.",
+        "duration": "1-2 years",
+        "planet_count": 1,
+        "primary_influence": "Rahu"
+      }
+    ],
+    "transit_aspects": [
+      {
+        "transiting_planet": "Sun",
+        "natal_planet": "Sun",
+        "aspect_type": "Square",
+        "angular_difference": 93.9,
+        "strength": "Strong",
+        "meaning": "Current Sun energy is challenging your natal Sun. Time to work through Sun issues and grow stronger.",
+        "effect_duration": "3 days",
+        "personal_impact": "Current Sun energy is challenging your Sun nature, pushing you to grow and overcome limitations in Sun areas."
+      },
+      {
+        "transiting_planet": "Sun",
+        "natal_planet": "Venus",
+        "aspect_type": "Square",
+        "angular_difference": 83.3,
+        "strength": "Weak",
+        "meaning": "Current Sun energy is challenging your natal Venus. Time to work through Venus issues and grow stronger.",
+        "effect_duration": "3 days",
+        "personal_impact": "Current Sun energy is challenging your Venus nature, pushing you to grow and overcome limitations in Venus areas."
+      },
+      {
+        "transiting_planet": "Mars",
+        "natal_planet": "Mercury",
+        "aspect_type": "Opposition",
+        "angular_difference": 180.0,
+        "strength": "Very Strong",
+        "meaning": "Current Mars energy is opposing your natal Mercury. Time to find balance and integration between these energies.",
+        "effect_duration": "1 weeks",
+        "personal_impact": "Current Mars energy is creating tension with your Mercury nature, requiring you to find balance and integration."
+      },
+      {
+        "transiting_planet": "Mars",
+        "natal_planet": "Mars",
+        "aspect_type": "Opposition",
+        "angular_difference": 177.6,
+        "strength": "Strong",
+        "meaning": "Current Mars energy is opposing your natal Mars. Time to find balance and integration between these energies.",
+        "effect_duration": "1 weeks",
+        "personal_impact": "Current Mars energy is creating tension with your Mars nature, requiring you to find balance and integration."
+      },
+      {
+        "transiting_planet": "Mars",
+        "natal_planet": "Rahu",
+        "aspect_type": "Square",
+        "angular_difference": 94.7,
+        "strength": "Moderate",
+        "meaning": "Current Mars energy is challenging your natal Rahu. Time to work through Rahu issues and grow stronger.",
+        "effect_duration": "1 weeks",
+        "personal_impact": "Current Mars energy is challenging your Rahu nature, pushing you to grow and overcome limitations in Rahu areas."
+      },
+      {
+        "transiting_planet": "Mars",
+        "natal_planet": "Ketu",
+        "aspect_type": "Square",
+        "angular_difference": 85.3,
+        "strength": "Moderate",
+        "meaning": "Current Mars energy is challenging your natal Ketu. Time to work through Ketu issues and grow stronger.",
+        "effect_duration": "1 weeks",
+        "personal_impact": "Current Mars energy is challenging your Ketu nature, pushing you to grow and overcome limitations in Ketu areas."
+      },
+      {
+        "transiting_planet": "Mercury",
+        "natal_planet": "Mercury",
+        "aspect_type": "Trine",
+        "angular_difference": 119.9,
+        "strength": "Very Strong",
+        "meaning": "Current Mercury energy is flowing beautifully with your natal Mercury. Natural, easy expression of Mercury qualities.",
+        "effect_duration": "2 days",
+        "personal_impact": "Current Mercury energy is flowing harmoniously with your Mercury qualities, making it easy to express Mercury themes naturally."
+      },
+      {
+        "transiting_planet": "Mercury",
+        "natal_planet": "Venus",
+        "aspect_type": "Square",
+        "angular_difference": 91.4,
+        "strength": "Very Strong",
+        "meaning": "Current Mercury energy is challenging your natal Venus. Time to work through Venus issues and grow stronger.",
+        "effect_duration": "2 days",
+        "personal_impact": "Current Mercury energy is challenging your Venus nature, pushing you to grow and overcome limitations in Venus areas."
+      }
+    ],
+    "precise_conjunctions": [
+      {
+        "transiting_planet": "Rahu",
+        "natal_planet": "Venus",
+        "degree_difference": 1.09,
+        "strength": "Very Close",
+        "meaning": "Very close conjunction. Current Rahu is powerfully activating your natal Venus. Strong influence on Venus areas.",
+        "timing": "Very strong influence - within 2 degrees",
+        "personal_significance": "This is a very significant time for your Venus nature. Current Rahu is powerfully activating Venus themes in your life."
+      }
+    ],
+    "planetary_comparisons": [
+      {
+        "planet": "Sun",
+        "birth_sign": "Kumbha",
+        "current_sign": "Vrishabha",
+        "sign_comparison": "Your Sun has moved from Kumbha to Vrishabha. You're experiencing different Sun themes than your birth pattern.",
+        "movement": {
+          "degrees": 93.9,
+          "direction": "forward",
+          "description": "Moved 93.9 degrees forward since birth"
+        },
+        "significance": "Your Sun has moved substantially, creating major shifts in Sun expression from your birth pattern.",
+        "current_themes": {
+          "daily_theme": "Leadership and self-expression",
+          "monthly_theme": "Authority and recognition",
+          "effects": "Increased confidence, leadership opportunities, focus on career",
+          "feelings": "More authoritative, confident, desire for recognition",
+          "physical": "Increased energy, better posture, stronger presence"
+        }
+      },
+      {
+        "planet": "Moon",
+        "birth_sign": "Tula",
+        "current_sign": "Kanya",
+        "sign_comparison": "Your Moon has moved from Tula to Kanya. You're experiencing different Moon themes than your birth pattern.",
+        "movement": {
+          "degrees": -20.1,
+          "direction": "backward",
+          "description": "Moved 20.1 degrees backward since birth"
+        },
+        "significance": "Your Moon is still in a similar position to birth, maintaining core Moon themes.",
+        "current_themes": {
+          "daily_theme": "Emotions and intuition",
+          "monthly_theme": "Family and nurturing",
+          "effects": "Heightened emotions, family focus, intuitive insights",
+          "feelings": "More emotional, nurturing, intuitive, changeable moods",
+          "physical": "Fluid retention, digestive changes, sleep pattern shifts"
+        }
+      },
+      {
+        "planet": "Mercury",
+        "birth_sign": "Makara",
+        "current_sign": "Vrishabha",
+        "sign_comparison": "Your Mercury has moved from Makara to Vrishabha. You're experiencing different Mercury themes than your birth pattern.",
+        "movement": {
+          "degrees": 119.9,
+          "direction": "forward",
+          "description": "Moved 119.9 degrees forward since birth"
+        },
+        "significance": "Your Mercury has moved substantially, creating major shifts in Mercury expression from your birth pattern.",
+        "current_themes": {
+          "daily_theme": "Communication and learning",
+          "monthly_theme": "Business and networking",
+          "effects": "Enhanced communication, learning opportunities, travel",
+          "feelings": "More talkative, curious, analytical, restless",
+          "physical": "Nervous energy, hand/arm activity, mental alertness"
+        }
+      },
+      {
+        "planet": "Venus",
+        "birth_sign": "Kumbha",
+        "current_sign": "Mesha",
+        "sign_comparison": "Your Venus has moved from Kumbha to Mesha. You're experiencing different Venus themes than your birth pattern.",
+        "movement": {
+          "degrees": 37.5,
+          "direction": "forward",
+          "description": "Moved 37.5 degrees forward since birth"
+        },
+        "significance": "Your Venus has moved significantly, bringing new Venus experiences while maintaining some birth themes.",
+        "current_themes": {
+          "daily_theme": "Love and beauty",
+          "monthly_theme": "Relationships and creativity",
+          "effects": "Romantic feelings, artistic inspiration, social activities",
+          "feelings": "More loving, artistic, social, pleasure-seeking",
+          "physical": "Enhanced beauty, kidney function, reproductive health"
+        }
+      },
+      {
+        "planet": "Mars",
+        "birth_sign": "Kumbha",
+        "current_sign": "Karka",
+        "sign_comparison": "Your Mars has moved from Kumbha to Karka. You're experiencing different Mars themes than your birth pattern.",
+        "movement": {
+          "degrees": 177.6,
+          "direction": "forward",
+          "description": "Moved 177.6 degrees forward since birth"
+        },
+        "significance": "Your Mars has moved substantially, creating major shifts in Mars expression from your birth pattern.",
+        "current_themes": {
+          "daily_theme": "Action and energy",
+          "monthly_theme": "Competition and courage",
+          "effects": "Increased activity, competitive spirit, quick decisions",
+          "feelings": "More aggressive, impatient, energetic, action-oriented",
+          "physical": "Higher energy, possible inflammation, increased metabolism"
+        }
+      },
+      {
+        "planet": "Jupiter",
+        "birth_sign": "Tula",
+        "current_sign": "Mithuna",
+        "sign_comparison": "Your Jupiter has moved from Tula to Mithuna. You're experiencing different Jupiter themes than your birth pattern.",
+        "movement": {
+          "degrees": -136.0,
+          "direction": "backward",
+          "description": "Moved 136.0 degrees backward since birth"
+        },
+        "significance": "Your Jupiter has moved substantially, creating major shifts in Jupiter expression from your birth pattern.",
+        "current_themes": {
+          "daily_theme": "Wisdom and expansion",
+          "monthly_theme": "Growth and spirituality",
+          "effects": "Optimism, learning, spiritual growth, good fortune",
+          "feelings": "More optimistic, generous, philosophical, expansive",
+          "physical": "Weight gain tendency, improved liver function, vitality"
+        }
+      },
+      {
+        "planet": "Saturn",
+        "birth_sign": "Kumbha",
+        "current_sign": "Meena",
+        "sign_comparison": "Your Saturn has moved from Kumbha to Meena. You're experiencing different Saturn themes than your birth pattern.",
+        "movement": {
+          "degrees": 26.5,
+          "direction": "forward",
+          "description": "Moved 26.5 degrees forward since birth"
+        },
+        "significance": "Your Saturn is still in a similar position to birth, maintaining core Saturn themes.",
+        "current_themes": {
+          "daily_theme": "Discipline and responsibility",
+          "monthly_theme": "Hard work and karma",
+          "effects": "Increased responsibility, disciplined approach, delays",
+          "feelings": "More serious, disciplined, pessimistic, patient",
+          "physical": "Joint stiffness, slower metabolism, endurance focus"
+        }
+      },
+      {
+        "planet": "Rahu",
+        "birth_sign": "Vrishchika",
+        "current_sign": "Kumbha",
+        "sign_comparison": "Your Rahu has moved from Vrishchika to Kumbha. You're experiencing different Rahu themes than your birth pattern.",
+        "movement": {
+          "degrees": 114.9,
+          "direction": "forward",
+          "description": "Moved 114.9 degrees forward since birth"
+        },
+        "significance": "Your Rahu has moved substantially, creating major shifts in Rahu expression from your birth pattern.",
+        "current_themes": {
+          "daily_theme": "Ambition and illusion",
+          "monthly_theme": "Material desires and confusion",
+          "effects": "Ambitious pursuits, unconventional approaches, confusion",
+          "feelings": "More ambitious, confused, materialistic, rebellious",
+          "physical": "Nervous system effects, unusual symptoms, restlessness"
+        }
+      }
+    ],
+    "yoga_transit_analysis": {
+      "birth_yogas": [
+        {
+          "name": "Saraswati Yoga",
+          "description": "Jupiter, Venus, Mercury well-placed - Brings exceptional learning, artistic talents, and wisdom. Creates scholars and artists.",
+          "strength": "Strong",
+          "category": "Knowledge & Arts"
+        },
+        {
+          "name": "Raja Yoga Potential",
+          "description": "Multiple planets in kendras - Indicates potential for leadership, authority, and high status. Creates natural leaders.",
+          "strength": "Variable",
+          "category": "Power & Authority"
+        },
+        {
+          "name": "Shasha Yoga",
+          "description": "Saturn in own sign in kendra - Creates disciplined, hardworking personalities with administrative abilities. Brings long-term success through patience.",
+          "strength": "Strong",
+          "category": "Discipline & Administration"
+        },
+        {
+          "name": "Venus-Mars Yoga",
+          "description": "Venus and Mars in significant relationship - Creates passionate and dynamic relationships. Brings intensity in love and partnerships.",
+          "strength": "Moderate",
+          "category": "Love & Passion"
+        },
+        {
+          "name": "Ayush Yoga",
+          "description": "Benefic planets in 1st house - Promotes good health, vitality, and longevity. Creates strong constitution and life force.",
+          "strength": "Moderate",
+          "category": "Health & Longevity"
+        },
+        {
+          "name": "Yoga Karaka",
+          "description": "Saturn in kendra - Acts as yoga karaka bringing discipline, structure, and long-term success. Creates persistent achievers.",
+          "strength": "Strong",
+          "category": "Discipline & Achievement"
+        },
+        {
+          "name": "Sun Isolation Analysis",
+          "description": "Sun in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). May feel unsupported in leadership roles. Benefits from building strong personal identity.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Moon Isolation Analysis",
+          "description": "Moon in Tula (House 8) shows mild isolation: lacks benefic aspects. Occasional emotional distance. Generally maintains emotional balance.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Mercury Isolation Analysis",
+          "description": "Mercury in Makara (House 1) shows severe isolation: isolated in both house and sign, lacks benefic aspects. Communication challenges and intellectual isolation. May struggle to express ideas effectively.",
+          "strength": "Challenging",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Venus Isolation Analysis",
+          "description": "Venus in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets), no close planetary companions. Periodic relationship difficulties. Needs to cultivate social connections.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Mars Isolation Analysis",
+          "description": "Mars in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). Periodic energy blocks. Benefits from structured physical activities.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Saturn Isolation Analysis",
+          "description": "Saturn in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). Heavy responsibility load. Benefits from structured support systems.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Rahu Isolation Analysis",
+          "description": "Rahu in Vrishchika (House 9) shows moderate isolation: alone in sign, no close planetary companions. Isolation affects Rahu's natural expression and requires conscious effort to overcome.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Ketu Isolation Analysis",
+          "description": "Ketu in Vrishabha (House 3) shows severe isolation: isolated in both house and sign, no close planetary companions. Isolation affects Ketu's natural expression and requires conscious effort to overcome.",
+          "strength": "Challenging",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Planetary Cluster Support",
+          "description": "Strong planetary cluster in Aquarius: Sun, Venus, Mars, Saturn. This creates intense focus and mutual support in Aquarius themes, though may create imbalance in other areas.",
+          "strength": "Strong",
+          "category": "Planetary Concentration"
+        },
+        {
+          "name": "Benefic Protection Pattern",
+          "description": "Strong benefic protection through: Venus in 1th house (kendra), Jupiter in 9th house (trikona). This provides natural protection from difficulties and enhances positive outcomes in life.",
+          "strength": "Strong",
+          "category": "Divine Protection"
+        },
+        {
+          "name": "Bhadra Yoga Isolation Effect",
+          "description": "Mercury forms Bhadra Yoga but is isolated, which may create a self-reliant but potentially lonely expression of Mercury's qualities. The person may achieve success through individual effort but may lack collaborative support.",
+          "strength": "Moderate",
+          "category": "Yoga Modification"
+        }
+      ],
+      "current_yogas": [
+        {
+          "name": "Gaja Kesari Yoga",
+          "description": "Jupiter and Moon in kendras - Brings wisdom, wealth, respect, and good fortune. Creates influential personalities with strong moral character.",
+          "strength": "Strong",
+          "category": "Wealth & Status"
+        },
+        {
+          "name": "Budhaditya Yoga",
+          "description": "Sun and Mercury together - Enhances intelligence, communication, and learning abilities. Creates brilliant speakers, writers, and intellectuals.",
+          "strength": "Moderate",
+          "category": "Intelligence & Communication"
+        },
+        {
+          "name": "Viparita Raja Yoga",
+          "description": "Planets in 6th, 8th, 12th houses - Brings success through overcoming obstacles and challenges. Creates resilient personalities who triumph over difficulties.",
+          "strength": "Strong",
+          "category": "Transformation & Victory"
+        },
+        {
+          "name": "Ayush Yoga",
+          "description": "Benefic planets in 1st house - Promotes good health, vitality, and longevity. Creates strong constitution and life force.",
+          "strength": "Moderate",
+          "category": "Health & Longevity"
+        },
+        {
+          "name": "Tapasvi Yoga",
+          "description": "Saturn in 8th or 12th house - Creates disciplined spiritual practitioners. Brings success through austerity and renunciation.",
+          "strength": "Moderate",
+          "category": "Spiritual Discipline"
+        },
+        {
+          "name": "Moon Isolation Analysis",
+          "description": "Moon in Kanya (House 6) shows moderate isolation: alone in sign, lacks benefic aspects, no close planetary companions. Periodic emotional loneliness. Needs to cultivate supportive relationships.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Mars Isolation Analysis",
+          "description": "Mars in Karka (House 5) shows moderate isolation: alone in sign, no close planetary companions. Periodic energy blocks. Benefits from structured physical activities.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Jupiter Isolation Analysis",
+          "description": "Jupiter in Mithuna (House 3) shows moderate isolation: alone in sign. Periodic lack of guidance. Benefits from seeking mentors and teachers.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Venus Isolation Analysis",
+          "description": "Venus in Mesha (House 1) shows moderate isolation: alone in sign, no close planetary companions. Periodic relationship difficulties. Needs to cultivate social connections.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Saturn Isolation Analysis",
+          "description": "Saturn in Meena (House 12) shows moderate isolation: alone in sign, lacks benefic aspects. Heavy responsibility load. Benefits from structured support systems.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Rahu Isolation Analysis",
+          "description": "Rahu in Kumbha (House 12) shows moderate isolation: alone in sign, lacks benefic aspects. Isolation affects Rahu's natural expression and requires conscious effort to overcome.",
+          "strength": "Moderate",
+          "category": "Planetary Isolation"
+        },
+        {
+          "name": "Benefic Protection Pattern",
+          "description": "Strong benefic protection through: Venus in 1th house (kendra). This provides natural protection from difficulties and enhances positive outcomes in life.",
+          "strength": "Strong",
+          "category": "Divine Protection"
+        }
+      ],
+      "yoga_comparisons": [
+        {
+          "type": "Common Yogas (Activated)",
+          "count": 7,
+          "yogas": [
+            "Rahu Isolation Analysis",
+            "Ayush Yoga",
+            "Benefic Protection Pattern",
+            "Saturn Isolation Analysis",
+            "Moon Isolation Analysis",
+            "Mars Isolation Analysis",
+            "Venus Isolation Analysis"
+          ],
+          "significance": "These birth yogas are currently activated by transiting planets, amplifying their effects."
+        },
+        {
+          "type": "Birth-Only Yogas (Dormant)",
+          "count": 10,
+          "yogas": [
+            "Sun Isolation Analysis",
+            "Shasha Yoga",
+            "Planetary Cluster Support",
+            "Venus-Mars Yoga",
+            "Ketu Isolation Analysis",
+            "Saraswati Yoga",
+            "Bhadra Yoga Isolation Effect",
+            "Raja Yoga Potential",
+            "Yoga Karaka",
+            "Mercury Isolation Analysis"
+          ],
+          "significance": "These birth yogas are currently dormant but remain part of your core nature."
+        },
+        {
+          "type": "Current-Only Yogas (Temporary)",
+          "count": 5,
+          "yogas": [
+            "Jupiter Isolation Analysis",
+            "Gaja Kesari Yoga",
+            "Budhaditya Yoga",
+            "Tapasvi Yoga",
+            "Viparita Raja Yoga"
+          ],
+          "significance": "These are temporary yogas formed by current transits, bringing new opportunities."
+        }
+      ],
+      "activated_yogas": [
+        {
+          "name": "Ayush Yoga",
+          "description": "Benefic planets in 1st house - Promotes good health, vitality, and longevity. Creates strong constitution and life force.",
+          "strength": "Moderate",
+          "activation_effect": "Your birth Ayush Yoga is currently activated by transiting planets, significantly amplifying its positive effects in your life.",
+          "timing": "Active now through current planetary transits",
+          "guidance": "This is an excellent time to leverage the benefits of Ayush Yoga. Focus on activities related to this yoga's themes."
+        },
+        {
+          "name": "Moon Isolation Analysis",
+          "description": "Moon in Tula (House 8) shows mild isolation: lacks benefic aspects. Occasional emotional distance. Generally maintains emotional balance.",
+          "strength": "Moderate",
+          "activation_effect": "Your birth Moon Isolation Analysis is currently activated by transiting planets, significantly amplifying its positive effects in your life.",
+          "timing": "Active now through current planetary transits",
+          "guidance": "This is an excellent time to leverage the benefits of Moon Isolation Analysis. Focus on activities related to this yoga's themes."
+        },
+        {
+          "name": "Venus Isolation Analysis",
+          "description": "Venus in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets), no close planetary companions. Periodic relationship difficulties. Needs to cultivate social connections.",
+          "strength": "Moderate",
+          "activation_effect": "Your birth Venus Isolation Analysis is currently activated by transiting planets, significantly amplifying its positive effects in your life.",
+          "timing": "Active now through current planetary transits",
+          "guidance": "This is an excellent time to leverage the benefits of Venus Isolation Analysis. Focus on activities related to this yoga's themes."
+        },
+        {
+          "name": "Mars Isolation Analysis",
+          "description": "Mars in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). Periodic energy blocks. Benefits from structured physical activities.",
+          "strength": "Moderate",
+          "activation_effect": "Your birth Mars Isolation Analysis is currently activated by transiting planets, significantly amplifying its positive effects in your life.",
+          "timing": "Active now through current planetary transits",
+          "guidance": "This is an excellent time to leverage the benefits of Mars Isolation Analysis. Focus on activities related to this yoga's themes."
+        },
+        {
+          "name": "Saturn Isolation Analysis",
+          "description": "Saturn in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). Heavy responsibility load. Benefits from structured support systems.",
+          "strength": "Moderate",
+          "activation_effect": "Your birth Saturn Isolation Analysis is currently activated by transiting planets, significantly amplifying its positive effects in your life.",
+          "timing": "Active now through current planetary transits",
+          "guidance": "This is an excellent time to leverage the benefits of Saturn Isolation Analysis. Focus on activities related to this yoga's themes."
+        },
+        {
+          "name": "Rahu Isolation Analysis",
+          "description": "Rahu in Vrishchika (House 9) shows moderate isolation: alone in sign, no close planetary companions. Isolation affects Rahu's natural expression and requires conscious effort to overcome.",
+          "strength": "Moderate",
+          "activation_effect": "Your birth Rahu Isolation Analysis is currently activated by transiting planets, significantly amplifying its positive effects in your life.",
+          "timing": "Active now through current planetary transits",
+          "guidance": "This is an excellent time to leverage the benefits of Rahu Isolation Analysis. Focus on activities related to this yoga's themes."
+        },
+        {
+          "name": "Benefic Protection Pattern",
+          "description": "Strong benefic protection through: Venus in 1th house (kendra), Jupiter in 9th house (trikona). This provides natural protection from difficulties and enhances positive outcomes in life.",
+          "strength": "Strong",
+          "activation_effect": "Your birth Benefic Protection Pattern is currently activated by transiting planets, significantly amplifying its positive effects in your life.",
+          "timing": "Active now through current planetary transits",
+          "guidance": "This is an excellent time to leverage the benefits of Benefic Protection Pattern. Focus on activities related to this yoga's themes."
+        }
+      ],
+      "dormant_yogas": [
+        {
+          "name": "Saraswati Yoga",
+          "description": "Jupiter, Venus, Mercury well-placed - Brings exceptional learning, artistic talents, and wisdom. Creates scholars and artists.",
+          "strength": "Strong",
+          "dormancy_effect": "Your birth Saraswati Yoga is currently dormant but remains a fundamental part of your astrological blueprint.",
+          "reactivation_potential": "This yoga will be reactivated when Mercury, Jupiter, or Venus transit favorably (every 12-17 years)",
+          "reactivation_details": "Based on planetary cycles, this yoga typically reactivates when Mercury, Jupiter, or Venus transit favorably (every 12-17 years). The planets involved in this yoga will form supportive combinations again in the coming years.",
+          "next_activation_period": "Knowledge activation: 2024-2026 or 2036-2038",
+          "guidance": "While Saraswati Yoga is dormant now, prepare for its reactivation by pursuing education, arts, and spiritual practices."
+        },
+        {
+          "name": "Raja Yoga Potential",
+          "description": "Multiple planets in kendras - Indicates potential for leadership, authority, and high status. Creates natural leaders.",
+          "strength": "Variable",
+          "dormancy_effect": "Your birth Raja Yoga Potential is currently dormant but remains a fundamental part of your astrological blueprint.",
+          "reactivation_potential": "This yoga will be reactivated when key planetary transits align favorably (every 12-30 years)",
+          "reactivation_details": "Based on planetary cycles, this yoga typically reactivates when key planetary transits align favorably (every 12-30 years). The planets involved in this yoga will form supportive combinations again in the coming years.",
+          "next_activation_period": "Potential activation: 2025-2030 or 2035-2040",
+          "guidance": "While Raja Yoga Potential is dormant now, prepare for its reactivation by focusing on the core themes of this yoga."
+        },
+        {
+          "name": "Shasha Yoga",
+          "description": "Saturn in own sign in kendra - Creates disciplined, hardworking personalities with administrative abilities. Brings long-term success through patience.",
+          "strength": "Strong",
+          "dormancy_effect": "Your birth Shasha Yoga is currently dormant but remains a fundamental part of your astrological blueprint.",
+          "reactivation_potential": "This yoga will be reactivated when key planetary transits align favorably (every 12-30 years)",
+          "reactivation_details": "Based on planetary cycles, this yoga typically reactivates when key planetary transits align favorably (every 12-30 years). The planets involved in this yoga will form supportive combinations again in the coming years.",
+          "next_activation_period": "Potential activation: 2025-2030 or 2035-2040",
+          "guidance": "While Shasha Yoga is dormant now, prepare for its reactivation by focusing on the core themes of this yoga."
+        },
+        {
+          "name": "Venus-Mars Yoga",
+          "description": "Venus and Mars in significant relationship - Creates passionate and dynamic relationships. Brings intensity in love and partnerships.",
+          "strength": "Moderate",
+          "dormancy_effect": "Your birth Venus-Mars Yoga is currently dormant but remains a fundamental part of your astrological blueprint.",
+          "reactivation_potential": "This yoga will be reactivated when key planetary transits align favorably (every 12-30 years)",
+          "reactivation_details": "Based on planetary cycles, this yoga typically reactivates when key planetary transits align favorably (every 12-30 years). The planets involved in this yoga will form supportive combinations again in the coming years.",
+          "next_activation_period": "Potential activation: 2025-2030 or 2035-2040",
+          "guidance": "While Venus-Mars Yoga is dormant now, prepare for its reactivation by focusing on the core themes of this yoga."
+        },
+        {
+          "name": "Yoga Karaka",
+          "description": "Saturn in kendra - Acts as yoga karaka bringing discipline, structure, and long-term success. Creates persistent achievers.",
+          "strength": "Strong",
+          "dormancy_effect": "Your birth Yoga Karaka is currently dormant but remains a fundamental part of your astrological blueprint.",
+          "reactivation_potential": "This yoga will be reactivated when key planetary transits align favorably (every 12-30 years)",
+          "reactivation_details": "Based on planetary cycles, this yoga typically reactivates when key planetary transits align favorably (every 12-30 years). The planets involved in this yoga will form supportive combinations again in the coming years.",
+          "next_activation_period": "Potential activation: 2025-2030 or 2035-2040",
+          "guidance": "While Yoga Karaka is dormant now, prepare for its reactivation by focusing on the core themes of this yoga."
+        },
+        {
+          "name": "Sun Isolation Analysis",
+          "description": "Sun in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). May feel unsupported in leadership roles. Benefits from building strong personal identity.",
+          "strength": "Moderate",
+          "dormancy_effect": "Your birth Sun Isolation Analysis is currently dormant but remains a fundamental part of your astrological blueprint.",
+          "reactivation_potential": "This yoga will be reactivated when key planetary transits align favorably (every 12-30 years)",
+          "reactivation_details": "Based on planetary cycles, this yoga typically reactivates when key planetary transits align favorably (every 12-30 years). The planets involved in this yoga will form supportive combinations again in the coming years.",
+          "next_activation_period": "Potential activation: 2025-2030 or 2035-2040",
+          "guidance": "While Sun Isolation Analysis is dormant now, prepare for its reactivation by focusing on the core themes of this yoga."
+        },
+        {
+          "name": "Mercury Isolation Analysis",
+          "description": "Mercury in Makara (House 1) shows severe isolation: isolated in both house and sign, lacks benefic aspects. Communication challenges and intellectual isolation. May struggle to express ideas effectively.",
+          "strength": "Challenging",
+          "dormancy_effect": "Your birth Mercury Isolation Analysis is currently dormant but remains a fundamental part of your astrological blueprint.",
+          "reactivation_potential": "This yoga will be reactivated when key planetary transits align favorably (every 12-30 years)",
+          "reactivation_details": "Based on planetary cycles, this yoga typically reactivates when key planetary transits align favorably (every 12-30 years). The planets involved in this yoga will form supportive combinations again in the coming years.",
+          "next_activation_period": "Potential activation: 2025-2030 or 2035-2040",
+          "guidance": "While Mercury Isolation Analysis is dormant now, prepare for its reactivation by focusing on the core themes of this yoga."
+        },
+        {
+          "name": "Ketu Isolation Analysis",
+          "description": "Ketu in Vrishabha (House 3) shows severe isolation: isolated in both house and sign, no close planetary companions. Isolation affects Ketu's natural expression and requires conscious effort to overcome.",
+          "strength": "Challenging",
+          "dormancy_effect": "Your birth Ketu Isolation Analysis is currently dormant but remains a fundamental part of your astrological blueprint.",
+          "reactivation_potential": "This yoga will be reactivated when key planetary transits align favorably (every 12-30 years)",
+          "reactivation_details": "Based on planetary cycles, this yoga typically reactivates when key planetary transits align favorably (every 12-30 years). The planets involved in this yoga will form supportive combinations again in the coming years.",
+          "next_activation_period": "Potential activation: 2025-2030 or 2035-2040",
+          "guidance": "While Ketu Isolation Analysis is dormant now, prepare for its reactivation by focusing on the core themes of this yoga."
+        },
+        {
+          "name": "Planetary Cluster Support",
+          "description": "Strong planetary cluster in Aquarius: Sun, Venus, Mars, Saturn. This creates intense focus and mutual support in Aquarius themes, though may create imbalance in other areas.",
+          "strength": "Strong",
+          "dormancy_effect": "Your birth Planetary Cluster Support is currently dormant but remains a fundamental part of your astrological blueprint.",
+          "reactivation_potential": "This yoga will be reactivated when key planetary transits align favorably (every 12-30 years)",
+          "reactivation_details": "Based on planetary cycles, this yoga typically reactivates when key planetary transits align favorably (every 12-30 years). The planets involved in this yoga will form supportive combinations again in the coming years.",
+          "next_activation_period": "Potential activation: 2025-2030 or 2035-2040",
+          "guidance": "While Planetary Cluster Support is dormant now, prepare for its reactivation by focusing on the core themes of this yoga."
+        },
+        {
+          "name": "Bhadra Yoga Isolation Effect",
+          "description": "Mercury forms Bhadra Yoga but is isolated, which may create a self-reliant but potentially lonely expression of Mercury's qualities. The person may achieve success through individual effort but may lack collaborative support.",
+          "strength": "Moderate",
+          "dormancy_effect": "Your birth Bhadra Yoga Isolation Effect is currently dormant but remains a fundamental part of your astrological blueprint.",
+          "reactivation_potential": "This yoga will be reactivated when key planetary transits align favorably (every 12-30 years)",
+          "reactivation_details": "Based on planetary cycles, this yoga typically reactivates when key planetary transits align favorably (every 12-30 years). The planets involved in this yoga will form supportive combinations again in the coming years.",
+          "next_activation_period": "Potential activation: 2025-2030 or 2035-2040",
+          "guidance": "While Bhadra Yoga Isolation Effect is dormant now, prepare for its reactivation by focusing on the core themes of this yoga."
+        }
+      ],
+      "new_temporary_yogas": [
+        {
+          "name": "Gaja Kesari Yoga",
+          "description": "Jupiter and Moon in kendras - Brings wisdom, wealth, respect, and good fortune. Creates influential personalities with strong moral character.",
+          "strength": "Strong",
+          "temporary_effect": "This Gaja Kesari Yoga is formed by current transiting planets, bringing temporary but significant opportunities.",
+          "duration": "Active during current planetary transits",
+          "guidance": "Take advantage of this temporary Gaja Kesari Yoga while it lasts. Focus on its themes for maximum benefit."
+        },
+        {
+          "name": "Budhaditya Yoga",
+          "description": "Sun and Mercury together - Enhances intelligence, communication, and learning abilities. Creates brilliant speakers, writers, and intellectuals.",
+          "strength": "Moderate",
+          "temporary_effect": "This Budhaditya Yoga is formed by current transiting planets, bringing temporary but significant opportunities.",
+          "duration": "Active during current planetary transits",
+          "guidance": "Take advantage of this temporary Budhaditya Yoga while it lasts. Focus on its themes for maximum benefit."
+        },
+        {
+          "name": "Viparita Raja Yoga",
+          "description": "Planets in 6th, 8th, 12th houses - Brings success through overcoming obstacles and challenges. Creates resilient personalities who triumph over difficulties.",
+          "strength": "Strong",
+          "temporary_effect": "This Viparita Raja Yoga is formed by current transiting planets, bringing temporary but significant opportunities.",
+          "duration": "Active during current planetary transits",
+          "guidance": "Take advantage of this temporary Viparita Raja Yoga while it lasts. Focus on its themes for maximum benefit."
+        },
+        {
+          "name": "Tapasvi Yoga",
+          "description": "Saturn in 8th or 12th house - Creates disciplined spiritual practitioners. Brings success through austerity and renunciation.",
+          "strength": "Moderate",
+          "temporary_effect": "This Tapasvi Yoga is formed by current transiting planets, bringing temporary but significant opportunities.",
+          "duration": "Active during current planetary transits",
+          "guidance": "Take advantage of this temporary Tapasvi Yoga while it lasts. Focus on its themes for maximum benefit."
+        },
+        {
+          "name": "Jupiter Isolation Analysis",
+          "description": "Jupiter in Mithuna (House 3) shows moderate isolation: alone in sign. Periodic lack of guidance. Benefits from seeking mentors and teachers.",
+          "strength": "Moderate",
+          "temporary_effect": "This Jupiter Isolation Analysis is formed by current transiting planets, bringing temporary but significant opportunities.",
+          "duration": "Active during current planetary transits",
+          "guidance": "Take advantage of this temporary Jupiter Isolation Analysis while it lasts. Focus on its themes for maximum benefit."
+        }
+      ],
+      "yoga_transit_effects": [
+        {
+          "type": "Moderate Yoga Activity",
+          "description": "Some of your birth yogas (10 out of 17) are currently dormant.",
+          "impact": "This is a period for patience and preparation rather than major initiatives.",
+          "recommendation": "Focus on inner development and preparing for future opportunities."
+        },
+        {
+          "type": "Temporary Opportunities",
+          "description": "Current transits are creating 5 new temporary yogas.",
+          "impact": "These bring unique opportunities not present in your birth chart.",
+          "recommendation": "Be alert to new possibilities and act on temporary opportunities."
+        }
+      ],
+      "summary": "Yoga Transit Analysis: You have 17 yogas in your birth chart. Currently, 7 are activated, 10 are dormant, and 5 new temporary yogas are formed by current transits. This is a period for patience and inner development. Prepare for future opportunities when more yogas become activated. Additionally, 5 temporary yogas bring unique opportunities not in your birth chart."
+    },
+    "divisional_transit_analysis": {
+      "divisions_analyzed": [
+        "D2",
+        "D3",
+        "D9",
+        "D10",
+        "D12"
+      ],
+      "birth_divisional_charts": {
+        "D2": {
+          "division": "D2",
+          "name": "Hora",
+          "significance": "Wealth, financial status, material prosperity",
+          "planetary_positions": {
+            "Sun": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Cancer",
+              "significance": "Moderate in D2 - in Cancer"
+            },
+            "Moon": {
+              "original_sign": "Tula",
+              "divisional_sign": "Leo",
+              "significance": "Moderate in D2 - in Leo"
+            },
+            "Mercury": {
+              "original_sign": "Makara",
+              "divisional_sign": "Cancer",
+              "significance": "Moderate in D2 - in Cancer"
+            },
+            "Venus": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Cancer",
+              "significance": "Good in D2 - in friendly sign Cancer"
+            },
+            "Mars": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Leo",
+              "significance": "Good in D2 - in friendly sign Leo"
+            },
+            "Jupiter": {
+              "original_sign": "Tula",
+              "divisional_sign": "Cancer",
+              "significance": "Excellent in D2 - exalted in Cancer"
+            },
+            "Saturn": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Leo",
+              "significance": "Challenging in D2 - in enemy sign Leo"
+            },
+            "Rahu": {
+              "original_sign": "Vrishchika",
+              "divisional_sign": "Leo",
+              "significance": "Challenging in D2 - in enemy sign Leo"
+            },
+            "Ketu": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Leo",
+              "significance": "Good in D2 - in friendly sign Leo"
+            }
+          },
+          "analysis": "In the D2 chart: Strong planets: Jupiter. Planets needing attention: Saturn, Rahu. This chart shows your relationship with wealth and material resources."
+        },
+        "D3": {
+          "division": "D3",
+          "name": "Drekkana",
+          "significance": "Siblings, courage, short journeys",
+          "planetary_positions": {
+            "Sun": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Leo",
+              "significance": "Very strong in D3 - in own sign Leo"
+            },
+            "Moon": {
+              "original_sign": "Tula",
+              "divisional_sign": "Leo",
+              "significance": "Moderate in D3 - in Leo"
+            },
+            "Mercury": {
+              "original_sign": "Makara",
+              "divisional_sign": "Sagittarius",
+              "significance": "Challenging in D3 - in enemy sign Sagittarius"
+            },
+            "Venus": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Sagittarius",
+              "significance": "Moderate in D3 - in Sagittarius"
+            },
+            "Mars": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Aries",
+              "significance": "Very strong in D3 - in own sign Aries"
+            },
+            "Jupiter": {
+              "original_sign": "Tula",
+              "divisional_sign": "Sagittarius",
+              "significance": "Very strong in D3 - in own sign Sagittarius"
+            },
+            "Saturn": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Leo",
+              "significance": "Challenging in D3 - in enemy sign Leo"
+            },
+            "Rahu": {
+              "original_sign": "Vrishchika",
+              "divisional_sign": "Aries",
+              "significance": "Moderate in D3 - in Aries"
+            },
+            "Ketu": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Aries",
+              "significance": "Moderate in D3 - in Aries"
+            }
+          },
+          "analysis": "In the D3 chart: Strong planets: Sun, Mars, Jupiter. Planets needing attention: Mercury, Saturn. This chart reveals your relationship with siblings and personal courage."
+        },
+        "D9": {
+          "division": "D9",
+          "name": "Navamsa",
+          "significance": "Marriage, spouse, spiritual strength",
+          "planetary_positions": {
+            "Sun": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Virgo",
+              "significance": "Moderate in D9 - in Virgo"
+            },
+            "Moon": {
+              "original_sign": "Tula",
+              "divisional_sign": "Cancer",
+              "significance": "Very strong in D9 - in own sign Cancer"
+            },
+            "Mercury": {
+              "original_sign": "Makara",
+              "divisional_sign": "Sagittarius",
+              "significance": "Challenging in D9 - in enemy sign Sagittarius"
+            },
+            "Venus": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Sagittarius",
+              "significance": "Moderate in D9 - in Sagittarius"
+            },
+            "Mars": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Aries",
+              "significance": "Very strong in D9 - in own sign Aries"
+            },
+            "Jupiter": {
+              "original_sign": "Tula",
+              "divisional_sign": "Libra",
+              "significance": "Challenging in D9 - in enemy sign Libra"
+            },
+            "Saturn": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Cancer",
+              "significance": "Challenging in D9 - in enemy sign Cancer"
+            },
+            "Rahu": {
+              "original_sign": "Vrishchika",
+              "divisional_sign": "Taurus",
+              "significance": "Excellent in D9 - exalted in Taurus"
+            },
+            "Ketu": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Taurus",
+              "significance": "Challenging in D9 - in enemy sign Taurus"
+            }
+          },
+          "analysis": "In the D9 chart: Strong planets: Moon, Mars, Rahu. Planets needing attention: Mercury, Jupiter, Saturn, Ketu. This chart is crucial for marriage, spouse, and spiritual development."
+        },
+        "D10": {
+          "division": "D10",
+          "name": "Dasamsa",
+          "significance": "Career, profession, reputation",
+          "planetary_positions": {
+            "Sun": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Virgo",
+              "significance": "Moderate in D10 - in Virgo"
+            },
+            "Moon": {
+              "original_sign": "Tula",
+              "divisional_sign": "Cancer",
+              "significance": "Very strong in D10 - in own sign Cancer"
+            },
+            "Mercury": {
+              "original_sign": "Makara",
+              "divisional_sign": "Capricorn",
+              "significance": "Good in D10 - in friendly sign Capricorn"
+            },
+            "Venus": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Capricorn",
+              "significance": "Good in D10 - in friendly sign Capricorn"
+            },
+            "Mars": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Aries",
+              "significance": "Very strong in D10 - in own sign Aries"
+            },
+            "Jupiter": {
+              "original_sign": "Tula",
+              "divisional_sign": "Libra",
+              "significance": "Challenging in D10 - in enemy sign Libra"
+            },
+            "Saturn": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Cancer",
+              "significance": "Challenging in D10 - in enemy sign Cancer"
+            },
+            "Rahu": {
+              "original_sign": "Vrishchika",
+              "divisional_sign": "Taurus",
+              "significance": "Excellent in D10 - exalted in Taurus"
+            },
+            "Ketu": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Taurus",
+              "significance": "Challenging in D10 - in enemy sign Taurus"
+            }
+          },
+          "analysis": "In the D10 chart: Strong planets: Moon, Mars, Rahu. Planets needing attention: Jupiter, Saturn, Ketu. This chart determines your career success and professional reputation."
+        },
+        "D12": {
+          "division": "D12",
+          "name": "Dwadasamsa",
+          "significance": "Parents, ancestry, family lineage",
+          "planetary_positions": {
+            "Sun": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Libra",
+              "significance": "Challenging in D12 - in enemy sign Libra"
+            },
+            "Moon": {
+              "original_sign": "Tula",
+              "divisional_sign": "Leo",
+              "significance": "Moderate in D12 - in Leo"
+            },
+            "Mercury": {
+              "original_sign": "Makara",
+              "divisional_sign": "Pisces",
+              "significance": "Challenging in D12 - in enemy sign Pisces"
+            },
+            "Venus": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Pisces",
+              "significance": "Excellent in D12 - exalted in Pisces"
+            },
+            "Mars": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Aries",
+              "significance": "Very strong in D12 - in own sign Aries"
+            },
+            "Jupiter": {
+              "original_sign": "Tula",
+              "divisional_sign": "Sagittarius",
+              "significance": "Very strong in D12 - in own sign Sagittarius"
+            },
+            "Saturn": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Leo",
+              "significance": "Challenging in D12 - in enemy sign Leo"
+            },
+            "Rahu": {
+              "original_sign": "Vrishchika",
+              "divisional_sign": "Taurus",
+              "significance": "Excellent in D12 - exalted in Taurus"
+            },
+            "Ketu": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Taurus",
+              "significance": "Challenging in D12 - in enemy sign Taurus"
+            }
+          },
+          "analysis": "In the D12 chart: Strong planets: Venus, Mars, Jupiter, Rahu. Planets needing attention: Sun, Mercury, Saturn, Ketu. This chart shows your relationship with parents and family lineage."
+        }
+      },
+      "current_divisional_charts": {
+        "D2": {
+          "division": "D2",
+          "name": "Hora",
+          "significance": "Wealth, financial status, material prosperity",
+          "planetary_positions": {
+            "Sun": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Cancer",
+              "significance": "Moderate in D2 - in Cancer"
+            },
+            "Moon": {
+              "original_sign": "Kanya",
+              "divisional_sign": "Cancer",
+              "significance": "Very strong in D2 - in own sign Cancer"
+            },
+            "Mars": {
+              "original_sign": "Karka",
+              "divisional_sign": "Cancer",
+              "significance": "Good in D2 - in friendly sign Cancer"
+            },
+            "Mercury": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Cancer",
+              "significance": "Moderate in D2 - in Cancer"
+            },
+            "Jupiter": {
+              "original_sign": "Mithuna",
+              "divisional_sign": "Leo",
+              "significance": "Good in D2 - in friendly sign Leo"
+            },
+            "Venus": {
+              "original_sign": "Mesha",
+              "divisional_sign": "Leo",
+              "significance": "Challenging in D2 - in enemy sign Leo"
+            },
+            "Saturn": {
+              "original_sign": "Meena",
+              "divisional_sign": "Leo",
+              "significance": "Challenging in D2 - in enemy sign Leo"
+            },
+            "Rahu": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Cancer",
+              "significance": "Challenging in D2 - in enemy sign Cancer"
+            }
+          },
+          "analysis": "In the D2 chart: Strong planets: Moon. Planets needing attention: Venus, Saturn, Rahu. This chart shows your relationship with wealth and material resources."
+        },
+        "D3": {
+          "division": "D3",
+          "name": "Drekkana",
+          "significance": "Siblings, courage, short journeys",
+          "planetary_positions": {
+            "Sun": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Sagittarius",
+              "significance": "Good in D3 - in friendly sign Sagittarius"
+            },
+            "Moon": {
+              "original_sign": "Kanya",
+              "divisional_sign": "Sagittarius",
+              "significance": "Good in D3 - in friendly sign Sagittarius"
+            },
+            "Mars": {
+              "original_sign": "Karka",
+              "divisional_sign": "Sagittarius",
+              "significance": "Good in D3 - in friendly sign Sagittarius"
+            },
+            "Mercury": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Sagittarius",
+              "significance": "Challenging in D3 - in enemy sign Sagittarius"
+            },
+            "Jupiter": {
+              "original_sign": "Mithuna",
+              "divisional_sign": "Aries",
+              "significance": "Good in D3 - in friendly sign Aries"
+            },
+            "Venus": {
+              "original_sign": "Mesha",
+              "divisional_sign": "Aries",
+              "significance": "Challenging in D3 - in enemy sign Aries"
+            },
+            "Saturn": {
+              "original_sign": "Meena",
+              "divisional_sign": "Aries",
+              "significance": "Challenging in D3 - in enemy sign Aries"
+            },
+            "Rahu": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Sagittarius",
+              "significance": "Challenging in D3 - in enemy sign Sagittarius"
+            }
+          },
+          "analysis": "In the D3 chart: Planets needing attention: Mercury, Venus, Saturn, Rahu. This chart reveals your relationship with siblings and personal courage."
+        },
+        "D9": {
+          "division": "D9",
+          "name": "Navamsa",
+          "significance": "Marriage, spouse, spiritual strength",
+          "planetary_positions": {
+            "Sun": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Libra",
+              "significance": "Challenging in D9 - in enemy sign Libra"
+            },
+            "Moon": {
+              "original_sign": "Kanya",
+              "divisional_sign": "Libra",
+              "significance": "Good in D9 - in friendly sign Libra"
+            },
+            "Mars": {
+              "original_sign": "Karka",
+              "divisional_sign": "Sagittarius",
+              "significance": "Good in D9 - in friendly sign Sagittarius"
+            },
+            "Mercury": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Sagittarius",
+              "significance": "Challenging in D9 - in enemy sign Sagittarius"
+            },
+            "Jupiter": {
+              "original_sign": "Mithuna",
+              "divisional_sign": "Taurus",
+              "significance": "Challenging in D9 - in enemy sign Taurus"
+            },
+            "Venus": {
+              "original_sign": "Mesha",
+              "divisional_sign": "Taurus",
+              "significance": "Very strong in D9 - in own sign Taurus"
+            },
+            "Saturn": {
+              "original_sign": "Meena",
+              "divisional_sign": "Taurus",
+              "significance": "Good in D9 - in friendly sign Taurus"
+            },
+            "Rahu": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Sagittarius",
+              "significance": "Challenging in D9 - in enemy sign Sagittarius"
+            }
+          },
+          "analysis": "In the D9 chart: Strong planets: Venus. Planets needing attention: Sun, Mercury, Jupiter, Rahu. This chart is crucial for marriage, spouse, and spiritual development."
+        },
+        "D10": {
+          "division": "D10",
+          "name": "Dasamsa",
+          "significance": "Career, profession, reputation",
+          "planetary_positions": {
+            "Sun": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Scorpio",
+              "significance": "Good in D10 - in friendly sign Scorpio"
+            },
+            "Moon": {
+              "original_sign": "Kanya",
+              "divisional_sign": "Scorpio",
+              "significance": "Weak in D10 - debilitated in Scorpio"
+            },
+            "Mars": {
+              "original_sign": "Karka",
+              "divisional_sign": "Capricorn",
+              "significance": "Excellent in D10 - exalted in Capricorn"
+            },
+            "Mercury": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Capricorn",
+              "significance": "Good in D10 - in friendly sign Capricorn"
+            },
+            "Jupiter": {
+              "original_sign": "Mithuna",
+              "divisional_sign": "Taurus",
+              "significance": "Challenging in D10 - in enemy sign Taurus"
+            },
+            "Venus": {
+              "original_sign": "Mesha",
+              "divisional_sign": "Taurus",
+              "significance": "Very strong in D10 - in own sign Taurus"
+            },
+            "Saturn": {
+              "original_sign": "Meena",
+              "divisional_sign": "Gemini",
+              "significance": "Good in D10 - in friendly sign Gemini"
+            },
+            "Rahu": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Capricorn",
+              "significance": "Good in D10 - in friendly sign Capricorn"
+            }
+          },
+          "analysis": "In the D10 chart: Strong planets: Mars, Venus. Planets needing attention: Moon, Jupiter. This chart determines your career success and professional reputation."
+        },
+        "D12": {
+          "division": "D12",
+          "name": "Dwadasamsa",
+          "significance": "Parents, ancestry, family lineage",
+          "planetary_positions": {
+            "Sun": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Sagittarius",
+              "significance": "Good in D12 - in friendly sign Sagittarius"
+            },
+            "Moon": {
+              "original_sign": "Kanya",
+              "divisional_sign": "Sagittarius",
+              "significance": "Good in D12 - in friendly sign Sagittarius"
+            },
+            "Mars": {
+              "original_sign": "Karka",
+              "divisional_sign": "Pisces",
+              "significance": "Good in D12 - in friendly sign Pisces"
+            },
+            "Mercury": {
+              "original_sign": "Vrishabha",
+              "divisional_sign": "Pisces",
+              "significance": "Challenging in D12 - in enemy sign Pisces"
+            },
+            "Jupiter": {
+              "original_sign": "Mithuna",
+              "divisional_sign": "Taurus",
+              "significance": "Challenging in D12 - in enemy sign Taurus"
+            },
+            "Venus": {
+              "original_sign": "Mesha",
+              "divisional_sign": "Gemini",
+              "significance": "Good in D12 - in friendly sign Gemini"
+            },
+            "Saturn": {
+              "original_sign": "Meena",
+              "divisional_sign": "Gemini",
+              "significance": "Good in D12 - in friendly sign Gemini"
+            },
+            "Rahu": {
+              "original_sign": "Kumbha",
+              "divisional_sign": "Pisces",
+              "significance": "Challenging in D12 - in enemy sign Pisces"
+            }
+          },
+          "analysis": "In the D12 chart: Planets needing attention: Mercury, Jupiter, Rahu. This chart shows your relationship with parents and family lineage."
+        }
+      },
+      "divisional_comparisons": {
+        "D2": {
+          "division": "D2",
+          "planetary_changes": [
+            {
+              "planet": "Sun",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Sun remains in  in D2, maintaining consistent themes."
+            },
+            {
+              "planet": "Moon",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Moon remains in  in D2, maintaining consistent themes."
+            },
+            {
+              "planet": "Mars",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Mars remains in  in D2, maintaining consistent themes."
+            },
+            {
+              "planet": "Mercury",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Mercury remains in  in D2, maintaining consistent themes."
+            },
+            {
+              "planet": "Jupiter",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Jupiter remains in  in D2, maintaining consistent themes."
+            },
+            {
+              "planet": "Venus",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Venus remains in  in D2, maintaining consistent themes."
+            },
+            {
+              "planet": "Saturn",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Saturn remains in  in D2, maintaining consistent themes."
+            }
+          ],
+          "significant_shifts": [],
+          "stability_analysis": {
+            "stable_planets": 7,
+            "changed_planets": 0,
+            "stability_percentage": 100.0,
+            "stability_level": "High"
+          },
+          "change_summary": "Most planets in D2 remain stable, indicating consistent themes in this life area."
+        },
+        "D3": {
+          "division": "D3",
+          "planetary_changes": [
+            {
+              "planet": "Sun",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Sun remains in  in D3, maintaining consistent themes."
+            },
+            {
+              "planet": "Moon",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Moon remains in  in D3, maintaining consistent themes."
+            },
+            {
+              "planet": "Mars",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Mars remains in  in D3, maintaining consistent themes."
+            },
+            {
+              "planet": "Mercury",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Mercury remains in  in D3, maintaining consistent themes."
+            },
+            {
+              "planet": "Jupiter",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Jupiter remains in  in D3, maintaining consistent themes."
+            },
+            {
+              "planet": "Venus",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Venus remains in  in D3, maintaining consistent themes."
+            },
+            {
+              "planet": "Saturn",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Saturn remains in  in D3, maintaining consistent themes."
+            }
+          ],
+          "significant_shifts": [],
+          "stability_analysis": {
+            "stable_planets": 7,
+            "changed_planets": 0,
+            "stability_percentage": 100.0,
+            "stability_level": "High"
+          },
+          "change_summary": "Most planets in D3 remain stable, indicating consistent themes in this life area."
+        },
+        "D9": {
+          "division": "D9",
+          "planetary_changes": [
+            {
+              "planet": "Sun",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Sun remains in  in D9, maintaining consistent themes."
+            },
+            {
+              "planet": "Moon",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Moon remains in  in D9, maintaining consistent themes."
+            },
+            {
+              "planet": "Mars",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Mars remains in  in D9, maintaining consistent themes."
+            },
+            {
+              "planet": "Mercury",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Mercury remains in  in D9, maintaining consistent themes."
+            },
+            {
+              "planet": "Jupiter",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Jupiter remains in  in D9, maintaining consistent themes."
+            },
+            {
+              "planet": "Venus",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Venus remains in  in D9, maintaining consistent themes."
+            },
+            {
+              "planet": "Saturn",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Saturn remains in  in D9, maintaining consistent themes."
+            }
+          ],
+          "significant_shifts": [],
+          "stability_analysis": {
+            "stable_planets": 7,
+            "changed_planets": 0,
+            "stability_percentage": 100.0,
+            "stability_level": "High"
+          },
+          "change_summary": "Most planets in D9 remain stable, indicating consistent themes in this life area."
+        },
+        "D10": {
+          "division": "D10",
+          "planetary_changes": [
+            {
+              "planet": "Sun",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Sun remains in  in D10, maintaining consistent themes."
+            },
+            {
+              "planet": "Moon",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Moon remains in  in D10, maintaining consistent themes."
+            },
+            {
+              "planet": "Mars",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Mars remains in  in D10, maintaining consistent themes."
+            },
+            {
+              "planet": "Mercury",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Mercury remains in  in D10, maintaining consistent themes."
+            },
+            {
+              "planet": "Jupiter",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Jupiter remains in  in D10, maintaining consistent themes."
+            },
+            {
+              "planet": "Venus",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Venus remains in  in D10, maintaining consistent themes."
+            },
+            {
+              "planet": "Saturn",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Saturn remains in  in D10, maintaining consistent themes."
+            }
+          ],
+          "significant_shifts": [],
+          "stability_analysis": {
+            "stable_planets": 7,
+            "changed_planets": 0,
+            "stability_percentage": 100.0,
+            "stability_level": "High"
+          },
+          "change_summary": "Most planets in D10 remain stable, indicating consistent themes in this life area."
+        },
+        "D12": {
+          "division": "D12",
+          "planetary_changes": [
+            {
+              "planet": "Sun",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Sun remains in  in D12, maintaining consistent themes."
+            },
+            {
+              "planet": "Moon",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Moon remains in  in D12, maintaining consistent themes."
+            },
+            {
+              "planet": "Mars",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Mars remains in  in D12, maintaining consistent themes."
+            },
+            {
+              "planet": "Mercury",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Mercury remains in  in D12, maintaining consistent themes."
+            },
+            {
+              "planet": "Jupiter",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Jupiter remains in  in D12, maintaining consistent themes."
+            },
+            {
+              "planet": "Venus",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Venus remains in  in D12, maintaining consistent themes."
+            },
+            {
+              "planet": "Saturn",
+              "status": "Stable",
+              "birth_sign": "",
+              "current_sign": "",
+              "significance": "Saturn remains in  in D12, maintaining consistent themes."
+            }
+          ],
+          "significant_shifts": [],
+          "stability_analysis": {
+            "stable_planets": 7,
+            "changed_planets": 0,
+            "stability_percentage": 100.0,
+            "stability_level": "High"
+          },
+          "change_summary": "Most planets in D12 remain stable, indicating consistent themes in this life area."
+        }
+      },
+      "significant_changes": [],
+      "life_area_impacts": {
+        "D2": {
+          "life_area": "Wealth & Resources",
+          "themes_affected": [
+            "financial status",
+            "family wealth",
+            "speech",
+            "food habits",
+            "values"
+          ],
+          "stability_level": "High",
+          "change_impact": "Your wealth & resources remains stable with consistent patterns.",
+          "recommendations": [
+            "Continue current approaches in wealth & resources"
+          ]
+        },
+        "D3": {
+          "life_area": "Siblings & Courage",
+          "themes_affected": [
+            "relationship with siblings",
+            "personal courage",
+            "short journeys",
+            "communication skills"
+          ],
+          "stability_level": "High",
+          "change_impact": "Your siblings & courage remains stable with consistent patterns.",
+          "recommendations": [
+            "Continue current approaches in siblings & courage"
+          ]
+        },
+        "D9": {
+          "life_area": "Marriage & Spirituality",
+          "themes_affected": [
+            "marriage prospects",
+            "spiritual growth",
+            "dharma",
+            "fortune",
+            "higher learning"
+          ],
+          "stability_level": "High",
+          "change_impact": "Your marriage & spirituality remains stable with consistent patterns.",
+          "recommendations": [
+            "Continue current approaches in marriage & spirituality"
+          ]
+        },
+        "D10": {
+          "life_area": "Career & Reputation",
+          "themes_affected": [
+            "professional success",
+            "public image",
+            "authority",
+            "achievements",
+            "social status"
+          ],
+          "stability_level": "High",
+          "change_impact": "Your career & reputation remains stable with consistent patterns.",
+          "recommendations": [
+            "Continue current approaches in career & reputation"
+          ]
+        },
+        "D12": {
+          "life_area": "Parents & Ancestry",
+          "themes_affected": [
+            "relationship with parents",
+            "ancestral influences",
+            "past life karma",
+            "spiritual debts"
+          ],
+          "stability_level": "High",
+          "change_impact": "Your parents & ancestry remains stable with consistent patterns.",
+          "recommendations": [
+            "Continue current approaches in parents & ancestry"
+          ]
+        }
+      },
+      "summary": "Divisional Transit Analysis: Analyzed 5 key divisional charts (D2, D3, D9, D10, D12). Most divisional positions remain stable, indicating consistent life patterns. This is a period of stability and consolidation in major life areas."
+    },
+    "life_themes": {
+      "major_themes": [
+        {
+          "theme_name": "Sun Influence - Authority and recognition",
+          "description": "Your life is currently dominated by sun energy, bringing themes of authority and recognition. This influence shapes your daily experiences and long-term direction.",
+          "current_manifestation": "Increased confidence, leadership opportunities, focus on career",
+          "guidance": "Focus on sun-related activities and embrace the opportunities this energy brings",
+          "duration": "Current planetary period",
+          "intensity": "Strong"
+        },
+        {
+          "theme_name": "House 5 Activation - Creativity And Children",
+          "description": "Your creativity and children sector is highly activated by current planetary transits, making this a central theme in your life right now.",
+          "current_manifestation": "Increased focus on creativity and children with multiple planetary influences",
+          "guidance": "Pay special attention to creativity and children as this area is receiving significant cosmic support",
+          "duration": "Several months",
+          "intensity": "High"
+        },
+        {
+          "theme_name": "Core Nature Evolution - Sun in Vrishabha",
+          "description": "Your core sun nature is being refined as this planet transits through Vrishabha, bringing evolution to your fundamental character.",
+          "current_manifestation": "Sun energy expressing through Vrishabha qualities",
+          "guidance": "Embrace the Vrishabha qualities to enhance your natural sun strengths",
+          "duration": "Extended period",
+          "intensity": "Moderate to Strong"
+        }
+      ],
+      "recurring_patterns": [
+        {
+          "pattern_name": "Recurring Square Challenges",
+          "description": "You frequently experience square situations that challenge your personal development nature, creating opportunities for growth.",
+          "frequency": "Monthly cycles",
+          "transformation_opportunity": "Each cycle offers deeper mastery of personal development themes",
+          "recognition_signs": "Tension followed by breakthrough",
+          "guidance": "Recognize this pattern and use it consciously for personal development development"
+        },
+        {
+          "pattern_name": "Evolutionary Life Pattern",
+          "description": "Your birth chart shows a pattern of continuous growth through balancing different life areas",
+          "frequency": "Life-long pattern",
+          "transformation_opportunity": "Integration of diverse experiences into wisdom",
+          "recognition_signs": "Alternating phases of focus on different life themes",
+          "guidance": "Embrace the diversity of experiences as part of your growth path"
+        }
+      ],
+      "growth_areas": [
+        {
+          "area_name": "Spirituality And Higher Learning Mastery",
+          "description": "Current planetary transits are creating growth opportunities in your spirituality and higher learning sector through constructive challenges.",
+          "current_challenge": "With Moon transiting your 9th house, focus on higher learning, spirituality, and long journeys. Teachers and mentors may be important.",
+          "development_steps": [
+            "Embrace Spirituality And Higher Learning challenges as growth opportunities",
+            "Practice patience and persistence during difficult phases",
+            "Seek guidance from mentors or experts in this area",
+            "Document your progress and lessons learned"
+          ],
+          "expected_outcome": "Mastery and confidence in spirituality and higher learning",
+          "timeline": "Few weeks to months"
+        }
+      ],
+      "current_focus_areas": [
+        {
+          "area_name": "House 5 - Creativity And Children",
+          "description": "Multiple planets (Sun, Mercury) are currently transiting your creativity and children sector, making this a major area of focus.",
+          "active_planets": [
+            "Sun",
+            "Mercury"
+          ],
+          "guidance": "With Sun, Mercury transiting your 5th house, creativity, children, and romance are emphasized. This is favorable for artistic pursuits and speculation.",
+          "duration": "Few weeks to months",
+          "intensity": "High"
+        },
+        {
+          "area_name": "House 9 - Spirituality And Higher Learning",
+          "description": "Multiple planets (Moon) are currently transiting your spirituality and higher learning sector, making this a major area of focus.",
+          "active_planets": [
+            "Moon"
+          ],
+          "guidance": "With Moon transiting your 9th house, focus on higher learning, spirituality, and long journeys. Teachers and mentors may be important.",
+          "duration": "Few weeks to months",
+          "intensity": "Moderate"
+        },
+        {
+          "area_name": "House 7 - Relationships And Partnerships",
+          "description": "Multiple planets (Mars) are currently transiting your relationships and partnerships sector, making this a major area of focus.",
+          "active_planets": [
+            "Mars"
+          ],
+          "guidance": "With Mars activating your 7th house, relationships and partnerships are highlighted. Marriage and business partnerships may be significant.",
+          "duration": "Few weeks to months",
+          "intensity": "Moderate"
+        },
+        {
+          "area_name": "House 6 - Health And Daily Routine",
+          "description": "Multiple planets (Jupiter) are currently transiting your health and daily routine sector, making this a major area of focus.",
+          "active_planets": [
+            "Jupiter"
+          ],
+          "guidance": "With Jupiter in your 6th house, focus on health, daily routines, and service. Address any health issues and improve work habits.",
+          "duration": "1-2 years",
+          "intensity": "Moderate"
+        }
+      ],
+      "transformation_opportunities": [
+        {
+          "opportunity_name": "Square Transformation",
+          "description": "A powerful square aspect is creating opportunities for deep personal transformation through personal growth.",
+          "transformation_type": "Character Development",
+          "timeline": "Current period",
+          "guidance": "Embrace the challenges as opportunities for growth",
+          "expected_outcome": "Enhanced personal mastery and wisdom"
+        }
+      ],
+      "seasonal_themes": {
+        "season": "summer",
+        "theme": "Action, manifestation, peak energy, achievement",
+        "solar_influence": "Sun in Vrishabha",
+        "guidance": "Align your activities with summer energy themes",
+        "focus": "This summer emphasizes Action"
+      },
+      "summary": "Your life is currently centered around sun influence - authority and recognition, with 2 major recurring patterns shaping your experiences, and 1 key area of active development. This period offers significant opportunities for personal evolution through conscious engagement with these themes."
+    },
+    "daily_changes": [
+      "Today you may feel: More emotional, nurturing, intuitive, changeable moods",
+      "Your communication style today: More talkative, curious, analytical, restless",
+      "Your energy levels: More aggressive, impatient, energetic, action-oriented"
+    ],
+    "monthly_changes": [
+      "This month's focus: Stability, material security, sensual pleasures",
+      "With Sun in Vrishabha, you're experiencing themes of stability, material security, sensual pleasures",
+      "Additional influence: Moon: Family and nurturing",
+      "Additional influence: Mars: Competition and courage"
+    ],
+    "recommendations": [
+      "Focus on learning and spiritual growth today",
+      "Good time for relationships and creative activities",
+      "Take leadership roles and express yourself confidently"
+    ],
+    "comprehensive_summary": "Currently, there's strong planetary emphasis in Vrishabha, highlighting themes of Stability, material security, sensual pleasures. Major long-term influences in: House 6 (Health And Daily Routine), House 3 (Communication And Siblings). Key current aspects: Sun square your natal Sun, Mars opposition your natal Mercury. Your planetary activation is particularly active, affecting your communication, siblings, and short trips."
+  },
+  "ai_prediction": {
+    "prediction_text": "COMPREHENSIVE VEDIC ASTROLOGY ANALYSIS\n\n        🌟 CURRENT DASHA SIGNIFICANCE:\n        You are in the Jupiter Mahadasha with 2.7 years remaining. This is one of the most auspicious periods, bringing wisdom and spiritual growth. Jupiter Dasha enhances dharma, teaching abilities, and brings good fortune. It's excellent for spiritual practices and higher learning.\n\n        The Jupiter period is characterized by: Wise, spiritual, expansive, benevolent\n\n        Key themes during this period include: Wisdom, Spirituality, Teaching, Children, Wealth, Dharma\n\n        🎯 SPECIFIC GUIDANCE FOR THIS PERIOD:\n        Pursue spiritual practices, teach others, focus on dharmic activities\n\n        ⚠️ CAUTIONS AND AREAS TO WATCH:\n        Avoid over-indulgence, be selective with spiritual teachers, manage weight\n\n        🏠 HOUSE AND SIGN INFLUENCES:\n        Influencing Dharma, higher learning, father, spirituality, fortune (House 9)\n        Operating through Tula energy\n\n        📅 TIMING CONSIDERATIONS:\n        - Current period: Jupiter Mahadasha (2.7 years remaining)\n        - This is a significant life phase that will shape your experiences and growth\n        - Different sub-periods (antardashas) within this time will bring varying influences\n\n        🔮 PLANETARY RELATIONSHIPS:\n        Your birth chart shows specific planetary combinations that influence how this dasha period manifests in your life. The relationships between planets create unique opportunities and challenges.\n\n        💫 RECOMMENDATIONS:\n        1. Align your actions with Jupiter's natural themes and characteristics\n        2. Use this period for growth in areas ruled by Jupiter\n        3. Practice patience and work with the natural timing of planetary cycles\n        4. Consider appropriate remedial measures if facing challenges\n\n        This analysis provides a foundation for understanding your current astrological period. For personalized guidance, consider consulting with a qualified Vedic astrologer.",
+    "key_themes": [
+      "Wisdom",
+      "Spirituality",
+      "Teaching",
+      "Children",
+      "Wealth",
+      "Dharma"
+    ],
+    "favorable_periods": [
+      "Jupiter Blessing (Jul 05, 2025 - Aug 04, 2025): Jupiter's favorable aspect brings wisdom and opportunities",
+      "Jupiter-Venus (Jul 20, 2025 - Sep 03, 2025): Venus antardasha brings positive energy within Jupiter mahadasha",
+      "Jupiter-Mercury (Sep 03, 2025 - Oct 18, 2025): Mercury antardasha brings positive energy within Jupiter mahadasha",
+      "Navratri (Sep 15, 2025 - Sep 24, 2025): Excellent for new beginnings",
+      "Jupiter Blessing (Oct 03, 2025 - Nov 02, 2025): Jupiter's blessing period for new ventures and learning"
+    ],
+    "challenging_periods": [
+      "Solar/Lunar Eclipse (Jun 02, 2025 - Jun 08, 2025): Eclipse period - time of transformation and caution",
+      "Mercury Retrograde (Jun 05, 2025 - Jun 26, 2025): Mercury retrograde - communication and technology challenges",
+      "Saturn Challenge (Jul 20, 2025 - Aug 19, 2025): Saturn's challenging aspect - period of tests and delays",
+      "Mercury Retrograde (Oct 03, 2025 - Oct 24, 2025): Mercury retrograde - communication and technology challenges",
+      "Solar/Lunar Eclipse (Nov 29, 2025 - Dec 05, 2025): Eclipse period - time of transformation and caution"
+    ],
+    "guidance": ""
+  },
+  "yogas": [
+    {
+      "name": "Saraswati Yoga",
+      "description": "Jupiter, Venus, Mercury well-placed - Brings exceptional learning, artistic talents, and wisdom. Creates scholars and artists.",
+      "strength": "Strong",
+      "category": "Knowledge & Arts"
+    },
+    {
+      "name": "Raja Yoga Potential",
+      "description": "Multiple planets in kendras - Indicates potential for leadership, authority, and high status. Creates natural leaders.",
+      "strength": "Variable",
+      "category": "Power & Authority"
+    },
+    {
+      "name": "Shasha Yoga",
+      "description": "Saturn in own sign in kendra - Creates disciplined, hardworking personalities with administrative abilities. Brings long-term success through patience.",
+      "strength": "Strong",
+      "category": "Discipline & Administration"
+    },
+    {
+      "name": "Venus-Mars Yoga",
+      "description": "Venus and Mars in significant relationship - Creates passionate and dynamic relationships. Brings intensity in love and partnerships.",
+      "strength": "Moderate",
+      "category": "Love & Passion"
+    },
+    {
+      "name": "Ayush Yoga",
+      "description": "Benefic planets in 1st house - Promotes good health, vitality, and longevity. Creates strong constitution and life force.",
+      "strength": "Moderate",
+      "category": "Health & Longevity"
+    },
+    {
+      "name": "Yoga Karaka",
+      "description": "Saturn in kendra - Acts as yoga karaka bringing discipline, structure, and long-term success. Creates persistent achievers.",
+      "strength": "Strong",
+      "category": "Discipline & Achievement"
+    },
+    {
+      "name": "Sun Isolation Analysis",
+      "description": "Sun in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). May feel unsupported in leadership roles. Benefits from building strong personal identity.",
+      "strength": "Moderate",
+      "category": "Planetary Isolation"
+    },
+    {
+      "name": "Moon Isolation Analysis",
+      "description": "Moon in Tula (House 8) shows mild isolation: lacks benefic aspects. Occasional emotional distance. Generally maintains emotional balance.",
+      "strength": "Moderate",
+      "category": "Planetary Isolation"
+    },
+    {
+      "name": "Mercury Isolation Analysis",
+      "description": "Mercury in Makara (House 1) shows severe isolation: isolated in both house and sign, lacks benefic aspects. Communication challenges and intellectual isolation. May struggle to express ideas effectively.",
+      "strength": "Challenging",
+      "category": "Planetary Isolation"
+    },
+    {
+      "name": "Venus Isolation Analysis",
+      "description": "Venus in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets), no close planetary companions. Periodic relationship difficulties. Needs to cultivate social connections.",
+      "strength": "Moderate",
+      "category": "Planetary Isolation"
+    },
+    {
+      "name": "Mars Isolation Analysis",
+      "description": "Mars in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). Periodic energy blocks. Benefits from structured physical activities.",
+      "strength": "Moderate",
+      "category": "Planetary Isolation"
+    },
+    {
+      "name": "Saturn Isolation Analysis",
+      "description": "Saturn in Kumbha (House 1) shows moderate isolation: isolated in house (no adjacent planets). Heavy responsibility load. Benefits from structured support systems.",
+      "strength": "Moderate",
+      "category": "Planetary Isolation"
+    },
+    {
+      "name": "Rahu Isolation Analysis",
+      "description": "Rahu in Vrishchika (House 9) shows moderate isolation: alone in sign, no close planetary companions. Isolation affects Rahu's natural expression and requires conscious effort to overcome.",
+      "strength": "Moderate",
+      "category": "Planetary Isolation"
+    },
+    {
+      "name": "Ketu Isolation Analysis",
+      "description": "Ketu in Vrishabha (House 3) shows severe isolation: isolated in both house and sign, no close planetary companions. Isolation affects Ketu's natural expression and requires conscious effort to overcome.",
+      "strength": "Challenging",
+      "category": "Planetary Isolation"
+    },
+    {
+      "name": "Planetary Cluster Support",
+      "description": "Strong planetary cluster in Aquarius: Sun, Venus, Mars, Saturn. This creates intense focus and mutual support in Aquarius themes, though may create imbalance in other areas.",
+      "strength": "Strong",
+      "category": "Planetary Concentration"
+    },
+    {
+      "name": "Benefic Protection Pattern",
+      "description": "Strong benefic protection through: Venus in 1th house (kendra), Jupiter in 9th house (trikona). This provides natural protection from difficulties and enhances positive outcomes in life.",
+      "strength": "Strong",
+      "category": "Divine Protection"
+    },
+    {
+      "name": "Bhadra Yoga Isolation Effect",
+      "description": "Mercury forms Bhadra Yoga but is isolated, which may create a self-reliant but potentially lonely expression of Mercury's qualities. The person may achieve success through individual effort but may lack collaborative support.",
+      "strength": "Moderate",
+      "category": "Yoga Modification"
+    }
+  ]
+}

@@ -435,6 +435,210 @@ async def test_shantanu_prediction():
             "message": "Failed to generate test prediction"
         }
 
+@app.post("/api/comprehensive-analysis")
+async def comprehensive_analysis_api(request: dict):
+    """
+    Phase 1: Comprehensive JSON API endpoint that returns all astrological data
+    Maintains 100% compatibility with existing wireframe data structure
+    """
+    try:
+        # Parse request data
+        birth_data = BirthData(
+            name=request.get('name', 'Unknown'),
+            birth_date=date.fromisoformat(request['birth_date']),
+            birth_time=time.fromisoformat(request['birth_time']),
+            birth_location=request['birth_location']
+        )
+
+        # Get location data
+        location_data = get_location_data(birth_data.birth_location)
+        if not location_data:
+            return {
+                "success": False,
+                "error": "Could not find location. Please try a different format."
+            }
+
+        # Calculate Vedic chart
+        vedic_chart = vedic_calc.calculate_birth_chart(birth_data, location_data)
+
+        # Calculate current dasha
+        current_dasha = vedic_calc.calculate_current_dasha(birth_data, vedic_chart)
+
+        # Calculate comprehensive planetary strengths
+        planetary_strengths = {}
+        for planet in vedic_chart.planets:
+            strength_analysis = vedic_calc.calculate_planetary_strength(planet.name, planet)
+            planetary_strengths[planet.name] = strength_analysis
+
+        # Get comprehensive analysis from vedic_analysis.py
+        analyzer = VedicAnalyzer()
+
+        # Get detailed dasha analysis
+        dasha_analysis = analyzer.analyze_dasha_significance(current_dasha, vedic_chart)
+
+        # Get comprehensive planetary relationships
+        planetary_relationships = analyzer.analyze_planetary_relationships(vedic_chart)
+
+        # Get comprehensive personality analysis
+        personality_analysis = analyzer.analyze_inherent_personality_traits(vedic_chart)
+
+        # Generate AI prediction
+        prediction = prediction_engine.generate_vedic_prediction(birth_data, vedic_chart, current_dasha, location_data)
+
+        # COMPREHENSIVE CURRENT INFLUENCES ANALYSIS
+        from src.core.current_influences import CurrentInfluenceAnalyzer
+        current_analyzer = CurrentInfluenceAnalyzer()
+        current_influences = current_analyzer.analyze_current_influences(birth_data, vedic_chart, location_data)
+
+        # Extract yogas from planetary relationships
+        yogas = []
+        if planetary_relationships and "yogas" in planetary_relationships:
+            yogas = planetary_relationships["yogas"]
+
+        # Calculate divisional charts
+        divisional_charts = {}
+        primary_divisions = ["D2", "D3", "D9", "D10", "D12"]
+        secondary_divisions = ["D4", "D7", "D16", "D20", "D24", "D30", "D60"]
+        all_divisions = primary_divisions + secondary_divisions
+
+        for division in all_divisions:
+            try:
+                divisional_charts[division] = vedic_calc.calculate_divisional_chart(vedic_chart, division)
+            except Exception as e:
+                divisional_charts[division] = {"error": f"Failed to calculate {division}: {str(e)}"}
+
+        # Get comprehensive divisional analysis
+        from src.core.divisional_analyzer import DivisionalAnalyzer
+        divisional_analyzer = DivisionalAnalyzer()
+        try:
+            comprehensive_divisional_analysis = divisional_analyzer.analyze_comprehensive_divisional_charts(vedic_chart, divisional_charts)
+        except Exception as e:
+            comprehensive_divisional_analysis = {"error": f"Divisional analysis failed: {str(e)}"}
+
+        # ADVANCED TIMING ANALYSIS
+        from src.core.advanced_timing import AdvancedTimingCalculator
+        advanced_timing_calculator = AdvancedTimingCalculator()
+        try:
+            timing_analysis = {
+                "favorable_periods": advanced_timing_calculator.calculate_favorable_periods(vedic_chart, current_dasha),
+                "challenging_periods": advanced_timing_calculator.calculate_challenging_periods(vedic_chart, current_dasha),
+                "muhurta_analysis": advanced_timing_calculator.get_current_muhurta_analysis()
+            }
+        except Exception as e:
+            timing_analysis = {"error": f"Timing analysis failed: {str(e)}"}
+
+        # SPECIALIZED PREDICTIONS
+        from src.services.engine_manager import SpecializedEngineManager
+        from src.utils.date_calculator import AstrologicalDateCalculator
+        from src.models.models import EnhancedPredictionRequest, PredictionType, SubscriptionTier
+
+        date_calculator = AstrologicalDateCalculator()
+        specialized_engine_manager = SpecializedEngineManager(analyzer, date_calculator)
+
+        try:
+            # Generate a sample specialized prediction (career)
+            enhanced_request = EnhancedPredictionRequest(
+                birth_data=birth_data,
+                prediction_type=PredictionType.CAREER,
+                subscription_tier=SubscriptionTier.SILVER,
+                include_timing=True
+            )
+
+            specialized_predictions = specialized_engine_manager.generate_specialized_prediction(
+                enhanced_request, vedic_chart, current_dasha, birth_data, location_data
+            )
+        except Exception as e:
+            specialized_predictions = {"error": f"Specialized predictions failed: {str(e)}"}
+
+        # Transform data to JSON-friendly format
+        def transform_planet_data(planet):
+            return {
+                'name': planet.name,
+                'longitude': planet.longitude,
+                'latitude': planet.latitude,
+                'sign': planet.sign,
+                'house': planet.house,
+                'degree': planet.degree,
+                'nakshatra': getattr(planet, 'nakshatra', None),
+                'nakshatra_pada': getattr(planet, 'nakshatra_pada', None),
+                'retrograde': planet.retrograde
+            }
+
+        def transform_personality_data(personality):
+            """Transform complex personality structure to simple strings."""
+            if not isinstance(personality, dict):
+                return {}
+
+            transformed = {}
+            for key, value in personality.items():
+                if isinstance(value, dict):
+                    if key == 'core_personality' and 'integrated_personality' in value:
+                        transformed[key] = value['integrated_personality'].get('personality_blend', str(value))
+                    else:
+                        transformed[key] = str(value)
+                else:
+                    transformed[key] = str(value)
+            return transformed
+
+        # Prepare comprehensive JSON response
+        return {
+            "success": True,
+            "data": {
+                "birth_data": {
+                    "name": birth_data.name,
+                    "birth_date": str(birth_data.birth_date),
+                    "birth_time": str(birth_data.birth_time),
+                    "birth_location": birth_data.birth_location
+                },
+                "vedic_chart": {
+                    "ascendant_sign": vedic_chart.ascendant_sign,
+                    "moon_sign": vedic_chart.moon_sign,
+                    "sun_sign": vedic_chart.sun_sign,
+                    "birth_nakshatra": vedic_chart.birth_nakshatra,
+                    "birth_nakshatra_pada": vedic_chart.birth_nakshatra_pada,
+                    "planets": [transform_planet_data(planet) for planet in vedic_chart.planets]
+                },
+                "current_dasha": {
+                    "planet": current_dasha.planet,
+                    "start_date": str(current_dasha.start_date),
+                    "end_date": str(current_dasha.end_date),
+                    "remaining_years": current_dasha.remaining_years
+                },
+                "planetary_strengths": planetary_strengths,
+                "personality_analysis": transform_personality_data(personality_analysis),
+                "current_influences": current_influences,
+                "ai_prediction": {
+                    "prediction_text": getattr(prediction, 'prediction_text', ''),
+                    "key_themes": getattr(prediction, 'key_themes', []),
+                    "favorable_periods": getattr(prediction, 'favorable_periods', []),
+                    "challenging_periods": getattr(prediction, 'challenging_periods', []),
+                    "guidance": getattr(prediction, 'guidance', '')
+                },
+                "yogas": yogas,
+                "divisional_charts": divisional_charts,
+                "dasha_analysis": dasha_analysis,
+                "planetary_relationships": planetary_relationships,
+                "timing_analysis": timing_analysis,
+                "specialized_predictions": specialized_predictions,
+                "astrological_meanings": {
+                    "signs": {sign: f"Vedic sign {sign}" for sign in ["Mesha", "Vrishabha", "Mithuna", "Karka", "Simha", "Kanya", "Tula", "Vrishchika", "Dhanu", "Makara", "Kumbha", "Meena"]},
+                    "houses": {f"House {i}": f"Life area {i}" for i in range(1, 13)},
+                    "nakshatras": {nak: f"Nakshatra {nak}" for nak in ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"]}
+                }
+            }
+        }
+
+    except ValueError as e:
+        return {
+            "success": False,
+            "error": f"Invalid input: {str(e)}"
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"Calculation error: {str(e)}"
+        }
+
 @app.get("/shantanu-chart", response_class=HTMLResponse)
 async def shantanu_chart_html():
     """Render Shantanu's chart as HTML in browser."""

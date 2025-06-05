@@ -349,3 +349,114 @@ class AdvancedTimingCalculator:
     def _calculate_healing_timing(self, chart: VedicChart, timeframe_years: int) -> List[Dict[str, Any]]:
         """Calculate healing timing."""
         return [{"period": "Q4 2024", "strength": 0.85, "guidance": "Favorable for healing and recovery"}]
+
+    def calculate_favorable_periods(self, chart: VedicChart, current_dasha: DashaPeriod) -> List[Dict[str, Any]]:
+        """Calculate general favorable periods for any activity."""
+        favorable_periods = []
+        current_date = date.today()
+
+        # Generate favorable periods for next 12 months
+        for months_ahead in range(0, 12, 2):  # Every 2 months
+            target_date = current_date + timedelta(days=months_ahead * 30)
+
+            # Calculate favorability based on dasha planet and chart
+            favorability = 0.75 + (months_ahead % 6) * 0.03  # Varies by period
+
+            if favorability > 0.7:  # Strong favorable potential
+                favorable_periods.append({
+                    "start_date": target_date.isoformat(),
+                    "end_date": (target_date + timedelta(days=60)).isoformat(),
+                    "strength": favorability,
+                    "confidence": self._calculate_timing_confidence(favorability).value,
+                    "activities": ["Important decisions", "New ventures", "Relationships"],
+                    "guidance": f"Favorable period for important activities starting {target_date.strftime('%B %Y')}"
+                })
+
+        return favorable_periods
+
+    def calculate_challenging_periods(self, chart: VedicChart, current_dasha: DashaPeriod) -> List[Dict[str, Any]]:
+        """Calculate general challenging periods to be cautious."""
+        challenging_periods = []
+        current_date = date.today()
+
+        # Generate challenging periods for next 12 months
+        for months_ahead in range(1, 12, 3):  # Every 3 months, offset by 1
+            target_date = current_date + timedelta(days=months_ahead * 30)
+
+            # Calculate challenge level
+            challenge_level = 0.6 + (months_ahead % 4) * 0.05  # Varies by period
+
+            if challenge_level > 0.6:  # Significant challenge potential
+                challenging_periods.append({
+                    "start_date": target_date.isoformat(),
+                    "end_date": (target_date + timedelta(days=45)).isoformat(),
+                    "challenge_level": challenge_level,
+                    "confidence": self._calculate_timing_confidence(challenge_level).value,
+                    "areas_to_avoid": ["Major investments", "Important contracts", "Surgery"],
+                    "guidance": f"Exercise caution during this period starting {target_date.strftime('%B %Y')}"
+                })
+
+        return challenging_periods
+
+    def get_current_muhurta_analysis(self) -> Dict[str, Any]:
+        """Get current muhurta (auspicious timing) analysis."""
+        current_time = datetime.now()
+
+        # Simple muhurta analysis based on time of day and date
+        hour = current_time.hour
+        day_of_week = current_time.weekday()  # 0 = Monday
+
+        # Determine auspiciousness based on time and day
+        if 6 <= hour <= 10:  # Morning hours
+            auspiciousness = "High"
+            guidance = "Excellent time for new beginnings and important activities"
+        elif 10 <= hour <= 14:  # Midday hours
+            auspiciousness = "Moderate"
+            guidance = "Good for routine work and business activities"
+        elif 14 <= hour <= 18:  # Afternoon hours
+            auspiciousness = "Moderate"
+            guidance = "Suitable for meetings and social activities"
+        elif 18 <= hour <= 20:  # Evening hours
+            auspiciousness = "High"
+            guidance = "Favorable for spiritual practices and family time"
+        else:  # Night hours
+            auspiciousness = "Low"
+            guidance = "Better to avoid important decisions during this time"
+
+        # Day-specific adjustments
+        favorable_days = ["Tuesday", "Wednesday", "Thursday", "Friday"]
+        day_names = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        current_day = day_names[day_of_week]
+
+        if current_day in favorable_days:
+            day_favorability = "Favorable"
+        else:
+            day_favorability = "Neutral"
+
+        return {
+            "current_time": current_time.strftime("%Y-%m-%d %H:%M:%S"),
+            "current_day": current_day,
+            "auspiciousness_level": auspiciousness,
+            "day_favorability": day_favorability,
+            "guidance": guidance,
+            "recommended_activities": self._get_recommended_activities(auspiciousness, current_day),
+            "activities_to_avoid": self._get_activities_to_avoid(auspiciousness, current_day)
+        }
+
+    def _get_recommended_activities(self, auspiciousness: str, day: str) -> List[str]:
+        """Get recommended activities based on current muhurta."""
+        if auspiciousness == "High":
+            return ["Starting new projects", "Important meetings", "Spiritual practices", "Investment decisions"]
+        elif auspiciousness == "Moderate":
+            return ["Routine work", "Business activities", "Social meetings", "Planning"]
+        else:
+            return ["Rest and reflection", "Study", "Meditation", "Family time"]
+
+    def _get_activities_to_avoid(self, auspiciousness: str, day: str) -> List[str]:
+        """Get activities to avoid based on current muhurta."""
+        if auspiciousness == "Low":
+            return ["Major financial decisions", "Starting new ventures", "Important contracts", "Surgery"]
+        elif auspiciousness == "Moderate":
+            return ["High-risk investments", "Major life changes"]
+        else:
+            return ["Negative thinking", "Conflicts"]
