@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic Insights - Shantanu Saini</title>
-    <link rel="stylesheet" href="/static/wireframe-style.css">
+    <link rel="stylesheet" href="/static/wireframe-style.css?v=20241227-fixed">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -335,6 +335,665 @@
             color: #f59e0b;
             border: 1px solid rgba(245, 158, 11, 0.3);
         }
+
+        /* Premium Overview Page Design - Inspired by Modern Astrology Apps */
+        .overview-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            padding: 2rem 0;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .overview-top-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .overview-middle-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .overview-bottom-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        /* Premium Card Design with Glassmorphism */
+        .overview-card {
+            background: linear-gradient(135deg,
+                rgba(99, 102, 241, 0.1) 0%,
+                rgba(139, 92, 246, 0.05) 50%,
+                rgba(168, 85, 247, 0.1) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 8px 32px rgba(99, 102, 241, 0.1),
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .overview-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(99, 102, 241, 0.05) 0%,
+                transparent 50%,
+                rgba(139, 92, 246, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .overview-card:hover::before {
+            opacity: 1;
+        }
+
+        .overview-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow:
+                0 20px 80px rgba(99, 102, 241, 0.25),
+                0 8px 32px rgba(139, 92, 246, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        /* Premium Card Header Design */
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 1px;
+        }
+
+        .card-icon {
+            font-size: 32px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-right: 16px;
+            filter: drop-shadow(0 2px 4px rgba(99, 102, 241, 0.3));
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            letter-spacing: -0.02em;
+        }
+
+        .card-content {
+            color: #cbd5e1;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        .card-content p {
+            margin-bottom: 1.25rem;
+            opacity: 0.9;
+        }
+
+        /* Premium Dasha Timeline Design */
+        .dasha-name {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dasha-icon {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-right: 12px;
+            filter: drop-shadow(0 2px 4px rgba(99, 102, 241, 0.3));
+        }
+
+        .dasha-timeline {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg,
+                rgba(99, 102, 241, 0.05) 0%,
+                rgba(139, 92, 246, 0.05) 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .timeline-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-progress {
+            height: 100%;
+            background: linear-gradient(90deg,
+                #6366f1 0%,
+                #8b5cf6 50%,
+                #a855f7 100%);
+            border-radius: 8px;
+            transition: width 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .timeline-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                rgba(255, 255, 255, 0.3) 0%,
+                transparent 50%,
+                rgba(255, 255, 255, 0.1) 100%);
+            border-radius: 8px;
+        }
+
+        .timeline-info {
+            text-align: center;
+        }
+
+        .timeline-text {
+            font-size: 1rem;
+            color: #e2e8f0;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Premium Planets Grid Design */
+        .planets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .planet-tile {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(99, 102, 241, 0.05) 50%,
+                rgba(139, 92, 246, 0.05) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .planet-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(99, 102, 241, 0.1) 0%,
+                transparent 50%,
+                rgba(139, 92, 246, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .planet-tile:hover::before {
+            opacity: 1;
+        }
+
+        .planet-tile:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow:
+                0 20px 60px rgba(99, 102, 241, 0.2),
+                0 8px 32px rgba(139, 92, 246, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .planet-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .planet-icon {
+            font-size: 24px;
+            margin-right: 12px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .planet-tile:hover .planet-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .planet-name {
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .planet-details {
+            margin-bottom: 1rem;
+            space-y: 0.5rem;
+        }
+
+        .planet-position {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .planet-nakshatra {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .planet-degree {
+            font-size: 0.85rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+
+        .planet-strength {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        /* Premium Yogas Grid Design */
+        .yogas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem 0;
+        }
+
+        .yoga-tile {
+            background: linear-gradient(135deg,
+                rgba(139, 92, 246, 0.08) 0%,
+                rgba(168, 85, 247, 0.05) 50%,
+                rgba(99, 102, 241, 0.08) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.75rem;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 4px 16px rgba(139, 92, 246, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .yoga-tile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(139, 92, 246, 0.1) 0%,
+                transparent 50%,
+                rgba(168, 85, 247, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .yoga-tile:hover::before {
+            opacity: 1;
+        }
+
+        .yoga-tile:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow:
+                0 25px 80px rgba(139, 92, 246, 0.25),
+                0 10px 40px rgba(168, 85, 247, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .yoga-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .yoga-icon {
+            font-size: 26px;
+            margin-right: 12px;
+            filter: drop-shadow(0 2px 4px rgba(139, 92, 246, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .yoga-tile:hover .yoga-icon {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .yoga-name {
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #e2e8f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.1rem;
+            margin: 0;
+            letter-spacing: -0.01em;
+        }
+
+        .yoga-strength {
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .yoga-description {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .yoga-effects {
+            background: linear-gradient(135deg,
+                rgba(34, 197, 94, 0.1) 0%,
+                rgba(16, 185, 129, 0.05) 100%);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .yoga-effects::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #22c55e, #10b981);
+            border-radius: 0 2px 2px 0;
+        }
+
+        .effects-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 0.5rem;
+            margin-left: 12px;
+        }
+
+        .effects-text {
+            font-size: 0.85rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-left: 12px;
+            opacity: 0.9;
+        }
+
+        /* Enhanced Status Indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .status-positive {
+            background: linear-gradient(135deg,
+                rgba(34, 197, 94, 0.2) 0%,
+                rgba(16, 185, 129, 0.1) 100%);
+            color: #22c55e;
+            box-shadow: 0 2px 8px rgba(34, 197, 94, 0.2);
+        }
+
+        .status-neutral {
+            background: linear-gradient(135deg,
+                rgba(99, 102, 241, 0.2) 0%,
+                rgba(139, 92, 246, 0.1) 100%);
+            color: #6366f1;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+        }
+
+        .status-challenging {
+            background: linear-gradient(135deg,
+                rgba(239, 68, 68, 0.2) 0%,
+                rgba(220, 38, 38, 0.1) 100%);
+            color: #ef4444;
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.2);
+        }
+
+        .status-indicator:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Premium Responsive Design */
+        @media (max-width: 1200px) {
+            .overview-container {
+                padding: 1.5rem 0;
+                gap: 2rem;
+            }
+
+            .overview-card {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .overview-container {
+                padding: 1rem 0;
+                gap: 1.5rem;
+            }
+
+            .overview-top-row {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .overview-card {
+                padding: 1.25rem;
+                border-radius: 20px;
+            }
+
+            .card-title {
+                font-size: 1.2rem;
+            }
+
+            .card-icon {
+                font-size: 28px;
+            }
+
+            .planets-grid {
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 1rem;
+            }
+
+            .planet-tile {
+                padding: 1.25rem;
+            }
+
+            .yogas-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .yoga-tile {
+                padding: 1.5rem;
+            }
+
+            .dasha-timeline {
+                padding: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .overview-container {
+                gap: 1rem;
+            }
+
+            .overview-card {
+                padding: 1rem;
+                border-radius: 16px;
+            }
+
+            .card-title {
+                font-size: 1.1rem;
+            }
+
+            .planets-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .planet-tile, .yoga-tile {
+                padding: 1rem;
+            }
+        }
+
+        /* High Specificity Override for Premium Grids */
+        .overview-container .planets-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+            gap: 1.5rem !important;
+            padding: 1rem 0 !important;
+        }
+
+        .overview-container .planets-grid .planet-tile {
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.05) 0%,
+                rgba(99, 102, 241, 0.05) 50%,
+                rgba(139, 92, 246, 0.05) 100%) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 20px !important;
+            padding: 1.5rem !important;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+            cursor: pointer !important;
+            position: relative !important;
+            overflow: hidden !important;
+            box-shadow:
+                0 4px 16px rgba(0, 0, 0, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .overview-container .planets-grid .planet-tile:hover {
+            transform: translateY(-8px) scale(1.03) !important;
+            box-shadow:
+                0 20px 60px rgba(99, 102, 241, 0.2),
+                0 8px 32px rgba(139, 92, 246, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+            border-color: rgba(99, 102, 241, 0.3) !important;
+        }
+
+        .overview-container .yogas-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+            gap: 1.5rem !important;
+            padding: 1rem 0 !important;
+        }
+
+        .overview-container .yogas-grid .yoga-tile {
+            background: linear-gradient(135deg,
+                rgba(139, 92, 246, 0.08) 0%,
+                rgba(168, 85, 247, 0.05) 50%,
+                rgba(99, 102, 241, 0.08) 100%) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 20px !important;
+            padding: 1.75rem !important;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+            cursor: pointer !important;
+            position: relative !important;
+            overflow: hidden !important;
+            box-shadow:
+                0 4px 16px rgba(139, 92, 246, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .overview-container .yogas-grid .yoga-tile:hover {
+            transform: translateY(-10px) scale(1.03) !important;
+            box-shadow:
+                0 25px 80px rgba(139, 92, 246, 0.25),
+                0 10px 40px rgba(168, 85, 247, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+            border-color: rgba(139, 92, 246, 0.3) !important;
+        }
     </style>
 </head>
 <body>
@@ -402,233 +1061,367 @@
                     </div>
                 </div>
 
-                <div class="modern-grid">
-                    <!-- Summary Section -->
-                    <div class="summary-section enhanced-card">
-                        <div class="modern-section-header">
-                            <span class="material-icon">summarize</span>
-                            <h2 class="modern-title">Summary</h2>
-                        </div>
-                        <p>Your astrological profile reveals unique patterns and influences that shape your life journey. This comprehensive analysis provides insights into your personality, strengths, and potential paths forward.</p>
-                        <div class="status-indicator status-positive">
-                            <span class="material-icon" style="font-size: 16px;">check_circle</span>
-                            Complete Analysis Available
-                        </div>
-                    </div>
-
-                    <!-- Key Themes -->
-                    <div class="themes-section enhanced-card">
-                        <div class="modern-section-header">
-                            <span class="material-icon">psychology</span>
-                            <h2 class="modern-title">Key Themes</h2>
-                        </div>
-                        <p>Your life is characterized by themes of personal growth, spiritual development, and the pursuit of authentic expression based on your Aquarius rising and distinctive moon placement.</p>
-                        <div class="status-indicator status-neutral">
-                            <span class="material-icon" style="font-size: 16px;">trending_up</span>
-                            Growth Focused
-                        </div>
-                    </div>
-
-                    <!-- Current Dasha -->
-                    <div class="dasha-section enhanced-card">
-                        <div class="modern-section-header">
-                            <span class="material-icon">schedule</span>
-                            <h2 class="modern-title">Current Life Phase</h2>
-                        </div>
-                        <div class="dasha-info">
-                            <h3 style="display: flex; align-items: center;">
-                                <span class="material-icon" style="color: #3b82f6; margin-right: 8px;">auto_awesome</span>
-                                Jupiter Dasha
-                            </h3>
-                            <p>You are currently in your Jupiter period, which began 2021-02-29 and will continue until 2037-02-29. This 2.7-year remaining phase focuses on jupiter-related themes and opportunities.</p>
-                            <div class="status-indicator status-positive">
-                                <span class="material-icon" style="font-size: 16px;">star</span>
-                                Wisdom & Growth Period
+                <!-- Overview Grid Layout -->
+                <div class="overview-container">
+                    <!-- Top Row - Key Information Cards -->
+                    <div class="overview-top-row">
+                        <!-- Summary Card -->
+                        <div class="overview-card summary-card enhanced-card">
+                            <div class="card-header">
+                                <span class="material-icon card-icon">summarize</span>
+                                <h2 class="card-title">Summary</h2>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Planetary Positions -->
-                    <div class="planets-section enhanced-card">
-                        <div class="modern-section-header">
-                            <span class="material-icon">public</span>
-                            <h2 class="modern-title">All Planetary Positions</h2>
-                        </div>
-                        <div class="modern-grid-4">
-                            <div class="planet-item enhanced-card interactive-element">
-                                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                    <span class="material-icon" style="color: #f59e0b; font-size: 20px;">wb_sunny</span>
-                                    <span class="planet-name" style="font-weight: 600; color: #ffffff;">Sun</span>
-                                </div>
-                                <span class="planet-position">Aquarius (House 1)</span>
-                                <span class="planet-nakshatra">Dhanishta</span>
-                                <span class="planet-degree">11.2°</span>
+                            <div class="card-content">
+                                <p>Your astrological profile reveals unique patterns and influences that shape your life journey. This comprehensive analysis provides insights into your personality, strengths, and potential paths forward.</p>
                                 <div class="status-indicator status-positive">
-                                    <span class="material-icon" style="font-size: 14px;">star</span>
-                                    Strong
+                                    <span class="material-icon" style="font-size: 16px;">check_circle</span>
+                                    Complete Analysis Available
                                 </div>
                             </div>
-                            <div class="planet-item enhanced-card interactive-element">
-                                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                    <span class="material-icon" style="color: #e5e7eb; font-size: 20px;">brightness_3</span>
-                                    <span class="planet-name" style="font-weight: 600; color: #ffffff;">Moon</span>
+                        </div>
+
+                        <!-- Current Life Phase Card -->
+                        <div class="overview-card dasha-card enhanced-card">
+                            <div class="card-header">
+                                <span class="material-icon card-icon">schedule</span>
+                                <h2 class="card-title">Current Life Phase</h2>
+                            </div>
+                            <div class="card-content">
+                                {% if current_dasha %}
+                                <div class="dasha-info">
+                                    <h3 class="dasha-name">
+                                        <span class="material-icon dasha-icon">auto_awesome</span>
+                                        {{ current_dasha.planet }} Dasha
+                                    </h3>
+                                    <div class="dasha-timeline">
+                                        <div class="timeline-bar">
+                                            <div class="timeline-progress" style="width: {{ ((current_dasha.total_duration - current_dasha.remaining_years) / current_dasha.total_duration * 100) if current_dasha.total_duration else 50 }}%;"></div>
+                                        </div>
+                                        <div class="timeline-info">
+                                            <span class="timeline-text">{{ "%.1f"|format(current_dasha.remaining_years) if current_dasha.remaining_years else "2.7" }} years remaining</span>
+                                        </div>
+                                    </div>
+                                    <div class="status-indicator status-positive">
+                                        <span class="material-icon" style="font-size: 16px;">star</span>
+                                        Wisdom & Growth Period
+                                    </div>
                                 </div>
-                                <span class="planet-position">Gemini (House 5)</span>
-                                <span class="planet-nakshatra">Mrigashira</span>
-                                <span class="planet-degree">23.8°</span>
+                                {% else %}
+                                <div class="dasha-info">
+                                    <h3 class="dasha-name">
+                                        <span class="material-icon dasha-icon">auto_awesome</span>
+                                        Jupiter Dasha
+                                    </h3>
+                                    <div class="dasha-timeline">
+                                        <div class="timeline-bar">
+                                            <div class="timeline-progress" style="width: 83%;"></div>
+                                        </div>
+                                        <div class="timeline-info">
+                                            <span class="timeline-text">2.7 years remaining</span>
+                                        </div>
+                                    </div>
+                                    <div class="status-indicator status-positive">
+                                        <span class="material-icon" style="font-size: 16px;">star</span>
+                                        Wisdom & Growth Period
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Key Themes Card -->
+                        <div class="overview-card themes-card enhanced-card">
+                            <div class="card-header">
+                                <span class="material-icon card-icon">psychology</span>
+                                <h2 class="card-title">Key Themes</h2>
+                            </div>
+                            <div class="card-content">
+                                <p>Your life is characterized by themes of personal growth, spiritual development, and the pursuit of authentic expression based on your distinctive planetary placements.</p>
                                 <div class="status-indicator status-neutral">
-                                    <span class="material-icon" style="font-size: 14px;">balance</span>
-                                    Moderate
-                                </div>
-                            </div>
-                            <div class="planet-item enhanced-card interactive-element">
-                                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                    <span class="material-icon" style="color: #ef4444; font-size: 20px;">whatshot</span>
-                                    <span class="planet-name" style="font-weight: 600; color: #ffffff;">Mars</span>
-                                </div>
-                                <span class="planet-position">Aquarius (House 1)</span>
-                                <span class="planet-nakshatra">Shatabhisha</span>
-                                <span class="planet-degree">5.7°</span>
-                                <div class="status-indicator status-positive">
-                                    <span class="material-icon" style="font-size: 14px;">local_fire_department</span>
-                                    Energetic
-                                </div>
-                            </div>
-                            <div class="planet-item enhanced-card interactive-element">
-                                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                    <span class="material-icon" style="color: #22c55e; font-size: 20px;">psychology</span>
-                                    <span class="planet-name" style="font-weight: 600; color: #ffffff;">Mercury</span>
-                                </div>
-                                <span class="planet-position">Aquarius (House 1)</span>
-                                <span class="planet-nakshatra">Purva Bhadrapada</span>
-                                <span class="planet-degree">28.4°</span>
-                                <div class="status-indicator status-positive">
-                                    <span class="material-icon" style="font-size: 14px;">lightbulb</span>
-                                    Sharp
-                                </div>
-                            </div>
-                            <div class="planet-item enhanced-card interactive-element">
-                                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                    <span class="material-icon" style="color: #6366f1; font-size: 20px;">auto_awesome</span>
-                                    <span class="planet-name" style="font-weight: 600; color: #ffffff;">Jupiter</span>
-                                </div>
-                                <span class="planet-position">Sagittarius (House 9)</span>
-                                <span class="planet-nakshatra">Moola</span>
-                                <span class="planet-degree">15.3°</span>
-                                <div class="status-indicator status-positive">
-                                    <span class="material-icon" style="font-size: 14px;">school</span>
-                                    Wise
-                                </div>
-                            </div>
-                            <div class="planet-item enhanced-card interactive-element">
-                                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                    <span class="material-icon" style="color: #ec4899; font-size: 20px;">favorite</span>
-                                    <span class="planet-name" style="font-weight: 600; color: #ffffff;">Venus</span>
-                                </div>
-                                <span class="planet-position">Capricorn (House 12)</span>
-                                <span class="planet-nakshatra">Uttara Ashadha</span>
-                                <span class="planet-degree">7.9°</span>
-                                <div class="status-indicator status-neutral">
-                                    <span class="material-icon" style="font-size: 14px;">palette</span>
-                                    Creative
-                                </div>
-                            </div>
-                            <div class="planet-item enhanced-card interactive-element">
-                                <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                    <span class="material-icon" style="color: #64748b; font-size: 20px;">schedule</span>
-                                    <span class="planet-name" style="font-weight: 600; color: #ffffff;">Saturn</span>
-                                </div>
-                                <span class="planet-position">Aquarius (House 1)</span>
-                                <span class="planet-nakshatra">Dhanishta</span>
-                                <span class="planet-degree">19.6°</span>
-                                <div class="status-indicator status-neutral">
-                                    <span class="material-icon" style="font-size: 14px;">build</span>
-                                    Disciplined
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Yogas -->
-                    <div class="yogas-section enhanced-card">
-                        <div class="modern-section-header">
-                            <span class="material-icon">auto_awesome</span>
-                            <h2 class="modern-title">All Planetary Combinations (Yogas)</h2>
-                        </div>
-                        <div class="modern-grid">
-                            <div class="yoga-item enhanced-card interactive-element">
-                                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                                    <span class="material-icon" style="color: #6366f1; font-size: 24px;">stars</span>
-                                    <h4 class="modern-title">Gaja Kesari Yoga</h4>
-                                </div>
-                                <div class="status-indicator status-positive" style="margin-bottom: 1rem;">
                                     <span class="material-icon" style="font-size: 16px;">trending_up</span>
-                                    Strength: Strong
-                                </div>
-                                <p>This powerful combination of Jupiter and Moon creates wisdom, prosperity, and good fortune in life.</p>
-                                <div class="yoga-effects" style="margin: 1rem 0; padding: 0.75rem; background: rgba(34, 197, 94, 0.1); border-radius: 8px;">
-                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                        <span class="material-icon" style="color: #22c55e; font-size: 18px;">emoji_events</span>
-                                        <strong>Effects:</strong>
-                                    </div>
-                                    <p style="margin-left: 26px;">Enhanced wisdom, financial prosperity, respect in society</p>
-                                </div>
-                                <div class="yoga-timing" style="padding: 0.75rem; background: rgba(99, 102, 241, 0.1); border-radius: 8px;">
-                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                        <span class="material-icon" style="color: #6366f1; font-size: 18px;">schedule</span>
-                                        <strong>Activation:</strong>
-                                    </div>
-                                    <p style="margin-left: 26px;">Jupiter periods and Moon transits</p>
+                                    Growth Focused
                                 </div>
                             </div>
-                            <div class="yoga-item enhanced-card interactive-element">
-                                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                                    <span class="material-icon" style="color: #8b5cf6; font-size: 24px;">psychology</span>
-                                    <h4 class="modern-title">Budh Aditya Yoga</h4>
-                                </div>
-                                <div class="status-indicator status-neutral" style="margin-bottom: 1rem;">
-                                    <span class="material-icon" style="font-size: 16px;">balance</span>
-                                    Strength: Moderate
-                                </div>
-                                <p>Sun and Mercury conjunction enhances intelligence, communication skills, and leadership abilities.</p>
-                                <div class="yoga-effects" style="margin: 1rem 0; padding: 0.75rem; background: rgba(34, 197, 94, 0.1); border-radius: 8px;">
-                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                        <span class="material-icon" style="color: #22c55e; font-size: 18px;">lightbulb</span>
-                                        <strong>Effects:</strong>
+                        </div>
+                    </div>
+
+                    <!-- Middle Row - Planetary Positions Grid -->
+                    <div class="overview-middle-row">
+                        <div class="overview-card planets-overview-card enhanced-card">
+                            <div class="card-header">
+                                <span class="material-icon card-icon">public</span>
+                                <h2 class="card-title">Planetary Positions</h2>
+                            </div>
+                            <div class="card-content">
+                                <div class="planets-grid">
+                                    {% if chart and chart.planets %}
+                                    {% for planet in chart.planets %}
+                                    <div class="planet-tile">
+                                        <div class="planet-header">
+                                            {% if planet.name == 'Sun' %}
+                                            <span class="material-icon planet-icon" style="color: #f59e0b;">wb_sunny</span>
+                                            {% elif planet.name == 'Moon' %}
+                                            <span class="material-icon planet-icon" style="color: #e5e7eb;">brightness_3</span>
+                                            {% elif planet.name == 'Mars' %}
+                                            <span class="material-icon planet-icon" style="color: #ef4444;">whatshot</span>
+                                            {% elif planet.name == 'Mercury' %}
+                                            <span class="material-icon planet-icon" style="color: #22c55e;">psychology</span>
+                                            {% elif planet.name == 'Jupiter' %}
+                                            <span class="material-icon planet-icon" style="color: #6366f1;">auto_awesome</span>
+                                            {% elif planet.name == 'Venus' %}
+                                            <span class="material-icon planet-icon" style="color: #ec4899;">favorite</span>
+                                            {% elif planet.name == 'Saturn' %}
+                                            <span class="material-icon planet-icon" style="color: #64748b;">schedule</span>
+                                            {% else %}
+                                            <span class="material-icon planet-icon" style="color: #8b5cf6;">public</span>
+                                            {% endif %}
+                                            <span class="planet-name">{{ planet.name }}</span>
+                                        </div>
+                                        <div class="planet-details">
+                                            <div class="planet-position">{{ planet.sign }} (House {{ planet.house }})</div>
+                                            {% if planet.nakshatra %}
+                                            <div class="planet-nakshatra">{{ planet.nakshatra }}</div>
+                                            {% endif %}
+                                            <div class="planet-degree">{{ "%.1f"|format(planet.degree) }}°</div>
+                                        </div>
+                                        {% if planetary_strengths and planetary_strengths[planet.name] %}
+                                        <div class="planet-strength">
+                                            <div class="status-indicator {{ 'status-positive' if planetary_strengths[planet.name].overall_strength in ['Strong', 'Very Strong'] else 'status-neutral' if planetary_strengths[planet.name].overall_strength == 'Moderate' else 'status-challenging' }}">
+                                                <span class="material-icon" style="font-size: 14px;">
+                                                    {% if planetary_strengths[planet.name].overall_strength in ['Strong', 'Very Strong'] %}star
+                                                    {% elif planetary_strengths[planet.name].overall_strength == 'Moderate' %}balance
+                                                    {% else %}warning{% endif %}
+                                                </span>
+                                                {{ planetary_strengths[planet.name].overall_strength }}
+                                            </div>
+                                        </div>
+                                        {% else %}
+                                        <div class="planet-strength">
+                                            <div class="status-indicator status-positive">
+                                                <span class="material-icon" style="font-size: 14px;">star</span>
+                                                Strong
+                                            </div>
+                                        </div>
+                                        {% endif %}
                                     </div>
-                                    <p style="margin-left: 26px;">Sharp intellect, excellent communication, leadership qualities</p>
-                                </div>
-                                <div class="yoga-timing" style="padding: 0.75rem; background: rgba(99, 102, 241, 0.1); border-radius: 8px;">
-                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                        <span class="material-icon" style="color: #6366f1; font-size: 18px;">schedule</span>
-                                        <strong>Activation:</strong>
+                                    {% endfor %}
+                                    {% else %}
+                                    <!-- Fallback planetary positions -->
+                                    <div class="planet-tile">
+                                        <div class="planet-header">
+                                            <span class="material-icon planet-icon" style="color: #f59e0b;">wb_sunny</span>
+                                            <span class="planet-name">Sun</span>
+                                        </div>
+                                        <div class="planet-details">
+                                            <div class="planet-position">Aquarius (House 1)</div>
+                                            <div class="planet-nakshatra">Dhanishta</div>
+                                            <div class="planet-degree">11.2°</div>
+                                        </div>
+                                        <div class="planet-strength">
+                                            <div class="status-indicator status-positive">
+                                                <span class="material-icon" style="font-size: 14px;">star</span>
+                                                Strong
+                                            </div>
+                                        </div>
                                     </div>
-                                    <p style="margin-left: 26px;">Mercury and Sun periods</p>
+                                    <div class="planet-tile">
+                                        <div class="planet-header">
+                                            <span class="material-icon planet-icon" style="color: #e5e7eb;">brightness_3</span>
+                                            <span class="planet-name">Moon</span>
+                                        </div>
+                                        <div class="planet-details">
+                                            <div class="planet-position">Gemini (House 5)</div>
+                                            <div class="planet-nakshatra">Mrigashira</div>
+                                            <div class="planet-degree">23.8°</div>
+                                        </div>
+                                        <div class="planet-strength">
+                                            <div class="status-indicator status-neutral">
+                                                <span class="material-icon" style="font-size: 14px;">balance</span>
+                                                Moderate
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="planet-tile">
+                                        <div class="planet-header">
+                                            <span class="material-icon planet-icon" style="color: #ef4444;">whatshot</span>
+                                            <span class="planet-name">Mars</span>
+                                        </div>
+                                        <div class="planet-details">
+                                            <div class="planet-position">Aquarius (House 1)</div>
+                                            <div class="planet-nakshatra">Shatabhisha</div>
+                                            <div class="planet-degree">5.7°</div>
+                                        </div>
+                                        <div class="planet-strength">
+                                            <div class="status-indicator status-positive">
+                                                <span class="material-icon" style="font-size: 14px;">local_fire_department</span>
+                                                Energetic
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="planet-tile">
+                                        <div class="planet-header">
+                                            <span class="material-icon planet-icon" style="color: #22c55e;">psychology</span>
+                                            <span class="planet-name">Mercury</span>
+                                        </div>
+                                        <div class="planet-details">
+                                            <div class="planet-position">Aquarius (House 1)</div>
+                                            <div class="planet-nakshatra">Purva Bhadrapada</div>
+                                            <div class="planet-degree">28.4°</div>
+                                        </div>
+                                        <div class="planet-strength">
+                                            <div class="status-indicator status-positive">
+                                                <span class="material-icon" style="font-size: 14px;">lightbulb</span>
+                                                Sharp
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="planet-tile">
+                                        <div class="planet-header">
+                                            <span class="material-icon planet-icon" style="color: #6366f1;">auto_awesome</span>
+                                            <span class="planet-name">Jupiter</span>
+                                        </div>
+                                        <div class="planet-details">
+                                            <div class="planet-position">Sagittarius (House 9)</div>
+                                            <div class="planet-nakshatra">Moola</div>
+                                            <div class="planet-degree">15.3°</div>
+                                        </div>
+                                        <div class="planet-strength">
+                                            <div class="status-indicator status-positive">
+                                                <span class="material-icon" style="font-size: 14px;">school</span>
+                                                Wise
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="planet-tile">
+                                        <div class="planet-header">
+                                            <span class="material-icon planet-icon" style="color: #ec4899;">favorite</span>
+                                            <span class="planet-name">Venus</span>
+                                        </div>
+                                        <div class="planet-details">
+                                            <div class="planet-position">Capricorn (House 12)</div>
+                                            <div class="planet-nakshatra">Uttara Ashadha</div>
+                                            <div class="planet-degree">7.9°</div>
+                                        </div>
+                                        <div class="planet-strength">
+                                            <div class="status-indicator status-neutral">
+                                                <span class="material-icon" style="font-size: 14px;">palette</span>
+                                                Creative
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="planet-tile">
+                                        <div class="planet-header">
+                                            <span class="material-icon planet-icon" style="color: #64748b;">schedule</span>
+                                            <span class="planet-name">Saturn</span>
+                                        </div>
+                                        <div class="planet-details">
+                                            <div class="planet-position">Aquarius (House 1)</div>
+                                            <div class="planet-nakshatra">Dhanishta</div>
+                                            <div class="planet-degree">19.6°</div>
+                                        </div>
+                                        <div class="planet-strength">
+                                            <div class="status-indicator status-neutral">
+                                                <span class="material-icon" style="font-size: 14px;">build</span>
+                                                Disciplined
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
-                            <div class="yoga-item enhanced-card interactive-element">
-                                <div style="display: flex; align-items: center; margin-bottom: 1rem;">
-                                    <span class="material-icon" style="color: #f59e0b; font-size: 24px;">group_work</span>
-                                    <h4 class="modern-title">Stellium in Aquarius</h4>
-                                </div>
-                                <div class="status-indicator status-positive" style="margin-bottom: 1rem;">
-                                    <span class="material-icon" style="font-size: 16px;">rocket_launch</span>
-                                    Strength: Very Strong
-                                </div>
-                                <p>Multiple planets in Aquarius create innovative thinking, humanitarian nature, and technological aptitude.</p>
-                                <div class="yoga-effects" style="margin: 1rem 0; padding: 0.75rem; background: rgba(34, 197, 94, 0.1); border-radius: 8px;">
-                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                        <span class="material-icon" style="color: #22c55e; font-size: 18px;">innovation</span>
-                                        <strong>Effects:</strong>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Row - Yogas Section -->
+                    <div class="overview-bottom-row">
+                        <div class="overview-card yogas-overview-card enhanced-card">
+                            <div class="card-header">
+                                <span class="material-icon card-icon">auto_awesome</span>
+                                <h2 class="card-title">Planetary Combinations (Yogas)</h2>
+                            </div>
+                            <div class="card-content">
+                                <div class="yogas-grid">
+                                    {% if yogas %}
+                                    {% for yoga in yogas[:3] %}
+                                    <div class="yoga-tile">
+                                        <div class="yoga-header">
+                                            <span class="material-icon yoga-icon" style="color: #6366f1;">stars</span>
+                                            <h4 class="yoga-name">{{ yoga.name if yoga.name else yoga.get('name', 'Planetary Yoga') }}</h4>
+                                        </div>
+                                        <div class="yoga-strength">
+                                            {% set strength = yoga.strength if yoga.strength else yoga.get('strength', 'Moderate') %}
+                                            <div class="status-indicator {{ 'status-positive' if strength in ['Strong', 'Very Strong'] else 'status-neutral' if strength == 'Moderate' else 'status-challenging' }}">
+                                                <span class="material-icon" style="font-size: 14px;">
+                                                    {% if strength in ['Strong', 'Very Strong'] %}trending_up
+                                                    {% elif strength == 'Moderate' %}balance
+                                                    {% else %}warning{% endif %}
+                                                </span>
+                                                {{ strength }}
+                                            </div>
+                                        </div>
+                                        {% set description = yoga.description if yoga.description else yoga.get('description', 'Powerful planetary combination with beneficial effects.') %}
+                                        <p class="yoga-description">{{ (description[:100] + '...') if description and description|length > 100 else description }}</p>
+                                        <div class="yoga-effects">
+                                            <span class="effects-label">Effects:</span>
+                                            {% set effects = yoga.effects if yoga.effects else yoga.get('effects', 'Enhanced wisdom, prosperity, and positive life outcomes.') %}
+                                            <span class="effects-text">{{ (effects[:80] + '...') if effects and effects|length > 80 else effects }}</span>
+                                        </div>
                                     </div>
-                                    <p style="margin-left: 26px;">Innovation, humanitarian work, technology expertise</p>
-                                </div>
-                                <div class="yoga-timing" style="padding: 0.75rem; background: rgba(99, 102, 241, 0.1); border-radius: 8px;">
-                                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                                        <span class="material-icon" style="color: #6366f1; font-size: 18px;">all_inclusive</span>
-                                        <strong>Activation:</strong>
+                                    {% endfor %}
+                                    {% else %}
+                                    <!-- Fallback yogas -->
+                                    <div class="yoga-tile">
+                                        <div class="yoga-header">
+                                            <span class="material-icon yoga-icon" style="color: #6366f1;">stars</span>
+                                            <h4 class="yoga-name">Gaja Kesari Yoga</h4>
+                                        </div>
+                                        <div class="yoga-strength">
+                                            <div class="status-indicator status-positive">
+                                                <span class="material-icon" style="font-size: 14px;">trending_up</span>
+                                                Strong
+                                            </div>
+                                        </div>
+                                        <p class="yoga-description">This powerful combination of Jupiter and Moon creates wisdom, prosperity, and good fortune in life.</p>
+                                        <div class="yoga-effects">
+                                            <span class="effects-label">Effects:</span>
+                                            <span class="effects-text">Enhanced wisdom, financial prosperity, respect in society</span>
+                                        </div>
                                     </div>
-                                    <p style="margin-left: 26px;">Throughout life, especially during Aquarius transits</p>
+                                    <div class="yoga-tile">
+                                        <div class="yoga-header">
+                                            <span class="material-icon yoga-icon" style="color: #8b5cf6;">psychology</span>
+                                            <h4 class="yoga-name">Budh Aditya Yoga</h4>
+                                        </div>
+                                        <div class="yoga-strength">
+                                            <div class="status-indicator status-neutral">
+                                                <span class="material-icon" style="font-size: 14px;">balance</span>
+                                                Moderate
+                                            </div>
+                                        </div>
+                                        <p class="yoga-description">Sun and Mercury conjunction enhances intelligence, communication skills, and leadership abilities.</p>
+                                        <div class="yoga-effects">
+                                            <span class="effects-label">Effects:</span>
+                                            <span class="effects-text">Sharp intellect, excellent communication, leadership qualities</span>
+                                        </div>
+                                    </div>
+                                    <div class="yoga-tile">
+                                        <div class="yoga-header">
+                                            <span class="material-icon yoga-icon" style="color: #f59e0b;">group_work</span>
+                                            <h4 class="yoga-name">Stellium in Aquarius</h4>
+                                        </div>
+                                        <div class="yoga-strength">
+                                            <div class="status-indicator status-positive">
+                                                <span class="material-icon" style="font-size: 14px;">rocket_launch</span>
+                                                Very Strong
+                                            </div>
+                                        </div>
+                                        <p class="yoga-description">Multiple planets in Aquarius create innovative thinking, humanitarian nature, and technological aptitude.</p>
+                                        <div class="yoga-effects">
+                                            <span class="effects-label">Effects:</span>
+                                            <span class="effects-text">Innovation, humanitarian work, technology expertise</span>
+                                        </div>
+                                    </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,267 @@
+============================================================
+🧪 Light Load Test
+============================================================
+🚀 Starting load test:
+   URL: http://localhost:8000/api/test/shantanu
+   Concurrent requests: 1
+   Total requests: 5
+   Expected batches: 5
+
+📊 Running batch 1 with 1 requests...
+📊 Running batch 2 with 1 requests...
+📊 Running batch 3 with 1 requests...
+📊 Running batch 4 with 1 requests...
+📊 Running batch 5 with 1 requests...
+
+📈 Load Test Results:
+   Total time: 4.96 seconds
+   Total requests: 5
+   Successful: 5
+   Failed: 0
+   Success rate: 100.0%
+   Requests per second: 1.01
+
+⏱️  Response Time Statistics:
+   Average: 0.89s
+   Median: 0.89s
+   Min: 0.69s
+   Max: 1.08s
+   95th percentile: 1.08s
+
+🎯 Scaling Recommendations:
+   ✅ Performance looks good for current load
+
+⏸️  Waiting 5 seconds before next test...
+
+============================================================
+🧪 Medium Load Test
+============================================================
+🚀 Starting load test:
+   URL: http://localhost:8000/api/test/shantanu
+   Concurrent requests: 3
+   Total requests: 15
+   Expected batches: 5
+
+📊 Running batch 1 with 3 requests...
+📊 Running batch 2 with 3 requests...
+📊 Running batch 3 with 3 requests...
+📊 Running batch 4 with 3 requests...
+📊 Running batch 5 with 3 requests...
+
+📈 Load Test Results:
+   Total time: 14.70 seconds
+   Total requests: 15
+   Successful: 15
+   Failed: 0
+   Success rate: 100.0%
+   Requests per second: 1.02
+
+⏱️  Response Time Statistics:
+   Average: 1.87s
+   Median: 1.83s
+   Min: 0.57s
+   Max: 2.98s
+   95th percentile: 2.98s
+
+🎯 Scaling Recommendations:
+   ✅ Performance looks good for current load
+
+⏸️  Waiting 5 seconds before next test...
+
+============================================================
+🧪 Heavy Load Test
+============================================================
+🚀 Starting load test:
+   URL: http://localhost:8000/api/test/shantanu
+   Concurrent requests: 5
+   Total requests: 25
+   Expected batches: 5
+
+📊 Running batch 1 with 5 requests...
+📊 Running batch 2 with 5 requests...
+📊 Running batch 3 with 5 requests...
+📊 Running batch 4 with 5 requests...
+📊 Running batch 5 with 5 requests...
+
+📈 Load Test Results:
+   Total time: 24.79 seconds
+   Total requests: 25
+   Successful: 25
+   Failed: 0
+   Success rate: 100.0%
+   Requests per second: 1.01
+
+⏱️  Response Time Statistics:
+   Average: 2.89s
+   Median: 2.87s
+   Min: 0.82s
+   Max: 4.92s
+   95th percentile: 4.92s
+
+🎯 Scaling Recommendations:
+   ✅ Performance looks good for current load
+
+⏸️  Waiting 5 seconds before next test...
+
+============================================================
+🧪 Stress Test Test
+============================================================
+🚀 Starting load test:
+   URL: http://localhost:8000/api/test/shantanu
+   Concurrent requests: 10
+   Total requests: 50
+   Expected batches: 5
+
+📊 Running batch 1 with 10 requests...
+📊 Running batch 2 with 10 requests...
+📊 Running batch 3 with 10 requests...
+📊 Running batch 4 with 10 requests...
+📊 Running batch 5 with 10 requests...
+
+📈 Load Test Results:
+   Total time: 50.98 seconds
+   Total requests: 50
+   Successful: 50
+   Failed: 0
+   Success rate: 100.0%
+   Requests per second: 0.98
+
+⏱️  Response Time Statistics:
+   Average: 5.42s
+   Median: 5.35s
+   Min: 0.64s
+   Max: 10.62s
+   95th percentile: 9.99s
+
+🎯 Scaling Recommendations:
+   🐌 Low throughput - consider scaling up workers
+
+⏸️  Waiting 5 seconds before next test...
+(venv_astrology) 192:SacredTextRag shantanu$ :
+(venv_astrology) 192:SacredTextRag shantanu$ cd /Users/shantanu/Documents/Coding/Python/SacredTextRag && python scripts/intensive_stress_test.py
+
+======================================================================
+🔥 Moderate Stress - Testing 3 Workers
+======================================================================
+🔥 INTENSIVE STRESS TEST
+   URL: http://localhost:8000/api/test/shantanu
+   Concurrent requests: 15
+   Total requests: 75
+   Workers under test: 3
+
+🚀 Launching 75 requests with 15 concurrency...
+   📊 Batch 1: 15 requests
+      ⏱️  Batch completed in 14.70s (1.02 RPS)
+   📊 Batch 2: 15 requests
+      ⏱️  Batch completed in 15.16s (0.99 RPS)
+   📊 Batch 3: 15 requests
+      ⏱️  Batch completed in 15.08s (0.99 RPS)
+   📊 Batch 4: 15 requests
+      ⏱️  Batch completed in 14.65s (1.02 RPS)
+   📊 Batch 5: 15 requests
+      ⏱️  Batch completed in 15.06s (1.00 RPS)
+
+🔥 INTENSIVE STRESS TEST RESULTS:
+   Total time: 76.65 seconds
+   Total requests: 75
+   Successful: 75
+   Failed: 0
+   Success rate: 100.0%
+   Overall RPS: 0.98
+   Successful RPS: 0.98
+
+⏱️  Response Time Analysis:
+   Average: 7.71s
+   Median: 7.69s
+   Min: 0.58s
+   Max: 15.16s
+   95th percentile: 14.70s
+   99th percentile: 15.16s
+
+🎯 3-Worker Performance Analysis:
+   ⚠️  Moderate response times (7.71s avg) - approaching limits
+   🔧 Recommendation: Consider scaling to 4 workers
+
+⏸️  Cooling down for 10 seconds...
+
+======================================================================
+🔥 High Stress - Testing 3 Workers
+======================================================================
+🔥 INTENSIVE STRESS TEST
+   URL: http://localhost:8000/api/test/shantanu
+   Concurrent requests: 25
+   Total requests: 100
+   Workers under test: 3
+
+🚀 Launching 100 requests with 25 concurrency...
+   📊 Batch 1: 25 requests
+      ⏱️  Batch completed in 24.60s (1.02 RPS)
+   📊 Batch 2: 25 requests
+      ⏱️  Batch completed in 25.27s (0.99 RPS)
+   📊 Batch 3: 25 requests
+      ⏱️  Batch completed in 24.74s (1.01 RPS)
+   📊 Batch 4: 25 requests
+      ⏱️  Batch completed in 24.68s (1.01 RPS)
+
+🔥 INTENSIVE STRESS TEST RESULTS:
+   Total time: 100.80 seconds
+   Total requests: 100
+   Successful: 100
+   Failed: 0
+   Success rate: 100.0%
+   Overall RPS: 0.99
+   Successful RPS: 0.99
+
+⏱️  Response Time Analysis:
+   Average: 12.70s
+   Median: 12.63s
+   Min: 0.59s
+   Max: 25.27s
+   95th percentile: 24.29s
+   99th percentile: 25.27s
+
+🎯 3-Worker Performance Analysis:
+   ⚠️  High response times (12.70s avg) - workers struggling
+   🔧 Recommendation: Scale to 4-5 workers
+
+⏸️  Cooling down for 10 seconds...
+
+======================================================================
+🔥 Extreme Stress - Testing 3 Workers
+======================================================================
+🔥 INTENSIVE STRESS TEST
+   URL: http://localhost:8000/api/test/shantanu
+   Concurrent requests: 50
+   Total requests: 150
+   Workers under test: 3
+
+🚀 Launching 150 requests with 50 concurrency...
+   📊 Batch 1: 50 requests
+      ⏱️  Batch completed in 49.89s (1.00 RPS)
+   📊 Batch 2: 50 requests
+      ⏱️  Batch completed in 48.35s (1.03 RPS)
+   📊 Batch 3: 50 requests
+      ⏱️  Batch completed in 49.88s (1.00 RPS)
+
+🔥 INTENSIVE STRESS TEST RESULTS:
+   Total time: 149.13 seconds
+   Total requests: 150
+   Successful: 150
+   Failed: 0
+   Success rate: 100.0%
+   Overall RPS: 1.01
+   Successful RPS: 1.01
+
+⏱️  Response Time Analysis:
+   Average: 24.80s
+   Median: 24.58s
+   Min: 0.57s
+   Max: 49.89s
+   95th percentile: 47.32s
+   99th percentile: 49.88s
+
+🎯 3-Worker Performance Analysis:
+   ⚠️  High response times (24.80s avg) - workers struggling
+   🔧 Recommendation: Scale to 4-5 workers
+
+⏸️  Cooling down for 10 seconds...

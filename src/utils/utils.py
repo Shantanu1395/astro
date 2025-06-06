@@ -1,6 +1,8 @@
 import swisseph as swe
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
+import asyncio
+import httpx
 from datetime import datetime, timezone
 import pytz
 from typing import Tuple, Optional
@@ -46,28 +48,62 @@ PLANET_NAMES = {
 def get_location_data(location_string: str) -> Optional[LocationData]:
     """
     Get latitude, longitude, and timezone for a given location string.
+    Synchronous version for backward compatibility.
     """
     try:
         geolocator = Nominatim(user_agent="vedic_astrology_app")
         location = geolocator.geocode(location_string, timeout=10)
-        
+
         if not location:
             return None
-            
+
         # Get timezone (simplified - in production, use a proper timezone API)
         # For now, we'll use a basic mapping or default to UTC
         timezone_name = "UTC"  # This should be improved with proper timezone detection
-        
+
+        # Extract city and country from the geocoding result
+        address = location.raw.get('address', {})
+
+        # Try to get city from various possible fields
+        city = (address.get('city') or
+                address.get('town') or
+                address.get('village') or
+                address.get('municipality') or
+                location_string.split(',')[0].strip())
+
+        # Get country from geocoding result
+        country = (address.get('country') or
+                  location_string.split(',')[-1].strip() if ',' in location_string else 'Unknown')
+
         return LocationData(
             latitude=location.latitude,
             longitude=location.longitude,
             timezone=timezone_name,
-            city=location_string.split(',')[0].strip(),
-            country=location_string.split(',')[-1].strip() if ',' in location_string else location_string
+            city=city,
+            country=country
         )
-        
+
     except (GeocoderTimedOut, GeocoderServiceError) as e:
         print(f"Geocoding error: {e}")
+        return None
+
+async def get_location_data_async(location_string: str) -> Optional[LocationData]:
+    """
+    Async version of get_location_data for better performance with Uvicorn workers.
+    Can handle multiple location requests concurrently.
+    """
+    try:
+        # Run the blocking geocoding operation in a thread pool
+        loop = asyncio.get_event_loop()
+        location_data = await loop.run_in_executor(
+            None,
+            get_location_data,
+            location_string
+        )
+        return location_data
+
+    except Exception as e:
+        print(f"Async geocoding error: {e}")
         return None
 
 def degrees_to_sign_and_degree(longitude: float, vedic: bool = True) -> Tuple[str, float]:

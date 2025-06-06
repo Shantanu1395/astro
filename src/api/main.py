@@ -5,14 +5,19 @@ from fastapi.responses import HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, date, time
 import uvicorn
+import logging
 
 from src.models.models import BirthData, PredictionRequest, AstrologySystem, EnhancedPredictionRequest, PredictionType, SubscriptionTier
 from src.core.vedic_calculator import VedicCalculator
 from src.core.prediction_engine import VedicPredictionEngine
-from src.utils.utils import get_location_data
+from src.utils.utils import get_location_data_async
 from config.config import config
 
 app = FastAPI(title=config.APP_NAME)
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Add CORS middleware for modern interface
 app.add_middleware(
@@ -55,6 +60,7 @@ async def modern_interface(request: Request):
     """Phase 2: Modern interface that consumes the comprehensive JSON API."""
     return templates.TemplateResponse("modern_interface.html", {"request": request})
 
+
 @app.post("/predict", response_class=HTMLResponse)
 async def predict(
     request: Request,
@@ -77,8 +83,9 @@ async def predict(
             birth_location=birth_location
         )
 
-        # Get location coordinates
-        location_data = get_location_data(birth_location)
+        # Get location coordinates (async for better performance)
+        location_data = await get_location_data_async(birth_location)
+        logger.info(f"Location data: {location_data}")
         if not location_data:
             raise HTTPException(status_code=400, detail="Could not find location. Please try a different format.")
 
@@ -341,8 +348,9 @@ async def predict_api(request: PredictionRequest):
     try:
         birth_data = request.birth_data
 
-        # Get location data
-        location_data = get_location_data(birth_data.birth_location)
+        # Get location data (async for better performance)
+        location_data = await get_location_data_async(birth_data.birth_location)
+        logger.info(f"API predict - Location data for {birth_data.birth_location}: {location_data}")
 
         # Calculate Vedic chart
         vedic_calc = VedicCalculator()
@@ -465,8 +473,8 @@ async def comprehensive_analysis_api(request: dict):
             birth_location=request['birth_location']
         )
 
-        # Get location data
-        location_data = get_location_data(birth_data.birth_location)
+        # Get location data (async for better performance)
+        location_data = await get_location_data_async(birth_data.birth_location)
         if not location_data:
             return {
                 "success": False,
@@ -844,8 +852,8 @@ async def shantanu_chart_html():
             birth_location="Faridabad, India"
         )
 
-        # Get location data
-        location_data = get_location_data(birth_data.birth_location)
+        # Get location data (async for better performance)
+        location_data = await get_location_data_async(birth_data.birth_location)
         if not location_data:
             raise Exception("Could not get location data for Faridabad, India")
 
@@ -966,8 +974,8 @@ async def quick_chart_html(
             birth_location=birth_location
         )
 
-        # Get location data
-        location_data = get_location_data(birth_data.birth_location)
+        # Get location data (async for better performance)
+        location_data = await get_location_data_async(birth_data.birth_location)
 
         # Calculate Vedic chart
         vedic_calc = VedicCalculator()
@@ -1092,8 +1100,8 @@ async def shantanu_chart_fast():
             birth_location="Faridabad, India"
         )
 
-        # Get location data
-        location_data = get_location_data(birth_data.birth_location)
+        # Get location data (async for better performance)
+        location_data = await get_location_data_async(birth_data.birth_location)
         if not location_data:
             raise Exception("Could not get location data for Faridabad, India")
 
@@ -1194,8 +1202,8 @@ async def shantanu_modern_chart():
             birth_location="Faridabad, India"
         )
 
-        # Get location data
-        location_data = get_location_data(birth_data.birth_location)
+        # Get location data (async for better performance)
+        location_data = await get_location_data_async(birth_data.birth_location)
         if not location_data:
             raise Exception("Could not get location data for Faridabad, India")
 
@@ -1607,13 +1615,13 @@ async def get_chart_data(request: dict):
     """Get chart data for visualization."""
     try:
         from src.models.models import BirthData
-        from src.utils.utils import get_location_data
+        from src.utils.utils import get_location_data_async
 
         # Parse birth data
         birth_data = BirthData(**request)
 
-        # Get location data
-        location_data = get_location_data(birth_data.birth_location)
+        # Get location data (async for better performance)
+        location_data = await get_location_data_async(birth_data.birth_location)
 
         # Calculate chart using vedic calculator
         chart = vedic_calc.calculate_birth_chart(birth_data, location_data)
@@ -1664,13 +1672,13 @@ async def get_divisional_chart(chart_type: str, request: dict):
     """Get divisional chart data."""
     try:
         from src.models.models import BirthData
-        from src.utils.utils import get_location_data
+        from src.utils.utils import get_location_data_async
 
         # Parse birth data
         birth_data = BirthData(**request)
 
-        # Get location data
-        location_data = get_location_data(birth_data.birth_location)
+        # Get location data (async for better performance)
+        location_data = await get_location_data_async(birth_data.birth_location)
 
         # Calculate base chart
         chart = vedic_calc.calculate_birth_chart(birth_data, location_data)
@@ -1723,14 +1731,14 @@ async def get_current_transits(request: dict):
     """Get current planetary transits."""
     try:
         from src.models.models import BirthData
-        from src.utils.utils import get_location_data
+        from src.utils.utils import get_location_data_async
         from datetime import datetime
 
         # Parse birth data
         birth_data = BirthData(**request)
 
-        # Get location data
-        location_data = get_location_data(birth_data.birth_location)
+        # Get location data (async for better performance)
+        location_data = await get_location_data_async(birth_data.birth_location)
 
         # Calculate birth chart for reference
         birth_chart = vedic_calc.calculate_birth_chart(birth_data, location_data)
@@ -1792,14 +1800,14 @@ async def get_prediction_recommendations(request: dict):
     """Get personalized prediction recommendations based on chart analysis."""
     try:
         from src.models.models import BirthData, SubscriptionTier
-        from src.utils.utils import get_location_data
+        from src.utils.utils import get_location_data_async
 
         # Parse request
         birth_data = BirthData(**request["birth_data"])
         subscription_tier = SubscriptionTier(request.get("subscription_tier", "free").lower())
 
-        # Get location data
-        location_data = get_location_data(birth_data.birth_location)
+        # Get location data (async for better performance)
+        location_data = await get_location_data_async(birth_data.birth_location)
 
         # Calculate chart
         chart = vedic_calc.calculate_birth_chart(birth_data, location_data)

@@ -724,159 +724,155 @@ h5, h6 {
     margin-bottom: 0.5rem;
 }
 
-/* Planets Grid */
+/* Premium Planets Grid Design */
 .planets-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    gap: 1.5rem !important;
+    padding: 1rem 0 !important;
+    margin-top: 1rem;
+}
+
+.planet-tile {
+    background: linear-gradient(135deg,
+        rgba(255, 255, 255, 0.05) 0%,
+        rgba(99, 102, 241, 0.05) 50%,
+        rgba(139, 92, 246, 0.05) 100%) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    padding: 1.5rem !important;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.planet-tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+        rgba(99, 102, 241, 0.1) 0%,
+        transparent 50%,
+        rgba(139, 92, 246, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.planet-tile:hover::before {
+    opacity: 1;
+}
+
+.planet-tile:hover {
+    transform: translateY(-8px) scale(1.03) !important;
+    box-shadow:
+        0 20px 60px rgba(99, 102, 241, 0.2),
+        0 8px 32px rgba(139, 92, 246, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+.planet-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.planet-icon {
+    font-size: 24px !important;
+    margin-right: 12px !important;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)) !important;
+    transition: transform 0.3s ease !important;
+}
+
+.planet-tile:hover .planet-icon {
+    transform: scale(1.1) rotate(5deg) !important;
+}
+
+.planet-name {
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #ffffff, #e2e8f0) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    font-size: 1rem !important;
+    letter-spacing: -0.01em !important;
+}
+
+.planet-details {
+    margin-bottom: 1rem;
+    space-y: 0.5rem;
+}
+
+.planet-position {
+    font-size: 0.9rem !important;
+    color: #cbd5e1 !important;
+    margin-bottom: 0.5rem !important;
+    font-weight: 500 !important;
+}
+
+.planet-nakshatra {
+    font-size: 0.85rem !important;
+    color: #94a3b8 !important;
+    margin-bottom: 0.5rem !important;
+    opacity: 0.8 !important;
+}
+
+.planet-degree {
+    font-size: 0.85rem !important;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    font-weight: 600 !important;
+}
+
+.planet-strength {
+    display: flex;
+    justify-content: center;
     margin-top: 1rem;
 }
 
 @media (max-width: 1200px) {
     .planets-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important;
     }
 }
 
 @media (max-width: 768px) {
     .planets-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+        gap: 1rem !important;
+    }
+
+    .planet-tile {
+        padding: 1.25rem !important;
     }
 }
 
 @media (max-width: 480px) {
     .planets-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
+    }
+
+    .planet-tile {
+        padding: 1rem !important;
     }
 }
 
-.planet-item {
-    background: rgba(26, 29, 41, 0.8);
-    backdrop-filter: blur(15px);
-    padding: 1.2rem;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    min-height: 140px;
-    justify-content: space-between;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
+/* Removed conflicting .planet-item styles to prevent interference with .planet-tile premium design */
 
-.planet-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05), rgba(139, 92, 246, 0.05));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-}
+/* Removed duplicate planet element styles - using premium .planet-tile styles instead */
 
-.planet-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(99, 102, 241, 0.2);
-    border-color: rgba(99, 102, 241, 0.3);
-}
-
-.planet-item:hover::before {
-    opacity: 1;
-}
-
-.planet-name {
-    font-weight: 600;
-    font-size: 1.1rem;
-    color: #ffffff;
-    margin-bottom: 0.5rem;
-}
-
-.planet-position {
-    color: #a0a9c0;
-    font-size: 0.9rem;
-}
-
-.planet-nakshatra {
-    color: #7c8db5;
-    font-size: 0.85rem;
-    font-style: italic;
-}
-
-.planet-degree {
-    color: #6366f1;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-top: auto;
-}
-
-.planet-name {
-    display: block;
-    font-weight: 600;
-    color: #ffffff;
-    margin-bottom: 0.25rem;
-}
-
-.planet-position {
-    color: #8b8d98;
-    font-size: 0.9rem;
-}
-
-/* Yogas List */
-.yogas-list {
-    display: grid;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-
-.yoga-item {
-    background: rgba(26, 29, 41, 0.8);
-    backdrop-filter: blur(15px);
-    padding: 1.5rem;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.yoga-item::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(139, 92, 246, 0.05));
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    z-index: -1;
-}
-
-.yoga-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.2);
-    border-color: rgba(59, 130, 246, 0.3);
-}
-
-.yoga-item:hover::before {
-    opacity: 1;
-}
-
-.yoga-item h4 {
-    color: #3b82f6;
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-}
-
-.yoga-item p {
-    color: #b4b6c1;
-    font-size: 0.95rem;
-}
+/* Removed conflicting .yoga-item styles to prevent interference with .yoga-tile premium design */
 
 /* Universal Item Cards - Applied to ALL item types */
 .influences-list,
@@ -2872,18 +2868,67 @@ h5, h6 {
     margin-top: 20px;
 }
 
+/* Premium Overview Card Design with Glassmorphism */
 .overview-card {
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
-    padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg,
+        rgba(99, 102, 241, 0.1) 0%,
+        rgba(139, 92, 246, 0.05) 50%,
+        rgba(168, 85, 247, 0.1) 100%) !important;
+    backdrop-filter: blur(20px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 24px !important;
+    padding: 2rem !important;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow:
+        0 8px 32px rgba(99, 102, 241, 0.1),
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
     gap: 16px;
 }
 
+.overview-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+        rgba(99, 102, 241, 0.05) 0%,
+        transparent 50%,
+        rgba(139, 92, 246, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.overview-card:hover::before {
+    opacity: 1;
+}
+
+.overview-card:hover {
+    transform: translateY(-12px) scale(1.02) !important;
+    box-shadow:
+        0 20px 80px rgba(99, 102, 241, 0.25),
+        0 8px 32px rgba(139, 92, 246, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(99, 102, 241, 0.3) !important;
+}
+
+/* Premium Card Icon Design */
 .card-icon {
-    font-size: 2em;
+    font-size: 32px !important;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    margin-right: 16px !important;
+    filter: drop-shadow(0 2px 4px rgba(99, 102, 241, 0.3)) !important;
     flex-shrink: 0;
 }
 
@@ -3477,6 +3522,145 @@ h5, h6 {
     font-weight: 600;
 }
 
+/* Premium Yogas Grid Design */
+.yogas-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)) !important;
+    gap: 1.5rem !important;
+    padding: 1rem 0 !important;
+}
+
+.yoga-tile {
+    background: linear-gradient(135deg,
+        rgba(139, 92, 246, 0.08) 0%,
+        rgba(168, 85, 247, 0.05) 50%,
+        rgba(99, 102, 241, 0.08) 100%) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    padding: 1.75rem !important;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    cursor: pointer !important;
+    position: relative !important;
+    overflow: hidden !important;
+    box-shadow:
+        0 4px 16px rgba(139, 92, 246, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.yoga-tile::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg,
+        rgba(139, 92, 246, 0.1) 0%,
+        transparent 50%,
+        rgba(168, 85, 247, 0.1) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.yoga-tile:hover::before {
+    opacity: 1;
+}
+
+.yoga-tile:hover {
+    transform: translateY(-10px) scale(1.03) !important;
+    box-shadow:
+        0 25px 80px rgba(139, 92, 246, 0.25),
+        0 10px 40px rgba(168, 85, 247, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    border-color: rgba(139, 92, 246, 0.3) !important;
+}
+
+.yoga-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.yoga-icon {
+    font-size: 26px !important;
+    margin-right: 12px !important;
+    filter: drop-shadow(0 2px 4px rgba(139, 92, 246, 0.3)) !important;
+    transition: transform 0.3s ease !important;
+}
+
+.yoga-tile:hover .yoga-icon {
+    transform: scale(1.15) rotate(-5deg) !important;
+}
+
+.yoga-name {
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #ffffff, #e2e8f0) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    font-size: 1.1rem !important;
+    margin: 0 !important;
+    letter-spacing: -0.01em !important;
+}
+
+.yoga-strength {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.yoga-description {
+    font-size: 0.9rem !important;
+    color: #cbd5e1 !important;
+    line-height: 1.6 !important;
+    margin-bottom: 1rem !important;
+    opacity: 0.9 !important;
+}
+
+.yoga-effects {
+    background: linear-gradient(135deg,
+        rgba(34, 197, 94, 0.1) 0%,
+        rgba(16, 185, 129, 0.05) 100%) !important;
+    border-radius: 12px !important;
+    padding: 1rem !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.yoga-effects::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, #22c55e, #10b981);
+    border-radius: 0 2px 2px 0;
+}
+
+.effects-label {
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #22c55e, #10b981) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    display: block !important;
+    margin-bottom: 0.5rem !important;
+    margin-left: 12px !important;
+}
+
+.effects-text {
+    font-size: 0.85rem !important;
+    color: #cbd5e1 !important;
+    line-height: 1.5 !important;
+    margin-left: 12px !important;
+    opacity: 0.9 !important;
+}
+
 .activated-yogas-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -3860,6 +4044,15 @@ h5, h6 {
 
     .positions-grid {
         grid-template-columns: 1fr;
+    }
+
+    .yogas-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+
+    .yoga-tile {
+        padding: 1.5rem !important;
     }
 
     .activated-yogas-grid {
