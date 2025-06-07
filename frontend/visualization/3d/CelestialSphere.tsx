@@ -4,166 +4,426 @@ import { useRef, useMemo } from 'react';
 import { useFrame, useLoader } from '@react-three/fiber';
 import { Sphere, Text, Ring } from '@react-three/drei';
 import * as THREE from 'three';
+import { TextureLoader } from 'three';
 
-// Procedural Texture Generation for Realistic Planets
+// Enhanced Realistic Planet Texture Generation
 function createPlanetTexture(type: string, color: string): THREE.Texture {
   const canvas = document.createElement('canvas');
-  canvas.width = 512;
-  canvas.height = 512;
+  canvas.width = 1024;
+  canvas.height = 1024;
   const ctx = canvas.getContext('2d')!;
-
-  // Create gradient background
-  const gradient = ctx.createRadialGradient(256, 256, 0, 256, 256, 256);
 
   switch (type) {
     case 'solar':
-      // Sun texture with solar flares
-      gradient.addColorStop(0, '#ffff88');
-      gradient.addColorStop(0.3, '#ffaa00');
-      gradient.addColorStop(0.7, '#ff6600');
-      gradient.addColorStop(1, '#cc3300');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 512, 512);
+      // Realistic Sun surface with solar granulation and prominences
+      const sunGradient = ctx.createRadialGradient(512, 512, 0, 512, 512, 512);
+      sunGradient.addColorStop(0, '#FFF5B7');
+      sunGradient.addColorStop(0.2, '#FFE55C');
+      sunGradient.addColorStop(0.5, '#FFB347');
+      sunGradient.addColorStop(0.8, '#FF6B35');
+      sunGradient.addColorStop(1, '#D2001F');
+      ctx.fillStyle = sunGradient;
+      ctx.fillRect(0, 0, 1024, 1024);
 
-      // Add solar flares
-      for (let i = 0; i < 20; i++) {
-        ctx.fillStyle = `rgba(255, 255, 0, ${Math.random() * 0.5})`;
+      // Solar granulation pattern (convection cells)
+      for (let i = 0; i < 300; i++) {
+        const x = Math.random() * 1024;
+        const y = Math.random() * 1024;
+        const size = Math.random() * 20 + 8;
+        const brightness = Math.random() * 0.4 + 0.2;
+
         ctx.beginPath();
-        ctx.arc(Math.random() * 512, Math.random() * 512, Math.random() * 30 + 10, 0, Math.PI * 2);
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
         ctx.fill();
+
+        // Darker edges for granulation effect
+        ctx.beginPath();
+        ctx.arc(x, y, size * 1.2, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(255, 100, 0, ${brightness * 0.5})`;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      // Solar prominences and flares
+      for (let i = 0; i < 15; i++) {
+        const x = Math.random() * 1024;
+        const y = Math.random() * 1024;
+        const width = Math.random() * 80 + 40;
+        const height = Math.random() * 200 + 100;
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(Math.random() * Math.PI * 2);
+
+        const flareGradient = ctx.createLinearGradient(0, 0, 0, height);
+        flareGradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)');
+        flareGradient.addColorStop(0.5, 'rgba(255, 150, 0, 0.6)');
+        flareGradient.addColorStop(1, 'rgba(255, 0, 0, 0.2)');
+
+        ctx.fillStyle = flareGradient;
+        ctx.fillRect(-width/2, 0, width, height);
+        ctx.restore();
       }
       break;
 
     case 'rocky':
-      // Rocky planet texture (Mercury)
-      gradient.addColorStop(0, '#888888');
-      gradient.addColorStop(0.5, '#666666');
-      gradient.addColorStop(1, '#444444');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 512, 512);
+      // Mercury-like heavily cratered rocky surface
+      ctx.fillStyle = '#8C7853';
+      ctx.fillRect(0, 0, 1024, 1024);
 
-      // Add craters
-      for (let i = 0; i < 50; i++) {
-        ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.3 + 0.2})`;
+      // Add realistic crater patterns with proper depth
+      const mercuryCraters = [
+        { x: 200, y: 150, size: 80, depth: 0.8 },
+        { x: 600, y: 300, size: 120, depth: 0.9 },
+        { x: 800, y: 700, size: 60, depth: 0.7 },
+        { x: 300, y: 800, size: 90, depth: 0.8 },
+        { x: 700, y: 100, size: 50, depth: 0.6 }
+      ];
+
+      // Major craters
+      mercuryCraters.forEach(crater => {
+        // Crater rim (raised edge)
         ctx.beginPath();
-        ctx.arc(Math.random() * 512, Math.random() * 512, Math.random() * 20 + 5, 0, Math.PI * 2);
+        ctx.arc(crater.x, crater.y, crater.size, 0, Math.PI * 2);
+        ctx.fillStyle = '#A0916B';
+        ctx.fill();
+
+        // Crater floor (depressed)
+        ctx.beginPath();
+        ctx.arc(crater.x, crater.y, crater.size * 0.8, 0, Math.PI * 2);
+        ctx.fillStyle = '#6B5D42';
+        ctx.fill();
+
+        // Central peak (for larger craters)
+        if (crater.size > 70) {
+          ctx.beginPath();
+          ctx.arc(crater.x, crater.y, crater.size * 0.15, 0, Math.PI * 2);
+          ctx.fillStyle = '#9A8A6B';
+          ctx.fill();
+        }
+      });
+
+      // Smaller impact craters scattered across surface
+      for (let i = 0; i < 100; i++) {
+        const x = Math.random() * 1024;
+        const y = Math.random() * 1024;
+        const size = Math.random() * 25 + 5;
+
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.4 + 0.3})`;
         ctx.fill();
       }
       break;
 
     case 'cloudy':
-      // Venus cloud texture
-      gradient.addColorStop(0, '#ffffcc');
-      gradient.addColorStop(0.5, '#ffcc99');
-      gradient.addColorStop(1, '#cc9966');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 512, 512);
+      // Venus-like thick sulfuric acid cloud atmosphere
+      const venusGradient = ctx.createLinearGradient(0, 0, 1024, 1024);
+      venusGradient.addColorStop(0, '#FFC649');
+      venusGradient.addColorStop(0.3, '#FFB347');
+      venusGradient.addColorStop(0.7, '#FF8C42');
+      venusGradient.addColorStop(1, '#E67E22');
+      ctx.fillStyle = venusGradient;
+      ctx.fillRect(0, 0, 1024, 1024);
 
-      // Add cloud swirls
-      for (let i = 0; i < 30; i++) {
-        ctx.strokeStyle = `rgba(255, 255, 255, ${Math.random() * 0.3})`;
-        ctx.lineWidth = Math.random() * 10 + 2;
+      // Add realistic swirling cloud patterns
+      for (let i = 0; i < 60; i++) {
+        const x = Math.random() * 1024;
+        const y = Math.random() * 1024;
+        const width = Math.random() * 150 + 80;
+        const height = Math.random() * 40 + 20;
+        const rotation = Math.random() * Math.PI * 2;
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(rotation);
+
+        // Create swirling cloud effect
         ctx.beginPath();
-        ctx.arc(Math.random() * 512, Math.random() * 512, Math.random() * 50 + 20, 0, Math.PI * Math.random());
-        ctx.stroke();
+        ctx.ellipse(0, 0, width, height, 0, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.4 + 0.2})`;
+        ctx.fill();
+
+        // Add darker cloud shadows
+        ctx.beginPath();
+        ctx.ellipse(width * 0.3, height * 0.2, width * 0.6, height * 0.8, 0, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(200, 150, 100, ${Math.random() * 0.3 + 0.1})`;
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      // Add atmospheric bands (Venus retrograde rotation effect)
+      for (let y = 0; y < 1024; y += 80) {
+        ctx.fillStyle = `rgba(255, 200, 150, ${Math.random() * 0.2 + 0.1})`;
+        ctx.fillRect(0, y, 1024, Math.random() * 30 + 15);
       }
       break;
 
     case 'desert':
-      // Mars desert texture
-      gradient.addColorStop(0, '#ff6666');
-      gradient.addColorStop(0.5, '#cc3333');
-      gradient.addColorStop(1, '#990000');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 512, 512);
+      // Mars-like red desert with realistic surface features
+      ctx.fillStyle = '#CD5C5C';
+      ctx.fillRect(0, 0, 1024, 1024);
 
-      // Add dust storms and polar caps
+      // Add Martian surface features (canyons, valleys)
+      for (let i = 0; i < 40; i++) {
+        const x = Math.random() * 1024;
+        const y = Math.random() * 1024;
+        const width = Math.random() * 300 + 100;
+        const height = Math.random() * 80 + 20;
+        const rotation = Math.random() * Math.PI;
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(rotation);
+
+        // Canyon/valley feature
+        ctx.fillStyle = '#8B4513';
+        ctx.fillRect(-width/2, -height/2, width, height);
+
+        // Add depth shading
+        ctx.fillStyle = '#654321';
+        ctx.fillRect(-width/2 + 10, -height/2 + 5, width - 20, height - 10);
+
+        ctx.restore();
+      }
+
+      // Polar ice caps (more realistic)
+      ctx.beginPath();
+      ctx.arc(512, 150, 120, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(512, 874, 100, 0, Math.PI * 2);
       ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-      ctx.beginPath();
-      ctx.arc(100, 100, 30, 0, Math.PI * 2);
       ctx.fill();
-      ctx.beginPath();
-      ctx.arc(400, 400, 25, 0, Math.PI * 2);
-      ctx.fill();
-      break;
 
-    case 'gas_giant':
-      // Jupiter gas bands
-      for (let y = 0; y < 512; y += 20) {
-        const hue = Math.sin(y * 0.01) * 30 + 30;
-        ctx.fillStyle = `hsl(${hue}, 70%, ${50 + Math.sin(y * 0.02) * 20}%)`;
-        ctx.fillRect(0, y, 512, 20);
-      }
+      // Add dust storm effects
+      for (let i = 0; i < 20; i++) {
+        const x = Math.random() * 1024;
+        const y = Math.random() * 1024;
+        const size = Math.random() * 100 + 50;
 
-      // Add Great Red Spot for Jupiter
-      ctx.fillStyle = 'rgba(200, 50, 50, 0.8)';
-      ctx.beginPath();
-      ctx.ellipse(300, 200, 40, 25, 0, 0, Math.PI * 2);
-      ctx.fill();
-      break;
-
-    case 'ringed':
-      // Saturn pale yellow
-      gradient.addColorStop(0, '#ffffaa');
-      gradient.addColorStop(0.5, '#ffff88');
-      gradient.addColorStop(1, '#cccc66');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 512, 512);
-
-      // Add subtle bands
-      for (let y = 0; y < 512; y += 40) {
-        ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.2})`;
-        ctx.fillRect(0, y, 512, 10);
-      }
-      break;
-
-    case 'lunar':
-      // Moon texture
-      gradient.addColorStop(0, '#dddddd');
-      gradient.addColorStop(0.5, '#bbbbbb');
-      gradient.addColorStop(1, '#999999');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 512, 512);
-
-      // Add maria (dark spots)
-      for (let i = 0; i < 15; i++) {
-        ctx.fillStyle = `rgba(100, 100, 100, ${Math.random() * 0.4 + 0.3})`;
         ctx.beginPath();
-        ctx.arc(Math.random() * 512, Math.random() * 512, Math.random() * 60 + 20, 0, Math.PI * 2);
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(210, 180, 140, ${Math.random() * 0.3 + 0.1})`;
         ctx.fill();
       }
       break;
 
-    case 'shadow':
-      // Rahu/Ketu ethereal texture
-      gradient.addColorStop(0, 'rgba(100, 100, 100, 0.8)');
-      gradient.addColorStop(0.5, 'rgba(70, 70, 70, 0.6)');
-      gradient.addColorStop(1, 'rgba(40, 40, 40, 0.4)');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 512, 512);
+    case 'gas_giant':
+      // Jupiter-like atmospheric bands with realistic storm systems
+      for (let y = 0; y < 1024; y += 80) {
+        const hue = 25 + (y / 1024) * 50; // Orange to brown gradient
+        const lightness = 35 + Math.sin(y / 150) * 25;
+        const saturation = 60 + Math.sin(y / 100) * 20;
 
-      // Add ethereal wisps
-      for (let i = 0; i < 20; i++) {
-        ctx.strokeStyle = `rgba(150, 150, 150, ${Math.random() * 0.3})`;
-        ctx.lineWidth = Math.random() * 5 + 1;
+        ctx.fillStyle = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        ctx.fillRect(0, y, 1024, 80);
+
+        // Add turbulence and storm systems within bands
+        for (let x = 0; x < 1024; x += 120) {
+          const stormSize = Math.random() * 60 + 30;
+          const stormOpacity = Math.random() * 0.4 + 0.2;
+
+          ctx.fillStyle = `rgba(255, 255, 255, ${stormOpacity})`;
+          ctx.beginPath();
+          ctx.ellipse(x + Math.random() * 100, y + Math.random() * 60, stormSize, stormSize * 0.6, 0, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // Great Red Spot (iconic Jupiter feature)
+      ctx.beginPath();
+      ctx.ellipse(400, 650, 180, 120, 0.2, 0, Math.PI * 2);
+      ctx.fillStyle = '#B22222';
+      ctx.fill();
+
+      // Add swirling pattern inside Great Red Spot
+      ctx.beginPath();
+      ctx.ellipse(420, 670, 120, 80, 0.2, 0, Math.PI * 2);
+      ctx.fillStyle = '#8B0000';
+      ctx.fill();
+
+      // Smaller storm systems
+      for (let i = 0; i < 8; i++) {
+        const x = Math.random() * 1024;
+        const y = Math.random() * 1024;
+        const size = Math.random() * 40 + 20;
+
         ctx.beginPath();
-        ctx.moveTo(Math.random() * 512, Math.random() * 512);
-        ctx.quadraticCurveTo(Math.random() * 512, Math.random() * 512, Math.random() * 512, Math.random() * 512);
+        ctx.ellipse(x, y, size, size * 0.7, Math.random() * Math.PI, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(139, 69, 19, ${Math.random() * 0.6 + 0.3})`;
+        ctx.fill();
+      }
+      break;
+
+    case 'ringed':
+      // Saturn-like pale golden atmosphere
+      const saturnGradient = ctx.createRadialGradient(512, 512, 0, 512, 512, 512);
+      saturnGradient.addColorStop(0, '#FFFACD');
+      saturnGradient.addColorStop(0.5, '#F0E68C');
+      saturnGradient.addColorStop(1, '#DAA520');
+      ctx.fillStyle = saturnGradient;
+      ctx.fillRect(0, 0, 1024, 1024);
+
+      // Add subtle atmospheric bands
+      for (let y = 0; y < 1024; y += 60) {
+        const bandOpacity = Math.random() * 0.3 + 0.1;
+        ctx.fillStyle = `rgba(255, 255, 255, ${bandOpacity})`;
+        ctx.fillRect(0, y, 1024, Math.random() * 25 + 15);
+      }
+
+      // Add hexagonal storm at pole (Saturn's unique feature)
+      ctx.save();
+      ctx.translate(512, 150);
+      ctx.beginPath();
+      for (let i = 0; i < 6; i++) {
+        const angle = (i * Math.PI) / 3;
+        const x = Math.cos(angle) * 60;
+        const y = Math.sin(angle) * 60;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = 'rgba(139, 69, 19, 0.6)';
+      ctx.fill();
+      ctx.restore();
+      break;
+
+    case 'lunar':
+      // Realistic lunar surface with major features
+      ctx.fillStyle = '#C0C0C0';
+      ctx.fillRect(0, 0, 1024, 1024);
+
+      // Major lunar maria (dark basaltic plains)
+      const maria = [
+        { name: 'Mare Tranquillitatis', x: 400, y: 300, width: 200, height: 150 },
+        { name: 'Mare Serenitatis', x: 600, y: 200, width: 180, height: 120 },
+        { name: 'Mare Imbrium', x: 300, y: 500, width: 250, height: 200 },
+        { name: 'Mare Crisium', x: 700, y: 600, width: 120, height: 100 }
+      ];
+
+      maria.forEach(mare => {
+        ctx.beginPath();
+        ctx.ellipse(mare.x, mare.y, mare.width, mare.height, 0, 0, Math.PI * 2);
+        ctx.fillStyle = '#696969';
+        ctx.fill();
+      });
+
+      // Major lunar craters with realistic features
+      const lunarCraters = [
+        { name: 'Tycho', x: 350, y: 700, size: 80 },
+        { name: 'Copernicus', x: 500, y: 400, size: 60 },
+        { name: 'Kepler', x: 250, y: 350, size: 40 },
+        { name: 'Aristarchus', x: 150, y: 250, size: 45 }
+      ];
+
+      lunarCraters.forEach(crater => {
+        // Crater rim
+        ctx.beginPath();
+        ctx.arc(crater.x, crater.y, crater.size, 0, Math.PI * 2);
+        ctx.fillStyle = '#E5E5E5';
+        ctx.fill();
+
+        // Crater floor
+        ctx.beginPath();
+        ctx.arc(crater.x, crater.y, crater.size * 0.8, 0, Math.PI * 2);
+        ctx.fillStyle = '#A0A0A0';
+        ctx.fill();
+
+        // Central peak (for larger craters)
+        if (crater.size > 50) {
+          ctx.beginPath();
+          ctx.arc(crater.x, crater.y, crater.size * 0.1, 0, Math.PI * 2);
+          ctx.fillStyle = '#D3D3D3';
+          ctx.fill();
+        }
+
+        // Ray system (for young craters like Tycho)
+        if (crater.name === 'Tycho') {
+          for (let i = 0; i < 8; i++) {
+            const angle = (i * Math.PI * 2) / 8;
+            const rayLength = 200 + Math.random() * 100;
+
+            ctx.beginPath();
+            ctx.moveTo(crater.x, crater.y);
+            ctx.lineTo(
+              crater.x + Math.cos(angle) * rayLength,
+              crater.y + Math.sin(angle) * rayLength
+            );
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 8;
+            ctx.stroke();
+          }
+        }
+      });
+      break;
+
+    case 'shadow':
+      // Ethereal shadow planets (Rahu/Ketu) with mystical energy
+      const shadowGradient = ctx.createRadialGradient(512, 512, 0, 512, 512, 512);
+      shadowGradient.addColorStop(0, 'rgba(75, 85, 99, 0.9)');
+      shadowGradient.addColorStop(0.5, 'rgba(55, 65, 81, 0.7)');
+      shadowGradient.addColorStop(1, 'rgba(31, 41, 55, 0.5)');
+      ctx.fillStyle = shadowGradient;
+      ctx.fillRect(0, 0, 1024, 1024);
+
+      // Add ethereal energy patterns and wisps
+      for (let i = 0; i < 30; i++) {
+        const x = Math.random() * 1024;
+        const y = Math.random() * 1024;
+        const size = Math.random() * 80 + 40;
+        const opacity = Math.random() * 0.4 + 0.2;
+
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(156, 163, 175, ${opacity})`;
+        ctx.fill();
+
+        // Add swirling energy patterns
+        ctx.beginPath();
+        ctx.arc(x, y, size * 0.6, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(209, 213, 219, ${opacity * 0.5})`;
+        ctx.fill();
+      }
+
+      // Add mystical energy streams
+      for (let i = 0; i < 15; i++) {
+        ctx.strokeStyle = `rgba(156, 163, 175, ${Math.random() * 0.4 + 0.2})`;
+        ctx.lineWidth = Math.random() * 8 + 3;
+        ctx.beginPath();
+
+        const startX = Math.random() * 1024;
+        const startY = Math.random() * 1024;
+        const controlX = Math.random() * 1024;
+        const controlY = Math.random() * 1024;
+        const endX = Math.random() * 1024;
+        const endY = Math.random() * 1024;
+
+        ctx.moveTo(startX, startY);
+        ctx.quadraticCurveTo(controlX, controlY, endX, endY);
         ctx.stroke();
       }
       break;
 
     default:
-      // Default texture
-      gradient.addColorStop(0, color);
-      gradient.addColorStop(1, '#333333');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, 512, 512);
+      // Default rocky texture
+      const defaultGradient = ctx.createRadialGradient(512, 512, 0, 512, 512, 512);
+      defaultGradient.addColorStop(0, color);
+      defaultGradient.addColorStop(1, '#333333');
+      ctx.fillStyle = defaultGradient;
+      ctx.fillRect(0, 0, 1024, 1024);
   }
 
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.generateMipmaps = true;
   return texture;
 }
 
@@ -419,14 +679,14 @@ function Planet({ name, position, color, size, emissive, texture, isMoving = tru
   return (
     <group ref={orbitGroupRef}>
       {/* Main Planet Sphere with Realistic Texture */}
-      <Sphere ref={meshRef} position={position} args={[size, 64, 64]}>
-        <meshPhongMaterial
+      <Sphere ref={meshRef} position={position} args={[size, 128, 128]}>
+        <meshStandardMaterial
           map={planetTexture}
           color={color}
           emissive={emissive}
           emissiveIntensity={materialProps.emissiveIntensity}
-          shininess={materialProps.shininess}
-          specular="#ffffff"
+          roughness={materialProps.roughness}
+          metalness={materialProps.metalness}
           transparent
           opacity={materialProps.opacity}
         />
@@ -523,14 +783,14 @@ function Moon() {
       </Ring>
 
       {/* Moon with Realistic Texture */}
-      <Sphere ref={moonRef} position={[moonDistance, 0, 0]} args={[0.15, 32, 32]}>
-        <meshPhongMaterial
+      <Sphere ref={moonRef} position={[moonDistance, 0, 0]} args={[0.15, 64, 64]}>
+        <meshStandardMaterial
           map={moonTexture}
           color="#d1d5db" // Realistic gray-white lunar surface
           emissive="#9ca3af"
           emissiveIntensity={0.05}
-          shininess={5}
-          specular="#ffffff"
+          roughness={0.95}
+          metalness={0.1}
           transparent
           opacity={0.7}
         />
