@@ -27,7 +27,9 @@ const PLANETS = [
     emissive: '#f59e0b',
     size: 0.95,
     texture: 'cloudy', // Thick cloud cover
-    realDistance: '25-261 million km (0.17-1.74 AU from Earth)'
+    realDistance: '25-261 million km (0.17-1.74 AU from Earth)',
+    isMoving: true, // Venus moves in its orbit
+    orbitSpeed: 0.15 // Faster orbit
   },
   {
     name: 'Mercury (Budh)',
@@ -36,7 +38,9 @@ const PLANETS = [
     emissive: '#737373',
     size: 0.38,
     texture: 'rocky', // Heavily cratered like Moon
-    realDistance: '48-222 million km (0.32-1.48 AU from Earth)'
+    realDistance: '48-222 million km (0.32-1.48 AU from Earth)',
+    isMoving: true, // Mercury moves in its orbit
+    orbitSpeed: 0.25 // Fastest orbit (closest to Sun)
   },
   {
     name: 'Sun (Surya)',
@@ -45,7 +49,9 @@ const PLANETS = [
     emissive: '#f59e0b',
     size: 2.5,
     texture: 'solar', // Plasma surface with solar flares
-    realDistance: '149.6 million km (1.0 AU from Earth)'
+    realDistance: '149.6 million km (1.0 AU from Earth)',
+    isMoving: true, // Sun appears to move from Earth's perspective
+    orbitSpeed: 0.05 // Slow apparent movement (1 year cycle)
   },
   {
     name: 'Mars (Mangal)',
@@ -54,7 +60,9 @@ const PLANETS = [
     emissive: '#991b1b',
     size: 0.53,
     texture: 'desert', // Red desert with polar ice caps
-    realDistance: '35-401 million km (0.23-2.68 AU from Earth)'
+    realDistance: '35-401 million km (0.23-2.68 AU from Earth)',
+    isMoving: true, // Mars moves in its orbit
+    orbitSpeed: 0.08 // Slower than inner planets
   },
   {
     name: 'Jupiter (Guru)',
@@ -63,7 +71,9 @@ const PLANETS = [
     emissive: '#92400e',
     size: 2.2,
     texture: 'gas_giant', // Swirling gas bands and Great Red Spot
-    realDistance: '390-928 million km (2.6-6.2 AU from Earth)'
+    realDistance: '390-928 million km (2.6-6.2 AU from Earth)',
+    isMoving: true, // Jupiter moves in its orbit
+    orbitSpeed: 0.03 // Much slower (12-year cycle)
   },
   {
     name: 'Saturn (Shani)',
@@ -72,7 +82,9 @@ const PLANETS = [
     emissive: '#d97706',
     size: 1.8,
     texture: 'ringed', // Pale with prominent rings
-    realDistance: '746-1.68 billion km (5.0-11.2 AU from Earth)'
+    realDistance: '746-1.68 billion km (5.0-11.2 AU from Earth)',
+    isMoving: true, // Saturn moves in its orbit
+    orbitSpeed: 0.02 // Very slow (29-year cycle)
   },
   {
     name: 'Rahu',
@@ -81,7 +93,9 @@ const PLANETS = [
     emissive: '#374151',
     size: 0.3,
     texture: 'shadow', // Ethereal shadow planet
-    realDistance: 'Shadow planet (conceptual)'
+    realDistance: 'Shadow planet (conceptual)',
+    isMoving: false, // Rahu is FIXED (lunar node)
+    orbitSpeed: 0 // No orbital movement
   },
   {
     name: 'Ketu',
@@ -90,7 +104,9 @@ const PLANETS = [
     emissive: '#4b5563',
     size: 0.3,
     texture: 'shadow', // Ethereal shadow planet
-    realDistance: 'Shadow planet (conceptual)'
+    realDistance: 'Shadow planet (conceptual)',
+    isMoving: false, // Ketu is FIXED (lunar node)
+    orbitSpeed: 0 // No orbital movement
   },
 ];
 
@@ -109,24 +125,27 @@ const NAKSHATRAS = [
   'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'
 ];
 
-// Individual Planet Component with Realistic Textures
-function Planet({ name, position, color, size, emissive, texture }: {
+// Individual Planet Component with Realistic Textures and Vedic Movement
+function Planet({ name, position, color, size, emissive, texture, isMoving = true, orbitSpeed = 0.1 }: {
   name: string;
   position: [number, number, number];
   color: string;
   size: number;
   emissive: string;
   texture: string;
+  isMoving?: boolean;
+  orbitSpeed?: number;
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const atmosphereRef = useRef<THREE.Mesh>(null);
+  const orbitGroupRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
     if (meshRef.current) {
-      // Gentle floating animation
+      // Gentle floating animation (for all planets)
       meshRef.current.position.y = position[1] + Math.sin(state.clock.elapsedTime + position[0]) * 0.2;
 
-      // Rotation based on planet type
+      // Rotation based on planet type (all planets rotate on axis)
       if (texture === 'gas_giant' || texture === 'ringed') {
         // Gas giants rotate faster
         meshRef.current.rotation.y = state.clock.elapsedTime * 0.3;
@@ -143,6 +162,11 @@ function Planet({ name, position, color, size, emissive, texture }: {
     if (atmosphereRef.current) {
       // Atmosphere rotates independently
       atmosphereRef.current.rotation.y = state.clock.elapsedTime * 0.08;
+    }
+
+    // Orbital movement - only for moving planets (not Rahu/Ketu)
+    if (orbitGroupRef.current && isMoving) {
+      orbitGroupRef.current.rotation.y = state.clock.elapsedTime * orbitSpeed;
     }
   });
 
@@ -212,7 +236,7 @@ function Planet({ name, position, color, size, emissive, texture }: {
   const materialProps = getMaterialProps();
 
   return (
-    <group>
+    <group ref={orbitGroupRef}>
       {/* Main Planet Sphere */}
       <Sphere ref={meshRef} position={position} args={[size, 64, 64]}>
         <meshPhongMaterial
@@ -255,28 +279,28 @@ function Planet({ name, position, color, size, emissive, texture }: {
           />
         </Ring>
       )}
-      
+
       {/* Planet Label */}
       <Text
         position={[position[0], position[1] + size + 1, position[2]]}
         fontSize={0.8}
-        color={color}
+        color={isMoving ? color : '#6b7280'} // Dimmer color for fixed planets
         anchorX="center"
         anchorY="middle"
       >
-        {name}
+        {name} {!isMoving}
       </Text>
-      
+
       {/* Orbital glow effect */}
-      <Ring 
+      <Ring
         position={position}
         args={[size + 0.2, size + 0.4, 16]}
         rotation={[Math.PI / 2, 0, 0]}
       >
-        <meshBasicMaterial 
-          color={color} 
-          transparent 
-          opacity={0.2}
+        <meshBasicMaterial
+          color={color}
+          transparent
+          opacity={isMoving ? 0.2 : 0.1} // Dimmer glow for fixed planets
           side={THREE.DoubleSide}
         />
       </Ring>
@@ -291,8 +315,8 @@ function Moon() {
 
   useFrame((state) => {
     if (orbitRef.current) {
-      // Moon orbits around Earth
-      orbitRef.current.rotation.y = state.clock.elapsedTime * 0.5; // Orbit speed
+      // Moon orbits around Earth - MOVING (faster than planets)
+      orbitRef.current.rotation.y = state.clock.elapsedTime * 0.8; // Faster orbit speed
     }
 
     if (moonRef.current) {
@@ -338,7 +362,7 @@ function Moon() {
         anchorX="center"
         anchorY="middle"
       >
-        🌙 Moon (Chandra)
+        🌙 Moon (Chandra) - MOVING
       </Text>
 
       {/* Moon Glow Effect */}
@@ -477,7 +501,6 @@ function Earth() {
         anchorX="center"
         anchorY="middle"
       >
-        ⭐ REFERENCE POINT ⭐
       </Text>
 
       {/* Orbital Path Indicators */}
@@ -516,15 +539,9 @@ function Earth() {
   );
 }
 
-// Zodiac Ring Component
+// Zodiac Ring Component - STATIC (Fixed Star Patterns)
 function ZodiacRing() {
-  const ringRef = useRef<THREE.Group>(null);
-  
-  useFrame((state) => {
-    if (ringRef.current) {
-      ringRef.current.rotation.y = state.clock.elapsedTime * 0.02;
-    }
-  });
+  // Rashis are STATIC - they are fixed star patterns and should not move
 
   const rashiPositions = useMemo(() => {
     return RASHIS.map((_, index) => {
@@ -543,8 +560,8 @@ function ZodiacRing() {
   }, []);
 
   return (
-    <group ref={ringRef}>
-      {/* Zodiac Ring */}
+    <group>
+      {/* Zodiac Ring - STATIC */}
       <Ring args={[47, 53, 64]} rotation={[Math.PI / 2, 0, 0]}>
         <meshBasicMaterial
           color="#f97316"
@@ -553,8 +570,8 @@ function ZodiacRing() {
           side={THREE.DoubleSide}
         />
       </Ring>
-      
-      {/* Rashi Labels */}
+
+      {/* Rashi Labels - STATIC */}
       {rashiPositions.map((rashi, index) => (
         <Text
           key={index}
@@ -565,22 +582,16 @@ function ZodiacRing() {
           anchorX="center"
           anchorY="middle"
         >
-          {rashi.name}
+          {rashi.name} (STATIC)
         </Text>
       ))}
     </group>
   );
 }
 
-// Nakshatra Ring Component
+// Nakshatra Ring Component - STATIC (Fixed Star Patterns)
 function NakshatraRing() {
-  const ringRef = useRef<THREE.Group>(null);
-  
-  useFrame((state) => {
-    if (ringRef.current) {
-      ringRef.current.rotation.y = -state.clock.elapsedTime * 0.01;
-    }
-  });
+  // Nakshatras are STATIC - they are fixed star patterns and should not move
 
   const nakshatraPositions = useMemo(() => {
     return NAKSHATRAS.map((_, index) => {
@@ -598,8 +609,8 @@ function NakshatraRing() {
   }, []);
 
   return (
-    <group ref={ringRef}>
-      {/* Nakshatra Ring */}
+    <group>
+      {/* Nakshatra Ring - STATIC */}
       <Ring args={[55, 61, 64]} rotation={[Math.PI / 2, 0, 0]}>
         <meshBasicMaterial
           color="#3b82f6"
@@ -608,8 +619,8 @@ function NakshatraRing() {
           side={THREE.DoubleSide}
         />
       </Ring>
-      
-      {/* Nakshatra Points */}
+
+      {/* Nakshatra Points - STATIC */}
       {nakshatraPositions.map((nakshatra, index) => (
         <group key={index}>
           <Sphere position={nakshatra.position} args={[0.1, 8, 8]}>
@@ -622,7 +633,7 @@ function NakshatraRing() {
             anchorX="center"
             anchorY="middle"
           >
-            {nakshatra.name}
+            {nakshatra.name} (STATIC)
           </Text>
         </group>
       ))}
@@ -640,7 +651,7 @@ export default function CelestialSphere() {
       {/* Moon orbiting Earth */}
       <Moon />
 
-      {/* Planets */}
+      {/* Planets with Vedic Movement */}
       {PLANETS.map((planet, index) => (
         <Planet
           key={index}
@@ -650,6 +661,8 @@ export default function CelestialSphere() {
           size={planet.size}
           emissive={planet.emissive}
           texture={planet.texture}
+          isMoving={planet.isMoving}
+          orbitSpeed={planet.orbitSpeed}
         />
       ))}
 
