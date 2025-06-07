@@ -37,7 +37,7 @@ const VedicChart3D: React.FC<VedicChart3DProps> = ({
     
     return Object.entries(chartData.planets).map(([key, planet]) => {
       const angle = (planet.position.longitude * Math.PI) / 180;
-      const distance = key === 'sun' ? 150 : key === 'moon' ? 80 : 200;
+      const distance = key === 'sun' ? 40 : key === 'moon' ? 25 : 60; // Brought much closer
       
       return {
         key,
@@ -55,8 +55,8 @@ const VedicChart3D: React.FC<VedicChart3DProps> = ({
   const rashiPositions = useMemo(() => {
     return chartData?.rashis?.map((rashi, index) => {
       const angle = (index * 30 * Math.PI) / 180;
-      const distance = 300;
-      
+      const distance = 80; // Brought much closer for better visibility
+
       return {
         rashi,
         position: [
@@ -93,10 +93,10 @@ const VedicChart3D: React.FC<VedicChart3DProps> = ({
       {/* Celestial Sphere */}
       <group ref={celestialSphereRef}>
         {/* Zodiac Ring */}
-        <Ring args={[290, 310, 64]} rotation={[-Math.PI / 2, 0, 0]}>
-          <meshBasicMaterial 
-            color="#ff9500" 
-            transparent 
+        <Ring args={[75, 85, 64]} rotation={[-Math.PI / 2, 0, 0]}>
+          <meshBasicMaterial
+            color="#ff9500"
+            transparent
             opacity={0.3}
             side={THREE.DoubleSide}
           />
@@ -200,7 +200,7 @@ const VedicChart3D: React.FC<VedicChart3DProps> = ({
       {Array.from({ length: 12 }).map((_, i) => {
         const angle = (i * 30 * Math.PI) / 180;
         const start = [0, 0, 0];
-        const end = [Math.cos(angle) * 400, 0, Math.sin(angle) * 400];
+        const end = [Math.cos(angle) * 100, 0, Math.sin(angle) * 100]; // Shorter house division lines
         
         return (
           <Line

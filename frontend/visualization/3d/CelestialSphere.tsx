@@ -529,7 +529,7 @@ function ZodiacRing() {
   const rashiPositions = useMemo(() => {
     return RASHIS.map((_, index) => {
       const angle = (index / RASHIS.length) * Math.PI * 2;
-      const radius = 100; // Between Jupiter and Saturn
+      const radius = 50; // Brought much closer - between Jupiter and Saturn
       return {
         position: [
           Math.cos(angle) * radius,
@@ -545,7 +545,7 @@ function ZodiacRing() {
   return (
     <group ref={ringRef}>
       {/* Zodiac Ring */}
-      <Ring args={[95, 105, 64]} rotation={[Math.PI / 2, 0, 0]}>
+      <Ring args={[47, 53, 64]} rotation={[Math.PI / 2, 0, 0]}>
         <meshBasicMaterial
           color="#f97316"
           transparent
@@ -585,7 +585,7 @@ function NakshatraRing() {
   const nakshatraPositions = useMemo(() => {
     return NAKSHATRAS.map((_, index) => {
       const angle = (index / NAKSHATRAS.length) * Math.PI * 2;
-      const radius = 115; // Outer ring beyond zodiac
+      const radius = 58; // Brought much closer - outer ring beyond zodiac
       return {
         position: [
           Math.cos(angle) * radius,
@@ -600,7 +600,7 @@ function NakshatraRing() {
   return (
     <group ref={ringRef}>
       {/* Nakshatra Ring */}
-      <Ring args={[110, 120, 64]} rotation={[Math.PI / 2, 0, 0]}>
+      <Ring args={[55, 61, 64]} rotation={[Math.PI / 2, 0, 0]}>
         <meshBasicMaterial
           color="#3b82f6"
           transparent
@@ -660,7 +660,7 @@ export default function CelestialSphere() {
       <NakshatraRing />
 
       {/* Cosmic Grid */}
-      <gridHelper args={[300, 30, '#374151', '#1f2937']} />
+      <gridHelper args={[150, 30, '#374151', '#1f2937']} />
     </group>
   );
 }
