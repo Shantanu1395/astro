@@ -720,87 +720,166 @@ function Earth() {
   );
 }
 
-// Constellation Ring Component - STATIC (Fixed Star Patterns)
-function ConstellationRing() {
-  // Constellations are STATIC - they are fixed star patterns and should not move
+// 3D Constellation Sectors Component - STATIC (Fixed Star Patterns)
+function ConstellationSectors() {
+  // Constellations are STATIC - they are fixed star patterns spanning 30° each
 
-  const constellationPositions = useMemo(() => {
+  const constellationSectors = useMemo(() => {
     return CONSTELLATIONS.map((constellation, index) => {
-      const angle = (index / CONSTELLATIONS.length) * Math.PI * 2;
-      const radius = 50; // Brought much closer - between Jupiter and Saturn
-      return {
-        position: [
+      const startAngle = (index * 30) * (Math.PI / 180); // 30 degrees per rashi
+      const endAngle = ((index + 1) * 30) * (Math.PI / 180);
+      const centerAngle = startAngle + (30 * Math.PI / 180) / 2; // Center of 30° sector
+      const radius = 50;
+
+      // Create sector geometry points
+      const sectorPoints = [];
+      const segments = 16; // Number of segments for smooth curve
+
+      // Add center point
+      sectorPoints.push(new THREE.Vector3(0, 0, 0));
+
+      // Add arc points
+      for (let i = 0; i <= segments; i++) {
+        const angle = startAngle + (i / segments) * (endAngle - startAngle);
+        sectorPoints.push(new THREE.Vector3(
           Math.cos(angle) * radius,
           0,
           Math.sin(angle) * radius
+        ));
+      }
+
+      return {
+        constellation,
+        startAngle,
+        endAngle,
+        centerAngle,
+        radius,
+        sectorPoints,
+        centerPosition: [
+          Math.cos(centerAngle) * radius,
+          0,
+          Math.sin(centerAngle) * radius
         ] as [number, number, number],
-        rotation: [0, -angle, 0] as [number, number, number],
-        constellation
+        symbolPosition: [
+          Math.cos(centerAngle) * (radius * 0.7), // Closer to center
+          5, // Elevated above the plane
+          Math.sin(centerAngle) * (radius * 0.7)
+        ] as [number, number, number]
       };
     });
   }, []);
 
   return (
     <group>
-      {/* Constellation Ring - STATIC */}
-      <Ring args={[47, 53, 64]} rotation={[Math.PI / 2, 0, 0]}>
-        <meshBasicMaterial
-          color="#f97316"
-          transparent
-          opacity={0.1}
-          side={THREE.DoubleSide}
-        />
-      </Ring>
-
-      {/* Constellation Symbols - STATIC */}
-      {constellationPositions.map((item, index) => (
+      {/* 3D Constellation Sectors */}
+      {constellationSectors.map((sector, index) => (
         <group key={index}>
-          {/* Large Constellation Symbol */}
+          {/* 3D Sector Area - Transparent colored region */}
+          <mesh>
+            <cylinderGeometry
+              args={[
+                sector.radius, // top radius
+                sector.radius, // bottom radius
+                0.5, // height
+                32, // radial segments
+                1, // height segments
+                false, // open ended
+                sector.startAngle, // theta start
+                (30 * Math.PI / 180) // theta length (30 degrees)
+              ]}
+            />
+            <meshBasicMaterial
+              color={sector.constellation.color}
+              transparent
+              opacity={0.05}
+              side={THREE.DoubleSide}
+            />
+          </mesh>
+
+          {/* Subtle Sector Border Lines */}
+          <group>
+            {/* Start angle line - more subtle */}
+
+
+            {/* End angle line - more subtle */}
+          </group>
+
+          {/* Large 3D Constellation Symbol */}
           <Text
-            position={item.position}
-            rotation={item.rotation}
-            fontSize={2.0}
-            color={item.constellation.color}
+            position={sector.symbolPosition}
+            fontSize={3.0}
+            color={sector.constellation.color}
             anchorX="center"
             anchorY="middle"
           >
-            {item.constellation.symbol}
+            {sector.constellation.symbol}
           </Text>
 
           {/* Constellation Name */}
           <Text
-            position={[item.position[0], item.position[1] - 3, item.position[2]]}
-            rotation={item.rotation}
-            fontSize={0.5}
-            color={item.constellation.color}
+            position={[
+              sector.symbolPosition[0],
+              sector.symbolPosition[1] - 2,
+              sector.symbolPosition[2]
+            ]}
+            fontSize={0.8}
+            color={sector.constellation.color}
             anchorX="center"
             anchorY="middle"
           >
-            {item.constellation.name}
+            {sector.constellation.name}
           </Text>
 
-          {/* Star Pattern Points */}
-          {Array.from({ length: Math.floor(Math.random() * 5) + 3 }).map((_, starIndex) => {
-            const starAngle = (starIndex / 5) * Math.PI * 2;
-            const starRadius = Math.random() * 2 + 1;
+          {/* 30° Sector Label */}
+          <Text
+            position={[
+              sector.symbolPosition[0],
+              sector.symbolPosition[1] - 3.5,
+              sector.symbolPosition[2]
+            ]}
+            fontSize={0.4}
+            color={sector.constellation.color}
+            anchorX="center"
+            anchorY="middle"
+          >
+          </Text>
+
+          {/* 3D Star Pattern within sector */}
+          {Array.from({ length: 8 }).map((_, starIndex) => {
+            // Distribute stars within the 30° sector
+            const starAngle = sector.startAngle + (starIndex / 7) * (30 * Math.PI / 180);
+            const starRadius = 30 + Math.random() * 15; // Vary distance
+            const starHeight = (Math.random() - 0.5) * 8; // Vary height
             const starPos: [number, number, number] = [
-              item.position[0] + Math.cos(starAngle) * starRadius,
-              item.position[1] + (Math.random() - 0.5) * 2,
-              item.position[2] + Math.sin(starAngle) * starRadius
+              Math.cos(starAngle) * starRadius,
+              starHeight,
+              Math.sin(starAngle) * starRadius
             ];
 
             return (
-              <Sphere key={starIndex} position={starPos} args={[0.05, 8, 8]}>
+              <Sphere key={starIndex} position={starPos} args={[0.08, 8, 8]}>
                 <meshBasicMaterial
-                  color={item.constellation.color}
+                  color={sector.constellation.color}
                   transparent
-                  opacity={0.8}
+                  opacity={0.9}
                 />
               </Sphere>
             );
           })}
+
+          {/* Removed messy connecting lines - cleaner visualization */}
         </group>
       ))}
+
+      {/* Outer boundary ring */}
+      <Ring args={[49, 51, 64]} rotation={[Math.PI / 2, 0, 0]}>
+        <meshBasicMaterial
+          color="#ffffff"
+          transparent
+          opacity={0.2}
+          side={THREE.DoubleSide}
+        />
+      </Ring>
     </group>
   );
 }
@@ -882,8 +961,8 @@ export default function CelestialSphere() {
         />
       ))}
 
-      {/* Constellation Symbols Ring */}
-      <ConstellationRing />
+      {/* 3D Constellation Sectors */}
+      <ConstellationSectors />
 
       {/* Nakshatras Ring */}
       <NakshatraRing />
