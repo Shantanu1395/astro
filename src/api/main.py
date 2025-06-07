@@ -12,6 +12,7 @@ from src.core.vedic_calculator import VedicCalculator
 from src.core.prediction_engine import VedicPredictionEngine
 from src.utils.utils import get_location_data_async
 from config.config import config
+from backend.debug_logger import router as debug_router
 
 app = FastAPI(title=config.APP_NAME)
 
@@ -31,6 +32,9 @@ app.add_middleware(
 # Setup templates and static files
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
+
+# Include debug router for real-time browser monitoring
+app.include_router(debug_router, prefix="/api")
 
 # Initialize calculators
 vedic_calc = VedicCalculator()
@@ -84,8 +88,8 @@ async def predict(
         )
 
         # Get location coordinates (async for better performance)
+        ### Write test case for below function
         location_data = await get_location_data_async(birth_location)
-        logger.info(f"Location data: {location_data}")
         if not location_data:
             raise HTTPException(status_code=400, detail="Could not find location. Please try a different format.")
 

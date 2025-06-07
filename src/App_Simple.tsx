@@ -75,7 +75,7 @@ function App() {
             </div>
 
             <Canvas
-              camera={{ position: [0, 0, 50], fov: 75 }}
+              camera={{ position: [0, 0, 120], fov: 75 }}
               style={{
                 width: '100%',
                 height: '100%',
@@ -107,8 +107,8 @@ function App() {
                 enablePan={true}
                 enableZoom={true}
                 enableRotate={true}
-                minDistance={10}
-                maxDistance={200}
+                minDistance={20}
+                maxDistance={500}
                 target={[0, 0, 0]}
               />
             </Canvas>
