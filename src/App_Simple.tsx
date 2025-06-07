@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Stars } from '@react-three/drei';
+import * as THREE from 'three';
 import CelestialSphere from '../frontend/visualization/3d/CelestialSphere';
 import SimpleThreeTest from '../frontend/visualization/3d/SimpleThreeTest';
+import EnhancedMonitor from '../frontend/visualization/shared/EnhancedMonitor';
+import SimpleCameraControls from '../frontend/visualization/3d/SimpleCameraControls';
+import EnhancedCameraController from '../frontend/visualization/3d/EnhancedCameraController';
 
 function App() {
   const [viewMode, setViewMode] = useState<'3d' | 'test'>('3d');
+  const [focalPoint, setFocalPoint] = useState(new THREE.Vector3(0, 0, 0));
+  const [cameraPosition, setCameraPosition] = useState(new THREE.Vector3(0, 50, 120));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cosmic-deep via-cosmic-medium to-cosmic-deep text-white">
@@ -102,14 +108,12 @@ function App() {
               {/* Main Celestial Sphere */}
               <CelestialSphere />
 
-              {/* Camera Controls */}
-              <OrbitControls
-                enablePan={true}
-                enableZoom={true}
-                enableRotate={true}
-                minDistance={20}
-                maxDistance={500}
-                target={[0, 0, 0]}
+              {/* Enhanced Camera Controller with WASD and Focal Point */}
+              <EnhancedCameraController
+                showFocalPoint={true}
+                movementSpeed={30}
+                onFocalPointChange={setFocalPoint}
+                onCameraPositionChange={setCameraPosition}
               />
             </Canvas>
           </div>
@@ -117,14 +121,48 @@ function App() {
           <SimpleThreeTest />
         )}
 
-        {/* Real-time Monitor */}
-        <div className="fixed bottom-4 left-4 bg-cosmic-deep/90 backdrop-blur-sm rounded-lg p-3 text-xs max-w-xs z-50">
+        {/* Enhanced Performance Monitor */}
+        <EnhancedMonitor
+          position="top-right"
+          updateInterval={1000}
+          trackGPU={true}
+          trackSystem={true}
+          trackWebGL={true}
+          defaultExpanded={false}
+        />
+
+        {/* Simple Camera Controls - Only show in 3D mode */}
+        {viewMode === '3d' && (
+          <SimpleCameraControls
+            position="bottom-left"
+            isFreeMovementMode={false}
+          />
+        )}
+
+        {/* Real-time Monitor - Moved to avoid overlap */}
+        <div className="fixed bottom-4 right-4 bg-cosmic-deep/90 backdrop-blur-sm rounded-lg p-3 text-xs max-w-xs z-50">
           <div className="text-stellar-gold font-semibold mb-2">🔧 Real-Time Monitor</div>
           <div className="space-y-1 text-stellar-silver/80">
             <div>WebGL: ✅ Supported</div>
             <div>Three.js: ✅ Working</div>
             <div>Canvas: ✅ Active</div>
             <div>Mode: <span className="text-white font-semibold">{viewMode.toUpperCase()}</span></div>
+            {viewMode === '3d' && (
+              <div className="mt-2 pt-2 border-t border-stellar-silver/20">
+                <div>Camera: 🖱️ Custom Mouse + 🎮 WASD</div>
+                <div>Focal Point: 🎯 Visible (Yellow)</div>
+                <div className="text-stellar-gold">Mouse drag changes camera position!</div>
+                <div className="text-xs text-stellar-silver/60 mt-1">
+                  Focal: ({focalPoint.x.toFixed(1)}, {focalPoint.y.toFixed(1)}, {focalPoint.z.toFixed(1)})
+                </div>
+                <div className="text-xs text-stellar-silver/60">
+                  Camera: ({cameraPosition.x.toFixed(1)}, {cameraPosition.y.toFixed(1)}, {cameraPosition.z.toFixed(1)})
+                </div>
+                <div className="text-xs text-stellar-gold">
+                  ✅ Custom handlers directly control camera!
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -155,12 +193,14 @@ function App() {
 
             {/* Controls */}
             <div>
-              <h4 className="text-stellar-gold font-semibold mb-2">🎮 Controls</h4>
+              <h4 className="text-stellar-gold font-semibold mb-2">🎮 Custom Camera Position Controls</h4>
               <div className="space-y-1 text-sm text-stellar-silver/80">
-                <div>🖱️ <strong>Mouse Drag:</strong> Rotate view</div>
-                <div>🔍 <strong>Mouse Wheel:</strong> Zoom in/out</div>
-                <div>⌨️ <strong>Right Click:</strong> Pan camera</div>
-                <div>🎯 <strong>Click Planet:</strong> View details</div>
+                <div>🎮 <strong>W:</strong> Forward only • <strong>S:</strong> Backward only</div>
+                <div>🎮 <strong>A:</strong> Left only • <strong>D:</strong> Right only</div>
+                <div>⬆️ <strong>Q:</strong> Up only • <strong>E:</strong> Down only</div>
+                <div>🖱️ <strong>Left Drag:</strong> Orbit camera • <strong>Right Drag:</strong> Pan camera</div>
+                <div>🎯 <strong>Yellow Sphere:</strong> Visible focal point indicator</div>
+                <div>🏠 <strong>R:</strong> Reset • <strong>Home:</strong> Focus Earth</div>
               </div>
             </div>
 

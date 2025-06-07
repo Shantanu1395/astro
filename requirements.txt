@@ -39,3 +39,6 @@ pytest-asyncio==0.21.1
 
 # Type Hints
 typing-extensions>=4.12.2
+
+# System Monitoring
+psutil==5.9.8

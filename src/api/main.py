@@ -6,13 +6,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime, date, time
 import uvicorn
 import logging
+import psutil
+import os
+import threading
+import time as time_module
 
 from src.models.models import BirthData, PredictionRequest, AstrologySystem, EnhancedPredictionRequest, PredictionType, SubscriptionTier
 from src.core.vedic_calculator import VedicCalculator
 from src.core.prediction_engine import VedicPredictionEngine
 from src.utils.utils import get_location_data_async
 from config.config import config
-from backend.debug_logger import router as debug_router
 
 app = FastAPI(title=config.APP_NAME)
 
@@ -32,9 +35,6 @@ app.add_middleware(
 # Setup templates and static files
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="frontend/static"), name="static")
-
-# Include debug router for real-time browser monitoring
-app.include_router(debug_router, prefix="/api")
 
 # Initialize calculators
 vedic_calc = VedicCalculator()
@@ -460,6 +460,75 @@ async def test_shantanu_prediction():
             "success": False,
             "error": str(e),
             "message": "Failed to generate test prediction"
+        }
+
+@app.get("/api/system-metrics")
+async def get_system_metrics():
+    """Get real-time system metrics for monitoring."""
+    try:
+        # Get current process
+        current_process = psutil.Process()
+
+        # Get system-wide metrics
+        cpu_percent = psutil.cpu_percent(interval=0.1)
+        memory = psutil.virtual_memory()
+        disk = psutil.disk_usage('/')
+
+        # Get process-specific metrics
+        process_memory = current_process.memory_info()
+        process_cpu = current_process.cpu_percent()
+
+        # Get network stats if available
+        try:
+            network = psutil.net_io_counters()
+            network_stats = {
+                "bytes_sent": network.bytes_sent,
+                "bytes_recv": network.bytes_recv,
+                "packets_sent": network.packets_sent,
+                "packets_recv": network.packets_recv
+            }
+        except:
+            network_stats = {"error": "Network stats unavailable"}
+
+        return {
+            "success": True,
+            "timestamp": datetime.now().isoformat(),
+            "system": {
+                "cpu_percent": cpu_percent,
+                "memory": {
+                    "total": memory.total,
+                    "available": memory.available,
+                    "percent": memory.percent,
+                    "used": memory.used,
+                    "free": memory.free
+                },
+                "disk": {
+                    "total": disk.total,
+                    "used": disk.used,
+                    "free": disk.free,
+                    "percent": (disk.used / disk.total) * 100
+                },
+                "network": network_stats
+            },
+            "process": {
+                "pid": current_process.pid,
+                "cpu_percent": process_cpu,
+                "memory": {
+                    "rss": process_memory.rss,  # Resident Set Size
+                    "vms": process_memory.vms,  # Virtual Memory Size
+                    "percent": current_process.memory_percent()
+                },
+                "threads": current_process.num_threads(),
+                "status": current_process.status(),
+                "create_time": current_process.create_time(),
+                "name": current_process.name()
+            }
+        }
+    except Exception as e:
+        return {
+            "success": False,
+            "error": str(e),
+            "message": "Failed to get system metrics"
         }
 
 @app.post("/api/comprehensive-analysis")
