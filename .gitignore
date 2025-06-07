@@ -187,5 +187,14 @@ cython_debug/
 .cursorignore
 .cursorindexingignore
 
+# Node.js / npm
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+.pnpm-debug.log*
+
 # Application-specific
 prediction_cache/
