@@ -1,9 +1,187 @@
 // 3D Celestial Sphere Component for Vedic Astrology Visualization
 
 import { useRef, useMemo } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useFrame, useLoader } from '@react-three/fiber';
 import { Sphere, Text, Ring } from '@react-three/drei';
 import * as THREE from 'three';
+
+// Procedural Texture Generation for Realistic Planets
+function createPlanetTexture(type: string, color: string): THREE.Texture {
+  const canvas = document.createElement('canvas');
+  canvas.width = 512;
+  canvas.height = 512;
+  const ctx = canvas.getContext('2d')!;
+
+  // Create gradient background
+  const gradient = ctx.createRadialGradient(256, 256, 0, 256, 256, 256);
+
+  switch (type) {
+    case 'solar':
+      // Sun texture with solar flares
+      gradient.addColorStop(0, '#ffff88');
+      gradient.addColorStop(0.3, '#ffaa00');
+      gradient.addColorStop(0.7, '#ff6600');
+      gradient.addColorStop(1, '#cc3300');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Add solar flares
+      for (let i = 0; i < 20; i++) {
+        ctx.fillStyle = `rgba(255, 255, 0, ${Math.random() * 0.5})`;
+        ctx.beginPath();
+        ctx.arc(Math.random() * 512, Math.random() * 512, Math.random() * 30 + 10, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      break;
+
+    case 'rocky':
+      // Rocky planet texture (Mercury)
+      gradient.addColorStop(0, '#888888');
+      gradient.addColorStop(0.5, '#666666');
+      gradient.addColorStop(1, '#444444');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Add craters
+      for (let i = 0; i < 50; i++) {
+        ctx.fillStyle = `rgba(0, 0, 0, ${Math.random() * 0.3 + 0.2})`;
+        ctx.beginPath();
+        ctx.arc(Math.random() * 512, Math.random() * 512, Math.random() * 20 + 5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      break;
+
+    case 'cloudy':
+      // Venus cloud texture
+      gradient.addColorStop(0, '#ffffcc');
+      gradient.addColorStop(0.5, '#ffcc99');
+      gradient.addColorStop(1, '#cc9966');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Add cloud swirls
+      for (let i = 0; i < 30; i++) {
+        ctx.strokeStyle = `rgba(255, 255, 255, ${Math.random() * 0.3})`;
+        ctx.lineWidth = Math.random() * 10 + 2;
+        ctx.beginPath();
+        ctx.arc(Math.random() * 512, Math.random() * 512, Math.random() * 50 + 20, 0, Math.PI * Math.random());
+        ctx.stroke();
+      }
+      break;
+
+    case 'desert':
+      // Mars desert texture
+      gradient.addColorStop(0, '#ff6666');
+      gradient.addColorStop(0.5, '#cc3333');
+      gradient.addColorStop(1, '#990000');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Add dust storms and polar caps
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+      ctx.beginPath();
+      ctx.arc(100, 100, 30, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(400, 400, 25, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+
+    case 'gas_giant':
+      // Jupiter gas bands
+      for (let y = 0; y < 512; y += 20) {
+        const hue = Math.sin(y * 0.01) * 30 + 30;
+        ctx.fillStyle = `hsl(${hue}, 70%, ${50 + Math.sin(y * 0.02) * 20}%)`;
+        ctx.fillRect(0, y, 512, 20);
+      }
+
+      // Add Great Red Spot for Jupiter
+      ctx.fillStyle = 'rgba(200, 50, 50, 0.8)';
+      ctx.beginPath();
+      ctx.ellipse(300, 200, 40, 25, 0, 0, Math.PI * 2);
+      ctx.fill();
+      break;
+
+    case 'ringed':
+      // Saturn pale yellow
+      gradient.addColorStop(0, '#ffffaa');
+      gradient.addColorStop(0.5, '#ffff88');
+      gradient.addColorStop(1, '#cccc66');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Add subtle bands
+      for (let y = 0; y < 512; y += 40) {
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.2})`;
+        ctx.fillRect(0, y, 512, 10);
+      }
+      break;
+
+    case 'lunar':
+      // Moon texture
+      gradient.addColorStop(0, '#dddddd');
+      gradient.addColorStop(0.5, '#bbbbbb');
+      gradient.addColorStop(1, '#999999');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Add maria (dark spots)
+      for (let i = 0; i < 15; i++) {
+        ctx.fillStyle = `rgba(100, 100, 100, ${Math.random() * 0.4 + 0.3})`;
+        ctx.beginPath();
+        ctx.arc(Math.random() * 512, Math.random() * 512, Math.random() * 60 + 20, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      break;
+
+    case 'shadow':
+      // Rahu/Ketu ethereal texture
+      gradient.addColorStop(0, 'rgba(100, 100, 100, 0.8)');
+      gradient.addColorStop(0.5, 'rgba(70, 70, 70, 0.6)');
+      gradient.addColorStop(1, 'rgba(40, 40, 40, 0.4)');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 512, 512);
+
+      // Add ethereal wisps
+      for (let i = 0; i < 20; i++) {
+        ctx.strokeStyle = `rgba(150, 150, 150, ${Math.random() * 0.3})`;
+        ctx.lineWidth = Math.random() * 5 + 1;
+        ctx.beginPath();
+        ctx.moveTo(Math.random() * 512, Math.random() * 512);
+        ctx.quadraticCurveTo(Math.random() * 512, Math.random() * 512, Math.random() * 512, Math.random() * 512);
+        ctx.stroke();
+      }
+      break;
+
+    default:
+      // Default texture
+      gradient.addColorStop(0, color);
+      gradient.addColorStop(1, '#333333');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 512, 512);
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  return texture;
+}
+
+// Constellation symbols and data
+const CONSTELLATIONS = [
+  { name: 'Aries', symbol: '♈', unicode: '♈', color: '#ff6b6b' },
+  { name: 'Taurus', symbol: '♉', unicode: '♉', color: '#4ecdc4' },
+  { name: 'Gemini', symbol: '♊', unicode: '♊', color: '#45b7d1' },
+  { name: 'Cancer', symbol: '♋', unicode: '♋', color: '#96ceb4' },
+  { name: 'Leo', symbol: '♌', unicode: '♌', color: '#feca57' },
+  { name: 'Virgo', symbol: '♍', unicode: '♍', color: '#ff9ff3' },
+  { name: 'Libra', symbol: '♎', unicode: '♎', color: '#54a0ff' },
+  { name: 'Scorpio', symbol: '♏', unicode: '♏', color: '#5f27cd' },
+  { name: 'Sagittarius', symbol: '♐', unicode: '♐', color: '#00d2d3' },
+  { name: 'Capricorn', symbol: '♑', unicode: '♑', color: '#ff6348' },
+  { name: 'Aquarius', symbol: '♒', unicode: '♒', color: '#2ed573' },
+  { name: 'Pisces', symbol: '♓', unicode: '♓', color: '#747d8c' }
+];
 
 // Vedic Astrology Data with EARTH-CENTRIC Accurate Distances
 // All distances are from EARTH's perspective (geocentric view)
@@ -140,6 +318,9 @@ function Planet({ name, position, color, size, emissive, texture, isMoving = tru
   const atmosphereRef = useRef<THREE.Mesh>(null);
   const orbitGroupRef = useRef<THREE.Group>(null);
 
+  // Create realistic texture for this planet
+  const planetTexture = useMemo(() => createPlanetTexture(texture, color), [texture, color]);
+
   useFrame((state) => {
     if (meshRef.current) {
       // Gentle floating animation (for all planets)
@@ -237,9 +418,10 @@ function Planet({ name, position, color, size, emissive, texture, isMoving = tru
 
   return (
     <group ref={orbitGroupRef}>
-      {/* Main Planet Sphere */}
+      {/* Main Planet Sphere with Realistic Texture */}
       <Sphere ref={meshRef} position={position} args={[size, 64, 64]}>
         <meshPhongMaterial
+          map={planetTexture}
           color={color}
           emissive={emissive}
           emissiveIntensity={materialProps.emissiveIntensity}
@@ -247,8 +429,6 @@ function Planet({ name, position, color, size, emissive, texture, isMoving = tru
           specular="#ffffff"
           transparent
           opacity={materialProps.opacity}
-          roughness={materialProps.roughness}
-          metalness={materialProps.metalness}
         />
       </Sphere>
 
@@ -313,6 +493,9 @@ function Moon() {
   const moonRef = useRef<THREE.Mesh>(null);
   const orbitRef = useRef<THREE.Group>(null);
 
+  // Create realistic lunar texture
+  const moonTexture = useMemo(() => createPlanetTexture('lunar', '#d1d5db'), []);
+
   useFrame((state) => {
     if (orbitRef.current) {
       // Moon orbits around Earth - MOVING (faster than planets)
@@ -339,9 +522,10 @@ function Moon() {
         />
       </Ring>
 
-      {/* Moon */}
+      {/* Moon with Realistic Texture */}
       <Sphere ref={moonRef} position={[moonDistance, 0, 0]} args={[0.15, 32, 32]}>
         <meshPhongMaterial
+          map={moonTexture}
           color="#d1d5db" // Realistic gray-white lunar surface
           emissive="#9ca3af"
           emissiveIntensity={0.05}
@@ -349,8 +533,6 @@ function Moon() {
           specular="#ffffff"
           transparent
           opacity={0.7}
-          roughness={0.95}
-          metalness={0.1}
         />
       </Sphere>
 
@@ -430,8 +612,6 @@ function Earth() {
           specular="#ffffff"
           transparent
           opacity={0.7}
-          roughness={0.6}
-          metalness={0.1}
         />
       </Sphere>
 
@@ -501,6 +681,7 @@ function Earth() {
         anchorX="center"
         anchorY="middle"
       >
+        ⭐ REFERENCE POINT ⭐
       </Text>
 
       {/* Orbital Path Indicators */}
@@ -539,13 +720,13 @@ function Earth() {
   );
 }
 
-// Zodiac Ring Component - STATIC (Fixed Star Patterns)
-function ZodiacRing() {
-  // Rashis are STATIC - they are fixed star patterns and should not move
+// Constellation Ring Component - STATIC (Fixed Star Patterns)
+function ConstellationRing() {
+  // Constellations are STATIC - they are fixed star patterns and should not move
 
-  const rashiPositions = useMemo(() => {
-    return RASHIS.map((_, index) => {
-      const angle = (index / RASHIS.length) * Math.PI * 2;
+  const constellationPositions = useMemo(() => {
+    return CONSTELLATIONS.map((constellation, index) => {
+      const angle = (index / CONSTELLATIONS.length) * Math.PI * 2;
       const radius = 50; // Brought much closer - between Jupiter and Saturn
       return {
         position: [
@@ -554,14 +735,14 @@ function ZodiacRing() {
           Math.sin(angle) * radius
         ] as [number, number, number],
         rotation: [0, -angle, 0] as [number, number, number],
-        name: RASHIS[index]
+        constellation
       };
     });
   }, []);
 
   return (
     <group>
-      {/* Zodiac Ring - STATIC */}
+      {/* Constellation Ring - STATIC */}
       <Ring args={[47, 53, 64]} rotation={[Math.PI / 2, 0, 0]}>
         <meshBasicMaterial
           color="#f97316"
@@ -571,19 +752,54 @@ function ZodiacRing() {
         />
       </Ring>
 
-      {/* Rashi Labels - STATIC */}
-      {rashiPositions.map((rashi, index) => (
-        <Text
-          key={index}
-          position={rashi.position}
-          rotation={rashi.rotation}
-          fontSize={0.6}
-          color="#f97316"
-          anchorX="center"
-          anchorY="middle"
-        >
-          {rashi.name} (STATIC)
-        </Text>
+      {/* Constellation Symbols - STATIC */}
+      {constellationPositions.map((item, index) => (
+        <group key={index}>
+          {/* Large Constellation Symbol */}
+          <Text
+            position={item.position}
+            rotation={item.rotation}
+            fontSize={2.0}
+            color={item.constellation.color}
+            anchorX="center"
+            anchorY="middle"
+          >
+            {item.constellation.symbol}
+          </Text>
+
+          {/* Constellation Name */}
+          <Text
+            position={[item.position[0], item.position[1] - 3, item.position[2]]}
+            rotation={item.rotation}
+            fontSize={0.5}
+            color={item.constellation.color}
+            anchorX="center"
+            anchorY="middle"
+          >
+            {item.constellation.name}
+          </Text>
+
+          {/* Star Pattern Points */}
+          {Array.from({ length: Math.floor(Math.random() * 5) + 3 }).map((_, starIndex) => {
+            const starAngle = (starIndex / 5) * Math.PI * 2;
+            const starRadius = Math.random() * 2 + 1;
+            const starPos: [number, number, number] = [
+              item.position[0] + Math.cos(starAngle) * starRadius,
+              item.position[1] + (Math.random() - 0.5) * 2,
+              item.position[2] + Math.sin(starAngle) * starRadius
+            ];
+
+            return (
+              <Sphere key={starIndex} position={starPos} args={[0.05, 8, 8]}>
+                <meshBasicMaterial
+                  color={item.constellation.color}
+                  transparent
+                  opacity={0.8}
+                />
+              </Sphere>
+            );
+          })}
+        </group>
       ))}
     </group>
   );
@@ -666,8 +882,8 @@ export default function CelestialSphere() {
         />
       ))}
 
-      {/* Zodiac Signs Ring */}
-      <ZodiacRing />
+      {/* Constellation Symbols Ring */}
+      <ConstellationRing />
 
       {/* Nakshatras Ring */}
       <NakshatraRing />
